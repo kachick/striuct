@@ -9,32 +9,35 @@ class << Striuct
     subclass.class_eval do
       @members = []
 
-      def initialize(pairs, *values)
-        if pairs.respond_to? :each_pair
-          pairs.each_pair do |key, value|
-            if members.include? key
-              instance_variable_set "@#{key}", nil
-              self[key] = value
-            else
-              raise ArgumentError
-            end
+      def initialize(*values)
+        if values.size <= members.size
+          values.each_with_index do |v, idx|
+            instance_variable_set :"@#{members[idx]}", v
           end
         else
-          values.unshift pairs
-
-          if values.size <= members.size
-            values.each_with_index do |v, idx|
-              instance_variable_set "@#{members[idx]}", v
-            end
-          else
-            raise ArgumentError
-          end
+          raise ArgumentError
         end
       end
 
       singleton_class.class_eval do
-        def new(*pairs)
-          new_instance(*pairs)
+        def new(*args)
+          new_instance(*args)
+        end
+        
+        def load_pairs(pairs)
+          new.tap do |r|
+            if pairs.respond_to? :each_pair
+              pairs.each_pair do |key, value|
+                if members.include? key
+                  r[key] = value
+                else
+                  raise ArgumentError
+                end
+              end
+            else
+              raise ArgumentError
+            end
+          end
         end
         
         def members
@@ -73,7 +76,9 @@ class << Striuct
         alias_method :def_members, :define_members
         
         def define_reader(key)
-          attr_reader key
+          define_method key do
+            instance_variable_get :"@#{key}"
+          end
         end
         
         def define_writer(key, condition=nil, &block)
@@ -82,17 +87,17 @@ class << Striuct
             
             if block_given?
               if block.call value
-                instance_variable_set "@#{key}", value
+                instance_variable_set :"@#{key}", value
               else
                 raise ConditionIsNotSatisfied
               end
             end
             
             if condition.nil?
-              instance_variable_set "@#{key}", value
+              instance_variable_set :"@#{key}", value
             else
               if condition === value
-                instance_variable_set "@#{key}", value
+                instance_variable_set :"@#{key}", value
               else
                 raise ConditionIsNotSatisfied
               end
