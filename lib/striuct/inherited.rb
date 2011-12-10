@@ -12,7 +12,7 @@ class << Striuct
       def initialize(*values)
         if values.size <= members.size
           values.each_with_index do |v, idx|
-            instance_variable_set :"@#{members[idx]}", v
+            __send__ :"#{members[idx]}=", v
           end
         else
           raise ArgumentError

@@ -34,7 +34,17 @@ class TestStriuct < Test::Unit::TestCase
     user.last_name = 'bar'
     assert_equal user[:last_name], 'bar'
     
-    assert_raises(Striuct::ConditionIsNotSatisfied){user[:last_name] = 'foo s'}
+    assert_raises Striuct::ConditionIsNotSatisfied do
+      user[:last_name] = 'foo s'
+    end
+  
+    assert_raises Striuct::ConditionIsNotSatisfied do
+      User.new 'asda'
+    end
+    
+    assert_raises Striuct::ConditionIsNotSatisfied do
+      user.age = 19
+    end
   end
 end
 
