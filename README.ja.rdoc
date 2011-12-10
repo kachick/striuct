@@ -44,7 +44,6 @@ Strict Struct の略で名づけました。若干typoがおっかないです�
 === Ruby
 * 1.9.3
 * 1.9.2
-* 1.8.7 ( 但し、 Object#require_relative というメソッドも追加します。 )
 
 == INSTALL
 
