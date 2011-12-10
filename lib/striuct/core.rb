@@ -4,7 +4,7 @@
 class Striuct
   include Enumerable
   
-  VERSION = '0.0.1'.freeze
+  VERSION = '0.0.2'.freeze
   Version = VERSION
   
   module Exceptions
@@ -17,6 +17,7 @@ class Striuct
     include Exceptions
 
     alias_method :new_instance, :new
+    private :new_instance
 
     def new(*members, &block)
       Class.new self do |klass|
@@ -37,8 +38,6 @@ class Striuct
         instance_exec(klass, &block) if block_given?
       end
     end
-    
-    private :new_instance
   end
 end
 
