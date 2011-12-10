@@ -1,0 +1,10 @@
+History.rdoc
+Manifest.txt
+README.rdoc
+README.ja.rdoc
+Rakefile
+lib/striuct.rb
+lib/striuct/core.rb
+lib/striuct/inherited.rb
+test/test_helper.rb
+test/test_inherited.rb
