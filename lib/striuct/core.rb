@@ -6,23 +6,35 @@ class Striuct
   
   VERSION = '0.0.1'.freeze
   Version = VERSION
+  
+  module Exceptions
+    class ConditionIsNotSatisfied < ArgumentError; end
+  end
+
+  include Exceptions
 
   class << self
-    class ConditionIsNotSatisfied < ArgumentError; end
+    include Exceptions
 
     alias_method :new_instance, :new
 
-    def new(pairs=nil, *members)
-      Class.new self do
-        if pairs
-          pairs.each do |key, value|
-            member key, value
-          end
-        else
-          members.each do |m|
-            member m
-          end
+    def new(*members, &block)
+      Class.new self do |klass|
+        members.each do |m|
+          member m
         end
+        
+        instance_exec(klass, &block) if block_given?
+      end
+    end
+    
+    def load_pairs(pairs, &block)
+      new do |klass|
+        pairs.each do |k, v|
+          member k, v
+        end
+        
+        instance_exec(klass, &block) if block_given?
       end
     end
     
