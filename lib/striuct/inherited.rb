@@ -218,12 +218,6 @@ class << Striuct
         end
       end
       
-      #~ def each_member(&block)
-        #~ members.each(&block)
-      #~ end
-      
-      #~ alias_method :each_key, :each_member
-      
       def each_value
         return to_enum(__method__) unless block_given?
         each_member{|member|yield self[member]}
