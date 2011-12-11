@@ -6,6 +6,7 @@ Rakefile
 example.rb
 lib/striuct.rb
 lib/striuct/core.rb
+lib/striuct/version.rb
 lib/striuct/inherited.rb
 lib/striuct/import.rb
 test/test_helper.rb

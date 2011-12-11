@@ -29,7 +29,7 @@ class << Striuct
           new.tap do |r|
             if pairs.respond_to? :each_pair
               pairs.each_pair do |key, value|
-                if members.include? key
+                if member? key
                   r[key] = value
                 else
                   raise ArgumentError
@@ -66,7 +66,7 @@ class << Striuct
         alias_method :each_key, :each_member
         
         def length
-          @menbers.length
+          @members.length
         end
         
         alias_method :size, :length
@@ -82,7 +82,7 @@ class << Striuct
             raise ArgumentError
           end
 
-          unless @members.include? key
+          unless member? key
             @members << key
             define_reader key
             define_writer key, *conditions, &block

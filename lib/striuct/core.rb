@@ -1,11 +1,10 @@
 # Copyright (C) 2011  Kenichi Kamiya
 
+require_relative 'version'
+
 # @author Kenichi Kamiya
 class Striuct
   include Enumerable
-  
-  VERSION = '0.0.3'.freeze
-  Version = VERSION
   
   module Exceptions
     class ConditionError < ArgumentError; end

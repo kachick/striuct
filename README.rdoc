@@ -6,7 +6,7 @@ http://github.com/kachick/striuct
 
 Striuct meanings Strict Struct.
 
-This container class looks like Struct. And you can use any conditions.
+This container class looks like Struct. And you can use conditions.
 
 == FEATURES
 
