@@ -34,17 +34,25 @@ class TestStriuct < Test::Unit::TestCase
     user.last_name = 'bar'
     assert_equal user[:last_name], 'bar'
     
-    assert_raises Striuct::ConditionIsNotSatisfied do
+    assert_raises Striuct::ConditionError do
       user[:last_name] = 'foo s'
     end
   
-    assert_raises Striuct::ConditionIsNotSatisfied do
+    assert_raises Striuct::ConditionError do
       User.new 'asda'
     end
     
-    assert_raises Striuct::ConditionIsNotSatisfied do
+    assert_raises Striuct::ConditionError do
       user.age = 19
     end
+  end
+  
+  def test_equal
+    user1 = User.new 11218, 'taro'
+    user2 = User.new 11218, 'taro'
+    assert_equal true, (user1 == user2)
+    user2.last_name = 'ichiro'
+    assert_equal false, (user1 == user2)
   end
 end
 
