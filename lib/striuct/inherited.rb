@@ -8,6 +8,7 @@ class << Striuct
   def inherited(subclass)
     subclass.class_eval do
       @members = []
+      @conditions = {}
 
       def initialize(*values)
         if values.size <= members.size
@@ -44,13 +45,35 @@ class << Striuct
           @members.dup
         end
         
+        def conditions
+          @conditions.dup
+        end
+        
+        alias_method :keys, :members
+        
         def member?(key)
           @members.include? key.to_sym
         end
         
+        alias_method :has_key?, :member?
+        alias_method :key?, :has_key?
+        
+        def each_member(&block)
+          return to_enum(__method__) unless block_given?
+          members.each(&block)
+        end
+        
+        alias_method :each_key, :each_member
+        
+        def length
+          @menbers.length
+        end
+        
+        alias_method :size, :length
+        
         private
 
-        def define_member(key, condition=nil, &block)
+        def define_member(key, *conditions, &block)
           case key
           when Symbol
           when String
@@ -59,63 +82,103 @@ class << Striuct
             raise ArgumentError
           end
 
-          @members << key
-          define_reader key
-          define_writer key, condition, &block
+          unless @members.include? key
+            @members << key
+            define_reader key
+            define_writer key, *conditions, &block
+          else
+            raise ArgumentError
+          end
         end
 
         alias_method :def_member, :define_member
         alias_method :member, :define_member
         
-        def define_members(pairs)
-          pairs.each do |k, v|
+        def define_members(*names)
+          names.each_pair do |name|
+            define_member name
+          end
+        end
+  
+        alias_method :def_members, :define_members
+  
+        def define_pairs(pairs)
+          pairs.each_pair do |k, v|
             define_member k, v
           end
         end
         
-        alias_method :def_members, :define_members
+        alias_method :def_pairs, :define_pairs
         
         def define_reader(key)
           define_method key do
-            instance_variable_get :"@#{key}"
+            if instance_variable_defined? :"@#{key}"
+              instance_variable_get :"@#{key}"
+            else
+              nil
+            end
           end
         end
         
-        def define_writer(key, condition=nil, &block)
-          define_method "#{key}=" do |value|
-            raise ArgumentError if condition and block_given?
-            
+        def define_writer(key, *conditions, &block)
+          if conditions.empty?
             if block_given?
-              if block.call value
+              @conditions[key] = block
+              
+              define_method "#{key}=" do |value|
+                if block.call value
+                  instance_variable_set :"@#{key}", value
+                else
+                  raise ConditionError
+                end
+              end
+            else
+              define_method "#{key}=" do |value|
                 instance_variable_set :"@#{key}", value
-              else
-                raise ConditionIsNotSatisfied
               end
             end
-            
-            if condition.nil?
-              instance_variable_set :"@#{key}", value
+          else
+            if block_given?
+              raise ArgumentError
             else
-              if condition === value
-                instance_variable_set :"@#{key}", value
-              else
-                raise ConditionIsNotSatisfied
+              @conditions[key] = conditions
+
+              define_method "#{key}=" do |value|
+                if conditions.any?{|condition|condition === value}
+                  instance_variable_set :"@#{key}", value
+                else
+                  raise ConditionError
+                end
               end
             end
           end
         end
       end
       
-      def members
-        self.class.members
+      def inspect
+        "#<#{self.class} (StrictStruct)\n".tap do |s|
+          members.each_with_index do |m, idx|
+            s << " [#{idx}, #{m}, #{conditions[m].inspect}]=#{self[m].inspect}\n"
+          end
+          
+          s << '#>'
+        end
       end
       
-      def member?(key)
-        self.class.member? key
+      def to_s
+        "#<StrictStruct #{self.class}".tap do |s|
+          members.each_with_index do |m, idx|
+            s << " [#{idx}, #{m}]=#{self[m]}"
+          end
+          
+          s << '>'
+        end
       end
-      
-      alias_method :has_key?, :member?
-      alias_method :key?, :has_key?
+
+      delegate_class_methods(
+        :members, :keys, :member?, :has_key?, :key?, :length,
+        :size, :conditions, :each_member, :each_key
+      )
 
       def [](key)
         case key
@@ -155,17 +218,23 @@ class << Striuct
         end
       end
       
-      def each_member(&block)
-        members.each(&block)
-      end
+      #~ def each_member(&block)
+        #~ members.each(&block)
+      #~ end
       
-      alias_method :each_key, :each_member
+      #~ alias_method :each_key, :each_member
       
       def each_value
+        return to_enum(__method__) unless block_given?
         each_member{|member|yield self[member]}
       end
       
       alias_method :each, :each_value
+      
+      def each_pair
+        return to_enum(__method__) unless block_given?
+        each_member{|member|yield member, self[member]}
+      end
       
       def values
         [].tap do |r|
