@@ -4,11 +4,11 @@ http://github.com/kachick/striuct
 
 == DESCRIPTION
 
-Strict Struct の略で名づけました。若干typoがおっかないですね。
+Strict Struct の略で名づけました。typoが怖い方は、そのまま StrictStruct でも使えます。
 
-格納するデータが決まってる時等、メソッド呼び出しが効いて名前チェックをかけてくれるStructがHashより活躍している事と思います。
-でもStructを使うようなシーンって、大概メンバ名だけでなく中に入るデータにも法則性がありませんか？
-ノーガードはおっかない、かといって毎回毎回同じようなreader,writer書くのも面倒だー という向き用のStructを考えて見ました。
+格納するデータが決まってる時等、メソッド呼び出しが効いて名前チェックをかけてくれるStructはHashより気持ちが良いですよね。
+でもStructを使うようなシーンって、メンバ名だけでなく中に入るデータにも「決まり」を付けたいと思うシーンが多くありませんか？
+ノーガードはおっかない、かといって毎回毎回同じような構造体クラス書くのも面倒だー という向き用の Struct です。
 
 == FEATURES
 
@@ -22,7 +22,9 @@ Strict Struct の略で名づけました。若干typoがおっかないです�
 * setup
     require 'striuct'
 
-* basic
+* memberマクロの2引数目以降へ渡したオブジェクトを「条件」と認識して === を使った比較を行います。
+  一つも適合する条件がない場合、例外を吐きます。
+  またブロックを使うことで、柔軟なチェッカも定義できます。
     class User < Striuct.new
       member :id, Integer
       member :last_name, /\A\w+\z/
@@ -31,12 +33,28 @@ Strict Struct の略で名づけました。若干typoがおっかないです�
       member(:age) {|v|(20..140).include? v}
     end
 
-    # pass
-    user = User.new 128381, 'bar', 'foo', '1-1-1 Town Tokyo', 20
-    p user
+    # これはOK
+    user = User.new 128381, 'bar', 'foo', 'Tokyo Japan', 20
 
-    # fail (Exception)
+    # これもOK
+    user.age = 30
+
+    # これは駄目
     user.age = 19
+
+* Structの代替えとしても使えます。
+    User2 = Striuct.new :id, :last_name, :family_name, :address, :age
+
+* Structのように、無名クラスを介さずブロックからサブクラスを作る事も出来ます。
+    User3 = Striuct.new do
+      member :name, /\A\w+\z/, /\A\w+ \w+\z/
+    end
+
+* リンク貼った時どれだけ注意しても、その後参照先のオブジェクトがぶっ壊れる可能性は残ります。
+  致し方無いので、簡単にチェックできるようにしました。
+    user.strict? #=> true
+    user.last_name.clear
+    user.strict? #=> false
 
 
 == REQUIREMENTS
