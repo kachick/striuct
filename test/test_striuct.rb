@@ -1,15 +1,15 @@
 $VERBOSE = true
 require File.dirname(__FILE__) + '/test_helper.rb'
 
-class TestStriuct < Test::Unit::TestCase
-  class User < Striuct.new
-    member :id, Integer
-    member :last_name, /\A\w+\z/
-    member :family_name, /\A\w+\z/
-    member :address, /\A((\w+) ?)+\z/
-    member(:age) {|v|(20..140).include? v}
-  end
+class User < Striuct.new
+  member :id, Integer
+  member :last_name, /\A\w+\z/
+  member :family_name, /\A\w+\z/
+  member :address, /\A((\w+) ?)+\z/
+  member(:age) {|v|(20..140).include? v}
+end
 
+class TestStriuct < Test::Unit::TestCase
   def test_builder
     klass = Striuct.new
     assert_kind_of Striuct, klass.new
@@ -27,7 +27,7 @@ class TestStriuct < Test::Unit::TestCase
     assert_equal User.members, [:id, :last_name, :family_name, :address, :age]
   end
   
-  def test_accessor
+  def test_setter
     user = User.new
     user[:last_name] = 'foo'
     assert_equal user.last_name, 'foo'
@@ -56,3 +56,66 @@ class TestStriuct < Test::Unit::TestCase
   end
 end
 
+class TestStriuct2 < Test::Unit::TestCase
+  def setup
+    @user = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
+  end
+
+  def test_reader
+    assert_equal @user[1], 'taro'
+    assert_equal @user[:last_name], 'taro'
+    assert_equal @user.last_name, 'taro'
+  end
+
+  def test_setter_pass
+    assert_equal (@user.id = 2139203509295), 2139203509295
+    assert_equal @user.id, 2139203509295
+    assert_equal (@user.last_name = 'jiro'), 'jiro'
+    assert_equal @user.last_name, 'jiro'
+    assert_equal (@user.age = 40), 40
+    assert_equal @user.age, 40
+  end
+  
+  def test_setter_fail
+    assert_raises Striuct::ConditionError do
+      @user.id = 2139203509295.0
+    end
+
+    assert_raises Striuct::ConditionError do
+      @user.last_name = 'ignore name'
+    end
+    
+    assert_raises Striuct::ConditionError do
+      @user.age = 19
+    end
+  end
+  
+  def test_strict?
+    assert_equal @user.strict?, true
+    @user.last_name.clear
+    assert_equal @user.strict?, false
+  end
+end
+
+class TestStriuct3 < Test::Unit::TestCase
+  def setup
+    @user = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
+  end
+
+  def test_members
+    assert_equal @user.members, [:id, :last_name, :family_name, :address, :age]
+  end
+  
+  def test_delegate_class_method
+    assert_equal @user.members, User.members
+    assert_equal @user.size, User.size
+    assert_equal @user.member?(:age), User.member?(:age)
+  end
+  
+  def test_enum
+    assert_same @user, @user.each{}
+    assert_kind_of Enumerator, enum = @user.each
+    assert_equal enum.next, 9999
+    assert_equal enum.next, 'taro'
+  end
+end

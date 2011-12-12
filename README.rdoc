@@ -29,11 +29,23 @@ This container class looks like Struct. And you can use conditions.
     end
 
     # pass
-    user = User.new 128381, 'bar', 'foo', '1-1-1 Town Tokyo', 20
-    p user
+    user = User.new 128381, 'bar', 'foo', 'Tokyo Japan', 20
 
     # fail (Exception)
     user.age = 19
+
+* has API looks standard Struct
+    User2 = Striuct.new :id, :last_name, :family_name, :address, :age
+
+* mix
+    User3 = Striuct.new do
+      member :name, /\A\w+\z/, /\A\w+ \w+\z/
+    end
+
+* but always destroy Ruby's objects... you can use easy_check all time
+    user.strict? #=> true
+    user.last_name.clear
+    user.strict? #=> false
 
 == REQUIREMENTS
 
