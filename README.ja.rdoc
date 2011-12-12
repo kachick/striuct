@@ -65,7 +65,7 @@ Strict Struct の略で名づけました。typoが怖い方は、そのまま S
 
 == INSTALL
 
-* sudo gem install each_section
+* sudo gem install striuct
 
 == LICENSE
 
