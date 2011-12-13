@@ -100,6 +100,7 @@ end
 class TestStriuct3 < Test::Unit::TestCase
   def setup
     @user = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
+    @user2 = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
   end
 
   def test_members
@@ -112,10 +113,36 @@ class TestStriuct3 < Test::Unit::TestCase
     assert_equal @user.member?(:age), User.member?(:age)
   end
   
-  def test_enum
+  def test_each
     assert_same @user, @user.each{}
     assert_kind_of Enumerator, enum = @user.each
     assert_equal enum.next, 9999
     assert_equal enum.next, 'taro'
+  end
+  
+  def test_each_member
+    assert_same @user, @user.each_member{}
+    assert_kind_of Enumerator, enum = @user.each_member
+    assert_equal enum.next, :id
+    assert_equal enum.next, :last_name
+  end
+  
+  def test_values
+    assert_equal @user.values, [9999, 'taro', 'yamada', 'Tokyo Japan', 30]
+  end
+  
+  def test_values_at
+    assert_equal @user.values_at(:age, :id), [30, 9999]
+  end
+
+  def test_hash
+    assert_kind_of Integer, @user.hash
+    assert_equal @user.hash, @user2.hash
+  end
+  
+  def test_eql?
+    assert_equal true, @user.eql?(@user2)
+    assert_equal true, @user2.eql?(@user)
+    assert_equal false, @user.eql?(User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 31)
   end
 end

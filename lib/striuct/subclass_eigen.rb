@@ -138,42 +138,52 @@ module Eigen
   # @macro define_writer
   # @return [nil]
   # @raise [ConditionError] argument unmatch all conditions or block
-  def define_writer(key, *conditions, &block)
-    raise ArgumentError unless key.instance_of? Symbol
+  def define_writer(name, *conditions, &block)
+    raise ArgumentError unless name.instance_of? Symbol
   
     if conditions.empty?
       if block_given?
-        @conditions[key] = [block]
-        
-        define_method "#{key}=" do |value|
-          if block.call value
-            instance_variable_set :"@#{key}", value
-          else
-            raise ConditionError
-          end
-        end
+        @conditions[name] = [block]
+        define_writer_under_blockcondition name, &block
       else
-        define_method "#{key}=" do |value|
-          instance_variable_set :"@#{key}", value
-        end
+        define_writer_through name
       end
     else
       if block_given?
-        raise ArgumentError, 'Could not use arguments with block'
+        raise ArgumentError, 'unavailable both arguments with block'
       else
-        @conditions[key] = conditions
-
-        define_method "#{key}=" do |value|
-          if conditions.any?{|condition|condition === value}
-            instance_variable_set :"@#{key}", value
-          else
-            raise ConditionError
-          end
-        end
+        @conditions[name] = conditions
+        define_writer_under_conditions(name, *conditions)
       end
     end
     
     nil
+  end
+  
+  def define_writer_through(name)
+    define_method "#{name}=" do |value|
+      instance_variable_set :"@#{name}", value
+    end
+  end
+  
+  def define_writer_under_blockcondition(name, &block)
+    define_method "#{name}=" do |value|
+      if block.call value
+        instance_variable_set :"@#{name}", value
+      else
+        raise ConditionError
+      end
+    end
+  end
+  
+  def define_writer_under_conditions(name, *conditions)
+    define_method "#{name}=" do |value|
+      if conditions.any?{|condition|condition === value}
+        instance_variable_set :"@#{name}", value
+      else
+        raise ConditionError
+      end
+    end
   end
 
 end
