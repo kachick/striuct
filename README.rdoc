@@ -10,7 +10,7 @@ This container class looks like Struct. And you can use conditions.
 
 == FEATURES
 
-* you can use a condition for a member
+* you can use conditions for each member
 * like Struct API and more
 * pure-ruby
 
