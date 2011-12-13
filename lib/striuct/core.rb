@@ -18,26 +18,28 @@ class Striuct
         warn "no define constant #{members.first}"
       end
 
-      Class.new self do |klass|
+      Class.new self do
         members.each do |m|
           member m
         end
-        
-        instance_exec(klass, &block) if block_given?
+
+        class_eval(&block) if block_given?
       end
     end
-  
+
     # @return [SubClass]
     def load_pairs(pairs, &block)
-      new do |klass|
-        pairs.each do |k, v|
-          member k, v
+      raise ArgumentError unless pairs.respond_to? :each_pair
+
+      new do
+        pairs.each_pair do |name, conditions|
+          member(name, *conditions)
         end
         
-        instance_exec(klass, &block) if block_given?
+        class_eval(&block) if block_given?
       end
     end
-    
+
     private
     
     def inherited(subclass)
