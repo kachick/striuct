@@ -42,7 +42,7 @@ This container class looks like Struct. And you can use conditions.
       member :name, /\A\w+\z/, /\A\w+ \w+\z/
     end
 
-* but always destroy Ruby's objects... you can use easy_check all time
+* But, Ruby's objects always can be destroyed. Use easy checker for this case.
     user.strict? #=> true
     user.last_name.clear
     user.strict? #=> false
