@@ -41,7 +41,6 @@ module Eigen
     when Symbol, String
       @members.include? key.to_sym
     else
-      warn "#{key} is instance of #{key.class}. This type always be false."
       false
     end
   end
