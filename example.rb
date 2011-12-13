@@ -24,14 +24,22 @@ require_relative 'lib/striuct'
     p User2.members
 
 # * mix
-    User3 = Striuct.new do
+    UserStd = Struct.new :aaa do |klass|
+      p klass.superclass
+    end
+
+    User3 = Striuct.new :something do |klass|
+      p klass.superclass
       member :name, /\A\w+\z/, /\A\w+ \w+\z/
     end
     
-    p User3.conditions
+    user3 = User3.new
+    p user3
 
-# * but always destroy Ruby's objects... you can use easy_check all time
+
+# * But, Ruby's objects always can be destroyed. Use easy checker for this case.
     p user.strict?
     user.last_name.clear
     p user.strict?
+
 
