@@ -19,8 +19,8 @@ class Striuct
       end
 
       Class.new self do
-        members.each do |m|
-          member m
+        members.each do |name|
+          member name
         end
 
         class_eval(&block) if block_given?

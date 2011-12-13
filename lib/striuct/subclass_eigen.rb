@@ -37,7 +37,13 @@ module Eigen
   alias_method :keys, :members
   
   def member?(key)
-    @members.include? key.to_sym
+    case key
+    when Symbol, String
+      @members.include? key.to_sym
+    else
+      warn "#{key} is instance of #{key.class}. This type always be false."
+      false
+    end
   end
   
   alias_method :has_key?, :member?
@@ -89,6 +95,8 @@ module Eigen
   # @macro define_members
   # @return [nil]
   def define_members(*names)
+    raise ArgumentError if names.length == 1
+    
     names.each do |name|
       define_member name
     end
@@ -101,6 +109,8 @@ module Eigen
   # @macro define_pairs
   # @return [nil]
   def define_pairs(pairs)
+    raise ArgumentError unless pairs.respond_to? :each_pair
+
     pairs.each_pair do |k, v|
       define_member k, v
     end
@@ -113,6 +123,8 @@ module Eigen
   # @macro define_reader
   # @return [nil]
   def define_reader(key)
+    raise ArgumentError unless key.instance_of? Symbol
+    
     define_method key do
       if instance_variable_defined? :"@#{key}"
         instance_variable_get :"@#{key}"
@@ -128,6 +140,8 @@ module Eigen
   # @return [nil]
   # @raise [ConditionError] argument unmatch all conditions or block
   def define_writer(key, *conditions, &block)
+    raise ArgumentError unless key.instance_of? Symbol
+  
     if conditions.empty?
       if block_given?
         @conditions[key] = [block]
@@ -146,7 +160,7 @@ module Eigen
       end
     else
       if block_given?
-        raise ArgumentError
+        raise ArgumentError, 'Could not use arguments with block'
       else
         @conditions[key] = conditions
 

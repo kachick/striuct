@@ -15,7 +15,7 @@ module SubClass
         __send__ :"#{members[idx]}=", v
       end
     else
-      raise ArgumentError
+      raise ArgumentError "wrong number of argument #{values.size} for #{members.size}"
     end
   end
   
