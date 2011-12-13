@@ -13,13 +13,13 @@ class Striuct
     private :new_instance
     
     # @return [SubClass]
-    def new(*members, &block)
-      if members.first.instance_of? String
-        warn "no define constant #{members.first}"
+    def new(*names, &block)
+      if names.first.instance_of? String
+        warn "no define constant #{names.first}"
       end
 
       Class.new self do
-        members.each do |name|
+        names.each do |name|
           member name
         end
 
