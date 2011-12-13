@@ -95,7 +95,7 @@ module Eigen
   # @macro define_members
   # @return [nil]
   def define_members(*names)
-    raise ArgumentError if names.length == 1
+    raise ArgumentError "wrong number of arguments (0 for 1+)" unless names.length >= 1
     
     names.each do |name|
       define_member name
