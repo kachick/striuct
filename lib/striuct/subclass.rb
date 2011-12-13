@@ -43,18 +43,20 @@ module SubClass
   
   # @return [String]
   def inspect
-    "#<#{self.class} (StrictStruct)\n".tap do |s|
-      members.each_with_index do |m, idx|
-        s << " [#{idx}, #{m}, #{conditions[m].inspect}]=#{self[m].inspect}\n"
+    "#<#{self.class} (StrictStruct)".tap do |s|
+      members.each_with_index do |name, idx|
+        s << "\n #{idx.to_s.rjust 3}. #{name}\n"
+        s << "#{' ' * 8}conditions : #{conditions[name].inspect}\n"
+        s << "#{' ' * 8}value      : #{self[name].inspect}"
       end
       
-      s << '#>'
+      s << "\n>"
     end
   end
 
   # @return [String]
   def to_s
-    "#<StrictStruct #{self.class}".tap do |s|
+    "#<struct #{self.class}".tap do |s|
       members.each_with_index do |m, idx|
         s << " [#{idx}, #{m}]=#{self[m]}"
       end
