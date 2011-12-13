@@ -1,7 +1,13 @@
+=== 0.0.5 2011-12-14
+
+* fix class constructor
+* modify #inspect
+* add arguments checks
+
 === 0.0.4 2011-12-13
 
 * divide modules for subclass methods
-* modified return values for void methods
+* modify return values for void methods
 
 === 0.0.3 2011-12-12
 
