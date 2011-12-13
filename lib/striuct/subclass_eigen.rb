@@ -143,7 +143,6 @@ module Eigen
   
     if conditions.empty?
       if block_given?
-        @conditions[name] = [block]
         define_writer_under_blockcondition name, &block
       else
         define_writer_through name
@@ -152,7 +151,6 @@ module Eigen
       if block_given?
         raise ArgumentError, 'unavailable both arguments with block'
       else
-        @conditions[name] = conditions
         define_writer_under_conditions(name, *conditions)
       end
     end
@@ -167,6 +165,7 @@ module Eigen
   end
   
   def define_writer_under_blockcondition(name, &block)
+    @conditions[name] = [block]
     define_method "#{name}=" do |value|
       if block.call value
         instance_variable_set :"@#{name}", value
@@ -177,6 +176,7 @@ module Eigen
   end
   
   def define_writer_under_conditions(name, *conditions)
+    @conditions[name] = conditions
     define_method "#{name}=" do |value|
       if conditions.any?{|condition|condition === value}
         instance_variable_set :"@#{name}", value
