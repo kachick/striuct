@@ -155,8 +155,9 @@ module SubClass
   def __subscript__(key)
     case key
     when Symbol, String
-      if member? key
-        yield key
+      name = key.to_sym
+      if member? name
+        yield name
       else
         raise NameError
       end
