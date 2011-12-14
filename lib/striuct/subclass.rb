@@ -68,49 +68,17 @@ module SubClass
   end
 
   delegate_class_methods(
-    :members, :keys, :member?, :has_key?, :key?, :length,
+    :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
     :size, :conditions
   )
 
   def [](key)
-    case key
-    when Symbol, String
-      if member? key
-        __get__ key
-      else
-        raise NameError
-      end
-    when Fixnum
-      if name = members[key]
-        __get__ name
-      else
-        raise IndexError
-      end
-    else
-      raise ArgumentError
-    end
+    __subscript__(key){|name|__get__ name}
   end
   
   # @return [value]
   def []=(key, value)
-    case key
-    when Symbol, String
-      if member? key
-        __set__ key, value
-      else
-        raise NameError
-      end
-    when Fixnum
-      if name = members[key]
-        __set__ name, value
-      else
-        raise IndexError
-      end
-    else
-      raise ArgumentError
-    end
-    
-    value
+    __subscript__(key){|name|__set__ name, value}
   end
 
   # @return [self]
@@ -158,7 +126,7 @@ module SubClass
 
   def strict?
     each_pair.all? do |member, value|
-      if list = conditions[member]
+      if list = self.conditions[member]
         list.any?{|condition|condition === value}
       else
         true
@@ -173,7 +141,7 @@ module SubClass
   end
 
   def __set__(name, value)
-    if conditions = conditions()[name]
+    if conditions = self.conditions[name]
       if conditions.any?{|condition|condition === value}
         @db[name] = value
       else
@@ -181,6 +149,25 @@ module SubClass
       end
     else
       @db[name] = value
+    end
+  end
+  
+  def __subscript__(key)
+    case key
+    when Symbol, String
+      if member? key
+        yield key
+      else
+        raise NameError
+      end
+    when Fixnum
+      if name = members[key]
+        yield name
+      else
+        raise IndexError
+      end
+    else
+      raise ArgumentError
     end
   end
 
