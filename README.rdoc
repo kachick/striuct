@@ -22,8 +22,8 @@ This container class looks like Struct. And you can use conditions.
 == PLAN
 
 * add Subclass macro:
-    safe_level:
-      change check level for accessor name
+  safe_level:
+    change check level for accessor name
 
 == SYNOPSIS
 
