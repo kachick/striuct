@@ -15,7 +15,7 @@ module ClassUtil
   
   # @macro delegate_class_methods
   def delegate_class_methods(*names)
-    raise ArgumentError unless names.length >= 1
+    raise ArgumentError, 'wrong number of argument 0 for 1+' unless names.length >= 1
     
     names.each{|name|delegate_class_method name}
   end

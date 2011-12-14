@@ -11,14 +11,14 @@ module Eigen
 
   # @return [instance]
   def load_pairs(pairs)
-    raise ArgumentError unless pairs.respond_to? :each_pair
+    raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
 
     new.tap do |r|
       pairs.each_pair do |key, value|
         if member? key
           r[key] = value
         else
-          raise ArgumentError
+          raise ArgumentError, " #{key} is not our member"
         end
       end
     end
@@ -51,7 +51,7 @@ module Eigen
   # @return [self]
   def each_member(&block)
     return to_enum(__method__) unless block_given?
-    members.each(&block)
+    @members.each(&block)
     self
   end
   
@@ -68,21 +68,21 @@ module Eigen
 
   # @macro define_member
   # @return [nil]
-  def define_member(key, *conditions, &block)    
-    case key
+  def define_member(name, *conditions, &block)   
+    case name
     when Symbol
     when String
-      key = key.to_sym
+      name = name.to_sym
     else
-      raise ArgumentError
+      raise TypeError
     end
 
-    unless member? key
-      @members << key
-      define_reader key
-      define_writer key, *conditions, &block
+    unless member? name
+      @members << name
+      define_reader name
+      define_writer name, *conditions, &block
     else
-      raise ArgumentError
+      raise ArgumentError, %Q!already exsist name "#{name}"!
     end
     
     nil
@@ -94,7 +94,7 @@ module Eigen
   # @macro define_members
   # @return [nil]
   def define_members(*names)
-    raise ArgumentError "wrong number of arguments (0 for 1+)" unless names.length >= 1
+    raise ArgumentError, 'wrong number of arguments (0 for 1+)' unless names.length >= 1
     
     names.each do |name|
       define_member name
@@ -108,7 +108,7 @@ module Eigen
   # @macro define_pairs
   # @return [nil]
   def define_pairs(pairs)
-    raise ArgumentError unless pairs.respond_to? :each_pair
+    raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
 
     pairs.each_pair do |k, v|
       define_member k, v
@@ -122,7 +122,7 @@ module Eigen
   # @macro define_reader
   # @return [nil]
   def define_reader(key)
-    raise ArgumentError unless key.instance_of? Symbol
+    raise TypeError unless key.instance_of? Symbol
     
     define_method key do
       if instance_variable_defined? :"@#{key}"
@@ -139,7 +139,7 @@ module Eigen
   # @return [nil]
   # @raise [ConditionError] argument unmatch all conditions or block
   def define_writer(name, *conditions, &block)
-    raise ArgumentError unless name.instance_of? Symbol
+    raise TypeError unless name.instance_of? Symbol
   
     if conditions.empty?
       if block_given?
@@ -149,7 +149,7 @@ module Eigen
       end
     else
       if block_given?
-        raise ArgumentError, 'unavailable both arguments with block'
+        raise ArgumentError, 'unavailable arguments and block'
       else
         define_writer_under_conditions(name, *conditions)
       end
@@ -166,22 +166,24 @@ module Eigen
   
   def define_writer_under_blockcondition(name, &block)
     @conditions[name] = [block]
+
     define_method "#{name}=" do |value|
       if block.call value
         instance_variable_set :"@#{name}", value
       else
-        raise ConditionError
+        raise ConditionError, 'deficent value for expression'
       end
     end
   end
   
   def define_writer_under_conditions(name, *conditions)
     @conditions[name] = conditions
+
     define_method "#{name}=" do |value|
       if conditions.any?{|condition|condition === value}
         instance_variable_set :"@#{name}", value
       else
-        raise ConditionError
+        raise ConditionError, 'deficent value for any conditions'
       end
     end
   end
