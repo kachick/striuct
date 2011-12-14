@@ -14,7 +14,7 @@ module Subclass
     
     if values.size <= members.size
       values.each_with_index do |v, idx|
-        __send__ :"#{members[idx]}=", v
+        __set__ members[idx], v
       end
     else
       raise ArgumentError, "struct size differs (max: #{members.size})"
