@@ -4,7 +4,7 @@ http://github.com/kachick/striuct
 
 == DESCRIPTION
 
-Strict Struct の略で名づけました。typoが怖い方は、そのまま StrictStruct でも使えます。
+Strict Struct の略です。typoが怖い方は、そのまま StrictStruct でも使えます。
 
 格納するデータが決まってる時等、メソッド呼び出しが効いて名前チェックをかけてくれるStructはHashより気持ちが良いですよね。
 でもStructを使うようなシーンって、メンバ名だけでなく中に入るデータにも「決まり」を付けたいと思うシーンが多くありませんか？
@@ -13,9 +13,18 @@ Strict Struct の略で名づけました。typoが怖い方は、そのまま S
 == FEATURES
 
 * メンバ毎に、値格納時のチェック条件を簡単に定義できます。
-  勿論、型チェックしかできないという事はありません。
+  ブロックやlambdaを使えば、型等に収まらないチェックが可能
 * 基本的なAPIはStructっぽく保ちつつ、若干の機能追加をしています。
 * pure-ruby
+
+== PLOBLEMS
+
+* 薄いドキュメント
+* 汚いテスト
+
+== PLAN
+
+* サブクラスにマクロ safe_level を用意し、これに応じてアクセサ名の安全度をチェックさせたい
 
 == SYNOPSIS
 

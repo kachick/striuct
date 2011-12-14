@@ -1,3 +1,20 @@
+=== 0.0.6 2011-12-14
+
+* add:
+    * Subclass.sufficent?
+    * Subclass.define
+    * Subclass#sufficent?
+    * Subclass#secure?
+    * Subclass#lock?
+    * Subclass#lock
+    * Subclass#unlock
+
+* fix:
+    * typo
+
+* modify:
+    * error type in some methods
+
 === 0.0.5 2011-12-14
 
 * fix class constructor
