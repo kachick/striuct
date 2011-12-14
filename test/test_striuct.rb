@@ -37,6 +37,10 @@ class TestStriuctSubclassInstance1 < Test::Unit::TestCase
   def test_constructor
     user = User.define{|r|r.age = 50}
     assert_same 50, user.age
+    
+    assert_raises Striuct::LockError do
+      user.age = 51
+    end
   end
   
   def test_setter
