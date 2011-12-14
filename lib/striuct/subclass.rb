@@ -10,6 +10,8 @@ module SubClass
   include Enumerable
   
   def initialize(*values)
+    @db = {}
+    
     if values.size <= members.size
       values.each_with_index do |v, idx|
         __send__ :"#{members[idx]}=", v
@@ -74,13 +76,13 @@ module SubClass
     case key
     when Symbol, String
       if member? key
-        __send__ key
+        __get__ key
       else
         raise NameError
       end
     when Fixnum
-      if member = members[key]
-        __send__ member
+      if name = members[key]
+        __get__ name
       else
         raise IndexError
       end
@@ -94,13 +96,13 @@ module SubClass
     case key
     when Symbol, String
       if member? key
-        __send__ :"#{key}=", value
+        __set__ key, value
       else
         raise NameError
       end
     when Fixnum
-      if member = members[key]
-        __send__ :"#{member}=", value
+      if name = members[key]
+        __set__ name, value
       else
         raise IndexError
       end
@@ -161,6 +163,24 @@ module SubClass
       else
         true
       end
+    end
+  end
+  
+  private
+
+  def __get__(name)
+    @db[name]
+  end
+
+  def __set__(name, value)
+    if conditions = conditions()[name]
+      if conditions.any?{|condition|condition === value}
+        @db[name] = value
+      else
+        raise ConditionError, 'deficent value for all conditions'
+      end
+    else
+      @db[name] = value
     end
   end
 
