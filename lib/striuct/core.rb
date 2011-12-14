@@ -14,8 +14,10 @@ class Striuct
     
     # @return [SubClass]
     def new(*names, &block)
-      if names.first.instance_of? String
-        warn "no define constant #{names.first}"
+      # warning for Ruby's Struct.new user
+      arg1 = names.first
+      if arg1.instance_of?(String) and /\A[A-Z]/ =~ arg1
+        warn "no define constant #{arg1}"
       end
 
       Class.new self do
@@ -29,7 +31,7 @@ class Striuct
 
     # @return [SubClass]
     def load_pairs(pairs, &block)
-      raise ArgumentError unless pairs.respond_to? :each_pair
+      raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
 
       new do
         pairs.each_pair do |name, conditions|
