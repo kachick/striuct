@@ -7,6 +7,7 @@ require_relative 'subclass'
 class Striuct
 
   class ConditionError < ArgumentError; end
+  class LockError < RuntimeError; end
 
   class << self
     alias_method :new_instance, :new
