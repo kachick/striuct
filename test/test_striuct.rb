@@ -160,6 +160,24 @@ class TestStriuctSubclassInstance3 < Test::Unit::TestCase
     assert_equal true, @user2.eql?(@user)
     assert_equal false, @user.eql?(User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 31)
   end
+  
+  def test_lock
+    assert_same @user.lock?, false
+    assert_same @user.secure?, false
+    assert_same @user.lock, nil
+    assert_same @user.lock?, true
+    assert_same @user.secure?, true
+
+    assert_raises Striuct::LockError do
+      @user.id = 100
+    end
+    
+    assert_equal @user.id, 9999
+    assert_same @user.unlock, nil
+    assert_same @user.lock?, false
+    @user.id = 100
+    assert_equal @user.id, 100
+  end
 end
 
 class Sth < Striuct.new

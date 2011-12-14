@@ -10,7 +10,7 @@ module SubClass
   include Enumerable
   
   def initialize(*values)
-    @db = {}
+    @db, @lock = {}, false
     
     if values.size <= members.size
       values.each_with_index do |v, idx|
@@ -131,7 +131,27 @@ module SubClass
   def strict?
     each_pair.all?{|name, value|self.class.sufficent? name, value}
   end
+
+  # @return [nil]
+  def lock
+    @lock = true
+    nil
+  end
+
+  # @return [nil]
+  def unlock
+    @lock = false
+    nil
+  end
   
+  def lock?
+    @lock
+  end
+  
+  def secure?
+    lock? && strict?
+  end
+
   private
 
   def __get__(name)
@@ -139,6 +159,8 @@ module SubClass
   end
 
   def __set__(name, value)
+    raise LockError if lock?
+
     if member? name
       if self.class.sufficent? name, value
         @db[name] = value
