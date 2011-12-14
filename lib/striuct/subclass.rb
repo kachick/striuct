@@ -124,14 +124,12 @@ module SubClass
     end
   end
 
+  def sufficent?(name)
+    self.class.__send__(__method__, name, self[name])
+  end
+
   def strict?
-    each_pair.all? do |member, value|
-      if list = self.conditions[member]
-        list.any?{|condition|condition === value}
-      else
-        true
-      end
-    end
+    each_pair.all?{|name, value|self.class.sufficent? name, value}
   end
   
   private
@@ -141,8 +139,8 @@ module SubClass
   end
 
   def __set__(name, value)
-    if conditions = self.conditions[name]
-      if conditions.any?{|condition|condition === value}
+    if member? name
+      if self.class.sufficent? name, value
         @db[name] = value
       else
         raise ConditionError, 'deficent value for all conditions'

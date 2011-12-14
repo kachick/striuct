@@ -45,6 +45,16 @@ module Eigen
     end
   end
   
+  def sufficent?(name, value)
+    raise ArgumentError unless member? name
+
+    if conditions = @conditions[name]
+      conditions.any?{|condition|condition === value}
+    else
+      true
+    end
+  end
+  
   alias_method :member?, :has_member?
   alias_method :has_key?, :has_member?
   alias_method :key?, :has_key?

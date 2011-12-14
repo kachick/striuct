@@ -6,10 +6,18 @@ class User < Striuct.new
   member :last_name, /\A\w+\z/
   member :family_name, /\A\w+\z/
   member :address, /\A((\w+) ?)+\z/
-  member(:age) {|v|(20..140).include? v}
+  member(:age) {|age|(20..140).include? age}
 end
 
-class TestStriuct < Test::Unit::TestCase
+
+class TestStriuctSubclassEigen < Test::Unit::TestCase
+  def test_sufficent?
+    assert_equal false, User.sufficent?(:age, 19)
+    assert_equal true, User.sufficent?(:age, 20)
+  end
+end
+
+class TestStriuctSubclassInstance1 < Test::Unit::TestCase
   def test_builder
     klass = Striuct.new
     assert_kind_of Striuct, klass.new
@@ -56,7 +64,7 @@ class TestStriuct < Test::Unit::TestCase
   end
 end
 
-class TestStriuct2 < Test::Unit::TestCase
+class TestStriuctSubclassInstance2 < Test::Unit::TestCase
   def setup
     @user = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
   end
@@ -91,13 +99,16 @@ class TestStriuct2 < Test::Unit::TestCase
   end
   
   def test_strict?
-    assert_equal @user.strict?, true
+    assert_same @user.sufficent?(:last_name), true
+    assert_same @user.strict?, true
+    assert_same @user.sufficent?(:last_name), true
     @user.last_name.clear
-    assert_equal @user.strict?, false
+    assert_same @user.sufficent?(:last_name), false
+    assert_same @user.strict?, false
   end
 end
 
-class TestStriuct3 < Test::Unit::TestCase
+class TestStriuctSubclassInstance3 < Test::Unit::TestCase
   def setup
     @user = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
     @user2 = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
@@ -144,5 +155,52 @@ class TestStriuct3 < Test::Unit::TestCase
     assert_equal true, @user.eql?(@user2)
     assert_equal true, @user2.eql?(@user)
     assert_equal false, @user.eql?(User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 31)
+  end
+end
+
+class Sth < Striuct.new
+  member :bool, true, false
+  member :sth
+  member :lambda, ->v{v % 3 == 2}, ->v{v.kind_of? Float}
+end
+
+
+class TestStriuctSubclassInstance4 < Test::Unit::TestCase
+  def setup
+    @sth = Sth.new
+  end
+  
+  def test_accessor
+    @sth.bool = true
+    assert_same true, @sth.bool
+    @sth.bool = false
+    assert_same false, @sth.bool
+    
+    assert_raises Striuct::ConditionError do
+      @sth.bool = nil
+    end
+    
+    @sth.sth = 1
+    assert_same 1, @sth.sth
+
+    @sth.sth = 'String'
+    assert_equal 'String', @sth.sth
+    
+    @sth.sth = Class.class
+    assert_same Class.class, @sth.sth
+    
+    assert_raises Striuct::ConditionError do
+      @sth.lambda = 9
+    end
+    
+    assert_raises Striuct::ConditionError do
+      @sth.lambda = 7
+    end
+    
+    @sth.lambda = 8
+    assert_same 8, @sth.lambda
+
+    @sth.lambda = 9.0
+    assert_equal 9.0, @sth.lambda
   end
 end
