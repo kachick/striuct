@@ -1,6 +1,6 @@
 # Copyright (C) 2011  Kenichi Kamiya
 
-class Striuct; module SubClass
+class Striuct; module Subclass
 
 
 module Eigen
