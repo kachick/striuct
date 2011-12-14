@@ -29,6 +29,7 @@ module Eigen
   # @yieldparam [instance]
   def define(*values)
     yield instance = new(*values)
+    instance.lock
     instance
   end
 
