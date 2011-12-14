@@ -47,8 +47,8 @@ class Striuct
     
     def inherited(subclass)
       subclass.class_eval do
-        include SubClass
-        extend SubClass::Eigen
+        include Subclass
+        extend Subclass::Eigen
   
         @members = []
         @conditions = {}

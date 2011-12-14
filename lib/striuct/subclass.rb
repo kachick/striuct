@@ -4,7 +4,7 @@ class Striuct
 
 
 # @author Kenichi Kamiya
-module SubClass
+module Subclass
 
   extend ClassUtil
   include Enumerable
