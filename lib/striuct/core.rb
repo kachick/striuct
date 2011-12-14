@@ -49,9 +49,6 @@ class Striuct
       subclass.class_eval do
         include Subclass
         extend Subclass::Eigen
-  
-        @members = []
-        @conditions = {}
       end
     end
   end
