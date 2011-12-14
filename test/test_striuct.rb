@@ -11,13 +11,6 @@ end
 
 
 class TestStriuctSubclassEigen < Test::Unit::TestCase
-  def test_sufficent?
-    assert_equal false, User.sufficent?(:age, 19)
-    assert_equal true, User.sufficent?(:age, 20)
-  end
-end
-
-class TestStriuctSubclassInstance1 < Test::Unit::TestCase
   def test_builder
     klass = Striuct.new
     assert_kind_of Striuct, klass.new
@@ -31,8 +24,19 @@ class TestStriuctSubclassInstance1 < Test::Unit::TestCase
     end
     
     assert_equal klass.members, [:foo, :var]
-    
     assert_equal User.members, [:id, :last_name, :family_name, :address, :age]
+  end
+  
+  def test_sufficent?
+    assert_equal false, User.sufficent?(:age, 19)
+    assert_equal true, User.sufficent?(:age, 20)
+  end
+end
+
+class TestStriuctSubclassInstance1 < Test::Unit::TestCase
+  def test_constructor
+    user = User.define{|r|r.age = 50}
+    assert_same 50, user.age
   end
   
   def test_setter
