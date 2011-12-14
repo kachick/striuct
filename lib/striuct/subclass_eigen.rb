@@ -5,6 +5,17 @@ class Striuct; module Subclass
 
 module Eigen
 
+  class << self
+    private
+    
+    def extended(mod)
+      mod.module_eval do
+        @members = []
+        @conditions = {}
+      end
+    end
+  end
+
   # @return [instance]
   def new(*values)
     new_instance(*values)
