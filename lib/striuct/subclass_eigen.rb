@@ -80,7 +80,7 @@ module Eigen
     unless member? name
       @members << name
       define_reader name
-      define_writer name, *conditions, &block
+      define_writer(name, *conditions, &block)
     else
       raise ArgumentError, %Q!already exsist name "#{name}"!
     end
@@ -125,11 +125,7 @@ module Eigen
     raise TypeError unless key.instance_of? Symbol
     
     define_method key do
-      if instance_variable_defined? :"@#{key}"
-        instance_variable_get :"@#{key}"
-      else
-        nil
-      end
+      __get__ key
     end
     
     nil
@@ -160,32 +156,18 @@ module Eigen
   
   def define_writer_through(name)
     define_method "#{name}=" do |value|
-      instance_variable_set :"@#{name}", value
+      __set__ name, value
     end
   end
   
   def define_writer_under_blockcondition(name, &block)
-    @conditions[name] = [block]
-
-    define_method "#{name}=" do |value|
-      if block.call value
-        instance_variable_set :"@#{name}", value
-      else
-        raise ConditionError, 'deficent value for expression'
-      end
-    end
+    @conditions[name] = [ block ]
+    define_writer_through name
   end
   
   def define_writer_under_conditions(name, *conditions)
     @conditions[name] = conditions
-
-    define_method "#{name}=" do |value|
-      if conditions.any?{|condition|condition === value}
-        instance_variable_set :"@#{name}", value
-      else
-        raise ConditionError, 'deficent value for any conditions'
-      end
-    end
+    define_writer_through name
   end
 
 end
