@@ -36,7 +36,7 @@ module Eigen
   
   alias_method :keys, :members
   
-  def member?(key)
+  def has_member?(key)
     case key
     when Symbol, String
       @members.include? key.to_sym
@@ -45,7 +45,8 @@ module Eigen
     end
   end
   
-  alias_method :has_key?, :member?
+  alias_method :member?, :has_member?
+  alias_method :has_key?, :has_member?
   alias_method :key?, :has_key?
 
   # @return [self]
