@@ -39,8 +39,13 @@ class TestStriuctSubclassInstance1 < Test::Unit::TestCase
     assert_same 50, user.age
     
     assert_raises Striuct::LockError do
-      user.age = 51
+      user.age = 40
     end
+    
+    user = User.define(false){|r|r.age = 51}
+    assert_same 51, user.age
+    user.age = 52
+    assert_same 52, user.age
   end
   
   def test_setter

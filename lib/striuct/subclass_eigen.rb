@@ -39,7 +39,7 @@ module Eigen
   # @return [instance]
   # @yieldparam [instance]
   def define(lock=true)
-    new(*values).tap do |instance|
+    new.tap do |instance|
       yield instance
       instance.lock if lock
     end
