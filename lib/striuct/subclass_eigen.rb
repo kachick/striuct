@@ -38,10 +38,11 @@ module Eigen
   
   # @return [instance]
   # @yieldparam [instance]
-  def define(*values)
-    yield instance = new(*values)
-    instance.lock
-    instance
+  def define(lock=true)
+    new(*values).tap do |instance|
+      yield instance
+      instance.lock if lock
+    end
   end
 
   # @return [Array<Symbol>]
