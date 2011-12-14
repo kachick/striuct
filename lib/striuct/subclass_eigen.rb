@@ -4,6 +4,7 @@ class Striuct; module SubClass
 
 
 module Eigen
+
   # @return [instance]
   def new(*values)
     new_instance(*values)
@@ -22,6 +23,13 @@ module Eigen
         end
       end
     end
+  end
+  
+  # @return [instance]
+  # @yieldparam [instance]
+  def define(*values)
+    yield instance = new(*values)
+    instance
   end
 
   # @return [Array<Symbol>]
