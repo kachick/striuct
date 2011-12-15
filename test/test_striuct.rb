@@ -250,4 +250,14 @@ class TestStriuctCloning < Test::Unit::TestCase
     @sth.sth = 2
     assert_equal false, (@sth.sth == sth2.sth)
   end
+  
+  def test_class_clone
+    klass = Sth.dup
+    Sth.__send__ :member, :dummy1
+    assert_equal false, klass.member?(:dummy)
+    
+    klass = Sth.clone
+    Sth.__send__ :member, :dummy2
+    assert_equal false, klass.member?(:dummy)
+  end
 end
