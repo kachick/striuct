@@ -117,10 +117,10 @@ module Subclass
   alias_method :to_a, :values
 
   # @return [Array]
-  def values_at(*members)
+  def values_at(*names)
     [].tap do |r|
-      members.each do |member|
-        r << self[member]
+      names.each do |name|
+        r << self[name]
       end
     end
   end
