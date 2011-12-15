@@ -141,12 +141,6 @@ module Subclass
     @lock = true
     nil
   end
-
-  # @return [nil]
-  def unlock
-    @lock = false
-    nil
-  end
   
   def lock?
     @lock
@@ -163,17 +157,17 @@ module Subclass
   end
 
   def __get__(name)
-    raise TypeError unless name.instance_of? Symbol
+    raise NameError unless member? name
 
     @db[name]
   end
 
   def __set__(name, value)
-    raise TypeError unless name.instance_of? Symbol
+    raise NameError unless member? name
     raise LockError if lock?
 
-    if member? name
-      if self.class.sufficent? name, value
+    if self.class.restrict? name
+      if self.class.accept? name, value
         @db[name] = value
       else
         raise ConditionError, 'deficent value for all conditions'
@@ -204,6 +198,11 @@ module Subclass
     else
       raise ArgumentError
     end
+  end
+  
+  def unlock
+    @lock = false
+    nil
   end
 
 end
