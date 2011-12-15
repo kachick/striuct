@@ -1,8 +1,6 @@
-# Copyright (C) 2011  Kenichi Kamiya
-
 class Striuct; module Subclass
 
-
+# @author Kenichi Kamiya
 module Eigen
 
   class << self
