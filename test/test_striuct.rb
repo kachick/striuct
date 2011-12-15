@@ -186,7 +186,7 @@ class TestStriuctSubclassInstance3 < Test::Unit::TestCase
   def test_lock
     assert_same @user.lock?, false
     assert_same @user.secure?, false
-    assert_same @user.lock, nil
+    assert_same @user.lock, @user
     assert_same @user.lock?, true
     assert_same @user.secure?, true
 

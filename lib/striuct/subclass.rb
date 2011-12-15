@@ -137,10 +137,10 @@ module Subclass
     each_pair.all?{|name, value|self.class.sufficent? name, value}
   end
 
-  # @return [nil]
+  # @return [self]
   def lock
     @lock = true
-    nil
+    self
   end
   
   def lock?
