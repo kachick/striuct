@@ -235,3 +235,19 @@ class TestStriuctSubclassInstance4 < Test::Unit::TestCase
     assert_equal 9.0, @sth.lambda
   end
 end
+
+class TestStriuctSubclassInstance5 < Test::Unit::TestCase
+  def setup
+    @sth = Sth.new
+  end
+  
+  def test_clone
+    sth2 = @sth.dup
+    @sth.sth = 1
+    assert_equal false, (@sth.sth == sth2.sth)
+    
+    sth2 = @sth.clone
+    @sth.sth = 2
+    assert_equal false, (@sth.sth == sth2.sth)
+  end
+end
