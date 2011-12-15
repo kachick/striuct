@@ -15,7 +15,7 @@ module Eigen
   
   def initialize_copy(org)
     instance_variables.each do |var|
-      instance_variable_set var, instance_variable_get(var).dup
+      instance_variable_set var, instance_variable_get(var).clone
     end
   end
 
