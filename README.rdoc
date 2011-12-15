@@ -5,8 +5,10 @@ http://github.com/kachick/striuct
 == DESCRIPTION
 
 Striuct meanings Strict Struct.
+Safty and handy than Struct.
 
-This container class looks like Struct. And you can use conditions.
+This container class looks like Struct. 
+And you can use conditions and more.
 
 == FEATURES
 
@@ -14,49 +16,59 @@ This container class looks like Struct. And you can use conditions.
 * like Struct API and more
 * pure-ruby
 
-== PLOBLEMS
-
-* usage
-* documentation
-
 == PLAN
 
-* add Subclass macro:
-  safe_level:
-    change check level for accessor name
+* safety define accessor name (Struct+)
 
 == SYNOPSIS
 
 * setup
     require 'striuct'
 
-* basic
-    class User < Striuct.new
+* has Struct's API
+    User = Striuct.new :id, :last_name, :family_name, :address, :age
+
+* macro "member" defined name and conditions
+  these conditions equaly case~when arg
+    class User2 < Striuct.new
       member :id, Integer
       member :last_name, /\A\w+\z/
       member :family_name, /\A\w+\z/
       member :address, /\A((\w+) ?)+\z/
-      member(:age) {|v|(20..140).include? v}
+      member :age, ->age{(20..140).include? age}
     end
 
     # pass
-    user = User.new 128381, 'bar', 'foo', 'Tokyo Japan', 20
+    user = User2.new 128381, 'bar', 'foo', 'Tokyo Japan', 20
 
-    # fail (Exception)
+    # pass
+    user.age = 30
+
+    # fail(Exception)
     user.age = 19
-
-* has API looks standard Struct
-    User2 = Striuct.new :id, :last_name, :family_name, :address, :age
-
-* mix
-    User3 = Striuct.new do
-      member :name, /\A\w+\z/, /\A\w+ \w+\z/
-    end
 
 * But, Ruby's objects always can be destroyed. Use easy checker for this case.
     user.strict? #=> true
     user.last_name.clear
     user.strict? #=> false
+
+* This API is from Struct too
+    User3 = Striuct.new do
+      # equaly case~when *arguments
+      member :name, /\A\w+\z/, /\A\w+ \w+\z/
+    end
+
+* procedure before set
+    class User4 < Striuct.new
+      member :age, /\A\d+\z/, Numeric do |arg|
+        Integer arg
+      end
+    end
+    
+    user4.age = 9 #=> 9(Fixnum)
+    user4.age = 10.1 #=> 10(Fixnum)
+    user4.age = '10' #=> 10(Fixnum)
+
 
 == REQUIREMENTS
 
