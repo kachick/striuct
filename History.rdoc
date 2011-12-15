@@ -1,4 +1,22 @@
+=== 0.0.7 2011-12-16
+
+* modify:
+  * called macro's block to procedure 
+  * public to private Subclass#unlock
+
+* add:
+  * Subclass.define
+  * Subclass.accept?
+  * Subclass.restrict
+  * Subclass#assign?
+
+* fix:
+  * use clone method ( initialize_copy )
+
 === 0.0.6 2011-12-14
+
+* modify:
+  * error type in some methods
 
 * add:
   * Subclass.sufficent?
@@ -11,9 +29,6 @@
 
 * fix:
   * typo
-
-* modify:
-  * error type in some methods
 
 === 0.0.5 2011-12-14
 
