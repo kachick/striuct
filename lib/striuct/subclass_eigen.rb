@@ -180,13 +180,19 @@ module Eigen
     raise TypeError unless name.instance_of? Symbol
     
     unless conditions.empty?
-      raise ArgumentError, 'wrong object for condition' unless conditions.all?{|c|conditionable? c}
-      @conditions[name] = conditions
+      if conditions.all?{|c|conditionable? c}
+        @conditions[name] = conditions
+      else
+        raise ArgumentError, 'wrong object for condition'
+      end
     end
 
     if block_given?
-      raise ArgumentError, "wrong number of block argument #{procedure.arity} for 1" unless procedure.arity == 1
-      @procedures[name] = procedure if block_given?
+      if procedure.arity == 1
+        @procedures[name] = procedure
+      else
+        raise ArgumentError, "wrong number of block argument #{procedure.arity} for 1"
+      end
     end
 
     define_method "#{name}=" do |value|
