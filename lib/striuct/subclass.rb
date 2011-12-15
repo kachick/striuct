@@ -155,8 +155,6 @@ module Subclass
   private
   
   def initialize_copy(org)
-    #~ instance_variables.each do |var|
-    #~ end
     @db = @db.dup
   end
 

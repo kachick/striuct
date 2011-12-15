@@ -236,7 +236,7 @@ class TestStriuctSubclassInstance4 < Test::Unit::TestCase
   end
 end
 
-class TestStriuctSubclassInstance5 < Test::Unit::TestCase
+class TestStriuctCloning < Test::Unit::TestCase
   def setup
     @sth = Sth.new
   end

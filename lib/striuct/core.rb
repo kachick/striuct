@@ -47,8 +47,8 @@ class Striuct
     
     def inherited(subclass)
       subclass.class_eval do
-        include Subclass
         extend Subclass::Eigen
+        include Subclass
       end
     end
   end
