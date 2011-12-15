@@ -15,6 +15,11 @@ module Eigen
       end
     end
   end
+  
+  def initialize_copy(org)
+    @members = @members.clone
+    @conditions = @members.clone
+  end
 
   # @return [instance]
   def new(*values)

@@ -155,7 +155,7 @@ module Subclass
   private
   
   def initialize_copy(org)
-    @db = @db.dup
+    @db = @db.clone
   end
 
   def __get__(name)
