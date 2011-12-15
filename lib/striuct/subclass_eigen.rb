@@ -69,11 +69,10 @@ module Eigen
   alias_method :keys, :members
   
   def has_member?(key)
-    case key
-    when Symbol, String
-      @members.include? key.to_sym
+    if key.instance_of? Symbol
+      @members.include? key
     else
-      false
+      raise TypeError
     end
   end
   
