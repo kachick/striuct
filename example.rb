@@ -35,6 +35,8 @@ require_relative 'lib/striuct'
     
     user3 = User3.new
     p user3
+    user3[0] = nil
+    p user3
 
 
 # * But, Ruby's objects always can be destroyed. Use easy checker for this case.

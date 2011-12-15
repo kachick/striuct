@@ -60,6 +60,12 @@ module Eigen
     @conditions.dup
   end
   
+  def restrict?(name)
+    raise NameError unless member? name
+
+    !@conditions[name].nil?
+  end
+  
   alias_method :keys, :members
   
   def has_member?(key)
@@ -71,8 +77,12 @@ module Eigen
     end
   end
   
+  alias_method :member?, :has_member?
+  alias_method :has_key?, :has_member?
+  alias_method :key?, :has_key?
+  
   def sufficent?(name, value)
-    raise ArgumentError unless member? name
+    raise NameError unless member? name
 
     if conditions = @conditions[name]
       conditions.any?{|condition|condition === value}
@@ -81,9 +91,7 @@ module Eigen
     end
   end
   
-  alias_method :member?, :has_member?
-  alias_method :has_key?, :has_member?
-  alias_method :key?, :has_key?
+  alias_method :accept?, :sufficent?
 
   # @return [self]
   def each_member(&block)
