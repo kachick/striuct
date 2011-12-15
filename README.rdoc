@@ -1,6 +1,7 @@
 = Striuct
 
 http://github.com/kachick/striuct
+https://rubygems.org/gems/striuct
 
 == DESCRIPTION
 
