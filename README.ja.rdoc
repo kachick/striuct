@@ -6,65 +6,80 @@ http://github.com/kachick/striuct
 
 Strict Struct の略です。typoが怖い方は、そのまま StrictStruct でも使えます。
 
-格納するデータが決まってる時等、メソッド呼び出しが効いて名前チェックをかけてくれるStructはHashより気持ちが良いですよね。
-でもStructを使うようなシーンって、メンバ名だけでなく中に入るデータにも「決まり」を付けたいと思うシーンが多くありませんか？
-ノーガードはおっかない、かといって毎回毎回同じような構造体クラス書くのも面倒だー という向き用の Struct です。
+メソッド呼び出しが効いてメンバ名チェックをかけてくれるStructは、Hashより気持ち良く感じる場面も少なくありません。
+でもStructを使う場面って、メンバ名だけでなく中に入るデータにも「チェック」をかけたいと思う事が多くありませんか？
+
+RubyのStructを愛用しているんだけど、こういった部分をなんとかしたいと感じている方へお勧めします。
+
+* ノーガードはおっかない
+* かといって、毎回毎回同じような構造体クラス書くのは面倒だ
+* かといって、型チェックだけかけるようじゃ動的言語のメリットが死ぬ
+* どうせなら、チェックだけじゃなくキャストなりもやらせた上で格納したい
 
 == FEATURES
 
-* メンバ毎に、値格納時のチェック条件を簡単に定義できます。
-  ブロックやlambdaを使えば、型等に収まらないチェックが可能
-* 基本的なAPIはStructっぽく保ちつつ、若干の機能追加をしています。
+* メンバ毎に、caseと同様のチェック条件を簡単に定義できます。
+* lambdaやProcを使うことで、さらに柔軟なチェックも可能です
+* ちょっとした処理を加えた上で格納させる事も可能です。
+* Structの良い操作感を残したまま、機能追加をしています。
 * pure-ruby
-
-== PLOBLEMS
-
-* 薄いドキュメント
-* 汚いテスト
 
 == PLAN
 
-* サブクラスにマクロ safe_level を用意し、これに応じてアクセサ名の安全度をチェックさせたい
+* アクセサ定義時、その名称の安全度をチェックさせた上で定義させたい
+* 特徴的なメソッドだけでも、ドキュメントを整備したい
 
 == SYNOPSIS
 
 * setup
     require 'striuct'
 
+* Structの代替えとしても使えます。
+    User = Striuct.new :id, :last_name, :family_name, :address, :age
+
 * memberマクロの2引数目以降へ渡したオブジェクトを「条件」と認識して === を使った比較を行います。
-  一つも適合する条件がない場合、例外を吐きます。
+  ここで一つも適合する条件がない場合、例外を吐きます。
   またブロックを使うことで、柔軟なチェッカも定義できます。
-    class User < Striuct.new
+    class User2 < Striuct.new
       member :id, Integer
       member :last_name, /\A\w+\z/
       member :family_name, /\A\w+\z/
       member :address, /\A((\w+) ?)+\z/
-      member(:age) {|v|(20..140).include? v}
+      member :age, ->age{(20..140).include? age}
     end
 
     # これはOK
-    user = User.new 128381, 'bar', 'foo', 'Tokyo Japan', 20
+    user = User2.new 128381, 'bar', 'foo', 'Tokyo Japan', 20
 
     # これもOK
     user.age = 30
 
-    # これは駄目
+    # これは駄目(例外)
     user.age = 19
 
-* Structの代替えとしても使えます。
-    User2 = Striuct.new :id, :last_name, :family_name, :address, :age
-
-* Structのように、無名クラスを介さずブロックからサブクラスを作る事も出来ます。
-    User3 = Striuct.new do
-      member :name, /\A\w+\z/, /\A\w+ \w+\z/
-    end
-
-* リンク貼った時どれだけ注意しても、その後参照先のオブジェクトがぶっ壊れる可能性は残ります。
+* リンク貼る時どれだけ注意しても、その後参照先のオブジェクトがぶっ壊れる可能性は残ります。
   致し方無いので、簡単にチェックできるようにしました。
     user.strict? #=> true
     user.last_name.clear
     user.strict? #=> false
 
+* Structのように、無名クラスを介さずブロックからサブクラスを作る事も出来ます。
+    User3 = Striuct.new do
+      # 条件は幾つも付与可能。どれか一つにマッチすれば良いというのはcaseのwhen節と同じです。
+      member :name, /\A\w+\z/, /\A\w+ \w+\z/
+    end
+
+* ブロックを渡しておくと、チェック後一処理を加えた値を格納するように出来ます。
+    class User4 < Striuct.new
+      member :age, /\A\d+\z/, Numeric do |arg|
+        Integer arg
+      end
+    end
+    
+    user4.age = 9 #=> 9(Fixnum)
+    user4.age = 10.1 #=> 10(Fixnum)
+    user4.age = '10' #=> 10(Fixnum)
+  
 
 == REQUIREMENTS
 
