@@ -48,8 +48,9 @@ module Subclass
     "#<#{self.class} (StrictStruct)\n".tap do |s|
       members.each_with_index do |name, idx|
         s << " #{idx.to_s.rjust 3}. #{name}\n"
-        s << "#{' ' * 6}conditions : #{conditions[name].inspect}\n" if self.class.restrict? name
-        s << "#{' ' * 6}value      : #{self[name].inspect}\n" if assign? name
+        s << "#{' ' * 6}assigned  : #{self[name].inspect}\n" if assign? name
+        s << "#{' ' * 6}conditions: #{conditions[name].inspect}\n" if self.class.restrict? name
+        s << "#{' ' * 6}procedure : #{procedures[name].inspect}\n" if procedures[name]
       end
       
       s << "\n>"
@@ -60,7 +61,7 @@ module Subclass
   def to_s
     "#<struct #{self.class}".tap do |s|
       members.each_with_index do |m, idx|
-        s << " [#{idx}, #{m}]=#{self[m]}"
+        s << " #{m}=#{self[m]}"
       end
       
       s << '>'
@@ -69,7 +70,7 @@ module Subclass
 
   delegate_class_methods(
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
-    :size, :conditions
+    :size, :conditions, :procedures
   )
 
   def [](key)
@@ -168,17 +169,25 @@ module Subclass
 
     if self.class.restrict? name
       if self.class.accept? name, value
-        @db[name] = value
+        __set__! name, value
       else
         raise ConditionError, 'deficent value for all conditions'
       end
     else
-      @db[name] = value
+      __set__! name, value
     end
   end
   
   alias_method :assign, :__set__
   public :assign
+  
+  def __set__!(name, value)
+    if procedure = procedures[name]
+      value = procedure.call value
+    end
+    
+    @db[name] = value
+  end
   
   def __subscript__(key)
     case key

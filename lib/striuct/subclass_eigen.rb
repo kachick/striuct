@@ -8,15 +8,15 @@ module Eigen
     
     def extended(mod)
       mod.module_eval do
-        @members = []
-        @conditions = {}
+        @members, @conditions, @procedures = [], {}, {}
       end
     end
   end
   
   def initialize_copy(org)
-    @members = @members.clone
-    @conditions = @members.clone
+    instance_variables.each do |var|
+      instance_variable_set var, instance_variable_get(var).dup
+    end
   end
 
   # @return [instance]
@@ -56,6 +56,11 @@ module Eigen
   # @return [Hash<Symbol=>Array>]
   def conditions
     @conditions.dup
+  end
+
+  # @return [Hash<Symbol=>Proc>]
+  def procedures
+    @procedures.dup
   end
   
   def restrict?(name)
@@ -108,7 +113,7 @@ module Eigen
   
   private
 
-  # @macro define_member
+  # @macro [attach] define_member
   # @return [nil]
   def define_member(name, *conditions, &block)   
     case name
@@ -133,7 +138,7 @@ module Eigen
   alias_method :def_member, :define_member
   alias_method :member, :define_member
 
-  # @macro define_members
+  # @macro [attach] define_members
   # @return [nil]
   def define_members(*names)
     raise ArgumentError, 'wrong number of arguments (0 for 1+)' unless names.length >= 1
@@ -147,7 +152,7 @@ module Eigen
 
   alias_method :def_members, :define_members
 
-  # @macro define_pairs
+  # @macro [attach] define_pairs
   # @return [nil]
   def define_pairs(pairs)
     raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
@@ -161,8 +166,6 @@ module Eigen
   
   alias_method :def_pairs, :define_pairs
 
-  # @macro define_reader
-  # @return [nil]
   def define_reader(key)
     raise TypeError unless key.instance_of? Symbol
     
@@ -173,43 +176,37 @@ module Eigen
     nil
   end
 
-  # @macro define_writer
-  # @return [nil]
-  # @raise [ConditionError] argument unmatch all conditions or block
-  def define_writer(name, *conditions, &block)
+  def define_writer(name, *conditions, &procedure)
     raise TypeError unless name.instance_of? Symbol
-  
-    if conditions.empty?
-      if block_given?
-        define_writer_under_blockcondition name, &block
-      else
-        define_writer_through name
-      end
-    else
-      if block_given?
-        raise ArgumentError, 'unavailable arguments and block'
-      else
-        define_writer_under_conditions(name, *conditions)
-      end
-    end
     
-    nil
-  end
-  
-  def define_writer_through(name)
+    unless conditions.empty?
+      raise ArgumentError, 'wrong object for condition' unless conditions.all?{|c|conditionable? c}
+      @conditions[name] = conditions
+    end
+
+    if block_given?
+      raise ArgumentError, "wrong number of block argument #{procedure.arity} for 1" unless procedure.arity == 1
+      @procedures[name] = procedure if block_given?
+    end
+
     define_method "#{name}=" do |value|
       __set__ name, value
     end
+ 
+    nil
   end
   
-  def define_writer_under_blockcondition(name, &block)
-    @conditions[name] = [ block ]
-    define_writer_through name
-  end
-  
-  def define_writer_under_conditions(name, *conditions)
-    @conditions[name] = conditions
-    define_writer_through name
+  def conditionable?(condition)
+    if condition.respond_to? :===
+      case condition
+      when Proc, Method
+        condition.arity == 1
+      else
+        true
+      end
+    else
+      false
+    end
   end
 
 end

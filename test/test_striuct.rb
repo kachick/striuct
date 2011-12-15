@@ -6,7 +6,7 @@ class User < Striuct.new
   member :last_name, /\A\w+\z/
   member :family_name, /\A\w+\z/
   member :address, /\A((\w+) ?)+\z/
-  member(:age) {|age|(20..140).include? age}
+  member :age, ->age{(20..140).include? age}
 end
 
 
@@ -274,5 +274,32 @@ class TestStriuctCloning < Test::Unit::TestCase
     klass = Sth.clone
     Sth.__send__ :member, :dummy2
     assert_equal false, klass.member?(:dummy)
+  end
+end
+
+class TestStriuctProcedure < Test::Unit::TestCase
+  Sth = Striuct.new do
+    member :age, /\A\d+\z/, Numeric do |arg|
+      Integer arg
+    end
+  end
+  
+  def setup
+    @sth = Sth.new
+    assert_same nil, @sth.age
+  end
+  
+  def test_procedure
+    @sth.age = 10
+    assert_same 10, @sth.age
+    @sth.age = 10.0
+    assert_same 10, @sth.age
+
+    assert_raises Striuct::ConditionError do
+      @sth.age = '10.0'
+    end
+    
+    @sth.age = '10'
+    assert_same 10, @sth.age
   end
 end
