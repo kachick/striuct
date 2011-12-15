@@ -31,6 +31,19 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
     assert_equal false, User.sufficent?(:age, 19)
     assert_equal true, User.sufficent?(:age, 20)
   end
+  
+  def test_restrict?
+    klass = Striuct.new :foo do
+      member :var, //
+      member :hoge
+      member :moge, nil
+    end
+    
+    assert_equal false, klass.restrict?(:foo)
+    assert_equal true, klass.restrict?(:var)
+    assert_equal false, klass.restrict?(:hoge)
+    assert_equal true, klass.restrict?(:moge)
+  end
 end
 
 class TestStriuctSubclassInstance1 < Test::Unit::TestCase
@@ -200,6 +213,8 @@ class TestStriuctSubclassInstance4 < Test::Unit::TestCase
   def setup
     @sth = Sth.new
   end
+  
+
   
   def test_accessor
     @sth.bool = true

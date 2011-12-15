@@ -45,11 +45,11 @@ module Subclass
   
   # @return [String]
   def inspect
-    "#<#{self.class} (StrictStruct)".tap do |s|
+    "#<#{self.class} (StrictStruct)\n".tap do |s|
       members.each_with_index do |name, idx|
-        s << "\n #{idx.to_s.rjust 3}. #{name}\n"
-        s << "#{' ' * 8}conditions : #{conditions[name].inspect}\n"
-        s << "#{' ' * 8}value      : #{self[name].inspect}"
+        s << " #{idx.to_s.rjust 3}. #{name}\n"
+        s << "#{' ' * 6}conditions : #{conditions[name].inspect}\n" if self.class.restrict? name
+        s << "#{' ' * 6}value      : #{self[name].inspect}\n" if assign? name
       end
       
       s << "\n>"
@@ -123,6 +123,10 @@ module Subclass
       end
     end
   end
+  
+  def assign?(name)
+    @db.has_key? name
+  end
 
   def sufficent?(name)
     self.class.__send__(__method__, name, self[name])
@@ -159,10 +163,13 @@ module Subclass
   end
 
   def __get__(name)
+    raise TypeError unless name.instance_of? Symbol
+
     @db[name]
   end
 
   def __set__(name, value)
+    raise TypeError unless name.instance_of? Symbol
     raise LockError if lock?
 
     if member? name
@@ -175,6 +182,9 @@ module Subclass
       @db[name] = value
     end
   end
+  
+  alias_method :assign, :__set__
+  public :assign
   
   def __subscript__(key)
     case key
