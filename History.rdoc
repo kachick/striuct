@@ -7,8 +7,9 @@
 * add:
   * Subclass.define
   * Subclass.accept?
-  * Subclass.restrict
+  * Subclass.restrict?
   * Subclass#assign?
+  * Subclass#assign
 
 * fix:
   * use clone method ( initialize_copy )
