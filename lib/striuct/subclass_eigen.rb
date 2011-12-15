@@ -6,8 +6,8 @@ module Eigen
   class << self
     private
     
-    def extended(mod)
-      mod.module_eval do
+    def extended(klass)
+      klass.class_eval do
         @members, @conditions, @procedures = [], {}, {}
       end
     end
