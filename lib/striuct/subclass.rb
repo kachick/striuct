@@ -211,7 +211,7 @@ module Subclass
   
   def unlock
     @lock = false
-    nil
+    self
   end
 
 end
