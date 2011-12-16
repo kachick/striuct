@@ -195,7 +195,7 @@ class TestStriuctSubclassInstance3 < Test::Unit::TestCase
     end
     
     assert_equal @user.id, 9999
-    assert_same (@user.__send__ :unlock), nil
+    assert_same (@user.__send__ :unlock), @user
     assert_same @user.lock?, false
     @user.id = 100
     assert_equal @user.id, 100
