@@ -11,6 +11,8 @@ end
 
 
 class TestStriuctSubclassEigen < Test::Unit::TestCase
+  User2 = Striuct.new :name, :age
+  
   def test_builder
     klass = Striuct.new
     assert_kind_of Striuct, klass.new
@@ -25,6 +27,22 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
     
     assert_equal klass.members, [:foo, :var]
     assert_equal User.members, [:id, :last_name, :family_name, :address, :age]
+  end
+
+  def test_define
+    user = User2.define{|r|r.age = 1; r.name = ''}
+    assert_same 1, user.age
+    
+    assert_raises Striuct::LockError do
+      user.age = 1
+    end
+    
+    user = User2.define(false){|r|r.age = 1; r.name = ''}
+    assert_same 1, user.age
+    
+    assert_raises RuntimeError do
+      User2.define{|r|r.age = 1}
+    end
   end
   
   def test_sufficent?
@@ -44,23 +62,9 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
     assert_equal false, klass.restrict?(:hoge)
     assert_equal true, klass.restrict?(:moge)
   end
-end
+end  
 
 class TestStriuctSubclassInstance1 < Test::Unit::TestCase
-  def test_constructor
-    user = User.define{|r|r.age = 50}
-    assert_same 50, user.age
-    
-    assert_raises Striuct::LockError do
-      user.age = 40
-    end
-    
-    user = User.define(false){|r|r.age = 51}
-    assert_same 51, user.age
-    user.age = 52
-    assert_same 52, user.age
-  end
-  
   def test_setter
     user = User.new
     user[:last_name] = 'foo'

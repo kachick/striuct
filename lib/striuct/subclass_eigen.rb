@@ -44,7 +44,12 @@ module Eigen
   def define(lock=true)
     new.tap do |instance|
       yield instance
-      instance.lock if lock
+  
+      if each_member.all?{|name|instance.assign? name}
+        instance.lock if lock
+      else
+        raise "not yet finished"
+      end
     end
   end
 
