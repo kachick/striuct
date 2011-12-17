@@ -55,8 +55,8 @@ module Subclass
       members.each_with_index do |name, idx|
         s << " #{idx.to_s.rjust 3}. #{name}\n"
         s << "#{' ' * 6}assigned  : #{self[name].inspect}\n" if assign? name
-        s << "#{' ' * 6}conditions: #{conditions[name].inspect}\n" if self.class.restrict? name
-        s << "#{' ' * 6}procedure : #{procedures[name].inspect}\n" if procedures[name]
+        s << "#{' ' * 6}conditions: #{self.class.conditions[name].inspect}\n" if self.class.restrict? name
+        s << "#{' ' * 6}procedure : #{self.class.procedures[name].inspect}\n" if self.class.procedures[name]
       end
       
       s << "\n>"

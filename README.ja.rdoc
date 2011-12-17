@@ -58,8 +58,8 @@ z. 毎回毎回同じような構造体クラス書くのは面倒だ
     user.name = 'taro yamada'
 
     # これは駄目(例外 Striuct::ConditionError)
-    user.[:id] = 10.0
-    user.[1] = 'Tokyo-to'
+    user[:id] = 10.0
+    user[1] = 'Tokyo-to'
     user.age = 19
     user.name = nil
 
@@ -113,6 +113,10 @@ z. 毎回毎回同じような構造体クラス書くのは面倒だ
       def m
       end
     end  
+
+*  混在利用させたい向きとかに、Structにも同じようなインターフェイスを用意できます。
+  逆に言うと、これを使わない限りは名前空間をあんまし汚しません。
+    require 'striuct/import'
 
 * 他にも幾つか機能追加しています。
 
