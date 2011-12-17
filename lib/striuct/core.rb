@@ -54,5 +54,3 @@ class Striuct
   end
 
 end
-
-StrictStruct = Striuct
