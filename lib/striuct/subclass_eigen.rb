@@ -147,7 +147,7 @@ module Eigen
     end
   end
 
-  # @macro [attach] define_member
+  # @macro [attach] member
   # @return [nil]
   def define_member(name, *conditions, &block)   
     name = convert_cname name
@@ -225,6 +225,8 @@ module Eigen
     end
   end
   
+  # @macro [attach] default
+  # @return [nil]
   def define_default_value(name, value)
     name = convert_cname name
     raise NameError, 'before define member' unless member? name
