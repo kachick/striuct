@@ -8,7 +8,7 @@ module Eigen
     
     def extended(klass)
       klass.class_eval do
-        @members, @conditions, @procedures = [], {}, {}
+        @members, @conditions, @procedures, @defaults = [], {}, {}, {}
       end
     end
   end
@@ -53,6 +53,8 @@ module Eigen
     @members.dup
   end
 
+  alias_method :keys, :members
+
   # @return [Hash<Symbol=>Array>]
   def conditions
     @conditions.dup
@@ -63,37 +65,45 @@ module Eigen
     @procedures.dup
   end
   
-  def restrict?(name)
-    raise NameError unless member? name
-
-    !@conditions[name].nil?
+  # @return [Hash<Symbol=>Object>]
+  def defaults
+    @defaults.dup
   end
-  
-  alias_method :keys, :members
-  
-  def has_member?(key)
-    if key.instance_of? Symbol
-      @members.include? key
-    else
-      raise TypeError
-    end
+
+  def has_member?(name)
+    @members.include? convert_cname(name)
   end
   
   alias_method :member?, :has_member?
   alias_method :has_key?, :has_member?
   alias_method :key?, :has_key?
+
+  def has_condition?(name)
+    raise NameError unless member? name
+
+    !@conditions[name].nil?
+  end
   
+  alias_method :restrict?, :has_condition?
+
   def sufficent?(name, value)
+    name = convert_cname name
     raise NameError unless member? name
 
     if conditions = @conditions[name]
-      conditions.any?{|condition|condition === value}
+      conditions.any?{|c|c === value}
     else
       true
     end
   end
   
   alias_method :accept?, :sufficent?
+  
+  def has_default?(name)
+    raise NameError unless member? name
+
+    @defaults.has_key? name
+  end
 
   # @return [self]
   def each_member(&block)
@@ -111,27 +121,41 @@ module Eigen
   
   alias_method :size, :length
   
+  def cname?(name)
+    convert_cname name
+  rescue Exception
+    false
+  else
+    true
+  end
+  
   private
+  
+  # @return [Symbol]
+  def convert_cname(name)
+    case name
+    when Symbol, String
+      r = name.to_sym
+
+      if r.instance_of? Symbol
+        r
+      else
+        raise 'must not happen'
+      end
+    else
+      raise TypeError
+    end
+  end
 
   # @macro [attach] define_member
   # @return [nil]
   def define_member(name, *conditions, &block)   
-    case name
-    when Symbol
-    when String
-      name = name.to_sym
-    else
-      raise TypeError
-    end
+    name = convert_cname name
+    raise ArgumentError, %Q!already exsist name "#{name}"! if member? name
 
-    unless member? name
-      @members << name
-      define_reader name
-      define_writer(name, *conditions, &block)
-    else
-      raise ArgumentError, %Q!already exsist name "#{name}"!
-    end
-    
+    @members << name
+    define_reader name
+    define_writer(name, *conditions, &block)
     nil
   end
 
@@ -152,32 +176,18 @@ module Eigen
 
   alias_method :def_members, :define_members
 
-  # @macro [attach] define_pairs
-  # @return [nil]
-  def define_pairs(pairs)
-    raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
-
-    pairs.each_pair do |k, v|
-      define_member k, v
-    end
+  def define_reader(name)
+    name = convert_cname name
     
-    nil
-  end
-  
-  alias_method :def_pairs, :define_pairs
-
-  def define_reader(key)
-    raise TypeError unless key.instance_of? Symbol
-    
-    define_method key do
-      __get__ key
+    define_method name do
+      __get__ name
     end
     
     nil
   end
 
   def define_writer(name, *conditions, &procedure)
-    raise TypeError unless name.instance_of? Symbol
+    name = convert_cname name
     
     unless conditions.empty?
       if conditions.all?{|c|conditionable? c}
@@ -214,7 +224,17 @@ module Eigen
       false
     end
   end
+  
+  def define_default_value(name, value)
+    name = convert_cname name
+    raise NameError unless member? name
 
+    @defaults[name] = value
+    nil
+  end
+  
+  alias_method :default, :define_default_value
+  
 end
 
 
