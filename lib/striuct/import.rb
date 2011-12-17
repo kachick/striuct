@@ -45,6 +45,21 @@ module Eigen
   def defaults
     {}
   end
+
+  # @return [instance]
+  def load_pairs(pairs)
+    raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
+
+    new.tap do |r|
+      pairs.each_pair do |name, value|
+        if member? name
+          r[name] = value
+        else
+          raise ArgumentError, " #{name} is not our member"
+        end
+      end
+    end
+  end
   
   def define(lock=false)
     raise ArgumentError unless lock.equal?(false)

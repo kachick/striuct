@@ -20,11 +20,19 @@ class TestStruct < Test::Unit::TestCase
     assert_equal({}, Sth.conditions)
     assert_equal({}, Sth.procedures)
     assert_equal({}, Sth.defaults)
+  
     r = Sth.define{|o|o.age = 'Something'}
     assert_kind_of Sth, r
     assert_equal 'Something', r.age
     assert_equal StrictStruct, Sth2.superclass
     assert_equal Sth.members, Sth2.members
+    
+    r2 = Sth.load_pairs age: 1
+    assert_equal 1, r2.age
+    
+    assert_raises ArgumentError do
+      Sth.load_pairs age: 1, name: 'taro'
+    end
   end
 
   def test_instance_boolean
