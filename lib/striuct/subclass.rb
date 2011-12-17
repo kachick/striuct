@@ -14,7 +14,13 @@ module Subclass
     
     if values.size <= members.size
       values.each_with_index do |v, idx|
-        __set__ members[idx], v
+        self[idx] = v
+      end
+      
+      excess = members.last(members.size - values.size)
+      
+      excess.each do |name|
+        self[name] = self.class.defaults[name] if self.class.has_default? name
       end
     else
       raise ArgumentError, "struct size differs (max: #{members.size})"
@@ -70,7 +76,7 @@ module Subclass
 
   delegate_class_methods(
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
-    :size, :conditions, :procedures
+    :size
   )
 
   def [](key)
@@ -182,7 +188,7 @@ module Subclass
   public :assign
   
   def __set__!(name, value)
-    if procedure = procedures[name]
+    if procedure = self.class.procedures[name]
       value = procedure.call value
     end
     
