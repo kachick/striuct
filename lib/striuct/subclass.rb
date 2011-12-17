@@ -132,6 +132,8 @@ module Subclass
   end
   
   def assign?(name)
+    raise NameError unless member? name
+    
     @db.has_key? name
   end
 
