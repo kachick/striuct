@@ -1,5 +1,5 @@
 require 'rubygems'
-gem 'hoe', '>= 2.1.0'
+gem 'hoe', '>= 2.12.4'
 require 'hoe'
 require 'fileutils'
 
@@ -12,8 +12,6 @@ Hoe.plugin :newgem
 $hoe = Hoe.spec 'striuct' do
   self.developer 'Kenichi Kamiya', 'kachick1+ruby@gmail.com'
   self.rubyforge_name       = self.name # TODO this is default value
-  # self.extra_deps         = [['activesupport','>= 2.0.2']]
-
 end
 
 require 'newgem/tasks'
