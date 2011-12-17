@@ -77,7 +77,7 @@ Handy and safty than Ruby's Standard Struct.
     class User3 < Striuct.new
       member  :lank, Fixnum
       default :lank, 3
-      member  :name, Symbol, String
+      member  :name
     end
     
     user3 = User3.new
