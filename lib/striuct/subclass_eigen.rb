@@ -229,7 +229,7 @@ module Eigen
   # @return [nil]
   def define_default_value(name, value)
     name = convert_cname name
-    raise NameError, 'before define member' unless member? name
+    raise NameError, 'no defined member' unless member? name
     raise ConditionError unless accept? name, value 
   
     @defaults[name] = value
