@@ -1,3 +1,15 @@
+=== 0.0.8 2011-12-18
+
+* modify:
+  * Subclass.define
+  * Subclass.accept?
+
+* add:
+  *
+
+* fix:
+  * 
+
 === 0.0.7 2011-12-16
 
 * modify:

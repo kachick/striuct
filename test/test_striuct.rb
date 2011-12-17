@@ -173,7 +173,7 @@ class TestStriuctSubclassInstance3 < Test::Unit::TestCase
   end
   
   def test_values_at
-    assert_equal @user.values_at(:age, :id), [30, 9999]
+    assert_equal(@user.values_at(4, 0, (2..4)), [30, 9999, 'yamada', 'Tokyo Japan', 30])
   end
 
   def test_hash
