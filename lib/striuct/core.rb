@@ -13,7 +13,8 @@ class Striuct
     alias_method :new_instance, :new
     private :new_instance
     
-    # @return [SubClass]
+    # @param [Symbol, String] *names
+    # @return [Class] extended Striuct::Subclass::Eigen and included Striuct::Subclass (see Struct.new)
     def new(*names, &block)
       # warning for Ruby's Struct.new user
       arg1 = names.first
@@ -30,7 +31,8 @@ class Striuct
       end
     end
 
-    # @return [SubClass]
+    # @param [#each_pair] pairs
+    # @return [Class] extended Striuct::Subclass::Eigen and included Striuct::Subclass (see Striuct.new)
     def load_pairs(pairs, &block)
       raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
 

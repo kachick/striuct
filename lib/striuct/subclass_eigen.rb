@@ -8,23 +8,18 @@ module Eigen
     
     def extended(klass)
       klass.class_eval do
-        @members, @conditions, @procedures, @defaults = [], {}, {}, {}
+        @names, @conditions, @procedures, @defaults = [], {}, {}, {}
       end
     end
   end
   
-  def initialize_copy(org)
-    instance_variables.each do |var|
-      instance_variable_set var, instance_variable_get(var).clone
-    end
-  end
-
-  # @return [instance]
+  # @return [Subclass]
   def new(*values)
     new_instance(*values)
   end
 
-  # @return [instance]
+  # @param [#each_pair] pairs ex: Hash
+  # @return [Subclass]
   def load_pairs(pairs)
     raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
 
@@ -39,9 +34,12 @@ module Eigen
     end
   end
   
-  # @return [instance]
-  # @yieldparam [instance]
+  # @yieldparam [Subclass] instance
+  # @yieldreturn [Subclass] instance
+  # @return [void]
   def define(lock=true)
+    raise ArgumentError 'must with block' unless block_given?
+    
     new.tap do |instance|
       yield instance
   
@@ -55,7 +53,7 @@ module Eigen
 
   # @return [Array<Symbol>]
   def members
-    @members.dup
+    @names.dup
   end
 
   alias_method :keys, :members
@@ -76,7 +74,7 @@ module Eigen
   end
 
   def has_member?(name)
-    @members.include? convert_cname(name)
+    @names.include? convert_cname(name)
   end
   
   alias_method :member?, :has_member?
@@ -91,6 +89,7 @@ module Eigen
   
   alias_method :restrict?, :has_condition?
 
+  # @param [Symbol, String] name
   def sufficent?(name, value)
     name = convert_cname name
     raise NameError unless member? name
@@ -103,29 +102,36 @@ module Eigen
   end
   
   alias_method :accept?, :sufficent?
-  
+
+  # @param [Symbol, String] name
   def has_default?(name)
+    name = convert_cname name
     raise NameError unless member? name
 
     @defaults.has_key? name
   end
-
-  # @return [self]
-  def each_member(&block)
+  
+  # @yield [name] 
+  # @yieldparam [Symbol] name - member's name in own class that sequential under defined
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_name(&block)
     return to_enum(__method__) unless block_given?
-    @members.each(&block)
+    @names.each(&block)
     self
   end
   
-  alias_method :each_key, :each_member
+  alias_method :each_member, :each_name
+  alias_method :each_key, :each_name
 
   # @return [Integer]
   def length
-    @members.length
+    @names.length
   end
   
   alias_method :size, :length
-  
+
+  # @param [Object] name
   def cname?(name)
     convert_cname name
   rescue Exception
@@ -134,6 +140,7 @@ module Eigen
     true
   end
 
+  # @param [Object] condition
   def conditionable?(condition)
     if condition.respond_to? :===
       case condition
@@ -148,6 +155,12 @@ module Eigen
   end
   
   private
+  
+  def initialize_copy(org)
+    instance_variables.each do |var|
+      instance_variable_set var, instance_variable_get(var).clone
+    end
+  end
   
   # @return [Symbol]
   def convert_cname(name)
@@ -171,7 +184,7 @@ module Eigen
     name = convert_cname name
     raise ArgumentError, %Q!already exsist name "#{name}"! if member? name
 
-    @members << name
+    @names << name
     define_reader name
     define_writer(name, *conditions, &block)
     nil
