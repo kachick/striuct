@@ -4,6 +4,7 @@ require File.dirname(__FILE__) + '/test_helper_import.rb'
 
 class TestStriuctStructExtention < Test::Unit::TestCase
   Sth = Struct.new :age
+  Sth2 = Sth.to_strict
 
   def test_eigen_boolean
     assert_equal true, Sth.member?(:age)
@@ -22,6 +23,8 @@ class TestStriuctStructExtention < Test::Unit::TestCase
     r = Sth.define{|o|o.age = 'Something'}
     assert_kind_of Sth, r
     assert_equal 'Something', r.age
+    assert_equal StrictStruct, Sth2.superclass
+    assert_equal Sth.members, Sth2.members
   end
 
   def test_instance_boolean
