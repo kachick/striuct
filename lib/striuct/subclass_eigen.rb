@@ -128,6 +128,19 @@ module Eigen
   else
     true
   end
+
+  def conditionable?(condition)
+    if condition.respond_to? :===
+      case condition
+      when Proc, Method
+        condition.arity == 1
+      else
+        true
+      end
+    else
+      false
+    end
+  end
   
   private
   
@@ -210,19 +223,6 @@ module Eigen
     end
  
     nil
-  end
-  
-  def conditionable?(condition)
-    if condition.respond_to? :===
-      case condition
-      when Proc, Method
-        condition.arity == 1
-      else
-        true
-      end
-    else
-      false
-    end
   end
   
   # @macro [attach] default
