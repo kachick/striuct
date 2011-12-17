@@ -2,7 +2,7 @@ $VERBOSE = true
 require File.dirname(__FILE__) + '/test_helper_import.rb'
 
 
-class TestStriuctStructExtention < Test::Unit::TestCase
+class TestStruct < Test::Unit::TestCase
   Sth = Struct.new :age
   Sth2 = Sth.to_strict
 
