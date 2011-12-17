@@ -2,6 +2,7 @@
 
 * http://github.com/kachick/striuct
 * https://rubygems.org/gems/striuct
+* http://rubyforge.org/projects/striuct/
 
 == DESCRIPTION
 
@@ -22,7 +23,7 @@ RubyのStructを愛用しているんだけど、こういった部分をなん�
 
 * メンバ毎に、参照条件を簡単に定義できます。
 * 型チェックではなく式チェックなので、動的言語の良さを殺しません。
-* Proc(lambda), Method等 を使うことで、さらに柔軟なチェックが可能です
+* Proc(lambda)やMethod等 を使うことで、さらに柔軟なチェックが可能です
 * 参照前に、ちょっとした処理を加える事も可能です。
 * Structの心地よい操作感を残したまま機能追加をしています。
 * 既存クラスやメソッドの上書き等はしない、控えめな名前空間
@@ -37,52 +38,84 @@ RubyのStructを愛用しているんだけど、こういった部分をなん�
 * setup
     require 'striuct'
 
-* memberマクロの2引数目以降へ渡したオブジェクトを「条件」と認識して === を使った比較を行います。
-  ここで一つも適合する条件がない場合、例外(Striuct::ConditionError)を吐きます。
-  またブロックを使うことで、柔軟なチェッカも定義できます。
+* Structには無い機能として、memberというクラスマクロを用意しました。
+  引数1にメンバ名、2引数目以降に参照条件を渡して下さい。caseのwhen節と同じ感覚で使えます。
+  (定義順通りにindexが振られます。)
     class User < Striuct.new
       member :id, Integer
-      member :last_name, /\A\w+\z/
-      member :family_name, /\A\w+\z/
       member :address, /\A((\w+) ?)+\z/
-      member :age, ->age{(20..140).include? age}
-    end
-
-    # これはOK
-    user = User2.new 128381, 'bar', 'foo', 'Tokyo Japan', 20
-
-    # これもOK
-    user.age = 30
-
-    # これは駄目(例外)
-    user.age = 19
-
-* リンク貼る時どれだけ注意しても、その後参照先のオブジェクトがぶっ壊れる可能性は残ります。
-  致し方無いので、簡単にチェックできるようにしました。
-    user.strict? #=> true
-    user.last_name.clear
-    user.strict? #=> false
-
-* Structの代替えとしても使えます。
-    User = Striuct.new :id, :last_name, :family_name, :address, :age
-
-* Structのように、無名クラスを介さずブロックからサブクラスを作る事も出来ます。
-    User3 = Striuct.new do
-      # 条件は幾つも付与可能。どれか一つにマッチすれば良いというのはcaseのwhen節と同じです。
+      member :age, (20..140)
       member :name, /\A\w+\z/, /\A\w+ \w+\z/
     end
 
-* ブロックを渡しておくと、チェック後一処理を加えた値を格納するように出来ます。
-    class User4 < Striuct.new
+    # これはOK
+    user = User.new 128381, 'Tokyo Japan', 20
+
+    # これもOK
+    user.age = 30
+    user.name = 'taro yamada'
+
+    # これは駄目(例外 Striuct::ConditionError)
+    user.[:id] = 10.0
+    user.[1] = 'Tokyo-to'
+    user.age = 19
+    user.name = nil
+
+* 単純な例としてはこんな感じですが、更に細かいチェッカが必要であれば関数的オブジェクトを使って下さい。
+  この時Proc(lambda)を自身のコンテキストで評価する為、Methodより使うシーンは多いでしょう。
+  
+  class Game < Striuct
+    member :monsters, ->monsters{[monsters - characters].empty?}
+    member :characters, Array
+  end
+ 
+* リンク貼る時どれだけ注意しても、その後参照先のオブジェクトがぶっ壊れる可能性は残りますよね。
+  これは致し方無いと思うので、チェックだけでも簡単にできるようにしています。
+    user.strict? #=> true
+    user.address.clear
+    user.strict? #=> false
+
+* 更に細かい用途ですが、memberマクロへブロックを渡しておくと、チェック後一処理を加えた値を格納するように出来ます。
+    class User2 < Striuct.new
       member :age, /\A\d+\z/, Numeric do |arg|
         Integer arg
       end
     end
     
-    user4.age = 9 #=> 9(Fixnum)
-    user4.age = 10.1 #=> 10(Fixnum)
-    user4.age = '10' #=> 10(Fixnum)
-  
+    user2 = User2.new
+    user2.age = 9 #=> 9(Fixnum)
+    user2.age = 10.1 #=> 10(Fixnum)
+    user2.age = '10' #=> 10(Fixnum)
+
+* Structだと標準値は全て nil になってしまいますが、これもクラスマクロで定義できるようにしました。
+    class User3 < Striuct.new
+      member  :lank, Fixnum
+      default :lank, 3
+      member  :name, Symbol, String
+    end
+    
+    user3 = User3.new
+    user3.lank #=> 3
+    
+   「意図的にnilを定義する」事もありますよね
+   初期nilとの判別用メソッドを追加しました。
+   
+   user3.name  #=> nil
+   user3.assign? :name #=> false
+   user3.name = nil
+   user3.assign? :name #=> true
+
+* Structの良さは無くしたくないですよね
+    Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age
+
+    Sth2 = Striuct.new do
+      def m
+      end
+    end  
+
+* 他にも幾つか機能追加しています。
+
+* このあともうちょっと増える予定です。
 
 == REQUIREMENTS
 
