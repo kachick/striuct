@@ -32,6 +32,24 @@ class Striuct
       def cname?(name)
         [Symbol, String].any?{|klass|name.instance_of? klass}
       end
+      
+      def conditions
+        {}
+      end
+      
+      def procedures
+        {}
+      end
+      
+      def defaults
+        {}
+      end
+      
+      def define(lock=false)
+        raise ArgumentError unless lock.equal?(false)
+  
+        new.tap{|instance|yield instance}
+      end
     end
     
     def assign?(name)
