@@ -3,12 +3,15 @@
 * modify:
   * Subclass.define
   * Subclass.accept?
+  * functional checker's action:
+    Proc: context to instance
+    Method: === to call
 
 * add:
-  *
+  * Subclass.default
 
 * fix:
-  * 
+  * Subclass#values_at
 
 === 0.0.7 2011-12-16
 
