@@ -14,7 +14,16 @@ class TestStriuctStructExtention < Test::Unit::TestCase
     assert_equal true, Sth.cname?(:age)
     assert_equal false, Sth.cname?(Object.new)
   end
-  
+
+  def test_eigen_actions
+    assert_equal({}, Sth.conditions)
+    assert_equal({}, Sth.procedures)
+    assert_equal({}, Sth.defaults)
+    r = Sth.define{|o|o.age = 'Something'}
+    assert_kind_of Sth, r
+    assert_equal 'Something', r.age
+  end
+
   def test_instance_boolean
     sth = Sth.new
     assert_equal false, sth.strict?
