@@ -90,12 +90,23 @@ module Eigen
   alias_method :restrict?, :has_condition?
 
   # @param [Symbol, String] name
-  def sufficent?(name, value)
+  # @param [Object] value
+  # @param [Object] caller - normaly expected own instance, when block condition I have
+  def sufficent?(name, value, caller=self)
     name = convert_cname name
     raise NameError unless member? name
 
     if conditions = @conditions[name]
-      conditions.any?{|c|c === value}
+      conditions.any?{|condition|
+        case condition
+        when Proc
+          caller.instance_exec value, &condition
+        when Method
+          condition.call value
+        else
+          condition === value
+        end
+      }
     else
       true
     end
@@ -144,7 +155,7 @@ module Eigen
   def conditionable?(condition)
     if condition.respond_to? :===
       case condition
-      when Proc, Method
+      when Proc
         condition.arity == 1
       else
         true
