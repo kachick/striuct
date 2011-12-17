@@ -303,3 +303,32 @@ class TestStriuctProcedure < Test::Unit::TestCase
     assert_same 10, @sth.age
   end
 end
+
+class TestStriuctDefaultValue < Test::Unit::TestCase
+  Sth = Striuct.new do
+    member :lank, Integer
+    default :lank, 1
+  end
+  
+  def test_default
+    sth = Sth.new 2
+    assert_equal 2, sth.lank
+    sth = Sth.new
+    assert_equal 1, sth.lank
+  end
+  
+  def test_define_default
+    assert_raises NameError do
+      Sth.class_eval do
+        default :anything, 10
+      end
+    end
+        
+    assert_raises Striuct::ConditionError do
+      Sth.class_eval do
+        member :lank2, Integer
+        default :lank2, '10'
+      end
+    end
+  end
+end
