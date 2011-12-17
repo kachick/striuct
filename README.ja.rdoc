@@ -2,7 +2,7 @@
 
 * http://github.com/kachick/striuct
 * https://rubygems.org/gems/striuct
-* http://rubyforge.org/projects/striuct/
+* http://rubyforge.org/projects/striuct
 
 == DESCRIPTION
 
