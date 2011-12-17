@@ -155,7 +155,7 @@ module Eigen
   def conditionable?(condition)
     if condition.respond_to? :===
       case condition
-      when Proc
+      when Proc, Method
         condition.arity == 1
       else
         true
