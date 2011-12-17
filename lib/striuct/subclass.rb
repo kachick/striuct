@@ -78,26 +78,35 @@ module Subclass
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
     :size
   )
-
+  
+  # @param [Symbol, String, Fixnum] key
   def [](key)
     __subscript__(key){|name|__get__ name}
   end
   
-  # @return [value]
+  # @param [Symbol, String, Fixnum] key
+  # @param [Object] value
   def []=(key, value)
     __subscript__(key){|name|__set__ name, value}
   end
 
-  # @return [self]
-  def each_member
+  # @yield [name] 
+  # @yieldparam [Symbol] name - member's name in own class that sequential under defined
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_name
     return to_enum(__method__) unless block_given?
-    self.class.each_member{|member|yield member}
+    self.class.each_name{|name|yield name}
     self
   end
-  
-  alias_method :each_key, :each_member
 
-  # @return [self]
+  alias_method :each_member, :each_name
+  alias_method :each_key, :each_name
+
+  # @yield [value]
+  # @yieldparam [Object] value - that is holded self and sequential (see #each_name)
+  # @yieldreturn [self]
+  # @return [Enumerator]
   def each_value
     return to_enum(__method__) unless block_given?
     each_member{|member|yield self[member]}
@@ -105,10 +114,14 @@ module Subclass
   
   alias_method :each, :each_value
 
-  # @return [self]
+  # @yield [name, value]
+  # @yieldparam [Symbol] name (see #each_name)
+  # @yieldparam [Object] value (see #each_value)
+  # @yieldreturn [self]
+  # @return [Enumerator]
   def each_pair
     return to_enum(__method__) unless block_given?
-    each_member{|member|yield member, self[member]}
+    each_name{|name|yield name, self[name]}
   end
 
   # @return [Array]
@@ -130,13 +143,15 @@ module Subclass
       end
     end
   end
-  
+
+  # @param [Symbol, String] name
   def assign?(name)
     raise NameError unless member? name
     
     @db.has_key? name
   end
 
+  # @param [Symbol, String] name
   def sufficent?(name)
     self.class.__send__(__method__, name, self[name])
   end
