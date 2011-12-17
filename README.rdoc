@@ -24,6 +24,9 @@ Handy and safty than Ruby's Standard Struct.
 
 == SYNOPSIS
 
+* setup
+    require 'striuct'
+
 * Macro "member" provides one of Struct+ interfaces for condtions and a procedure.
     class User < Striuct.new
       member :id, Integer
@@ -40,8 +43,8 @@ Handy and safty than Ruby's Standard Struct.
     user.name = 'taro yamada'
 
     # fail (Exception  Striuct::ConditionError)
-    user.[:id] = 10.0
-    user.[1] = 'Tokyo-to'
+    user[:id] = 10.0
+    user[1] = 'Tokyo-to'
     user.age = 19
     user.name = nil
 
@@ -92,7 +95,10 @@ Handy and safty than Ruby's Standard Struct.
     Sth2 = Striuct.new do
       def m
       end
-    end  
+    end
+
+* taint namespaces when you hope to Standard Struct has same methods
+    require 'striuct/import'
 
 * and more added
 
