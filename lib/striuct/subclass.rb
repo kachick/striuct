@@ -220,7 +220,7 @@ module Subclass
   
   def __set__!(name, value)
     if procedure = self.class.procedures[name]
-      value = procedure.call value
+      value = instance_exec value, &procedure
     end
     
     @db[name] = value
