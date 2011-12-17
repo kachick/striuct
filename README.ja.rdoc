@@ -92,7 +92,7 @@ z. 毎回毎回同じような構造体クラス書くのは面倒だ
     class User3 < Striuct.new
       member  :lank, Fixnum
       default :lank, 3
-      member  :name, Symbol, String
+      member  :name
     end
     
     user3 = User3.new
