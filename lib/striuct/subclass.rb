@@ -162,7 +162,7 @@ module Subclass
   private
   
   def initialize_copy(org)
-    @db = @db.clone
+    @db, @lock = @db.clone, false
   end
 
   def __get__(name)
