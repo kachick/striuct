@@ -2,73 +2,101 @@
 
 * http://github.com/kachick/striuct
 * https://rubygems.org/gems/striuct
+* http://rubyforge.org/projects/striuct/
 
 == DESCRIPTION
 
 Striuct meanings Strict Struct.
-Safty and handy than Struct.
-
-This container class looks like Struct. 
-And you can use conditions and more.
+Handy and safty than Ruby's Standard Struct.
 
 == FEATURES
 
-* you can use conditions for each member
-* like Struct API and more
-* pure-ruby
+* Auto check the link to objects that match defined condtions
+* It is not only Type Check. Flexible Checker from expressions.
+* After check, you can add one-step for set value (call "procedure" here).
+* You can set a Default Value.
+* Base API looks like Ruby's Standard Struct
+* pure-ruby and not taint your name-space
 
 == PLAN
 
-* safety define accessor name (Struct+)
+* https://github.com/kachick/striuct/wiki/Plan
 
 == SYNOPSIS
 
-* setup
-    require 'striuct'
-
-* has Struct's API
-    User = Striuct.new :id, :last_name, :family_name, :address, :age
-
-* macro "member" defined name and conditions
-  these conditions equaly case~when arg
-    class User2 < Striuct.new
+* Macro "member" provides one of Struct+ interfaces for condtions and a procedure.
+    class User < Striuct.new
       member :id, Integer
-      member :last_name, /\A\w+\z/
-      member :family_name, /\A\w+\z/
       member :address, /\A((\w+) ?)+\z/
-      member :age, ->age{(20..140).include? age}
-    end
-
-    # pass
-    user = User2.new 128381, 'bar', 'foo', 'Tokyo Japan', 20
-
-    # pass
-    user.age = 30
-
-    # fail(Exception)
-    user.age = 19
-
-* But, Ruby's objects always can be destroyed. Use easy checker for this case.
-    user.strict? #=> true
-    user.last_name.clear
-    user.strict? #=> false
-
-* This API is from Struct too
-    User3 = Striuct.new do
-      # equaly case~when *arguments
+      member :age, (20..140)
       member :name, /\A\w+\z/, /\A\w+ \w+\z/
     end
 
-* procedure before set
-    class User4 < Striuct.new
+    # pass
+    user = User.new 128381, 'Tokyo Japan', 20
+
+    # pass
+    user.age = 30
+    user.name = 'taro yamada'
+
+    # fail (Exception  Striuct::ConditionError)
+    user.[:id] = 10.0
+    user.[1] = 'Tokyo-to'
+    user.age = 19
+    user.name = nil
+
+* more detail checker do you need, you can use functional object here.
+  and Proc(lambda) run self's context
+    class Game < Striuct
+      member :monsters, ->monsters{[monsters - characters].empty?}
+      member :characters, Array
+    end
+ 
+* but, link to object is able to clash
+  use easy checker this case
+    user.strict? #=> true
+    user.address.clear
+    user.strict? #=> false
+
+* procedure for cast case
+    class User2 < Striuct.new
       member :age, /\A\d+\z/, Numeric do |arg|
         Integer arg
       end
     end
     
-    user4.age = 9 #=> 9(Fixnum)
-    user4.age = 10.1 #=> 10(Fixnum)
-    user4.age = '10' #=> 10(Fixnum)
+    user2 = User2.new
+    user2.age = 9 #=> 9(Fixnum)
+    user2.age = 10.1 #=> 10(Fixnum)
+    user2.age = '10' #=> 10(Fixnum)
+
+* use default value
+    class User3 < Striuct.new
+      member  :lank, Fixnum
+      default :lank, 3
+      member  :name, Symbol, String
+    end
+    
+    user3 = User3.new
+    user3.lank #=> 3
+    
+# Standard Struct always define "nil is default". ...realy?
+   user3.name  #=> nil
+   user3.assign? :name #=> false
+   user3.name = nil
+   user3.assign? :name #=> true
+
+* and keeping Struct's good interface
+    Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age
+
+    Sth2 = Striuct.new do
+      def m
+      end
+    end  
+
+* and more added
+
+* and adding
 
 
 == REQUIREMENTS
