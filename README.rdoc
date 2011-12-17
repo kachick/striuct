@@ -2,7 +2,7 @@
 
 * http://github.com/kachick/striuct
 * https://rubygems.org/gems/striuct
-* http://rubyforge.org/projects/striuct/
+* http://rubyforge.org/projects/striuct
 
 == DESCRIPTION
 
@@ -83,7 +83,7 @@ Handy and safty than Ruby's Standard Struct.
     user3 = User3.new
     user3.lank #=> 3
     
-# Standard Struct always define "nil is default". ...realy?
+* Standard Struct always define "nil is default". ...realy?
    user3.name  #=> nil
    user3.assign? :name #=> false
    user3.name = nil
