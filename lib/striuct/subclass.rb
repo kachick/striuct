@@ -135,16 +135,16 @@ module Subclass
   
   alias_method :to_a, :values
 
-  # @param [Fixnum, Range] *values
+  # @param [Fixnum, Range] *keys
   # @return [Array]
-  def values_at(*members)
+  def values_at(*keys)
     [].tap do |r|
-      members.each do |member|
-        case member
+      keys.each do |key|
+        case key
         when Fixnum
-          r << self[member]
+          r << self[key]
         when Range
-          member.each do |n|
+          key.each do |n|
             r << self[n]
           end
         else
