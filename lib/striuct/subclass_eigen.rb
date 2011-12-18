@@ -38,7 +38,7 @@ module Eigen
   # @yieldreturn [Subclass] instance
   # @return [void]
   def define(lock=true)
-    raise ArgumentError 'must with block' unless block_given?
+    raise ArgumentError, 'must with block' unless block_given?
     
     new.tap do |instance|
       yield instance
