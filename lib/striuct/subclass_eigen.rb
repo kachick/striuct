@@ -191,13 +191,13 @@ module Eigen
 
   # @macro [attach] member
   # @return [nil]
-  def define_member(name, *conditions, &block)   
+  def define_member(name, *conditions, &procedure)   
     name = convert_cname name
     raise ArgumentError, %Q!already exsist name "#{name}"! if member? name
 
     @names << name
     define_reader name
-    define_writer(name, *conditions, &block)
+    define_writer(name, *conditions, &procedure)
     nil
   end
 
