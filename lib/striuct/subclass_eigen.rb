@@ -193,7 +193,7 @@ module Eigen
   # @return [nil]
   def define_member(name, *conditions, &procedure)   
     name = convert_cname name
-    raise ArgumentError, %Q!already exsist name "#{name}"! if member? name
+    raise ArgumentError, %Q!already exist name "#{name}"! if member? name
 
     @names << name
     define_reader name
