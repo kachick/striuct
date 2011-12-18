@@ -65,7 +65,7 @@ z. 毎回毎回同じような構造体クラス書くのは面倒だ
 
 * 単純な例としてはこんな感じですが、更に細かいチェッカが必要であれば関数的オブジェクトを使って下さい。
   この時Proc(lambda)を自身のコンテキストで評価する為、Methodより使うシーンが多いと思います。
-    class Game < Striuct.new
+    class GameDB < Striuct.new
       member :monsters, ->monsters{[monsters - characters].empty?}
       member :characters, Array
     end

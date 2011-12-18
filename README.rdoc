@@ -51,7 +51,7 @@ Handy and safty than Ruby's Standard Struct.
 
 * more detail checker do you need, you can use functional object here.
   and Proc(lambda) run self's context
-    class Game < Striuct
+    class GameDB < Striuct.new
       member :monsters, ->monsters{[monsters - characters].empty?}
       member :characters, Array
     end
