@@ -76,10 +76,16 @@ z. 毎回毎回同じような構造体クラス書くのは面倒だ
     user.address.clear
     user.strict? #=> false
 
-* 更に細かい用途ですが、memberマクロへブロックを渡しておくと、チェック後一処理を加えた値を格納するように出来ます。
+* 更に細かい用途ですが、memberマクロへブロックを渡しておくと、チェック後一処理を加えた値を参照するように出来ます。
     class User2 < Striuct.new
-      member :age, /\A\d+\z/, Numeric do |arg|
-        Integer arg
+      # 数字っぽければIntegerへ変換してから
+      member :age, /\A\d+\z/, Numeric do |v|
+        Integer v
+      end
+      
+      # Stringっぽさが強い時だけ、Symbolに変換。
+      member :name, ->v{v.respond_to? :to_str} do |v|
+        v.to_str.to_sym
       end
     end
     
@@ -87,13 +93,6 @@ z. 毎回毎回同じような構造体クラス書くのは面倒だ
     user2.age = 9 #=> 9(Fixnum)
     user2.age = 10.1 #=> 10(Fixnum)
     user2.age = '10' #=> 10(Fixnum)
-    
-  Stringっぽさが強い時だけ、Stringにした上で格納。他は弾きたいという例です。
-    class SthString < Striuct.new
-      member :name, ->v{v.respond_to? :to_str} do |v|
-        v.to_str
-      end
-    end
 
 * Structだと標準値は全て nil になってしまいますが、これもクラスマクロで定義できるようにしました。
     class User3 < Striuct.new
@@ -128,6 +127,9 @@ z. 毎回毎回同じような構造体クラス書くのは面倒だ
 * 他にも幾つか機能追加しています。
 
 * このあともうちょっと増える予定です。
+
+* 早わかり
+  https://github.com/kachick/striuct/wiki/EasyGuide
 
 == REQUIREMENTS
 
