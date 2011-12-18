@@ -65,7 +65,7 @@ z. 毎回毎回同じような構造体クラス書くのは面倒だ
 
 * 単純な例としてはこんな感じですが、更に細かいチェッカが必要であれば関数的オブジェクトを使って下さい。
   この時Proc(lambda)を自身のコンテキストで評価する為、Methodより使うシーンが多いと思います。
-    class Game < Striuct
+    class Game < Striuct.new
       member :monsters, ->monsters{[monsters - characters].empty?}
       member :characters, Array
     end
@@ -87,6 +87,13 @@ z. 毎回毎回同じような構造体クラス書くのは面倒だ
     user2.age = 9 #=> 9(Fixnum)
     user2.age = 10.1 #=> 10(Fixnum)
     user2.age = '10' #=> 10(Fixnum)
+    
+  Stringっぽさが強い時だけ、Stringにした上で格納。他は弾きたいという例です。
+    class SthString < Striuct.new
+      member :name, ->v{v.respond_to? :to_str} do |v|
+        v.to_str
+      end
+    end
 
 * Structだと標準値は全て nil になってしまいますが、これもクラスマクロで定義できるようにしました。
     class User3 < Striuct.new
