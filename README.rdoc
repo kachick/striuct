@@ -11,9 +11,9 @@ Handy and safty than Ruby's Standard Struct.
 
 == FEATURES
 
-* Auto check the link to objects that match defined condtions
-* It is not only Type Check. Flexible Checker from expressions.
-* After check, you can add one-step for set value (call "procedure" here).
+* Run automated checks matching any condtions when link a object.
+* It is not only Type Check. This Flexible Checker from your expressions.
+* After check, you can add one-step before set value (call "procedure" at here).
 * You can set a Default Value.
 * Base API looks like Ruby's Standard Struct
 * pure-ruby and not taint your name-space
@@ -27,7 +27,8 @@ Handy and safty than Ruby's Standard Struct.
 * setup
     require 'striuct'
 
-* Macro "member" provides one of Struct+ interfaces for condtions and a procedure.
+* Macro "member" provides one of from Struct+ interfaces.
+  It checks under conditions when change to link other.
     class User < Striuct.new
       member :id, Integer
       member :address, /\A((\w+) ?)+\z/
@@ -54,14 +55,8 @@ Handy and safty than Ruby's Standard Struct.
       member :monsters, ->monsters{[monsters - characters].empty?}
       member :characters, Array
     end
- 
-* but, link to object is able to clash
-  use easy checker this case
-    user.strict? #=> true
-    user.address.clear
-    user.strict? #=> false
 
-* procedure for cast case
+* and procedure for cast case
     class User2 < Striuct.new
       member :age, /\A\d+\z/, Numeric do |arg|
         Integer arg
@@ -72,6 +67,12 @@ Handy and safty than Ruby's Standard Struct.
     user2.age = 9 #=> 9(Fixnum)
     user2.age = 10.1 #=> 10(Fixnum)
     user2.age = '10' #=> 10(Fixnum)
+
+* but, linked objects are able to clash
+  use easy checker this case
+    user.strict? #=> true
+    user.address.clear
+    user.strict? #=> false
 
 * use default value
     class User3 < Striuct.new
@@ -89,7 +90,7 @@ Handy and safty than Ruby's Standard Struct.
    user3.name = nil
    user3.assign? :name #=> true
 
-* and keeping Struct's good interface
+* Of course, keeping Struct's good interface
     Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age
 
     Sth2 = Striuct.new do
@@ -97,12 +98,15 @@ Handy and safty than Ruby's Standard Struct.
       end
     end
 
-* taint namespaces when you hope to Standard Struct has same methods
+* Here, not taint your name-space. But, you hope Standard Struct must have same interface. And use below extension.
     require 'striuct/import'
 
 * and more added
 
 * and adding
+
+* EasyGuide (in Japanese)
+  https://github.com/kachick/striuct/wiki/EasyGuide
 
 
 == REQUIREMENTS
