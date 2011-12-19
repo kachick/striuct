@@ -143,6 +143,16 @@ class TestStriuctSubclassInstance3 < Test::Unit::TestCase
     @user = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
     @user2 = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
   end
+  
+  def test_to_s
+    /\b(taro)\b/ =~ @user.to_s
+    assert_equal 'taro', $1
+  end
+
+  def test_inspect
+    /\b(taro)\b/ =~ @user.inspect
+    assert_equal 'taro', $1
+  end
 
   def test_members
     assert_equal @user.members, [:id, :last_name, :family_name, :address, :age]

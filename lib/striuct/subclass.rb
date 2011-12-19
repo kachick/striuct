@@ -12,18 +12,18 @@ module Subclass
   def initialize(*values)
     @db, @lock = {}, false
     
-    if values.size <= members.size
+    if values.size <= size
       values.each_with_index do |v, idx|
         self[idx] = v
       end
       
-      excess = members.last(members.size - values.size)
+      excess = members.last(size - values.size)
       
       excess.each do |name|
         self[name] = self.class.defaults[name] if self.class.has_default? name
       end
     else
-      raise ArgumentError, "struct size differs (max: #{members.size})"
+      raise ArgumentError, "struct size differs (max: #{size})"
     end
   end
   
@@ -51,15 +51,12 @@ module Subclass
   
   # @return [String]
   def inspect
-    "#<#{self.class} (StrictStruct)\n".tap do |s|
+    "#<#{self.class} (StrictStruct)".tap do |s|
       members.each_with_index do |name, idx|
-        s << " #{idx.to_s.rjust 3}. #{name}\n"
-        s << "#{' ' * 6}assigned  : #{self[name].inspect}\n" if assign? name
-        s << "#{' ' * 6}conditions: #{conditions[name].inspect}\n" if self.class.restrict? name
-        s << "#{' ' * 6}procedure : #{procedures[name].inspect}\n" if procedures[name]
+        s << " #{idx}.#{name}: #{self[name].inspect}"
       end
       
-      s << "\n>"
+      s << ">\n"
     end
   end
 
@@ -76,8 +73,10 @@ module Subclass
 
   delegate_class_methods(
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
-    :size
+    :size, :convert_cname, :restrict?
   )
+  
+  private :convert_cname
   
   # @param [Symbol, String, Fixnum] key
   def [](key)
@@ -214,7 +213,7 @@ module Subclass
     raise NameError unless member? name
     raise LockError if lock?
 
-    if self.class.restrict? name
+    if restrict? name
       if accept? name, value
         __set__! name, value
       else
@@ -239,7 +238,7 @@ module Subclass
   def __subscript__(key)
     case key
     when Symbol, String
-      name = key.to_sym
+      name = convert_cname key
       if member? name
         yield name
       else
