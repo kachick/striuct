@@ -73,7 +73,7 @@ module Subclass
 
   delegate_class_methods(
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
-    :size, :convert_cname, :restrict?, :has_default?, :default_for
+    :size, :convert_cname, :restrict?, :has_default?, :default_for, :names
   )
   
   private :convert_cname
@@ -155,6 +155,7 @@ module Subclass
 
   # @param [Symbol, String] name
   def assign?(name)
+    name = convert_cname name
     raise NameError unless member? name
     
     @db.has_key? name
@@ -193,12 +194,14 @@ module Subclass
   end
 
   def __get__(name)
+    name = convert_cname name
     raise NameError unless member? name
 
     @db[name]
   end
 
   def __set__(name, value)
+    name = convert_cname name
     raise NameError unless member? name
     raise LockError if lock?
 
@@ -217,6 +220,7 @@ module Subclass
   public :assign
   
   def __set__!(name, value)
+    name = convert_cname name
     if procedure = self.class.procedures[name]
       value = instance_exec value, &procedure
     end
