@@ -202,11 +202,17 @@ class TestStriuctSubclassInstance3 < Test::Unit::TestCase
     assert_same @user.secure?, false
     assert_same @user.lock, @user
     assert_same @user.lock?, true
-    assert_same @user.secure?, true
+    assert_same @user.secure?, false
 
     assert_raises Striuct::LockError do
       @user.id = 100
     end
+    
+    User.lock
+    
+    assert_same @user.secure?, true
+    
+    User.__send__ :unlock
     
     assert_equal @user.id, 9999
     assert_same (@user.__send__ :unlock), @user
@@ -413,3 +419,33 @@ class TestStriuctAssign < Test::Unit::TestCase
     end
   end
 end
+
+class TestStriuctClassLock < Test::Unit::TestCase
+  Sth = Striuct.new do
+    member :foo
+  end
+
+  def test_class_lock
+    sth = Sth.new
+    $stderr.puts sth.inspect
+   assert_equal true, sth.member?(:foo)
+
+    Sth.class_eval do
+      member :bar
+    end
+
+   assert_equal true, sth.member?(:bar)
+   assert_equal [:foo, :bar], sth.members
+
+   Sth.lock
+   
+   assert_raises Striuct::LockError do
+    Sth.class_eval do
+      member :var2
+     end
+   end
+   
+    assert_equal false, sth.member?(:var2)
+  end
+end
+

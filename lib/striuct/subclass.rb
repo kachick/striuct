@@ -192,7 +192,7 @@ module Subclass
   end
   
   def secure?
-    lock? && strict?
+    lock? && self.class.lock? && strict?
   end
 
   private

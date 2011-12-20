@@ -9,6 +9,7 @@ module Eigen
     def extended(klass)
       klass.class_eval do
         @names, @conditions, @procedures, @defaults = [], {}, {}, {}
+	@lock  = false
       end
     end
   end
@@ -152,11 +153,28 @@ module Eigen
     end
   end
   
+  # @return [self]
+  def lock
+    @lock = true
+    self
+  end
+  
+  def lock?
+    @lock
+  end
+  
   private
   
   def initialize_copy(org)
     instance_variables.each do |var|
-      instance_variable_set var, instance_variable_get(var).clone
+      instance_variable_set(var,
+	case value = instance_variable_get(var)
+	when true, false, nil, Fixnum, Symbol
+	  value
+	else
+	  value.clone
+	end
+    )
     end
   end
   
@@ -175,10 +193,17 @@ module Eigen
       raise TypeError
     end
   end
+  
+  # @return [self]
+  def unlock
+    @lock = false
+    self
+  end
 
   # @macro [attach] member
   # @return [nil]
-  def define_member(name, *conditions, &procedure)   
+  def define_member(name, *conditions, &procedure) 
+    raise LockError if lock?
     name = convert_cname name
     raise ArgumentError, %Q!already exist name "#{name}"! if member? name
 
@@ -194,6 +219,7 @@ module Eigen
   # @macro [attach] define_members
   # @return [nil]
   def define_members(*names)
+    raise LockError if lock?
     unless names.length >= 1
       raise ArgumentError, 'wrong number of arguments (0 for 1+)'
     end
@@ -208,6 +234,7 @@ module Eigen
   alias_method :def_members, :define_members
 
   def __getter__!(name)
+    raise LockError if lock?
     name = convert_cname name
     
     define_method name do
@@ -218,6 +245,7 @@ module Eigen
   end
 
   def __setter__!(name, *conditions, &procedure)
+    raise LockError if lock?
     name = convert_cname name
     
     unless conditions.empty?
@@ -258,6 +286,7 @@ module Eigen
   # @macro [attach] default
   # @return [nil]
   def set_default_value(name, value)
+    raise LockError if lock?
     name = convert_cname name
     raise NameError, 'no defined member' unless member? name
     raise ConditionError unless accept? name, value 
