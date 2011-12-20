@@ -64,7 +64,7 @@ module Subclass
   def to_s
     "#<struct #{self.class}".tap do |s|
       members.each_with_index do |m, idx|
-        s << " #{m}=#{self[m]}"
+        s << " #{m}=#{self[m].inspect}"
       end
       
       s << '>'
