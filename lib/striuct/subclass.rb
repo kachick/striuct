@@ -162,6 +162,14 @@ module Subclass
   end
 
   # @param [Symbol, String] name
+  def unassign(name)
+    name = convert_cname name
+    raise NameError unless member? name
+    
+    @db.delete name
+  end
+  
+  # @param [Symbol, String] name
   # @param [Object] *values - no argument and use own
   def sufficent?(name, value=self[name])
     self.class.__send__(__method__, name, value, self)
