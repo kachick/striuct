@@ -6,10 +6,6 @@
   * Subclass.procedures
   * Subclass.defaults
 
-* modify:
-  * Subclass.define
-  * Subclass.accept? (sufficent?)
-
 * add:
   * Striuct.define
   * Subclass.lock
