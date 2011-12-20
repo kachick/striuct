@@ -162,18 +162,7 @@ module Subclass
 
   # @param [Symbol, String] name
   # @param [Object] *values - when no argument use own holding, when one argument use it
-  def sufficent?(name, *values)
-    value = (
-      case n = values.length
-      when 0
-        self[name]
-      when 1
-        values.first
-      else
-        raise ArgumentError, "wrong number of argument #{n + 1} for 1~2"
-      end
-    )
-    
+  def sufficent?(name, value=self[name])
     self.class.__send__(__method__, name, value, self)
   end
   
