@@ -68,13 +68,13 @@ module Eigen
   alias_method :has_key?, :has_member?
   alias_method :key?, :has_key?
 
-  def has_condition?(name)
+  def has_conditions?(name)
     raise NameError unless member? name
 
     ! @conditions[name].nil?
   end
   
-  alias_method :restrict?, :has_condition?
+  alias_method :restrict?, :has_conditions?
 
   # @param [Symbol, String] name
   # @param [Object] value
@@ -83,7 +83,7 @@ module Eigen
     name = convert_cname name
     raise NameError unless member? name
 
-    if has_condition? name
+    if restrict? name
       conditions_for(name).any?{|condition|
         case condition
         when Proc

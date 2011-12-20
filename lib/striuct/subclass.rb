@@ -74,7 +74,7 @@ module Subclass
   delegate_class_methods(
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
     :size, :convert_cname, :restrict?, :has_default?, :default_for,
-    :names, :has_flavor?, :flavor_for
+    :names, :has_flavor?, :flavor_for, :has_conditions?
   )
   
   private :convert_cname, :flavor_for
