@@ -73,10 +73,11 @@ module Subclass
 
   delegate_class_methods(
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
-    :size, :convert_cname, :restrict?, :has_default?, :default_for, :names
+    :size, :convert_cname, :restrict?, :has_default?, :default_for,
+    :names, :has_flavor?, :flavor_for
   )
   
-  private :convert_cname
+  private :convert_cname, :flavor_for
   
   # @param [Symbol, String, Fixnum] key
   def [](key)
@@ -230,8 +231,9 @@ module Subclass
   def __set__!(name, value)
     raise LockError if lock?
     name = convert_cname name
-    if procedure = self.class.procedures[name]
-      value = instance_exec value, &procedure
+
+    if has_flavor? name
+      value = instance_exec value, &flavor_for(name)
     end
     
     @db[name] = value
