@@ -427,7 +427,7 @@ class TestStriuctClassLock < Test::Unit::TestCase
 
   def test_class_lock
     sth = Sth.new
-    $stderr.puts sth.inspect
+
     assert_equal true, sth.member?(:foo)
 
     Sth.class_eval do

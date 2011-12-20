@@ -8,8 +8,8 @@ module Eigen
     
     def extended(klass)
       klass.class_eval do
-        @names, @conditions, @procedures, @defaults = [], {}, {}, {}
-  @lock  = false
+        @names, @conditions, @flavors, @defaults = [], {}, {}, {}
+        @lock  = false
       end
     end
   end
@@ -60,11 +60,6 @@ module Eigen
   alias_method :members, :names
   alias_method :keys, :names
 
-  # @return [Hash<Symbol=>Proc>]
-  def procedures
-    @procedures.dup
-  end
-
   def has_member?(name)
     @names.include? convert_cname(name)
   end
@@ -105,6 +100,14 @@ module Eigen
   end
   
   alias_method :accept?, :sufficent?
+
+  # @param [Symbol, String] name
+  def has_flavor?(name)
+    name = convert_cname name
+    raise NameError unless member? name
+
+    ! @flavors[name].nil?
+  end
 
   # @param [Symbol, String] name
   def has_default?(name)
@@ -202,14 +205,14 @@ module Eigen
 
   # @macro [attach] member
   # @return [nil]
-  def define_member(name, *conditions, &procedure) 
+  def define_member(name, *conditions, &flavor) 
     raise LockError if lock?
     name = convert_cname name
     raise ArgumentError, %Q!already exist name "#{name}"! if member? name
 
     @names << name
     __getter__! name
-    __setter__!(name, *conditions, &procedure)
+    __setter__!(name, *conditions, &flavor)
     nil
   end
 
@@ -244,7 +247,7 @@ module Eigen
     nil
   end
 
-  def __setter__!(name, *conditions, &procedure)
+  def __setter__!(name, *conditions, &flavor)
     raise LockError if lock?
     name = convert_cname name
     
@@ -257,11 +260,11 @@ module Eigen
     end
 
     if block_given?
-      if procedure.arity == 1
-        @procedures[name] = procedure
+      if flavor.arity == 1
+        @flavors[name] = flavor
       else
         raise ArgumentError, 
-              "wrong number of block argument #{procedure.arity} for 1"
+              "wrong number of block argument #{flavor.arity} for 1"
       end
     end
 
@@ -271,6 +274,12 @@ module Eigen
  
     nil
   end
+  
+  def get_flavor(name)
+    @flavors[name]
+  end
+  
+  alias_method :flavor_for, :get_flavor
 
   # @param [Symbol, String] name
   def get_default_value(name)
