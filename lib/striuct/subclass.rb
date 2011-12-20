@@ -209,9 +209,9 @@ module Subclass
   end
 
   def __set__(name, value)
+    raise LockError if lock?
     name = convert_cname name
     raise NameError unless member? name
-    raise LockError if lock?
 
     if restrict? name
       if accept? name, value
@@ -228,6 +228,7 @@ module Subclass
   public :assign
   
   def __set__!(name, value)
+    raise LockError if lock?
     name = convert_cname name
     if procedure = self.class.procedures[name]
       value = instance_exec value, &procedure
