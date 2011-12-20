@@ -91,7 +91,7 @@ module Eigen
 
   # @param [Symbol, String] name
   # @param [Object] value
-  # @param [Object] caller - normaly expected own instance, when block condition I have
+  # @param [Object] caller - expected own instance
   def sufficent?(name, value, caller=self)
     name = convert_cname name
     raise NameError unless member? name
@@ -123,7 +123,7 @@ module Eigen
   end
   
   # @yield [name] 
-  # @yieldparam [Symbol] name - member's name in own class that sequential under defined
+  # @yieldparam [Symbol] name - sequential under defined
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_name(&block)
@@ -203,7 +203,9 @@ module Eigen
   # @macro [attach] define_members
   # @return [nil]
   def define_members(*names)
-    raise ArgumentError, 'wrong number of arguments (0 for 1+)' unless names.length >= 1
+    unless names.length >= 1
+      raise ArgumentError, 'wrong number of arguments (0 for 1+)'
+    end
     
     names.each do |name|
       define_member name
@@ -239,7 +241,8 @@ module Eigen
       if procedure.arity == 1
         @procedures[name] = procedure
       else
-        raise ArgumentError, "wrong number of block argument #{procedure.arity} for 1"
+        raise ArgumentError, 
+              "wrong number of block argument #{procedure.arity} for 1"
       end
     end
 
