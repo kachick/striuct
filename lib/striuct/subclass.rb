@@ -20,7 +20,7 @@ module Subclass
       excess = members.last(size - values.size)
       
       excess.each do |name|
-        self[name] = self.class.defaults[name] if self.class.has_default? name
+        self[name] = default_for name if has_default? name
       end
     else
       raise ArgumentError, "struct size differs (max: #{size})"
@@ -73,7 +73,7 @@ module Subclass
 
   delegate_class_methods(
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
-    :size, :convert_cname, :restrict?
+    :size, :convert_cname, :restrict?, :has_default?, :default_for
   )
   
   private :convert_cname

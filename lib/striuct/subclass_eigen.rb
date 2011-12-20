@@ -52,25 +52,16 @@ module Eigen
   end
 
   # @return [Array<Symbol>]
-  def members
+  def names
     @names.dup
   end
 
-  alias_method :keys, :members
-
-  # @return [Hash<Symbol=>Array>]
-  def conditions
-    @conditions.dup
-  end
+  alias_method :members, :names
+  alias_method :keys, :names
 
   # @return [Hash<Symbol=>Proc>]
   def procedures
     @procedures.dup
-  end
-  
-  # @return [Hash<Symbol=>Object>]
-  def defaults
-    @defaults.dup
   end
 
   def has_member?(name)
@@ -252,10 +243,21 @@ module Eigen
  
     nil
   end
+
+  # @param [Symbol, String] name
+  def get_default_value(name)
+    name = convert_cname name
+    raise NameError, 'no defined member' unless member? name
   
+    @defaults[name]
+  end
+
+  alias_method :default_for, :get_default_value
+  public :default_for
+
   # @macro [attach] default
   # @return [nil]
-  def define_default_value(name, value)
+  def set_default_value(name, value)
     name = convert_cname name
     raise NameError, 'no defined member' unless member? name
     raise ConditionError unless accept? name, value 
@@ -264,8 +266,8 @@ module Eigen
     nil
   end
   
-  alias_method :default, :define_default_value
-  
+  alias_method :default, :set_default_value
+
 end
 
 
