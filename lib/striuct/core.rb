@@ -34,9 +34,9 @@ class Striuct
     # @return [Class] (see Striuct.new) - reject floating class
     def define(&block)
       new(&block).tap do |subclass|
-	subclass.instance_eval do
-	  raise 'not yet finished' if members.empty?
-	  lock
+        subclass.instance_eval do
+          raise 'not yet finished' if members.empty?
+          lock
         end
       end
     end

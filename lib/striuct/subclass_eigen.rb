@@ -9,7 +9,7 @@ module Eigen
     def extended(klass)
       klass.class_eval do
         @names, @conditions, @procedures, @defaults = [], {}, {}, {}
-	@lock  = false
+  @lock  = false
       end
     end
   end
@@ -168,13 +168,13 @@ module Eigen
   def initialize_copy(org)
     instance_variables.each do |var|
       instance_variable_set(var,
-	case value = instance_variable_get(var)
-	when true, false, nil, Fixnum, Symbol
-	  value
-	else
-	  value.clone
-	end
-    )
+        case value = instance_variable_get(var)
+        when true, false, nil, Fixnum, Symbol
+          value
+        else
+          value.clone
+        end
+      )
     end
   end
   
