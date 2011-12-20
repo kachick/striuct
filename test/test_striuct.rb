@@ -428,22 +428,22 @@ class TestStriuctClassLock < Test::Unit::TestCase
   def test_class_lock
     sth = Sth.new
     $stderr.puts sth.inspect
-   assert_equal true, sth.member?(:foo)
+    assert_equal true, sth.member?(:foo)
 
     Sth.class_eval do
       member :bar
     end
 
-   assert_equal true, sth.member?(:bar)
-   assert_equal [:foo, :bar], sth.members
+    assert_equal true, sth.member?(:bar)
+    assert_equal [:foo, :bar], sth.members
 
-   Sth.lock
+    Sth.lock
    
-   assert_raises Striuct::LockError do
+    assert_raises Striuct::LockError do
     Sth.class_eval do
       member :var2
      end
-   end
+    end
    
     assert_equal false, sth.member?(:var2)
   end
@@ -451,15 +451,15 @@ end
 
 class TestStriuctDefine < Test::Unit::TestCase
   def test_define
-   klass = nil
-   assert_raises RuntimeError do
+    klass = nil
+    assert_raises RuntimeError do
      klass = Striuct.define do
      end
-   end
-   
-   klass = Striuct.define do
+    end
+
+    klass = Striuct.define do
      member :foo   
-   end
+    end
 
     assert_equal true, klass.lock?
   end
