@@ -2,93 +2,133 @@
 
 require_relative 'lib/striuct'
 
-#* Macro "member" provides one of Struct+ interfaces for condtions and a procedure.
-    class User < Striuct.new
-      member :id, Integer
-      member :address, /\A((\w+) ?)+\z/
-      member :age, (20..140)
-      member :name, /\A\w+\z/, /\A\w+ \w+\z/
-    end
+def debug(message)
+  puts "line: #{caller[0].slice(/:(\w+)/, 1)}"
+  puts message.inspect, '-' * 80
+end
 
-    # pass
-    user = User.new 128381, 'Tokyo Japan', 20
-    p user
+#* Macro "member" provides one of Struct+ interfaces for condtions and a flavor.
+class User < Striuct.new
+  member :id, Integer
+  member :address, /\A((\w+) ?)+\z/
+  member :age, (20..140)
+  member :name, /\A\w+\z/, /\A\w+ \w+\z/
+end
 
-    # pass
-    user.age = 30
-    user.name = 'taro yamada'
-    p user
+# pass
+user = User.new 128381, 'Tokyo Japan', 20
+debug user
 
-    # fail (Exception  Striuct::ConditionError)
-    begin
-      user[:id] = 10.0
-    rescue
-      p $!
-    end
-    
-    begin
-      user[1] = 'Tokyo-to'
-    rescue
-      p $!
-    end
+# pass
+user.age = 30
+user.name = 'taro yamada'
+debug user
 
-    begin
-      user.age = 19
-    rescue
-      p $!
-    end
+# fail (Exception  Striuct::ConditionError)
+begin
+  user[:id] = 10.0
+rescue
+  debug $!
+end
 
-    begin
-      user.name = nil
-    rescue
-      p $!
-    end
+begin
+  user[1] = 'Tokyo-to'
+rescue
+  debug $!
+end
 
-#* more detail checker do you need, you can use functional object here.
-#  and Proc(lambda) run self's context
-    class Game < Striuct
-      member :monsters, ->monsters{[monsters - characters].empty?}
-      member :characters, Array
-    end
+begin
+  user.age = 19
+rescue
+  debug $!
+end
+
+begin
+  user.name = nil
+rescue
+  debug $!
+end
+
+#* but, linked objects are able to clash
+debug user
+debug user.strict?
+debug user
+debug user.strict?
+
+#* more detail checker do you need, you can use functional object.
+module Game
+  class Character
+  end
+
+  class DB < Striuct.new
+    member :monsters, ->monsters{(monsters - characters).empty?}
+    member :characters, ->characters{characters.all?{|c|c.kind_of? Character}}
+  end
+  
+  monster = Character.new
+  db = DB.new
+  
+  begin
+    db.characters = [1, 2]
+  rescue
+    debug $!
+  end
+  
+  db.characters = [monster, Character.new]
+  debug db
+  
+  begin
+    db.monsters = [:dummy]
+  rescue
+    debug $!
+  end
+  
+  db.monsters = [monster]
+  debug db
+end
+
  
-#* but, link to object is able to clash
-#  use easy checker this case
-    user.strict? #=> true
-    user.address.clear
-    user.strict? #=> false
+#* with flavor for type cast
+class User2 < Striuct.new
+  member :age, /\A\d+\z/, Numeric do |arg|
+    Integer arg
+  end
+end
 
-#* procedure for cast case
-    class User2 < Striuct.new
-      member :age, /\A\d+\z/, Numeric do |arg|
-        Integer arg
-      end
-    end
-    
-    user2 = User2.new
-    user2.age = 9 #=> 9(Fixnum)
-    user2.age = 10.1 #=> 10(Fixnum)
-    user2.age = '10' #=> 10(Fixnum)
+user2 = User2.new
+user2.age = 9
+debug user2
+
+user2.age = 10.1
+debug user2
+
+user2.age = '10'
+debug user2
 
 #* use default value
-    class User3 < Striuct.new
-      member  :lank, Fixnum
-      default :lank, 3
-      member  :name
-    end
-    
-    user3 = User3.new
-    user3.lank #=> 3
-    
+class User3 < Striuct.new
+  member  :lank, Fixnum
+  default :lank, 3
+  member  :name
+end
+
+user3 = User3.new
+user3.lank #=> 3
+
 # Standard Struct always define "nil is default". ...realy?
-   user3.name  #=> nil
-   user3.assign? :name #=> false
-   user3.name = nil
-   user3.assign? :name #=> true
+user3.name  #=> nil
+user3.assign? :name #=> false
+user3.name = nil
+user3.assign? :name #=> true
 
 #* and keeping Struct's good interface
-    Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age
+Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age
 
-    Sth2 = Striuct.new do
-      def m
-      end
-    end
+debug Sth1.new
+
+Sth2 = Striuct.new do
+  def my_special_method
+  end
+end
+
+debug Sth2.new.respond_to?(:my_special_method)
