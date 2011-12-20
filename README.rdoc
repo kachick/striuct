@@ -6,21 +6,17 @@
 
 == DESCRIPTION
 
-Striuct meanings Strict Struct.
+Striuct means Strict Struct.
 Handy and safty than Ruby's Standard Struct.
 
 == FEATURES
-
-* Run automated checks matching any condtions when link a object.
-* It is not only Type Check. This Flexible Checker from your expressions.
-* After check, you can add one-step before set value (call "procedure" at here).
-* You can set a Default Value.
-* Base API looks like Ruby's Standard Struct
+* Provide automated checking for your setters.
+  When you link a object, Striuct checks "They are valid object?".
+  These checkers are not only Type Checker. They judge under your expressions.
+* After check, you can add one-step before link a object (call "flavor" at here).
+* You will be set default-value, and we have different meanings between nil and default-value.
+* Base API looks like Ruby's standard Struct
 * pure-ruby and not taint your name-space
-
-== PLAN
-
-* https://github.com/kachick/striuct/wiki/Plan
 
 == SYNOPSIS
 
@@ -43,23 +39,52 @@ Handy and safty than Ruby's Standard Struct.
     user.age = 30
     user.name = 'taro yamada'
 
-    # fail (Exception  Striuct::ConditionError)
+    # fail
     user[:id] = 10.0
     user[1] = 'Tokyo-to'
     user.age = 19
     user.name = nil
 
 * more detail checker do you need, you can use functional object here.
-  and Proc(lambda) run self's context
-    class GameDB < Striuct.new
-      member :monsters, ->monsters{[monsters - characters].empty?}
-      member :characters, Array
+    module Game
+      class Character
+      end
+
+      class DB < Striuct.new
+        member :monsters, ->monsters{(monsters - characters).empty?}
+        member :characters, ->characters{characters.all?{|c|c.kind_of? Character}}
+      end
+      
+      monster = Character.new
+      db = DB.new
+      
+      begin
+        db.characters = [1, 2]
+      rescue
+        debug $!
+      end
+      
+      db.characters = [monster, Character.new]
+      debug db
+      
+      begin
+        db.monsters = [:dummy]
+      rescue
+        debug $!
+      end
+      
+      db.monsters = [monster]
+      debug db
     end
 
-* and procedure for cast case
+* with flavor for type cast
     class User2 < Striuct.new
       member :age, /\A\d+\z/, Numeric do |arg|
         Integer arg
+      end
+      
+      member :name, ->v{v.respond_to? :to_str} do |v|
+        v.to_str.to_sym
       end
     end
     
@@ -68,8 +93,9 @@ Handy and safty than Ruby's Standard Struct.
     user2.age = 10.1 #=> 10(Fixnum)
     user2.age = '10' #=> 10(Fixnum)
 
+    user2.name = 's' #=> :10(Symbol)
+
 * but, linked objects are able to clash
-  use easy checker this case
     user.strict? #=> true
     user.address.clear
     user.strict? #=> false
@@ -94,11 +120,15 @@ Handy and safty than Ruby's Standard Struct.
     Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age
 
     Sth2 = Striuct.new do
-      def m
+      def my_special_method
       end
     end
+    
+    Sth2.new.respond_to?(:my_special_method) #=> true
 
-* Here, not taint your name-space. But, you hope Standard Struct must have same interface. And use below extension.
+* (see example.rb)
+
+* Here, not taint your name-space. but enhancers are too, you can choose it.
     require 'striuct/import'
 
 * and more added

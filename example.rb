@@ -93,6 +93,10 @@ class User2 < Striuct.new
   member :age, /\A\d+\z/, Numeric do |arg|
     Integer arg
   end
+  
+  member :name, ->v{v.respond_to? :to_str} do |v|
+    v.to_str.to_sym
+  end
 end
 
 user2 = User2.new
@@ -104,6 +108,15 @@ debug user2
 
 user2.age = '10'
 debug user2
+
+begin
+  user2.name = 10
+rescue
+  debug $!
+end
+
+user2.name = 's'
+debug user2.class
 
 #* use default value
 class User3 < Striuct.new
