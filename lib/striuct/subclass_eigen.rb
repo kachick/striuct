@@ -192,8 +192,8 @@ module Eigen
     raise ArgumentError, %Q!already exist name "#{name}"! if member? name
 
     @names << name
-    define_reader name
-    define_writer(name, *conditions, &procedure)
+    __getter__! name
+    __setter__!(name, *conditions, &procedure)
     nil
   end
 
@@ -216,7 +216,7 @@ module Eigen
 
   alias_method :def_members, :define_members
 
-  def define_reader(name)
+  def __getter__!(name)
     name = convert_cname name
     
     define_method name do
@@ -226,7 +226,7 @@ module Eigen
     nil
   end
 
-  def define_writer(name, *conditions, &procedure)
+  def __setter__!(name, *conditions, &procedure)
     name = convert_cname name
     
     unless conditions.empty?
