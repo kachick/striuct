@@ -164,6 +164,7 @@ module Subclass
 
   # @param [Symbol, String] name
   def unassign(name)
+    raise LockError if lock?
     name = convert_cname name
     raise NameError unless member? name
     
