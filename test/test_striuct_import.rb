@@ -17,10 +17,6 @@ class TestStruct < Test::Unit::TestCase
   end
 
   def test_eigen_actions
-    assert_equal({}, Sth.conditions)
-    assert_equal({}, Sth.procedures)
-    assert_equal({}, Sth.defaults)
-  
     r = Sth.define{|o|o.age = 'Something'}
     assert_kind_of Sth, r
     assert_equal 'Something', r.age

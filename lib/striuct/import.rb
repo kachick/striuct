@@ -27,7 +27,7 @@ module StructExtension
     end
     
     alias_method :accept?, :sufficent?
-    
+
     def has_default?(name)
       false
     end
@@ -35,20 +35,9 @@ module StructExtension
     def cname?(name)
       [Symbol, String].any?{|klass|name.instance_of? klass}
     end
-    
-    # @return [Hash]
-    def conditions
-      {}
-    end
-  
-    # @return [Hash]
-    def procedures
-      {}
-    end
-  
-    # @return [Hash]
-    def defaults
-      {}
+
+    def has_flavor?(name)
+      false
     end
 
     # @return [Struct]
