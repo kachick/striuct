@@ -1,3 +1,27 @@
+=== 0.0.9 2011-12-21
+
+* delete
+  * Striuct.load_pairs
+  * Subclass.conditions
+  * Subclass.procedures
+  * Subclass.defaults
+
+* modify:
+  * Subclass.define
+  * Subclass.accept? (sufficent?)
+
+* add:
+  * Striuct.define
+  * Subclass.lock
+  * Subclass.default_for
+
+* fix:
+  * Subclass#inspect
+  * Subclass#to_s
+
+* note:
+  * innner name changed "procedure" to "flavor"
+
 === 0.0.8 2011-12-18
 
 * modify:
