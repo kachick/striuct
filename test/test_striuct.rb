@@ -449,3 +449,20 @@ class TestStriuctClassLock < Test::Unit::TestCase
   end
 end
 
+class TestStriuctDefine < Test::Unit::TestCase
+  def test_define
+   klass = nil
+   assert_raises RuntimeError do
+     klass = Striuct.define do
+     end
+   end
+   
+   klass = Striuct.define do
+     member :foo   
+   end
+
+    assert_equal true, klass.lock?
+  end
+end
+
+

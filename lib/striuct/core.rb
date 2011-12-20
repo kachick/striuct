@@ -31,6 +31,16 @@ class Striuct
       end
     end
 
+    # @return [Class] (see Striuct.new) - reject floating class
+    def define(&block)
+      new(&block).tap do |subclass|
+	subclass.instance_eval do
+	  raise 'not yet finished' if members.empty?
+	  lock
+        end
+      end
+    end
+
     # @param [#each_pair] pairs
     # @return [Class] (see Striuct.new)
     def load_pairs(pairs, &block)
