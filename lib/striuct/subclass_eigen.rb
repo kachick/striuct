@@ -71,7 +71,7 @@ module Eigen
   def has_condition?(name)
     raise NameError unless member? name
 
-    !@conditions[name].nil?
+    ! @conditions[name].nil?
   end
   
   alias_method :restrict?, :has_condition?
@@ -83,8 +83,8 @@ module Eigen
     name = convert_cname name
     raise NameError unless member? name
 
-    if conditions = @conditions[name]
-      conditions.any?{|condition|
+    if has_condition? name
+      conditions_for(name).any?{|condition|
         case condition
         when Proc
           caller.instance_exec value, &condition
@@ -282,7 +282,16 @@ module Eigen
  
     nil
   end
+
+  def get_conditions(name)
+    name = convert_cname name
+    raise NameError, 'no defined member' unless member? name
+
+    @conditions[name]
+  end
   
+  alias_method :conditions_for, :get_conditions
+
   def get_flavor(name)
     name = convert_cname name
     raise NameError, 'no defined member' unless member? name
@@ -316,6 +325,7 @@ module Eigen
   end
   
   alias_method :default, :set_default_value
+
 
 end
 

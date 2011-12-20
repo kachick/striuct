@@ -41,20 +41,6 @@ class Striuct
       end
     end
 
-    # @param [#each_pair] pairs
-    # @return [Class] (see Striuct.new)
-    def load_pairs(pairs, &block)
-      raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
-
-      new do
-        pairs.each_pair do |name, conditions|
-          member(name, *conditions)
-        end
-        
-        class_eval(&block) if block_given?
-      end
-    end
-
     private
     
     def inherited(subclass)
