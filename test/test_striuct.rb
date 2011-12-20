@@ -394,3 +394,22 @@ class TestStriuctFunctionalCondition < Test::Unit::TestCase
     end
   end
 end
+
+class TestStriuctAssign < Test::Unit::TestCase
+  Sth = Striuct.new do
+    member :foo
+  end  
+
+  def test_unassign
+    sth = Sth.new
+    assert_equal false, sth.assign?(:foo)
+    sth.foo = nil
+    assert_equal true, sth.assign?(:foo)
+    sth.unassign :foo
+    assert_equal false, sth.assign?(:foo)
+    
+    assert_raises NameError do
+      sth.unassign :var
+    end
+  end
+end
