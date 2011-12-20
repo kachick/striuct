@@ -79,23 +79,17 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
       monster = Character.new
       db = DB.new
       
-      begin
-        db.characters = [1, 2]
-      rescue
-        debug $!
-      end
+      # fail
+      db.characters = [1, 2]
       
+      # pass
       db.characters = [monster, Character.new]
-      debug db
       
-      begin
-        db.monsters = [:dummy]
-      rescue
-        debug $!
-      end
+      # fail
+      db.monsters = [:dummy]
       
+      # pass
       db.monsters = [monster]
-      debug db
     end
 
 * 更に細かい用途ですが、memberマクロへブロックを渡しておくと、チェック後一処理加えた値を代入可能です。
