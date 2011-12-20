@@ -212,7 +212,7 @@ module Eigen
 
     @names << name
     __getter__! name
-    __setter__!(name, *conditions, &flavor)
+    __setter__! name, *conditions, &flavor
     nil
   end
 
@@ -251,22 +251,8 @@ module Eigen
     raise LockError if lock?
     name = convert_cname name
     
-    unless conditions.empty?
-      if conditions.all?{|c|conditionable? c}
-        @conditions[name] = conditions
-      else
-        raise ArgumentError, 'wrong object for condition'
-      end
-    end
-
-    if block_given?
-      if flavor.arity == 1
-        @flavors[name] = flavor
-      else
-        raise ArgumentError, 
-              "wrong number of block argument #{flavor.arity} for 1"
-      end
-    end
+    __set_conditions__! name, *conditions
+    __set_flavor__! name, &flavor if block_given?
 
     define_method "#{name}=" do |value|
       __set__ name, value
@@ -275,7 +261,32 @@ module Eigen
     nil
   end
   
+  def __set_conditions__!(name, *conditions)
+    unless conditions.empty?
+      if conditions.all?{|c|conditionable? c}
+        @conditions[name] = conditions
+      else
+        raise TypeError, 'wrong object for condition'
+      end
+    end
+ 
+    nil
+  end
+
+  def __set_flavor__!(name, &flavor)
+    if flavor.arity == 1
+      @flavors[name] = flavor
+    else
+      raise ArgumentError, "wrong number of block argument #{flavor.arity} for 1"
+    end
+ 
+    nil
+  end
+  
   def get_flavor(name)
+    name = convert_cname name
+    raise NameError, 'no defined member' unless member? name
+
     @flavors[name]
   end
   
