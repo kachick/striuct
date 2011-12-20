@@ -14,7 +14,7 @@ class Striuct
     private :new_instance
     
     # @param [Symbol, String] *names
-    # @return [Class] extended Striuct::Subclass::Eigen and included Striuct::Subclass (see Struct.new)
+    # @return [Class] - with Subclass, Subclass:Eigen
     def new(*names, &block)
       # warning for Ruby's Struct.new user
       arg1 = names.first
@@ -32,7 +32,7 @@ class Striuct
     end
 
     # @param [#each_pair] pairs
-    # @return [Class] extended Striuct::Subclass::Eigen and included Striuct::Subclass (see Striuct.new)
+    # @return [Class] (see Striuct.new)
     def load_pairs(pairs, &block)
       raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
 

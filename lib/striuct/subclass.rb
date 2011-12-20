@@ -90,7 +90,7 @@ module Subclass
   end
 
   # @yield [name] 
-  # @yieldparam [Symbol] name - member's name in own class that sequential under defined
+  # @yieldparam [Symbol] name - sequential under defined
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_name
@@ -103,7 +103,7 @@ module Subclass
   alias_method :each_key, :each_name
 
   # @yield [value]
-  # @yieldparam [Object] value - that is holded self and sequential (see #each_name)
+  # @yieldparam [Object] value - sequential under defined (see #each_name)
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_value
@@ -161,7 +161,7 @@ module Subclass
   end
 
   # @param [Symbol, String] name
-  # @param [Object] *values - when no argument use own holding, when one argument use it
+  # @param [Object] *values - no argument and use own
   def sufficent?(name, value=self[name])
     self.class.__send__(__method__, name, value, self)
   end
