@@ -220,30 +220,19 @@ module Subclass
     name = convert_cname name
     raise NameError unless member? name
 
-    if restrict? name
-      if accept? name, value
-        __set__! name, value
-      else
-        raise ConditionError, 'deficent value for all conditions'
+    if accept? name, value
+      if has_flavor? name
+        value = instance_exec value, &flavor_for(name)
       end
+      
+      @db[name] = value
     else
-      __set__! name, value
+      raise ConditionError, 'deficent value for all conditions'
     end
   end
   
   alias_method :assign, :__set__
   public :assign
-  
-  def __set__!(name, value)
-    raise LockError if lock?
-    name = convert_cname name
-
-    if has_flavor? name
-      value = instance_exec value, &flavor_for(name)
-    end
-    
-    @db[name] = value
-  end
   
   def __subscript__(key)
     case key
