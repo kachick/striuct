@@ -65,6 +65,10 @@ module StructExtension
     def to_strict
       StrictStruct.new(*members)
     end
+    
+    def closed?
+      true
+    end
   end
 
   def assign?(name)
@@ -76,10 +80,6 @@ module StructExtension
   end
 
   def secure?
-    false
-  end
-
-  def lock?
     false
   end
 
