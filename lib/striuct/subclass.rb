@@ -187,9 +187,15 @@ module Subclass
     frozen? && self.class.lock? && strict?
   end
   
+  # @return [self]
   def freeze
     @db.freeze
     super
+  end
+  
+  # @param [Symbol, String] name
+  def default?(name)
+    default_for(name) == self[name]
   end
 
   private

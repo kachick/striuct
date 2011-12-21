@@ -309,6 +309,9 @@ class TestStriuctDefaultValue < Test::Unit::TestCase
     assert_equal 2, sth.lank
     sth = Sth.new
     assert_equal 1, sth.lank
+    assert_equal true, sth.default?(:lank)
+    sth.lank = 2
+    assert_equal false, sth.default?(:lank)
   end
   
   def test_define_default
