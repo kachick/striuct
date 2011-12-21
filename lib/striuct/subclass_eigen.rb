@@ -77,8 +77,8 @@ module Eigen
 
   # @param [Symbol, String] name
   # @param [Object] value
-  # @param [Object] caller - expected own instance
-  def sufficent?(name, value, caller=self)
+  # @param [Object] context - expected own instance
+  def sufficent?(name, value, context=self)
     name = convert_cname name
     raise NameError unless member? name
 
@@ -86,7 +86,7 @@ module Eigen
       conditions_for(name).any?{|condition|
         case condition
         when Proc
-          caller.instance_exec value, &condition
+          context.instance_exec value, &condition
         when Method
           condition.call value
         else
