@@ -10,7 +10,7 @@ module Subclass
   include Enumerable
   
   def initialize(*values)
-    @db, @lock = {}, false
+    @db = {}
     
     if values.size <= size
       values.each_with_index do |v, idx|
@@ -164,7 +164,7 @@ module Subclass
 
   # @param [Symbol, String] name
   def unassign(name)
-    raise LockError if lock?
+    raise "can't modify frozen #{self.class}" if frozen?
     name = convert_cname name
     raise NameError unless member? name
     
@@ -182,19 +182,9 @@ module Subclass
   def strict?
     each_pair.all?{|name, value|self.class.sufficent? name, value}
   end
-
-  # @return [self]
-  def lock
-    @lock = true
-    self
-  end
-  
-  def lock?
-    @lock
-  end
   
   def secure?
-    lock? && self.class.lock? && strict?
+    frozen? && self.class.lock? && strict?
   end
   
   def freeze
@@ -205,7 +195,7 @@ module Subclass
   private
   
   def initialize_copy(org)
-    @db, @lock = @db.clone, false
+    @db = @db.clone
   end
 
   def __get__(name)
@@ -216,7 +206,7 @@ module Subclass
   end
 
   def __set__(name, value)
-    raise LockError if lock?
+    raise "can't modify frozen #{self.class}" if frozen?
     name = convert_cname name
     raise NameError unless member? name
 
@@ -253,11 +243,7 @@ module Subclass
       raise ArgumentError
     end
   end
-  
-  def unlock
-    @lock = false
-    self
-  end
+
 
 end
 

@@ -45,7 +45,7 @@ module Eigen
       yield instance
   
       if each_member.all?{|name|instance.assign? name}
-        instance.lock if lock
+        instance.freeze if lock
       else
         raise "not yet finished"
       end
