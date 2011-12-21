@@ -9,6 +9,7 @@ module Eigen
     def extended(klass)
       klass.class_eval do
         @names, @conditions, @flavors, @defaults = [], {}, {}, {}
+        @safe_level = :prevent
       end
     end
   end
@@ -156,7 +157,7 @@ module Eigen
   end
   
   def closed?
-    __stores__.all?(&:frozen?)
+    __stores__.any?(&:frozen?)
   end
 
   # @return [self]
