@@ -30,8 +30,11 @@ class Striuct
       end
     end
 
-    # @return [Class] (see Striuct.new) - reject floating class
+    # @yieldreturn [Class] (see Striuct.new) - reject floating class
+    # @return [void]
     def define(&block)
+      raise ArgumentError, 'must with block' unless block_given?
+
       new(&block).tap do |subclass|
         subclass.instance_eval do
           raise 'not yet finished' if members.empty?
