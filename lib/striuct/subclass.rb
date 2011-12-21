@@ -52,19 +52,19 @@ module Subclass
   # @return [String]
   def inspect
     "#<#{self.class} (StrictStruct)".tap do |s|
-      members.each_with_index do |name, idx|
-        s << " #{idx}.#{name}: #{self[name].inspect}"
+      each_pair do |name, value|
+        s << " #{name}=#{value.inspect}"
       end
       
-      s << ">\n"
+      s << ">"
     end
   end
 
   # @return [String]
   def to_s
     "#<struct #{self.class}".tap do |s|
-      members.each_with_index do |m, idx|
-        s << " #{m}=#{self[m].inspect}"
+      each_pair do |name, value|
+        s << " #{name}=#{value.inspect}"
       end
       
       s << '>'
