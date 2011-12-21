@@ -196,6 +196,11 @@ module Subclass
   def secure?
     lock? && self.class.lock? && strict?
   end
+  
+  def freeze
+    @db.freeze
+    super
+  end
 
   private
   
