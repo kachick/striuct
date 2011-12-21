@@ -33,7 +33,7 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
     user = User2.define{|r|r.age = 1; r.name = ''}
     assert_same 1, user.age
     
-    assert_raises Striuct::LockError do
+    assert_raises RuntimeError do
       user.age = 1
     end
     
@@ -195,30 +195,6 @@ class TestStriuctSubclassInstance3 < Test::Unit::TestCase
     assert_equal true, @user.eql?(@user2)
     assert_equal true, @user2.eql?(@user)
     assert_equal false, @user.eql?(User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 31)
-  end
-  
-  def test_lock
-    assert_same @user.lock?, false
-    assert_same @user.secure?, false
-    assert_same @user.lock, @user
-    assert_same @user.lock?, true
-    assert_same @user.secure?, false
-
-    assert_raises Striuct::LockError do
-      @user.id = 100
-    end
-    
-    User.lock
-    
-    assert_same @user.secure?, true
-    
-    User.__send__ :unlock
-    
-    assert_equal @user.id, 9999
-    assert_same (@user.__send__ :unlock), @user
-    assert_same @user.lock?, false
-    @user.id = 100
-    assert_equal @user.id, 100
   end
 end
 
