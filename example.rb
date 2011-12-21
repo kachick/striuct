@@ -126,13 +126,13 @@ class User3 < Striuct.new
 end
 
 user3 = User3.new
-user3.lank #=> 3
+user3
+debug user3
 
 # Standard Struct always define "nil is default". ...realy?
-user3.name  #=> nil
-user3.assign? :name #=> false
+debug user3.assign?(:name)
 user3.name = nil
-user3.assign? :name #=> true
+debug user3.assign?(:name)
 
 #* and keeping Struct's good interface
 Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age

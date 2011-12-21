@@ -53,7 +53,8 @@ module Subclass
   def inspect
     "#<#{self.class} (StrictStruct)".tap do |s|
       each_pair do |name, value|
-        s << " #{name}=#{value.inspect}"
+        suffix = (has_default?(name) && default?(name)) ? '(default)' : nil
+        s << " #{name}=#{value.inspect}#{suffix}"
       end
       
       s << ">"
