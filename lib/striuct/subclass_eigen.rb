@@ -9,7 +9,6 @@ module Eigen
     def extended(klass)
       klass.class_eval do
         @names, @conditions, @flavors, @defaults = [], {}, {}, {}
-        @lock  = false
       end
     end
   end
@@ -156,29 +155,30 @@ module Eigen
     end
   end
   
-  # @return [self]
-  def lock
-    @lock = true
-    self
+  def closed?
+    __stores__.all?(&:frozen?)
   end
-  
-  def lock?
-    @lock
+
+  # @return [self]
+  def freeze
+    __stores__.each(&:freeze)
+    super
   end
   
   private
+
+  def __stores__
+    [@names, @conditions, @flavors, @defaults]
+  end
   
   def initialize_copy(org)
-    instance_variables.each do |var|
-      instance_variable_set(var,
-        case value = instance_variable_get(var)
-        when true, false, nil, Fixnum, Symbol
-          value
-        else
-          value.clone
-        end
-      )
-    end
+    @names, @conditions, @flavors, @defaults = *__stores__.map(&:dup)
+  end
+  
+  # @return [self]
+  def close
+    __stores__.each(&:freeze)
+    self
   end
   
   # @return [Symbol]
@@ -196,17 +196,11 @@ module Eigen
       raise TypeError
     end
   end
-  
-  # @return [self]
-  def unlock
-    @lock = false
-    self
-  end
 
   # @macro [attach] member
   # @return [nil]
   def define_member(name, *conditions, &flavor) 
-    raise LockError if lock?
+    raise "already closed to add member in #{self}" if closed?
     name = convert_cname name
     raise ArgumentError, %Q!already exist name "#{name}"! if member? name
 
@@ -222,7 +216,7 @@ module Eigen
   # @macro [attach] define_members
   # @return [nil]
   def define_members(*names)
-    raise LockError if lock?
+    raise "already closed to add members in #{self}" if closed?
     unless names.length >= 1
       raise ArgumentError, 'wrong number of arguments (0 for 1+)'
     end
@@ -237,7 +231,6 @@ module Eigen
   alias_method :def_members, :define_members
 
   def __getter__!(name)
-    raise LockError if lock?
     name = convert_cname name
     
     define_method name do
@@ -248,7 +241,6 @@ module Eigen
   end
 
   def __setter__!(name, *conditions, &flavor)
-    raise LockError if lock?
     name = convert_cname name
     
     __set_conditions__! name, *conditions
@@ -315,7 +307,7 @@ module Eigen
   # @macro [attach] default
   # @return [nil]
   def set_default_value(name, value)
-    raise LockError if lock?
+    raise "already closed to modify member attributes in #{self}" if closed?
     name = convert_cname name
     raise NameError, 'no defined member' unless member? name
     raise ConditionError unless accept? name, value 

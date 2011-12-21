@@ -209,9 +209,7 @@ class TestStriuctSubclassInstance4 < Test::Unit::TestCase
   def setup
     @sth = Sth.new
   end
-  
 
-  
   def test_accessor
     @sth.bool = true
     assert_same true, @sth.bool
@@ -412,13 +410,17 @@ class TestStriuctClassLock < Test::Unit::TestCase
 
     assert_equal true, sth.member?(:bar)
     assert_equal [:foo, :bar], sth.members
-
-    Sth.lock
+    
+    assert_equal false, Sth.closed?
+    
+    Sth.__send__ :close
+    
+    assert_equal true, Sth.closed?
    
-    assert_raises Striuct::LockError do
-    Sth.class_eval do
-      member :var2
-     end
+    assert_raises RuntimeError do
+      Sth.class_eval do
+        member :var2
+      end
     end
    
     assert_equal false, sth.member?(:var2)
@@ -427,17 +429,16 @@ end
 
 class TestStriuctDefine < Test::Unit::TestCase
   def test_define
-    klass = nil
     assert_raises RuntimeError do
-     klass = Striuct.define do
-     end
+      Striuct.define do
+      end
     end
-
+    
     klass = Striuct.define do
-     member :foo   
+      member :foo
     end
 
-    assert_equal true, klass.lock?
+    assert_equal true, klass.closed?
   end
 end
 
