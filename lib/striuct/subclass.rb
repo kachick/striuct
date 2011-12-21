@@ -185,7 +185,7 @@ module Subclass
   end
   
   def secure?
-    frozen? && self.class.lock? && strict?
+    frozen? && self.class.closed? && strict?
   end
   
   # @return [self]
