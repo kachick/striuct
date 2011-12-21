@@ -10,7 +10,7 @@ Striuct means Strict Struct.
 Handy and safty than Ruby's Standard Struct.
 
 == FEATURES
-* Provide automated checking for your setters.
+* Provides automated checking for your setters.
   When you link a object, Striuct checks "They are valid objects?".
   These checkers are not only Type Checker. They judge under your expressions.
 * After check, you can add one-step before link a object (call "flavor" at here).
