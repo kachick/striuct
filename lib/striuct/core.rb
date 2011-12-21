@@ -7,7 +7,6 @@ require_relative 'subclass'
 class Striuct
 
   class ConditionError < ArgumentError; end
-  class LockError < RuntimeError; end
 
   class << self
     alias_method :new_instance, :new
@@ -36,7 +35,7 @@ class Striuct
       new(&block).tap do |subclass|
         subclass.instance_eval do
           raise 'not yet finished' if members.empty?
-          lock
+          close
         end
       end
     end
