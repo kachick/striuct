@@ -9,7 +9,6 @@ class User < Striuct.new
   member :age, ->age{(20..140).include? age}
 end
 
-
 class TestStriuctSubclassEigen < Test::Unit::TestCase
   User2 = Striuct.new :name, :age
   
@@ -198,14 +197,15 @@ class TestStriuctSubclassInstance3 < Test::Unit::TestCase
   end
 end
 
-class Sth < Striuct.new
-  member :bool, true, false
-  member :sth
-  member :lambda, ->v{v % 3 == 2}, ->v{v.kind_of? Float}
-end
-
 
 class TestStriuctSubclassInstance4 < Test::Unit::TestCase
+  class Sth < Striuct.new
+    member :bool, true, false
+    member :sth
+    protect_level :struct
+    member :lambda, ->v{v % 3 == 2}, ->v{v.kind_of? Float}
+  end
+  
   def setup
     @sth = Sth.new
   end
@@ -246,6 +246,10 @@ class TestStriuctSubclassInstance4 < Test::Unit::TestCase
 end
 
 class TestStriuctCloning < Test::Unit::TestCase
+  class Sth < Striuct.new
+    member :sth
+  end
+  
   def setup
     @sth = Sth.new
   end
@@ -461,4 +465,46 @@ class TestStriuctFreeze < Test::Unit::TestCase
 end
 
 
+class TestStriuctSafetyNaming < Test::Unit::TestCase
+  def test_protect
+    klass = Striuct.new
+    assert_raises NameError do
+      klass.class_eval do
+        member ''
+      end
+    end
+    
+    assert_raises NameError do
+      klass.class_eval do
+        member :'a b'
+      end
+    end
 
+    assert_raises NameError do
+      klass.class_eval do
+        member :'__send__'
+      end
+    end
+
+    assert_raises NameError do
+      klass.class_eval do
+        member :'__foo__'
+      end
+    end
+    
+    assert_raises NameError do
+      klass.class_eval do
+        member :'m?'
+      end
+    end
+  
+    assert_same false, klass.member?('m?')
+    
+    klass.class_eval do
+      protect_level :struct
+      member :'m?'
+    end
+    
+    assert_same true, klass.member?('m?')
+  end
+end
