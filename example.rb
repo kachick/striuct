@@ -118,7 +118,7 @@ end
 user2.name = 's'
 debug user2.class
 
-#* use default value
+# use default value
 class User3 < Striuct.new
   member  :lank, Fixnum
   default :lank, 3
@@ -134,7 +134,34 @@ debug user3.assign?(:name)
 user3.name = nil
 debug user3.assign?(:name)
 
-#* and keeping Struct's good interface
+# Standard Struct no check member name. 
+NoGuard = Struct.new :__send__, :'?  !'
+noguard = NoGuard.new false
+debug noguard.__send__
+debug noguard.methods.include?(:'?  !') # lost!!
+
+# Striuct provides safety levels for naming.
+class SafetyNaming < Striuct.new
+  begin
+    member :__send__
+  rescue
+    debug $!
+  end
+  
+  begin
+    member :'?  !'
+  rescue
+    debug $!
+  end
+  
+  # set lower
+  protect_level :struct
+  
+  member :__send__, :'?  !'
+end
+
+
+# and keeping Struct's good interface
 Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age
 
 debug Sth1.new

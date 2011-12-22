@@ -1,3 +1,17 @@
+=== 0.0.10 2011-12-23
+
+* delete
+  * Subclass#lock, Subclass#unlock?
+
+* modify
+  * Subclass#freeze
+  * has_condition? -> has_conditions?
+  * Subclass.lock, Subclass.lock? -> .close, .closed?
+
+* add:
+  * Subclass.protect_level   # class macro
+  * Subclass#default?
+
 === 0.0.9 2011-12-21
 
 * delete

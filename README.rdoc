@@ -15,6 +15,7 @@ Handy and safty than Ruby's Standard Struct.
   These checkers are not only Type Checker. They judge under your expressions.
 * After check, you can add one-step before link a object (call "flavor" at here).
 * You will be set default-value, and we have different meanings between nil and default-value.
+* without undesirable naming for conflict, no-identifier, and more cases
 * Base API looks like Ruby's standard Struct
 * pure-ruby and not taint your name-space
 
@@ -109,6 +110,32 @@ Handy and safty than Ruby's Standard Struct.
    user3.assign? :name #=> false
    user3.name = nil
    user3.assign? :name #=> true
+
+* Standard Struct no check member name. 
+    NoGuard = Struct.new :__send__, :'?  !'
+    noguard = NoGuard.new false
+    p noguard.__send__
+    p noguard.methods.include?(:'?  !') # lost!!
+
+* Striuct provides safety levels for naming.
+    class SafetyNaming < Striuct.new
+      begin
+        member :__send__
+      rescue
+        p $!
+      end
+      
+      begin
+        member :'?  !'
+      rescue
+        p $!
+      end
+      
+      protect_level :struct
+      
+      member :__send__, :'?  !'
+    end
+
 
 * Of course, keeping Struct's good interface
     Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age
