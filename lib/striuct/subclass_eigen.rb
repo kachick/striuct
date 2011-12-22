@@ -9,7 +9,7 @@ module Eigen
     def extended(klass)
       klass.class_eval do
         @names, @conditions, @flavors, @defaults = [], {}, {}, {}
-        @safe_level = :prevent
+        @protect_level = :prevent
       end
     end
   end
@@ -174,6 +174,7 @@ module Eigen
   
   def initialize_copy(org)
     @names, @conditions, @flavors, @defaults = *__stores__.map(&:dup)
+    @protect_level = @protect_level
   end
   
   # @return [self]
@@ -181,7 +182,8 @@ module Eigen
     __stores__.each(&:freeze)
     self
   end
-  
+
+  # @param [Symbol, String] name
   # @return [Symbol]
   def convert_cname(name)
     case name
@@ -198,12 +200,78 @@ module Eigen
     end
   end
 
+  # @param [Symbol] name
+  # @return [Symbol]
+  def estimate_naming(name)
+    if (instance_methods + private_instance_methods).include? name
+      return :conflict
+    end
+
+    return :no_ascii unless name.encoding.equal? Encoding::ASCII
+
+    case name
+    when /[\W]/, /\A[^a-zA-Z_]/, :''
+      :no_identifier
+    when /\Aeach/, /\A__\w*__\z/, /[!?]\z/
+      :bad_manners
+    when /\A[a-zA-Z_]\w*\z/
+      :strict
+    else
+      raise 'must not happen'
+    end
+  end
+
+  NAMING_RISKS = {
+    conflict:      10,
+    no_identifier:  9,
+    bad_manners:    5,
+    no_ascii:       3,
+    strict:         0 
+  }.freeze
+
+  PROTECT_LEVELS = {
+    struct:      {error: 99, warn: 99},
+    warning:     {error: 99, warn:  5},
+    error:       {error:  9, warn:  5},
+    prevent:     {error:  5, warn:  1},
+    nervous:     {error:  1, warn:  1}
+  }.each(&:freeze).freeze
+  
+  if respond_to? :private_constant
+    private_constant :PROTECT_LEVELS, :NAMING_RISKS
+  end
+
+  # @param [Symbol] name
+  def check_safety_naming(name)
+    estimation = estimate_naming name
+    risk    = NAMING_RISKS[estimation]
+    plevels = PROTECT_LEVELS[@protect_level]
+    caution = "undesirable naming '#{name}', because #{estimation}"
+
+    case
+    when risk >= plevels[:error]
+      raise NameError, caution
+    when risk >= plevels[:warn]
+      warn caution
+    end
+  end
+
+  # @macro [attach] protect_level
+  # @param [Symbol] level
+  def protect_level(level)
+    raise NameError unless PROTECT_LEVELS.has_key? level
+    
+    @protect_level = level
+    nil
+  end
+
   # @macro [attach] member
   # @return [nil]
   def define_member(name, *conditions, &flavor) 
     raise "already closed to add member in #{self}" if closed?
     name = convert_cname name
     raise ArgumentError, %Q!already exist name "#{name}"! if member? name
+    check_safety_naming name
 
     @names << name
     __getter__! name
