@@ -18,6 +18,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 3. どうせなら、チェックだけじゃなくキャストなりもやらせた上で格納したいときってあるよね
 4. とはいえ毎回毎回同じような構造体クラス書くのは面倒だし、長ったらしい
 5. メンバによっては標準値も定義したい
+6. StructでRubyのメソッド名を上書きしかねないのもおっかない
 
 == FEATURES
 
@@ -25,8 +26,9 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 * 型チェックではなく式チェックなので、動的言語の良さを殺しません
 * Proc(lambda)やMethod等 を使うことで、さらに柔軟なチェックが可能です
 * 参照前に、ちょっとした処理を加える事も可能です
+* 構造体としてのメンバ追加時、Rubyの既存メソッドと干渉しないかを指定レベル別にチェック可能です。
 * Structの心地よい操作感を残したまま機能追加をしています。
-* 既存クラスやメソッドの上書き等（を勝手には）しない、控えめな名前空間
+* 既存クラスやメソッドの上書き等を（勝手には）しない、控えめな名前空間
 * pure-ruby
 
 == SYNOPSIS
@@ -121,7 +123,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     
     user3 = User3.new
     user3.lank #=> 3
-    
+
 * 「意図的にnilを定義する」事もありますよね
   初期nilとの判別用メソッドを追加しました。
    
@@ -129,6 +131,33 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
    user3.assign? :name #=> false
    user3.name = nil
    user3.assign? :name #=> true
+
+* Structはこんな感じで、ノーガード上書き＆メソッド定義出来ない物も無警告で進みます
+    NoGuard = Struct.new :__send__, :'?  !'
+    noguard = NoGuard.new false
+    p noguard.__send__
+    p noguard.methods.include?(:'?  !') # lost!!
+
+* ということで、意図しない上書き等を防ぐために安全度を設定出来るようにしました。
+  標準値は上から2番目です。
+    class SafetyNaming < Striuct.new
+      begin
+        member :__send__
+      rescue
+        p $!
+      end
+      
+      begin
+        member :'?  !'
+      rescue
+        p $!
+      end
+      
+      # ここで下げると、定義可能に
+      protect_level :struct
+      
+      member :__send__, :'?  !'
+    end
 
 * Structの良さは無くしたくないですよね
     Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age
