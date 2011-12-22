@@ -88,7 +88,7 @@ Handy and safty than Ruby's Standard Struct.
     user2.age = 10.1 #=> 10(Fixnum)
     user2.age = '10' #=> 10(Fixnum)
 
-    user2.name = 's' #=> :10(Symbol)
+    user2.name = '10' #=> :10(Symbol)
 
 * but, linked objects are able to clash
     user.strict? #=> true
