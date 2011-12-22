@@ -15,7 +15,6 @@ Handy and safty than Ruby's Standard Struct.
   These checkers are not only Type Checker. They judge under your expressions.
 * After check, you can add one-step before link a object (call "flavor" at here).
 * You will be set default-value, and we have different meanings between nil and default-value.
-* without undesirable naming for conflict, no-identifier, and more cases
 * Base API looks like Ruby's standard Struct
 * pure-ruby and not taint your name-space
 
