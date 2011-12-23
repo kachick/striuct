@@ -74,11 +74,11 @@ module Subclass
 
   delegate_class_methods(
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
-    :size, :convert_cname, :restrict?, :has_default?, :default_for,
-    :names, :has_flavor?, :flavor_for, :has_conditions?
+    :size, :keyable_for, :restrict?, :has_default?, :default_for,
+    :names, :has_flavor?, :flavor_for, :has_conditions?, :inference?
   )
   
-  private :convert_cname, :flavor_for
+  private :keyable_for, :flavor_for
   
   # @param [Symbol, String, Fixnum] key
   def [](key)
@@ -157,7 +157,7 @@ module Subclass
 
   # @param [Symbol, String] name
   def assign?(name)
-    name = convert_cname name
+    name = keyable_for name
     raise NameError unless member? name
     
     @db.has_key? name
@@ -166,7 +166,7 @@ module Subclass
   # @param [Symbol, String] name
   def unassign(name)
     raise "can't modify frozen #{self.class}" if frozen?
-    name = convert_cname name
+    name = keyable_for name
     raise NameError unless member? name
     
     @db.delete name
@@ -206,7 +206,7 @@ module Subclass
   end
 
   def __get__(name)
-    name = convert_cname name
+    name = keyable_for name
     raise NameError unless member? name
 
     @db[name]
@@ -214,12 +214,16 @@ module Subclass
 
   def __set__(name, value)
     raise "can't modify frozen #{self.class}" if frozen?
-    name = convert_cname name
+    name = keyable_for name
     raise NameError unless member? name
 
     if accept? name, value
       if has_flavor? name
         value = instance_exec value, &flavor_for(name)
+      end
+
+      if inference? name
+        self.class.__send__ :__found_family__!, name, value
       end
       
       @db[name] = value
@@ -234,7 +238,7 @@ module Subclass
   def __subscript__(key)
     case key
     when Symbol, String
-      name = convert_cname key
+      name = keyable_for key
       if member? name
         yield name
       else
