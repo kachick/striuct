@@ -14,17 +14,18 @@ Strict Struct の略です。そのまま StrictStruct でも使えます。
 RubyのStructを愛しつつも、こういった部分をなんとかしたいと感じている方へお勧めします。
 
 1. ノーガードで参照を付けられるのがおっかないときもある
-2. かといって、型チェックしか出来ないようじゃ動的言語のメリットが死ぬんではなかろうか
-3. どうせなら、チェックだけじゃなくキャストなりもやらせた上で格納したいときってあるよね
-4. とはいえ毎回毎回同じような構造体クラス書くのは面倒だし、長ったらしい
-5. メンバによっては標準値も定義したい
-6. StructでRubyのメソッド名を上書きしかねないのもおっかない
+2.  かといって、型チェックしか出来ないようじゃRubyのメリットが死ぬんではなかろうか
+3. メンバ名でフツーのメソッド名を上書きしかねないのもおっかない
+4. 最初に代入したオブジェクトのクラスで固定したい
+5. どうせなら、チェックだけじゃなくキャストなりもやらせたものを参照したい
+6. メンバによっては標準値も定義したい
 
 == FEATURES
 
 * メンバ毎に、参照条件を簡単に定義できます。
 * 型チェックではなく式チェックなので、動的言語の良さを殺しません
 * Proc(lambda)やMethod等 を使うことで、さらに柔軟なチェックが可能です
+* どれか一つの構造体で最初に代入したオブジェクトのクラスで固定するようなメンバを作れます。
 * 参照前に、ちょっとした処理を加える事も可能です
 * 構造体としてのメンバ追加時、Rubyの既存メソッドと干渉しないかを指定レベル別にチェック可能です。
 * Structの心地よい操作感を残したまま機能追加をしています。
@@ -68,7 +69,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     user.strict? #=> false
 
 * 単純な例としてはこんな感じですが、更に細かいチェッカが必要であれば関数オブジェクトを使って下さい。
-  この時Proc(lambda)を構造体インスタンスのコンテキストで評価する為、他のメンバと連携したチェックも可能です。
+  この時Proc(lambda)を構造体インスタンスのコンテキストで評価する為、他のメンバと連携したチェックも簡単です。
     module Game
       class Character
       end
@@ -94,16 +95,44 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
       db.monsters = [monster]
     end
 
-* 更に細かい用途ですが、memberマクロへブロックを渡しておくと、チェック後一処理加えた値を代入可能です。
+* 構造体クラスのコンテキスト内だけで使える "inference" というメソッドの返り値を渡すと、
+  最初にどれか一つのインスタンスで参照したクラスが以降の参照条件となります。
+    class FlexibleContainer < Striuct.new
+      member :anything, inference
+      member :number, inference, Numeric
+    end
+
+    fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
+    # pass
+    fc1.anything = 'str'
+ 
+    # fail
+    fc1.anything = :sym
+    fc2.anything = :sym
+    
+    # pass
+    fc2.anything = 'string too'
+    
+    # fail
+    fc1.number = 'str'
+    
+    # pass
+    fc1.number = 1.0
+
+    # fail
+    fc2.number = 1
+
+
+* memberマクロへブロックを渡しておくと、チェック後一処理加えた値を代入可能です。
     class User2 < Striuct.new
       # 数字っぽければIntegerへ変換してから
       member :age, /\A\d+\z/, Numeric do |v|
         Integer v
       end
       
-      # Stringっぽさが強い時だけ、Symbolに変換した上で代入。
-      member :name, ->v{v.respond_to? :to_str} do |v|
-        v.to_str.to_sym
+      # Symbolに変換した上で代入。
+      member :name, ->v{v.respond_to? :to_s} do |v|
+        v.to_s.to_sym
       end
     end
     
@@ -112,7 +141,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     user2.age = 10.1 #=> 10(Fixnum)
     user2.age = '10' #=> 10(Fixnum)
     
-    user2.name = 's' #=> :10(Symbol)
+    user2.name = 10 #=> :10(Symbol)
 
 * Structだと標準値は全て nil になってしまいますが、これもクラスマクロで定義できるようにしました。
     class User3 < Striuct.new
@@ -169,15 +198,12 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     
     Sth2.new.respond_to?(:my_special_method) #=> true
 
-* ここの例だと返り値や例外状況が見づらいと思うので、同梱の example.rb を動かしてみてください
-
 * 混在利用させたい向きとかに、Structにも同じようなインターフェイスを用意できます。
   逆に言うと、これを使わない限りは名前空間をあんまし汚しません。
     require 'striuct/import'
 
 * 他にも幾つか機能追加しています。
-
-* このあともうちょっと増える予定です。
+  また、ここの例だと返り値や例外が見づらいと思うので、同梱の example.rb を動かしてみてください
 
 * 早わかり
   https://github.com/kachick/striuct/wiki/EasyGuide

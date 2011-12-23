@@ -18,7 +18,8 @@ Handy and safty than Ruby's Standard Struct.
 * You will be set default-value, and we have different meanings between nil and default-value.
 * without undesirable naming for conflict, no-identifier, and more cases
 * Base API looks like Ruby's standard Struct
-* pure-ruby and not taint your name-space
+* not taint your name-space(exclude striuct/import)
+* pure-ruby
 
 == SYNOPSIS
 
@@ -73,14 +74,40 @@ Handy and safty than Ruby's Standard Struct.
       db.monsters = [monster]
     end
 
+* "inference", check under first passed object's class
+    class FlexibleContainer < Striuct.new
+      member :anything, inference
+      member :number, inference, Numeric
+    end
+
+    fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
+    # pass
+    fc1.anything = 'str'
+ 
+    # fail
+    fc1.anything = :sym
+    fc2.anything = :sym
+    
+    # pass
+    fc2.anything = 'string too'
+    
+    # fail
+    fc1.number = 'str'
+    
+    # pass
+    fc1.number = 1.0
+
+    # fail
+    fc2.number = 1
+
 * with flavor for type cast
     class User2 < Striuct.new
       member :age, /\A\d+\z/, Numeric do |arg|
         Integer arg
       end
       
-      member :name, ->v{v.respond_to? :to_str} do |v|
-        v.to_str.to_sym
+      member :name, ->v{v.respond_to? :to_s} do |v|
+        v.to_s.to_sym
       end
     end
     
@@ -89,7 +116,7 @@ Handy and safty than Ruby's Standard Struct.
     user2.age = 10.1 #=> 10(Fixnum)
     user2.age = '10' #=> 10(Fixnum)
 
-    user2.name = '10' #=> :10(Symbol)
+    user2.name = 10 #=> :10(Symbol)
 
 * but, linked objects are able to clash
     user.strict? #=> true
@@ -148,14 +175,10 @@ Handy and safty than Ruby's Standard Struct.
     
     Sth2.new.respond_to?(:my_special_method) #=> true
 
-* (see example.rb)
-
 * Here, not taint your name-space. but enhancers are too, you can choose it.
     require 'striuct/import'
 
-* and more added
-
-* and adding
+* run example.rb
 
 * EasyGuide (in Japanese)
   https://github.com/kachick/striuct/wiki/EasyGuide

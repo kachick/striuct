@@ -55,7 +55,7 @@ debug user.strict?
 debug user
 debug user.strict?
 
-#* more detail checker do you need, you can use functional object.
+# more detail checker do you need, you can use functional object.
 module Game
   class Character
   end
@@ -87,8 +87,48 @@ module Game
   debug db
 end
 
+# "inference", check under first passed object's class
+class FlexibleContainer < Striuct.new
+  member :anything, inference
+  member :number, inference, Numeric
+end
+
+fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
+fc1.anything = 'str'
+debug fc1
+begin
+  fc1.anything = :sym
+rescue
+  debug $!
+end
+
+begin
+  fc2.anything = :sym
+rescue
+  debug $!
+end
+
+fc2.anything = 'string too'
+
+debug fc2
+
+begin
+  fc1.number = 'str'
+rescue
+  debug $!
+end
+
+fc1.number = 1.0
+debug fc1
+
+begin
+  fc2.number = 1
+rescue
+  debug $!
+end
+
  
-#* with flavor for type cast
+# with flavor for type cast
 class User2 < Striuct.new
   member :age, /\A\d+\z/, Numeric do |arg|
     Integer arg
