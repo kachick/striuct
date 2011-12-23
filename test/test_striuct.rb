@@ -466,6 +466,28 @@ end
 
 
 class TestStriuctSafetyNaming < Test::Unit::TestCase
+  def test_cname?
+    klass = Striuct.new
+    assert_same false, klass.cname?(Object)
+    assert_same false, klass.cname?('m?')
+    assert_same false, klass.cname?('__foo__')
+    assert_same false, klass.cname?('a b')
+    assert_same false, klass.cname?('object_id')
+    assert_same true, klass.cname?('foo')
+    klass.__send__ :protect_level, :warning
+    assert_same false, klass.cname?('m?')
+    assert_same false, klass.cname?('__foo__')
+    assert_same false, klass.cname?('a b')
+    assert_same false, klass.cname?('object_id')
+    assert_same true, klass.cname?('foo')
+    klass.__send__ :protect_level, :struct
+    assert_same true, klass.cname?('m?')
+    assert_same true, klass.cname?('__foo__')
+    assert_same true, klass.cname?('a b')
+    assert_same true, klass.cname?('object_id')
+    assert_same true, klass.cname?('foo')
+  end
+  
   def test_protect
     klass = Striuct.new
     assert_raises NameError do
@@ -506,5 +528,53 @@ class TestStriuctSafetyNaming < Test::Unit::TestCase
     end
     
     assert_same true, klass.member?('m?')
+  end
+end
+
+class TestStriuctInference < Test::Unit::TestCase
+  def test_inference
+    klass = Striuct.define do
+      member :n, Numeric, inference
+      member :m, inference
+    end
+    
+    sth, sth2 = klass.new, klass.new
+    
+    assert_raises Striuct::ConditionError do
+      sth.n = '1'
+    end
+    
+    sth.n = 1.1
+    
+    assert_equal 1.1, sth.n
+    
+    assert_raises Striuct::ConditionError do
+      sth.n = 1
+    end
+    
+    assert_raises Striuct::ConditionError do
+      sth2.n = 1
+    end
+    
+    sth.n = 2.1
+    
+    assert_equal 2.1, sth.n
+    
+    
+    sth2.m = 1
+    
+    assert_equal 1, sth2.m
+    
+    assert_raises Striuct::ConditionError do
+      sth.m = 1.0
+    end
+    
+    assert_raises Striuct::ConditionError do
+      sth2.m = 1.0
+    end
+    
+    sth.m = 2
+    
+    assert_equal 2, sth.m
   end
 end
