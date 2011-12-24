@@ -6,8 +6,7 @@
 
 == DESCRIPTION
 
-Striuct means Strict Struct.
-Handy and safty than Ruby's Standard Struct.
+Provides safety container that is as handy as Struct.
 
 == FEATURES
 * Provides automated checking for your setters.
@@ -26,36 +25,39 @@ Handy and safty than Ruby's Standard Struct.
 * setup
     require 'striuct'
 
-* Macro "member" provides one of Struct+ interface.
-  It checks under conditions when change to link other.
+* use two namespace, and same meanings
+    Striuct
+    StrictStruct
+
+=== Struct+ "Secure"
+
+* macro "member" provides to use condtions
     class User < Striuct.new
-      member :id, Integer
-      member :address, /\A((\w+) ?)+\z/
-      member :age, (20..140)
+      member :id,   Integer
+      member :age,  (20..140)
       member :name, /\A\w+\z/, /\A\w+ \w+\z/
     end
 
     # pass
-    user = User.new 128381, 'Tokyo Japan', 20
+    user = User.new 128381, 20
 
     # pass
     user.age = 30
-    user.name = 'taro yamada'
+    user[2] = 'taro yamada'
 
     # fail
     user[:id] = 10.0
-    user[1] = 'Tokyo-to'
     user.age = 19
-    user.name = nil
+    user[2] = nil
 
-* more detail checker do you need, you can use functional object here.
+* more detail checker do you need, use functional object
     module Game
       class Character
       end
 
       class DB < Striuct.new
-        member :monsters, ->monsters{(monsters - characters).empty?}
-        member :characters, ->characters{characters.all?{|c|c.kind_of? Character}}
+        member :monsters,   ->list{(list - characters).empty?}
+        member :characters, ->list{list.all?{|c|c.kind_of? Character}}
       end
       
       monster = Character.new
@@ -74,10 +76,10 @@ Handy and safty than Ruby's Standard Struct.
       db.monsters = [monster]
     end
 
-* "inference", check under first passed object's class
+* through "inference", and check under first passed object class
     class FlexibleContainer < Striuct.new
       member :anything, inference
-      member :number, inference, Numeric
+      member :number,   inference, Numeric
     end
 
     fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
@@ -99,45 +101,6 @@ Handy and safty than Ruby's Standard Struct.
 
     # fail
     fc2.number = 1
-
-* with flavor for type cast
-    class User2 < Striuct.new
-      member :age, /\A\d+\z/, Numeric do |arg|
-        Integer arg
-      end
-      
-      member :name, ->v{v.respond_to? :to_s} do |v|
-        v.to_s.to_sym
-      end
-    end
-    
-    user2 = User2.new
-    user2.age = 9 #=> 9(Fixnum)
-    user2.age = 10.1 #=> 10(Fixnum)
-    user2.age = '10' #=> 10(Fixnum)
-
-    user2.name = 10 #=> :10(Symbol)
-
-* but, linked objects are able to clash
-    user.strict? #=> true
-    user.address.clear
-    user.strict? #=> false
-
-* use default value
-    class User3 < Striuct.new
-      member  :lank, Fixnum
-      default :lank, 3
-      member  :name
-    end
-    
-    user3 = User3.new
-    user3.lank #=> 3
-    
-* Standard Struct always define "nil is default". ...realy?
-   user3.name  #=> nil
-   user3.assign? :name #=> false
-   user3.name = nil
-   user3.assign? :name #=> true
 
 * Standard Struct no check member name. 
     NoGuard = Struct.new :__send__, :'?  !'
@@ -164,25 +127,80 @@ Handy and safty than Ruby's Standard Struct.
       member :__send__, :'?  !'
     end
 
+* privides some check methods
+  * acccept? / sufficient?
+  * restrict?
+  * strict?
+  * secure?
+  * cname?
 
-* Of course, keeping Struct's good interface
-    Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age
+=== Struct+ "Handy"
 
-    Sth2 = Striuct.new do
+* to through block called "flavor".
+  below case for type cast
+    class User2 < Striuct.new
+      member :age, /\A\d+\z/, Numeric do |arg|
+        Integer arg
+      end
+      
+      member :name, ->v{v.respond_to? :to_s} do |v|
+        v.to_s.to_sym
+      end
+    end
+    
+    user2 = User2.new
+    user2.age = 9 #=> 9(Fixnum)
+    user2.age = 10.1 #=> 10(Fixnum)
+    user2.age = '10' #=> 10(Fixnum)
+
+    user2.name = 10 #=> :10(Symbol)
+    user2.name = Class #=> :Class(Symbol)
+
+* provides default value
+    class User3 < Striuct.new
+      member  :lank, Fixnum
+      default :lank, 3
+      member  :name
+    end
+    
+    user3 = User3.new
+    user3.lank #=> 3
+    
+* Standard Struct always define "nil is default". ...realy?
+   user3.name  #=> nil
+   user3.assign? :name #=> false
+   user3.name = nil
+   user3.assign? :name #=> true
+
+==== new constructors
+
+* Subclass.define reject floating object.
+  * except if no finished assign each member
+  * returning object is frozen
+      user3 = User3.define do |r|
+        r.lank = 10
+        r.name = 'foo'
+      end
+
+* Subclass.load_pairs easy make from Hash and like Hash
+    user3 = User3.load_pairs lank:10, name: 'foo'
+
+=== Keeping Struct's good interface
+    Sth1 = Striuct.new do
       def my_special_method
       end
     end
     
-    Sth2.new.respond_to?(:my_special_method) #=> true
+    Sth1.new.respond_to?(:my_special_method) #=> true
+
+=== Others
 
 * Here, not taint your name-space. but enhancers are too, you can choose it.
     require 'striuct/import'
 
 * run example.rb
 
-* EasyGuide (in Japanese)
-  https://github.com/kachick/striuct/wiki/EasyGuide
-
+* see https://github.com/kachick/striuct/wiki
 
 == REQUIREMENTS
 

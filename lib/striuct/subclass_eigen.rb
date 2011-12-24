@@ -35,6 +35,8 @@ module Eigen
       end
     end
   end
+
+  # @group Constructor
   
   # @return [Subclass]
   def new(*values)
@@ -74,6 +76,8 @@ module Eigen
     end
   end
 
+  # @endgroup
+
   # @return [Array<Symbol>]
   def names
     @names.dup
@@ -89,6 +93,34 @@ module Eigen
   alias_method :member?, :has_member?
   alias_method :has_key?, :has_member?
   alias_method :key?, :has_key?
+
+  # @yield [name] 
+  # @yieldparam [Symbol] name - sequential under defined
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_name(&block)
+    return to_enum(__method__) unless block_given?
+    @names.each(&block)
+    self
+  end
+
+  alias_method :each_member, :each_name
+  alias_method :each_key, :each_name
+
+  # @return [Integer]
+  def length
+    @names.length
+  end
+  
+  alias_method :size, :length
+
+  # @return [self]
+  def freeze
+    __stores__.each(&:freeze)
+    super
+  end
+
+  # @group Struct+
 
   def has_conditions?(name)
     raise NameError unless member? name
@@ -139,26 +171,6 @@ module Eigen
     @defaults.has_key? name
   end
   
-  # @yield [name] 
-  # @yieldparam [Symbol] name - sequential under defined
-  # @yieldreturn [self]
-  # @return [Enumerator]
-  def each_name(&block)
-    return to_enum(__method__) unless block_given?
-    @names.each(&block)
-    self
-  end
-  
-  alias_method :each_member, :each_name
-  alias_method :each_key, :each_name
-
-  # @return [Integer]
-  def length
-    @names.length
-  end
-  
-  alias_method :size, :length
-
   # @param [Object] name
   def cname?(name)
     check_safety_naming(keyable_for name){|r|r}
@@ -188,11 +200,7 @@ module Eigen
     @inferences.has_key? name
   end
 
-  # @return [self]
-  def freeze
-    __stores__.each(&:freeze)
-    super
-  end
+  # @endgroup
   
   private
 
@@ -255,6 +263,8 @@ module Eigen
   end
 
   # @param [Symbol] name
+  # @return [void]
+  # @yieldreturn [Boolean]
   def check_safety_naming(name)
     estimation = estimate_naming name
     risk    = NAMING_RISKS[estimation]
@@ -380,7 +390,7 @@ module Eigen
 
   def get_conditions(name)
     name = keyable_for name
-    raise NameError, 'no defined member' unless member? name
+    raise NameError, 'not defined member' unless member? name
 
     @conditions[name]
   end
@@ -389,7 +399,7 @@ module Eigen
 
   def get_flavor(name)
     name = keyable_for name
-    raise NameError, 'no defined member' unless member? name
+    raise NameError, 'not defined member' unless member? name
 
     @flavors[name]
   end
@@ -399,7 +409,7 @@ module Eigen
   # @param [Symbol, String] name
   def get_default_value(name)
     name = keyable_for name
-    raise NameError, 'no defined member' unless member? name
+    raise NameError, 'not defined member' unless member? name
   
     @defaults[name]
   end
@@ -412,7 +422,7 @@ module Eigen
   def set_default_value(name, value)
     raise "already closed to modify member attributes in #{self}" if closed?
     name = keyable_for name
-    raise NameError, 'no defined member' unless member? name
+    raise NameError, 'not defined member' unless member? name
     raise ConditionError unless accept? name, value 
   
     @defaults[name] = value
