@@ -13,8 +13,8 @@ module Subclass
     @db = {}
     
     if values.size <= size
-      values.each_with_index do |v, idx|
-        self[idx] = v
+      values.each_with_index do |value, index|
+        self[index] = value
       end
       
       excess = members.last(size - values.size)
@@ -26,6 +26,16 @@ module Subclass
       raise ArgumentError, "struct size differs (max: #{size})"
     end
   end
+  
+  # see Eigen.*args
+  delegate_class_methods(
+    :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
+    :size, :keyable_for, :restrict?, :has_default?, :default_for,
+    :names, :has_flavor?, :flavor_for, :has_conditions?, :inference?,
+    :conditions_for
+  )
+  
+  private :keyable_for, :flavor_for, :conditions_for
   
   # @return [Boolean]
   def ==(other)
@@ -71,14 +81,6 @@ module Subclass
       s << '>'
     end
   end
-
-  delegate_class_methods(
-    :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
-    :size, :keyable_for, :restrict?, :has_default?, :default_for,
-    :names, :has_flavor?, :flavor_for, :has_conditions?, :inference?
-  )
-  
-  private :keyable_for, :flavor_for
   
   # @param [Symbol, String, Fixnum] key
   def [](key)
@@ -105,7 +107,8 @@ module Subclass
   alias_method :each_key, :each_name
 
   # @yield [value]
-  # @yieldparam [Object] value - sequential under defined (see #each_name)
+  # @yieldparam [Object] value - sequential under defined
+  # @see #each_name
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_value
@@ -116,8 +119,10 @@ module Subclass
   alias_method :each, :each_value
 
   # @yield [name, value]
-  # @yieldparam [Symbol] name (see #each_name)
-  # @yieldparam [Object] value (see #each_value)
+  # @yieldparam [Symbol] name
+  # @see #each_name
+  # @see #each_value
+  # @yieldparam [Object] value 
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_pair
@@ -155,6 +160,14 @@ module Subclass
     end
   end
 
+  # @return [self]
+  def freeze
+    @db.freeze
+    super
+  end
+
+  # @group Struct+
+
   # @param [Symbol, String] name
   def assign?(name)
     name = keyable_for name
@@ -188,16 +201,12 @@ module Subclass
     frozen? && self.class.closed? && strict?
   end
   
-  # @return [self]
-  def freeze
-    @db.freeze
-    super
-  end
-  
   # @param [Symbol, String] name
   def default?(name)
     default_for(name) == self[name]
   end
+
+  # @endgroup
 
   private
   
@@ -228,7 +237,8 @@ module Subclass
       
       @db[name] = value
     else
-      raise ConditionError, 'deficent value for all conditions'
+      raise ConditionError,
+            "#{value.inspect} is deficient for #{conditions_for(name).inspect}"
     end
   end
   

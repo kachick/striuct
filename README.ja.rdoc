@@ -6,7 +6,7 @@
 
 == DESCRIPTION
 
-Strict Struct の略です。そのまま StrictStruct でも使えます。
+Structと同じぐらいの手軽さで使える、Structより堅いコンテナを目指しています。
 
 メンバ名チェックのかかるStructは、安心感という意味ではHashよりも好ましい事があるかと思います。
 でもそうやってStructを使うぐらいなわけだから、名前だけじゃなく参照先にもある程度の代入条件をかけたいと思う事が多くありませんか？
@@ -37,48 +37,45 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 * setup
     require 'striuct'
 
-* Structには無い機能として、memberというクラスマクロを用意しました。
-  ここでの定義順通りにindexが振られます。
-  引数1にメンバ名、引数2以降に参照条件を渡して下さい。caseのwhen節と同じ感覚で使えます。
-  引数1のみの場合、Structのメンバと同様ノーチェックになります。
+* 2つの名前空間をお借りしますが、どっちも同じクラスを指します
+    Striuct
+    StrictStruct
+
+=== Struct+ "Secure"
+
+* memberというクラスマクロを使うことで構造体のメンバを定義できます。
+  引数2以降に参照するための「条件」を渡して下さい。
+  caseのwhen節と大体同じ感覚なので、これだけでも型チェック+で使えます。
     class User < Striuct.new
-      member :id, Integer
-      member :address, /\A((\w+) ?)+\z/
-      member :age, (20..140)
+      member :id,   Integer
+      member :age,  (20..140)
       member :name, /\A\w+\z/, /\A\w+ \w+\z/
     end
 
-    # これはOK
-    user = User.new 128381, 'Tokyo Japan', 20
+    # pass
+    user = User.new 128381, 20
 
-    # これもOK
+    # pass
     user.age = 30
-    user.name = 'taro yamada'
+    user[2] = 'taro yamada'
 
-    # これは駄目(例外 Striuct::ConditionError)
+    # fail
     user[:id] = 10.0
-    user[1] = 'Tokyo-to'
     user.age = 19
-    user.name = nil
+    user[2] = nil
 
- 
-* リンク貼る時どれだけ注意しても、その後参照先のオブジェクトがぶっ壊れる可能性は残りますよね。
-  これは致し方無いと思うので、チェックだけでも簡単にできるようにしています。
-    user.strict? #=> true
-    user.address.clear
-    user.strict? #=> false
 
-* 単純な例としてはこんな感じですが、更に細かいチェッカが必要であれば関数オブジェクトを使って下さい。
+* 単更に柔軟なチェッカが必要であれば関数オブジェクトを使って下さい。
   この時Proc(lambda)を構造体インスタンスのコンテキストで評価する為、他のメンバと連携したチェックも簡単です。
     module Game
       class Character
       end
 
       class DB < Striuct.new
-        member :monsters, ->monsters{(monsters - characters).empty?}
-        member :characters, ->characters{characters.all?{|c|c.kind_of? Character}}
+        member :monsters,   ->list{(list - characters).empty?}
+        member :characters, ->list{list.all?{|c|c.kind_of? Character}}
       end
-      
+
       monster = Character.new
       db = DB.new
       
@@ -96,10 +93,10 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     end
 
 * 構造体クラスのコンテキスト内だけで使える "inference" というメソッドの返り値を渡すと、
-  最初にどれか一つのインスタンスで参照したクラスが以降の参照条件となります。
+  最初に参照したオブジェクトのクラスが、以降全インスタンスでの参照条件となります。
     class FlexibleContainer < Striuct.new
       member :anything, inference
-      member :number, inference, Numeric
+      member :number,   inference, Numeric
     end
 
     fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
@@ -121,45 +118,6 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 
     # fail
     fc2.number = 1
-
-
-* memberマクロへブロックを渡しておくと、チェック後一処理加えた値を代入可能です。
-    class User2 < Striuct.new
-      # 数字っぽければIntegerへ変換してから
-      member :age, /\A\d+\z/, Numeric do |v|
-        Integer v
-      end
-      
-      # Symbolに変換した上で代入。
-      member :name, ->v{v.respond_to? :to_s} do |v|
-        v.to_s.to_sym
-      end
-    end
-    
-    user2 = User2.new
-    user2.age = 9 #=> 9(Fixnum)
-    user2.age = 10.1 #=> 10(Fixnum)
-    user2.age = '10' #=> 10(Fixnum)
-    
-    user2.name = 10 #=> :10(Symbol)
-
-* Structだと標準値は全て nil になってしまいますが、これもクラスマクロで定義できるようにしました。
-    class User3 < Striuct.new
-      member  :lank, Fixnum
-      default :lank, 3
-      member  :name
-    end
-    
-    user3 = User3.new
-    user3.lank #=> 3
-
-* 「意図的にnilを定義する」事もありますよね
-  初期nilとの判別用メソッドを追加しました。
-   
-   user3.name  #=> nil
-   user3.assign? :name #=> false
-   user3.name = nil
-   user3.assign? :name #=> true
 
 * Structはこんな感じで、ノーガード上書き＆メソッド定義出来ない物も無警告で進みます
     NoGuard = Struct.new :__send__, :'?  !'
@@ -188,9 +146,66 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
       member :__send__, :'?  !'
     end
 
-* Structの良さは無くしたくないですよね
-    Sth1 = Striuct.new :id, :last_name, :family_name, :address, :age
+* この辺をチェックするためのメソッドも用意してあります。
+  * acccept? / sufficient?
+  * restrict?
+  * strict?
+  * secure?
+  * cname?
 
+=== Struct+ "Handy"
+
+* memberマクロへブロックを渡しておくと、チェック後一処理加えた値を代入可能です。
+    class User2 < Striuct.new
+      # 数字っぽければIntegerへ変換してから
+      member :age, /\A\d+\z/, Numeric do |v|
+        Integer v
+      end
+      
+      # Symbolに変換した上で代入。
+      member :name, ->v{v.respond_to? :to_s} do |v|
+        v.to_s.to_sym
+      end
+    end
+    
+    user2 = User2.new
+    user2.age = 9 #=> 9(Fixnum)
+    user2.age = 10.1 #=> 10(Fixnum)
+    user2.age = '10' #=> 10(Fixnum)
+    
+    user2.name = 10 #=> :10(Symbol)
+    user2.name = Class #=> :Class(Symbol)
+
+* defaultマクロを用いると、メンバ毎標準値の設定が可能です
+    class User3 < Striuct.new
+      member  :lank, Fixnum
+      default :lank, 3
+      member  :name
+    end
+    
+    user3 = User3.new
+    user3.lank #=> 3
+
+* 「意図的なnil」もあるので、初期nilとの判別用メソッドを追加しました。
+   user3.name  #=> nil
+   user3.assign? :name #=> false
+   user3.name = nil
+   user3.assign? :name #=> true
+
+==== new constructors
+
+* Subclass.define は、生成時から先オブジェクトを変える必要が無いケースで使います。
+  * すべてのメンバに何かしら参照がないと、例外を吐きます。
+  * 返り値はfrozenです(引数へ偽で変更可)
+      user3 = User3.define do |r|
+        r.lank = 10
+        r.name = 'foo'
+      end
+
+* Subclass.load_pairs は、HashなりHashっぽいものから作る時用です。
+    user3 = User3.load_pairs lank:10, name: 'foo'
+
+=== Keeping Struct's good interface
     Sth2 = Striuct.new do
       def my_special_method
       end
@@ -198,15 +213,15 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     
     Sth2.new.respond_to?(:my_special_method) #=> true
 
-* 混在利用させたい向きとかに、Structにも同じようなインターフェイスを用意できます。
-  逆に言うと、これを使わない限りは名前空間をあんまし汚しません。
+* 混在利用させたい向きとかに、Structにもある程度同じようなインターフェイスを用意できます。
+  これを使わない限りは名前空間を汚しません。
     require 'striuct/import'
 
 * 他にも幾つか機能追加しています。
   また、ここの例だと返り値や例外が見づらいと思うので、同梱の example.rb を動かしてみてください
 
-* 早わかり
-  https://github.com/kachick/striuct/wiki/EasyGuide
+* Wiki
+  https://github.com/kachick/striuct/wiki
 
 == REQUIREMENTS
 

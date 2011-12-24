@@ -9,6 +9,9 @@ class Striuct
   class ConditionError < ArgumentError; end
 
   class << self
+
+    # @group Constructor
+    
     alias_method :new_instance, :new
     private :new_instance
     
@@ -42,6 +45,8 @@ class Striuct
         end
       end
     end
+
+    # @groupend
 
     private
     
