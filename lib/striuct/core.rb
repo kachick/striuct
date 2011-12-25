@@ -1,6 +1,6 @@
 # Copyright (C) 2011  Kenichi Kamiya
 
-require_relative 'subclass_eigen'
+require_relative 'subclass-eigen'
 require_relative 'subclass'
 
 # @author Kenichi Kamiya
