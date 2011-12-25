@@ -216,10 +216,9 @@ module Eigen
     [@names, @flavors, @defaults]
   end
   
-  def initialize_copy(org)
+  def initialize_copy(original)
     @names, @flavors, @defaults = *__stores__.map(&:dup)
-    @conditions, @inferences, @protect_level = \
-    @conditions.dup, @inferences.dup, @protect_level
+    @conditions, @inferences = @conditions.dup, @inferences.dup
   end
   
   # @return [self]

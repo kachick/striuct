@@ -6,19 +6,19 @@
 
 == DESCRIPTION
 
-Safety container for you, that is as handy as Struct.
+A safety container for you, it is as handy as Struct(+).
 
 == FEATURES
-* Automated checkers will be with your accessors.
 * When you link a object, Striuct checks "They are valid objects?".
-  These checkers are not only Type Checker. They judge under your expressions.
-* When use "inference", member will be fixed under first passed object.
-* You can add a step before link a object. (call "flavor" at here)
-* You will be set default-value, and we have different meanings between nil and default-value.
+  These checkers don't depend only types(class).
+  The safety is made from your expressions.
+* When use "inference", member will be fixed under class of first passed object.
+* You can add a step just before link a object. (named "flavor" at here)
+* You can use default-value, and we have different meanings between nil and default-value.
 * Without undesirable naming for conflict, no-identifier and more cases.
-* Base API looks like Ruby's standard Struct
-* No taint your name-space(exclude striuct/import)
-* pure-ruby
+* Base API looks like Struct.
+* No taint your name-space(exclude striuct/import).
+* Pure Ruby
 
 == SYNOPSIS
 
@@ -29,9 +29,11 @@ Safety container for you, that is as handy as Struct.
     Striuct
     StrictStruct
 
-=== Struct+ "Secure"
+=== Struct+ "Safety"
 
-* macro "member" provides accessor, that with checking own value. 
+==== A class macro named "member"
+
+* Use "member" and you get a accessor, it looks Struct with testers. 
     class User < Striuct.new
       member :id,   Integer
       member :age,  (20..140)
@@ -43,14 +45,14 @@ Safety container for you, that is as handy as Struct.
 
     # pass
     user.age = 30
-    user[2] = 'taro yamada'
+    user[2] = 'foo bar'
 
     # fail
     user[:id] = 10.0
     user.age = 19
     user[2] = nil
 
-* more detail checker do you need, use functional object
+* Use functional object and you get testers on upstairs.
     module Game
       class Character
       end
@@ -70,13 +72,13 @@ Safety container for you, that is as handy as Struct.
       db.characters = [monster, Character.new]
       
       # fail
-      db.monsters = [:dummy]
+      db.monsters = [Character.new]
       
       # pass
       db.monsters = [monster]
     end
 
-* through "inference", and check under first passed object class
+* Use "inference" and all instance test under class of first passed object.
     class FlexibleContainer < Striuct.new
       member :anything, inference
       member :number,   inference, Numeric
@@ -102,16 +104,18 @@ Safety container for you, that is as handy as Struct.
     # fail
     fc2.number = 1
 
-* Standard Struct no check member name. 
-    NoGuard = Struct.new :__send__, :'?  !'
-    noguard = NoGuard.new false
-    p noguard.__send__
-    p noguard.methods.include?(:'?  !') # lost!!
+==== Protect from naming risks
 
-* Striuct provides safety levels for naming.
+* Standard Struct no check member name. 
+    NoGuard = Struct.new :object_id, :'?  !'
+    noguard = NoGuard.new false
+    noguard.object_id #=> false
+    noguard.methods.include?(:'?  !') #=> false(lost!!)
+
+* Striuct provides safety levels for this.
     class SafetyNaming < Striuct.new
       begin
-        member :__send__
+        member :object_id
       rescue
         p $!
       end
@@ -124,20 +128,24 @@ Safety container for you, that is as handy as Struct.
       
       protect_level :struct
       
-      member :__send__, :'?  !'
+      member :object_id, :'?  !'
     end
 
-* privides some check methods
-  * acccept? / sufficient?   # can set a argument to a member 
-  * conditionable?           # can set a condition for any members
-  * restrict?                # has any conditions for a member
-  * strict?                  # now, all members are passed any conditions
-  * secure?                  # instance and class is fixed and strict 
-  * cname?                   # can use member name under protect level
+==== Support utils
+
+* acccept? / sufficient?   # can set a argument to a member 
+* conditionable?           # can set a condition for any members
+* inference?               # inference member and no passed any object
+* restrict?                # has any conditions for a member
+* strict?                  # now, all members are passed any conditions
+* secure?                  # instance and class are fixed and strict 
+* cname?                   # can use member name under protect level
 
 === Struct+ "Handy"
 
-* Block with member macro is called "flavor".
+==== Flavor
+
+* Block with member macro, it is called "flavor".
   Below cases for type cast.
     class User2 < Striuct.new
       member :age, /\A\d+\z/, Numeric do |arg|
@@ -157,6 +165,8 @@ Safety container for you, that is as handy as Struct.
     user2.name = 10 #=> :10(Symbol)
     user2.name = Class #=> :Class(Symbol)
 
+==== Default
+
 * provides default value
     class User3 < Striuct.new
       member  :lank, Fixnum
@@ -167,26 +177,28 @@ Safety container for you, that is as handy as Struct.
     user3 = User3.new
     user3.lank #=> 3
     
-* Standard Struct always define "nil is default". ...realy?
+* Standard Struct always define "nil is default". Realy?
    user3.name  #=> nil
    user3.assign? :name #=> false
    user3.name = nil
    user3.assign? :name #=> true
 
-==== new constructors
+==== New Constructors
 
 * Subclass.define reject floating object.
-  * except if no finished assign each member
-  * returning object is frozen
+  * block parameter is new instance
+  * except if no finished to assign each member(modifiable)
+  * returning object is frozen(modifiable)
       user3 = User3.define do |r|
         r.lank = 10
         r.name = 'foo'
-      end
+      end #=> (flozen)
 
-* Subclass.[](load_pairs) easy make from Hash and like Hash
+* Subclass.[](load_pairs) make from Hash and like Hash
     user3 = User3[lank: 10, name: 'foo']
 
-=== Keeping Struct's good interface
+=== Almost interfaces are keeping Struct has.
+
     Sth1 = Striuct.new do
       def my_special_method
       end
@@ -196,18 +208,19 @@ Safety container for you, that is as handy as Struct.
 
 === Others
 
+* easy cast to Hash
+  user3.to_h #=> {:lank=>3, :name=>nil}
+
 * Here, not taint your name-space. but enhancers are too, you can choose it.
     require 'striuct/import'
 
-* run example.rb
-
-* see https://github.com/kachick/striuct/wiki
+* tips:
+  * run example.rb
+  * https://github.com/kachick/striuct/wiki
 
 == REQUIREMENTS
 
-=== Ruby
-* 1.9.3
-* 1.9.2
+* Ruby 1.9.2 and later (tested 1.9.2, 1.9.3)
 
 == INSTALL
 
