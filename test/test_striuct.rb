@@ -44,9 +44,9 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
     end
   end
   
-  def test_sufficent?
-    assert_equal false, User.sufficent?(:age, 19)
-    assert_equal true, User.sufficent?(:age, 20)
+  def test_sufficient?
+    assert_equal false, User.sufficient?(:age, 19)
+    assert_equal true, User.sufficient?(:age, 20)
   end
   
   def test_restrict?
@@ -128,11 +128,11 @@ class TestStriuctSubclassInstance2 < Test::Unit::TestCase
   end
   
   def test_strict?
-    assert_same @user.sufficent?(:last_name), true
+    assert_same @user.sufficient?(:last_name), true
     assert_same @user.strict?, true
-    assert_same @user.sufficent?(:last_name), true
+    assert_same @user.sufficient?(:last_name), true
     @user.last_name.clear
-    assert_same @user.sufficent?(:last_name), false
+    assert_same @user.sufficient?(:last_name), false
     assert_same @user.strict?, false
   end
 end
@@ -576,5 +576,31 @@ class TestStriuctInference < Test::Unit::TestCase
     sth.m = 2
     
     assert_equal 2, sth.m
+  end
+end
+
+class TestStriuctLoadPairs < Test::Unit::TestCase
+  Sth = Striuct.new :foo, :bar, :hoge
+  
+  def test_load_pairs
+    sth = Sth[hoge: 7, foo: 8]
+   
+    assert_equal [8, nil, 7], sth.values
+  end
+end
+
+class TestStriuctHash < Test::Unit::TestCase
+  Sth = Striuct.new :foo, :bar, :hoge
+
+  def test_hash
+    sth1 = Sth[hoge: 7, foo: 8]
+    sth2 = Sth[hoge: 7, foo: 8]
+    assert_equal true, sth1.eql?(sth2)
+    assert_equal true, sth2.eql?(sth1)
+    assert_equal sth1.hash, sth2.hash
+    assert_equal true, {sth1 => 1}.has_key?(sth2)
+    assert_equal true, {sth2 => 1}.has_key?(sth1)
+    assert_equal 1, {sth1 => 1}[sth2]
+    assert_equal 1, {sth2 => 1}[sth1]
   end
 end

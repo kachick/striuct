@@ -39,26 +39,30 @@ module Eigen
   # @group Constructor
   
   # @return [Subclass]
-  def new(*values)
+  def load_values(*values)
     new_instance(*values)
   end
 
-  # @param [#each_pair] pairs ex: Hash
+  alias_method :new, :load_values
+
+  # @param [#each_pair, #keys] pairs ex: Hash, Struct
   # @return [Subclass]
   def load_pairs(pairs)
-    raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
+    unless pairs.respond_to?(:each_pair) and pairs.respond_to?(:keys)
+      raise TypeError, 'no pairs object'
+    end
 
-    new.tap do |r|
+    raise ArgumentError, "different members" unless (pairs.keys - keys).empty?
+
+    new.tap do |instance|
       pairs.each_pair do |name, value|
-        if member? name
-          r[name] = value
-        else
-          raise ArgumentError, " #{name} is not our member"
-        end
+        instance[name] = value
       end
     end
   end
-  
+
+  alias_method :[], :load_pairs
+
   # @yieldparam [Subclass] instance
   # @yieldreturn [Subclass] instance
   # @return [void]
@@ -133,7 +137,7 @@ module Eigen
   # @param [Symbol, String] name
   # @param [Object] value
   # @param [Object] context - expected own instance
-  def sufficent?(name, value, context=self)
+  def sufficient?(name, value, context=self)
     name = keyable_for name
     raise NameError unless member? name
 
@@ -153,7 +157,7 @@ module Eigen
     end
   end
   
-  alias_method :accept?, :sufficent?
+  alias_method :accept?, :sufficient?
 
   # @param [Symbol, String] name
   def has_flavor?(name)
@@ -373,10 +377,11 @@ module Eigen
     nil
   end
 
-  def __found_family__!(name, our)
+  def __found_family__!(_caller, name, our)
     family = our.class
 
-    unless name.instance_of?(Symbol) and inference?(name) and member?(name)
+    unless name.instance_of?(Symbol) and inference?(name)\
+           and member?(name) and _caller.instance_of?(self)
       raise 'must not happen'
     end
 

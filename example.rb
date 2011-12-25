@@ -66,7 +66,7 @@ module Game
   debug db
   
   begin
-    db.monsters = [:dummy]
+    db.monsters = [Character.new]
   rescue
     debug $!
   end
