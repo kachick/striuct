@@ -125,7 +125,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 
 ==== 意図しない名前干渉は避ける
 
-* Structはこんな感じで、ノーガード上書き＆メソッド定義出来ない物も無警告で進みます
+* Structはこんな感じで、ノーガード上書き＆メソッド定義出来ない物も無警告で進みます(object_id, __id__ なんかもそうですね)
     NoGuard = Struct.new :__send__, :'?  !'
     noguard = NoGuard.new false
     p noguard.__send__
@@ -167,7 +167,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 
 ==== Flavor
 
-* memberマクロへブロックを渡しておくと、チェック後一処理加えた値を代入可能です。
+* memberマクロへブロックを渡しておくと、チェック後一処理加えた値を参照可能です。
     class User2 < Striuct.new
       # 数字っぽければIntegerへ変換してから
       member :age, /\A\d+\z/, Numeric do |v|
