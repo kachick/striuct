@@ -3,7 +3,7 @@
 require_relative 'lib/striuct'
 
 def debug(message)
-  puts "line: #{caller[0].slice(/:(\w+)/, 1)}"
+  puts "line: #{caller.first.slice(/:(\w+)/, 1)}"
   puts message.inspect, '-' * 80
 end
 

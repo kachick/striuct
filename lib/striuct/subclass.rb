@@ -101,11 +101,11 @@ module Subclass
 
   # @yield [name, value]
   # @yieldparam [Symbol] name
-  # @see #each_name
-  # @see #each_value
-  # @yieldparam [Object] value 
+  # @yieldparam [Object] value
   # @yieldreturn [self]
   # @return [Enumerator]
+  # @see #each_name
+  # @see #each_value 
   def each_pair
     return to_enum(__method__) unless block_given?
     each_name{|name|yield name, self[name]}
@@ -132,6 +132,7 @@ module Subclass
           r << self[key]
         when Range
           key.each do |n|
+            raise TypeError unless n.instance_of? Fixnum
             r << self[n]
           end
         else
@@ -150,8 +151,8 @@ module Subclass
   # @group Struct+
 
   # @return [Hash]
-  def to_h(ignore_no_assign=false)
-    return @db.dup if ignore_no_assign
+  def to_h(reject_no_assign=false)
+    return @db.dup if reject_no_assign
 
     {}.tap {|h|
       each_pair do |k, v|
@@ -202,8 +203,8 @@ module Subclass
 
   private
   
-  def initialize_copy(org)
-    @db = @db.clone
+  def initialize_copy(original)
+    @db = @db.dup
   end
 
   def __get__(name)
@@ -218,20 +219,20 @@ module Subclass
     name = keyable_for name
     raise NameError unless member? name
 
-    if accept? name, value
-      if has_flavor? name
-        value = instance_exec value, &flavor_for(name)
-      end
-
-      if inference? name
-        self.class.__send__ :__found_family__!, self, name, value
-      end
-      
-      @db[name] = value
-    else
+    unless accept? name, value
       raise ConditionError,
             "#{value.inspect} is deficient for #{conditions_for(name).inspect}"
     end
+          
+    if has_flavor? name
+      value = instance_exec value, &flavor_for(name)
+    end
+
+    if inference? name
+      self.class.__send__ :__found_family__!, self, name, value
+    end
+    
+    @db[name] = value
   end
   
   alias_method :assign, :__set__
