@@ -22,7 +22,7 @@ module StructExtension
       false
     end
     
-    def sufficient?(name, value)
+    def sufficient?(name, value, context=self)
       true
     end
     
@@ -40,35 +40,58 @@ module StructExtension
       false
     end
 
+    def names
+      members
+    end
+
+    alias_method :keys, :names
+
+    def each_name(&block)
+      return to_enum(__method__) unless block_given?
+      names.each(&block)
+      self
+    end
+
+    alias_method :each_member, :each_name
+    alias_method :each_key, :each_name
+
     # @return [Struct]
     def load_pairs(pairs)
-      raise TypeError, 'no pairs object' unless pairs.respond_to? :each_pair
-
-      new.tap do |r|
-        pairs.each_pair do |name, value|
-          if member? name
-            r[name] = value
-          else
-            raise ArgumentError, " #{name} is not our member"
-          end
-        end
+      unless pairs.respond_to?(:each_pair) and pairs.respond_to?(:keys)
+        raise TypeError, 'no pairs object'
       end
-    end
-    
-    def define(lock=false)
-      raise ArgumentError unless lock.equal?(false)
 
-      new.tap{|instance|yield instance}
+      raise ArgumentError, "different members" unless (pairs.keys - keys).empty?
+
+      new.tap {|instance|
+        pairs.each_pair do |name, value|
+          instance[name] = value
+        end
+      }
     end
 
-    # @return [StrictStruct]
-    def to_strict
-      StrictStruct.new(*members)
-    end
+    def define(check_assign=true, lock=true)
+      raise ArgumentError, 'must with block' unless block_given?
     
+      new.tap {|instance|
+        yield instance
+  
+        if check_assign && each_member.any?{|name|! instance.assign?(name)}
+          raise "not yet finished"
+        end
+
+        instance.freeze if lock
+      }
+    end
+
     def closed?
       true
     end
+    
+    def infelence?
+      false
+    end
+
   end
 
   def assign?(name)
@@ -90,6 +113,6 @@ end
 
 
 class Struct
-  extend Striuct::StructExtension::Eigen
+  extend  Striuct::StructExtension::Eigen
   include Striuct::StructExtension
 end
