@@ -70,15 +70,11 @@ module StructExtension
       }
     end
 
-    def define(check_assign=true, lock=true)
+    def define(lock=true)
       raise ArgumentError, 'must with block' unless block_given?
     
       new.tap {|instance|
         yield instance
-  
-        if check_assign && each_member.any?{|name|! instance.assign?(name)}
-          raise "not yet finished"
-        end
 
         instance.freeze if lock
       }
@@ -94,10 +90,6 @@ module StructExtension
 
   end
 
-  def assign?(name)
-    ! self[name].nil?
-  end
-
   def strict?
     false
   end
@@ -106,6 +98,14 @@ module StructExtension
     false
   end
 
+  # @return [Hash]
+  def to_h
+    {}.tap {|h|
+      each_pair do |k, v|
+        h[k] = v
+      end
+    }
+  end
 end
 
 

@@ -32,8 +32,10 @@ class TestStruct < Test::Unit::TestCase
     sth = Sth.new
     assert_equal false, sth.strict?
     assert_equal false, sth.secure?
-    assert_equal false, sth.assign?(:age)
-    sth.age = 'Something'
-    assert_equal true, sth.assign?(:age)
+  end
+  
+  def test_to_h
+    sth = Sth.new 9
+    assert_equal({age: 9}, sth.to_h)
   end
 end

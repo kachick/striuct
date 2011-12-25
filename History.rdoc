@@ -1,3 +1,12 @@
+=== 0.1.0 2011-12-25
+
+* modify
+  * Subclass.define
+
+* add:
+  * Subclass.[] (alias load_pairs)
+  * Subclass#to_h
+
 === 0.0.11 2011-12-23
 
 * modify

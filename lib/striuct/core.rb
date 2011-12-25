@@ -4,6 +4,7 @@ require_relative 'subclass-eigen'
 require_relative 'subclass'
 
 # @author Kenichi Kamiya
+# @abstract
 class Striuct
 
   class ConditionError < ArgumentError; end
