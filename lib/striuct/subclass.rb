@@ -11,20 +11,7 @@ module Subclass
   
   def initialize(*values)
     @db = {}
-    
-    if values.size <= size
-      values.each_with_index do |value, index|
-        self[index] = value
-      end
-      
-      excess = members.last(size - values.size)
-      
-      excess.each do |name|
-        self[name] = default_for name if has_default? name
-      end
-    else
-      raise ArgumentError, "struct size differs (max: #{size})"
-    end
+    replace_values(*values)
   end
   
   # see Eigen.*args
@@ -39,24 +26,18 @@ module Subclass
   
   # @return [Boolean]
   def ==(other)
-    if self.class.equal? other.class
-      each_pair.all?{|k, v|v == other[k]}
-    else
-      false
-    end
+    __compare_all__ other, :==
   end
+
+  alias_method :===, :==
   
   def eql?(other)
-    if self.class.equal? other.class
-      each_pair.all?{|k, v|v.eql? other[k]}
-    else
-      false
-    end
+    __compare_all__ other, :eql?
   end
-  
+
   # @return [Integer]
   def hash
-    values.map(&:hash).hash
+    [self.class, @db].hash
   end
   
   # @return [String]
@@ -81,7 +62,7 @@ module Subclass
       s << '>'
     end
   end
-  
+
   # @param [Symbol, String, Fixnum] key
   def [](key)
     __subscript__(key){|name|__get__ name}
@@ -168,6 +149,11 @@ module Subclass
 
   # @group Struct+
 
+  # @return [Hash]
+  def to_h
+    @db.dup
+  end
+  
   # @param [Symbol, String] name
   def assign?(name)
     name = keyable_for name
@@ -187,14 +173,14 @@ module Subclass
   
   # @param [Symbol, String] name
   # @param [Object] *values - no argument and use own
-  def sufficent?(name, value=self[name])
-    self.class.__send__(__method__, name, value, self)
+  def sufficient?(name, value=self[name])
+    self.class.sufficient? name, value, self
   end
   
-  alias_method :accept?, :sufficent?
+  alias_method :accept?, :sufficient?
 
   def strict?
-    each_pair.all?{|name, value|self.class.sufficent? name, value}
+    each_pair.all?{|name, value|self.class.sufficient? name, value}
   end
   
   def secure?
@@ -232,7 +218,7 @@ module Subclass
       end
 
       if inference? name
-        self.class.__send__ :__found_family__!, name, value
+        self.class.__send__ :__found_family__!, self, name, value
       end
       
       @db[name] = value
@@ -265,7 +251,28 @@ module Subclass
     end
   end
 
+  def replace_values(*values)
+    unless values.size <= size
+      raise ArgumentError, "struct size differs (max: #{size})"
+    end
 
+    values.each_with_index do |value, index|
+      self[index] = value
+    end
+      
+    excess = members.last(size - values.size)
+      
+    excess.each do |name|
+      self[name] = default_for name if has_default? name
+    end
+  end
+
+  # @param [Symbol] method
+  def __compare_all__(other, method)
+    instance_of?(other.class) && \
+    each_pair.all?{|k, v|v.__send__ method, other[k]}
+  end
+  
 end
 
 

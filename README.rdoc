@@ -6,18 +6,18 @@
 
 == DESCRIPTION
 
-Provides safety container that is as handy as Struct.
+Safety container for you, that is as handy as Struct.
 
 == FEATURES
-* Provides automated checking for your setters.
+* Automated checkers will be with your accessors.
 * When you link a object, Striuct checks "They are valid objects?".
   These checkers are not only Type Checker. They judge under your expressions.
-* when use "inference", member will be fixed first passed object's class
-* After check, you can add one-step before link a object (call "flavor" at here).
+* When use "inference", member will be fixed under first passed object.
+* You can add a step before link a object. (call "flavor" at here)
 * You will be set default-value, and we have different meanings between nil and default-value.
-* without undesirable naming for conflict, no-identifier, and more cases
+* Without undesirable naming for conflict, no-identifier and more cases.
 * Base API looks like Ruby's standard Struct
-* not taint your name-space(exclude striuct/import)
+* No taint your name-space(exclude striuct/import)
 * pure-ruby
 
 == SYNOPSIS
@@ -25,13 +25,13 @@ Provides safety container that is as handy as Struct.
 * setup
     require 'striuct'
 
-* use two namespace, and same meanings
+* use two namespace (same meanings)
     Striuct
     StrictStruct
 
 === Struct+ "Secure"
 
-* macro "member" provides to use condtions
+* macro "member" provides accessor, that with checking own value. 
     class User < Striuct.new
       member :id,   Integer
       member :age,  (20..140)
@@ -128,16 +128,17 @@ Provides safety container that is as handy as Struct.
     end
 
 * privides some check methods
-  * acccept? / sufficient?
-  * restrict?
-  * strict?
-  * secure?
-  * cname?
+  * acccept? / sufficient?   # can set a argument to a member 
+  * conditionable?           # can set a condition for any members
+  * restrict?                # has any conditions for a member
+  * strict?                  # now, all members are passed any conditions
+  * secure?                  # instance and class is fixed and strict 
+  * cname?                   # can use member name under protect level
 
 === Struct+ "Handy"
 
-* to through block called "flavor".
-  below case for type cast
+* Block with member macro is called "flavor".
+  Below cases for type cast.
     class User2 < Striuct.new
       member :age, /\A\d+\z/, Numeric do |arg|
         Integer arg
@@ -182,8 +183,8 @@ Provides safety container that is as handy as Struct.
         r.name = 'foo'
       end
 
-* Subclass.load_pairs easy make from Hash and like Hash
-    user3 = User3.load_pairs lank:10, name: 'foo'
+* Subclass.[](load_pairs) easy make from Hash and like Hash
+    user3 = User3[lank: 10, name: 'foo']
 
 === Keeping Struct's good interface
     Sth1 = Striuct.new do

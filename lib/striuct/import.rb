@@ -22,11 +22,11 @@ module StructExtension
       false
     end
     
-    def sufficent?(name, value)
+    def sufficient?(name, value)
       true
     end
     
-    alias_method :accept?, :sufficent?
+    alias_method :accept?, :sufficient?
 
     def has_default?(name)
       false
