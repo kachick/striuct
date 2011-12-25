@@ -199,7 +199,7 @@ end
 debug user3
 
 # Subclass.load_pairs easy make from Hash and like Hash
-user3 = User3.load_pairs lank:10, name: 'foo'
+user3 = User3[lank:10, name: 'foo']
 
 debug user3
 
