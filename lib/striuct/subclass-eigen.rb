@@ -54,11 +54,11 @@ module Eigen
 
     raise ArgumentError, "different members" unless (pairs.keys - keys).empty?
 
-    new.tap do |instance|
+    new.tap {|instance|
       pairs.each_pair do |name, value|
         instance[name] = value
       end
-    end
+    }
   end
 
   alias_method :[], :load_pairs
@@ -66,18 +66,18 @@ module Eigen
   # @yieldparam [Subclass] instance
   # @yieldreturn [Subclass] instance
   # @return [void]
-  def define(lock=true)
+  def define(check_assign=true, lock=true)
     raise ArgumentError, 'must with block' unless block_given?
     
-    new.tap do |instance|
+    new.tap {|instance|
       yield instance
   
-      if each_member.all?{|name|instance.assign? name}
-        instance.freeze if lock
-      else
+      if check_assign && each_member.any?{|name|! instance.assign?(name)}
         raise "not yet finished"
       end
-    end
+
+      instance.freeze if lock
+    }
   end
 
   # @endgroup

@@ -113,11 +113,11 @@ module Subclass
 
   # @return [Array]
   def values
-    [].tap do |r|
+    [].tap {|r|
       each_value do |v|
         r << v
       end
-    end
+    }
   end
   
   alias_method :to_a, :values
@@ -125,7 +125,7 @@ module Subclass
   # @param [Fixnum, Range] *keys
   # @return [Array]
   def values_at(*keys)
-    [].tap do |r|
+    [].tap {|r|
       keys.each do |key|
         case key
         when Fixnum
@@ -138,7 +138,7 @@ module Subclass
           raise TypeError
         end
       end
-    end
+    }
   end
 
   # @return [self]
@@ -150,8 +150,14 @@ module Subclass
   # @group Struct+
 
   # @return [Hash]
-  def to_h
-    @db.dup
+  def to_h(ignore_no_assign=false)
+    return @db.dup if ignore_no_assign
+
+    {}.tap {|h|
+      each_pair do |k, v|
+        h[k] = v
+      end
+    }
   end
   
   # @param [Symbol, String] name
