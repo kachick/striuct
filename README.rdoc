@@ -211,7 +211,7 @@ A safety container for you, it is as handy as Struct(+).
 === Others
 
 * easy cast to Hash
-  user3.to_h #=> {:lank=>3, :name=>nil}
+    user3.to_h #=> {:lank=>3, :name=>nil}
 
 * Here, not taint your name-space. but enhancers are too, you can choose it.
     require 'striuct/import'
