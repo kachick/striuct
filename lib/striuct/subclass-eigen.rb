@@ -98,18 +98,6 @@ module Eigen
   alias_method :has_key?, :has_member?
   alias_method :key?, :has_key?
 
-  # @yield [name] 
-  # @yieldparam [Symbol] name - sequential under defined
-  # @yieldreturn [self]
-  # @return [Enumerator]
-  def each_name(&block)
-    return to_enum(__method__) unless block_given?
-    @names.each(&block)
-    self
-  end
-
-  alias_method :each_member, :each_name
-  alias_method :each_key, :each_name
 
   # @return [Integer]
   def length
@@ -126,7 +114,22 @@ module Eigen
 
   # @group Struct+
 
+  # @yield [name] 
+  # @yieldparam [Symbol] name - sequential under defined
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_name(&block)
+    return to_enum(__method__) unless block_given?
+    @names.each(&block)
+    self
+  end
+
+  alias_method :each_member, :each_name
+  alias_method :each_key, :each_name
+
+  # @param [Symbol, String] name
   def has_conditions?(name)
+    name = keyable_for name
     raise NameError unless member? name
 
     ! @conditions[name].nil?

@@ -6,31 +6,32 @@
 
 == DESCRIPTION
 
-Structと同じぐらいの手軽さで使える、Structより堅いコンテナを目指しています。
+Structと同じかそれ以上の手軽さで扱える、Structより堅いコンテナを目指しています。
 
-メンバ名チェックのかかるStructは、安心感という意味ではHashよりも好ましい事があるかと思います。
-でもそうやってStructを使うぐらいなわけだから、名前だけじゃなく参照先にもある程度の代入条件をかけたいと思う事が多くありませんか？
+メンバ名にチェックがかかる＆一つの新しいクラスとして扱えるStructは、場面によってはHashよりも好ましい事があるかと思います。
+でもそうやってStructを使うぐらいなわけだから、値の方にもある程度のチェックをかけたいと思う事が多くありませんか？
 
 RubyのStructを愛しつつも、こういった部分をなんとかしたいと感じている方へお勧めします。
 
 1. ノーガードで参照を付けられるのがおっかないときもある
 2. かといって、型チェックしか出来ないようじゃRubyのメリットが死ぬんではなかろうか
 3. メンバ名でフツーのメソッド名を上書きしかねないのもおっかない
-4. 最初に代入したオブジェクトのクラスで固定したい
-5. どうせなら、チェックだけじゃなくキャストなりもやらせたものを参照したい
+4. 最初に代入したオブジェクトのクラスで固定したい（これは無いか）
+5. どうせなら、チェックだけじゃなくキャストなりやらせたものを参照したい
 6. メンバによっては標準値も定義したい
+7. Hashとの親和性を高くしたい
 
 == FEATURES
 
 * メンバ毎に、参照条件を簡単に定義できます。
-* 型チェックではなく式チェックなので、動的言語の良さを殺しません
+* 型チェックではなく式チェックなので、動的型の良さを殺しません
 * Proc(lambda)やMethod等 を使うことで、さらに柔軟なチェックが可能です
-* どれか一つの構造体で最初に代入したオブジェクトのクラスで固定するようなメンバを作れます。
-* 参照前に、ちょっとした処理を加える事も可能です
-* 構造体としてのメンバ追加時、Rubyの既存メソッドと干渉しないかを指定レベル別にチェック可能です。
-* Structの心地よい操作感を残したまま機能追加をしています。
+* どれか一つの構造体で最初に代入したオブジェクトのクラスに沿うようなメンバを作れます。
+* 参照直前に、ちょっとした処理を加える事も可能です
+* 構造体としてのメンバ追加時、Rubyの既存メソッドと干渉しないかを指定レベル別にチェック出来ます。
+* なるべくStructの心地よい操作感を残したまま機能追加をしています。
 * 既存クラスやメソッドの上書き等を（勝手には）しない、控えめな名前空間
-* pure-ruby
+* Pure Ruby
 
 == SYNOPSIS
 
@@ -41,11 +42,14 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     Striuct
     StrictStruct
 
-=== Struct+ "Secure"
+=== Struct+ "Safety"
+
+==== A class macro named "member"
 
 * memberというクラスマクロを使うことで構造体のメンバを定義できます。
-  引数2以降に参照するための「条件」を渡して下さい。
+  引数2以降に、参照するための「条件」を渡して下さい。
   caseのwhen節と大体同じ感覚なので、これだけでも型チェック+で使えます。
+  何も条件を渡さなければ、Struct同様ノーチェックです。
     class User < Striuct.new
       member :id,   Integer
       member :age,  (20..140)
@@ -65,7 +69,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     user[2] = nil
 
 
-* 単更に柔軟なチェッカが必要であれば関数オブジェクトを使って下さい。
+* 更に柔軟なチェッカが必要であれば関数オブジェクトを使って下さい。
   この時Proc(lambda)を構造体インスタンスのコンテキストで評価する為、他のメンバと連携したチェックも簡単です。
     module Game
       class Character
@@ -86,7 +90,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
       db.characters = [monster, Character.new]
       
       # fail
-      db.monsters = [:dummy]
+      db.monsters = [:Character.new]
       
       # pass
       db.monsters = [monster]
@@ -119,6 +123,8 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     # fail
     fc2.number = 1
 
+==== Protect from risks in naming members
+
 * Structはこんな感じで、ノーガード上書き＆メソッド定義出来ない物も無警告で進みます
     NoGuard = Struct.new :__send__, :'?  !'
     noguard = NoGuard.new false
@@ -126,7 +132,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     p noguard.methods.include?(:'?  !') # lost!!
 
 * ということで、意図しない上書き等を防ぐために安全度を設定出来るようにしました。
-  標準値は上から2番目です。
+  標準値は上から2番目の「:prevent」です。
     class SafetyNaming < Striuct.new
       begin
         member :__send__
@@ -146,14 +152,20 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
       member :__send__, :'?  !'
     end
 
-* この辺をチェックするためのメソッドも用意してあります。
-  * acccept? / sufficient?
-  * restrict?
-  * strict?
-  * secure?
-  * cname?
+==== Support utils
+
+* acccept? / sufficient?   # そのメンバにその値が設定出来るか
+* conditionable?           # 条件式として受け入れ可能なオブジェクトか
+* inference?               # 定義時にinferenceを使った上で、一つも参照されていないか
+* restrict?                # そのメンバに参照条件がかけられているか
+* strict?                  # 今時点で全てのメンバが参照条件を満たしているか
+* secure?                  # インスタンスもクラスも変動することない状態で、インスタンスにfreezeがかかっているか
+* cname?                   # そのメンバ名は、今のprotect level下で望ましいものか
+
 
 === Struct+ "Handy"
+
+==== Flavor
 
 * memberマクロへブロックを渡しておくと、チェック後一処理加えた値を代入可能です。
     class User2 < Striuct.new
@@ -176,7 +188,9 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     user2.name = 10 #=> :10(Symbol)
     user2.name = Class #=> :Class(Symbol)
 
-* defaultマクロを用いると、メンバ毎標準値の設定が可能です
+==== Default
+
+* defaultマクロを用いることで、メンバ毎に標準値を定義することが出来ます。
     class User3 < Striuct.new
       member  :lank, Fixnum
       default :lank, 3
@@ -186,26 +200,29 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     user3 = User3.new
     user3.lank #=> 3
 
-* 「意図的なnil」もあるので、初期nilとの判別用メソッドを追加しました。
+* 「意図的なnil」との区別を付けられます。
    user3.name  #=> nil
    user3.assign? :name #=> false
    user3.name = nil
    user3.assign? :name #=> true
 
-==== new constructors
+==== New Constructors
 
 * Subclass.define は、生成時から先オブジェクトを変える必要が無いケースで使います。
-  * すべてのメンバに何かしら参照がないと、例外を吐きます。
-  * 返り値はfrozenです(引数へ偽で変更可)
+  * ブロックパラメータに新しいインスタンスがわたり、またこれが返り値となります
+  * すべてのメンバに何かしら参照がないと、例外を吐きます。(引数へ偽で変更可)
+  * 返り値は凍結した状態になりますw(引数へ偽で変更可)
       user3 = User3.define do |r|
         r.lank = 10
         r.name = 'foo'
       end
 
-* Subclass.load_pairs は、HashなりHashっぽいものから作る時用です。
-    user3 = User3.load_pairs lank:10, name: 'foo'
+* Subclass.[](load_pairs) は、HashなりHashっぽいものから作る時用です。
+  # Struct.[] の仕様とは異なります。
+    user3 = User3[lank:10, name: 'foo']
 
-=== Keeping Struct's good interface
+=== Almost interfaces are keeping Struct has.
+* Struct使い(?)が余り違和感を感じ無いようにしたつもりです。
     Sth2 = Striuct.new do
       def my_special_method
       end
@@ -213,21 +230,27 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     
     Sth2.new.respond_to?(:my_special_method) #=> true
 
+=== Others
+
+* Hashへの変換も一発です。
+  user3.to_h #=> {:lank=>3, :name=>nil}
+
 * 混在利用させたい向きとかに、Structにもある程度同じようなインターフェイスを用意できます。
-  これを使わない限りは名前空間を汚しません。
+  逆に言うと、これを使わない限りは名前空間を汚しません。(標準では読み込みません)
     require 'striuct/import'
 
-* 他にも幾つか機能追加しています。
-  また、ここの例だと返り値や例外が見づらいと思うので、同梱の example.rb を動かしてみてください
+* 目立つ追加・変更点は多分このぐらいです。
+  ここの例だと返り値や例外が見づらいと思うので、同梱の example.rb を動かしてみてください
 
-* Wiki
-  https://github.com/kachick/striuct/wiki
+* tips:
+  * run example.rb
+  * https://github.com/kachick/striuct/wiki
 
 == REQUIREMENTS
 
 === Ruby
-* 1.9.3
-* 1.9.2
+
+* Ruby 1.9.2 and later (tested 1.9.2, 1.9.3)
 
 == INSTALL
 

@@ -11,11 +11,11 @@ A safety container for you, it is as handy as Struct(+).
 == FEATURES
 * When you link a object, Striuct checks "They are valid objects?".
   These checkers don't depend only types(class).
-  The safety is made from your expressions.
+    The safety is made from your expressions.
 * When use "inference", member will be fixed under class of first passed object.
 * You can add a step just before link a object. (named "flavor" at here)
 * You can use default-value, and we have different meanings between nil and default-value.
-* Without undesirable naming for conflict, no-identifier and more cases.
+* It is without undesirable naming of conflict, no-identifier and some cases.
 * Base API looks like Struct.
 * No taint your name-space(exclude striuct/import).
 * Pure Ruby
@@ -52,7 +52,7 @@ A safety container for you, it is as handy as Struct(+).
     user.age = 19
     user[2] = nil
 
-* Use functional object and you get testers on upstairs.
+* Use functional object and you get a tester on upstairs.
     module Game
       class Character
       end
@@ -104,15 +104,15 @@ A safety container for you, it is as handy as Struct(+).
     # fail
     fc2.number = 1
 
-==== Protect from naming risks
+==== Protect from risks in naming members
 
-* Standard Struct no check member name. 
+* Standard Struct dosen't check member-name. 
     NoGuard = Struct.new :object_id, :'?  !'
     noguard = NoGuard.new false
     noguard.object_id #=> false
     noguard.methods.include?(:'?  !') #=> false(lost!!)
 
-* Striuct provides safety levels for this.
+* Striuct provides safety levels for this. (default: :prevent)
     class SafetyNaming < Striuct.new
       begin
         member :object_id
@@ -126,6 +126,7 @@ A safety container for you, it is as handy as Struct(+).
         p $!
       end
       
+      # set lower
       protect_level :struct
       
       member :object_id, :'?  !'
@@ -145,7 +146,7 @@ A safety container for you, it is as handy as Struct(+).
 
 ==== Flavor
 
-* Block with member macro, it is called "flavor".
+* Block with member macro, it is called "flavor" at here.
   Below cases for type cast.
     class User2 < Striuct.new
       member :age, /\A\d+\z/, Numeric do |arg|
