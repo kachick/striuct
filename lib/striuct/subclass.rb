@@ -187,7 +187,7 @@ module Subclass
   alias_method :accept?, :sufficient?
 
   def strict?
-    each_pair.all?{|name, value|self.class.sufficient? name, value}
+    each_pair.all?{|name, value|sufficient? name, value}
   end
   
   def secure?
