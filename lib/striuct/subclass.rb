@@ -196,6 +196,9 @@ module Subclass
   
   # @param [Symbol, String] name
   def default?(name)
+    name = keyable_for name
+    raise NameError unless member? name
+
     default_for(name) == self[name]
   end
 
