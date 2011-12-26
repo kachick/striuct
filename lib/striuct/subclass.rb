@@ -283,6 +283,26 @@ module Subclass
     each_pair.to_a.flatten level
   end
 
+  # @see Hash#select
+  # @return [Subclass]
+  def select(&block)
+    return to_enum(__method__) unless block_given?
+
+    dup.tap {|r|
+      r.select!(&block)
+    }
+  end
+
+  # @see Hash#reject
+  # @return [Subclass]
+  def reject(&block)
+    return to_enum(__method__) unless block_given?
+
+    dup.tap {|r|
+      r.reject!(&block)
+    }
+  end
+
   # @endgroup
 
   private
