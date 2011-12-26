@@ -209,6 +209,32 @@ module Subclass
     each_name.none?{|name|assign? name}
   end
 
+  # @see Hash#select!
+  # unassign false member
+  def select!
+    raise "can't modify frozen #{self.class}" if frozen?
+    return to_enum(__method__) unless block_given?
+
+    modified = false
+    each_pair do |name, value|
+      unless yield name, value
+        unassign name
+        modified = true
+      end
+    end
+    
+    modified ? self : nil
+  end
+
+  # @see #select!
+  # always return self
+  def keep_if(&block)
+    raise "can't modify frozen #{self.class}" if frozen?
+    return to_enum(__method__) unless block_given?
+    select!(&block)
+    self
+  end
+
   # @endgroup
 
   private

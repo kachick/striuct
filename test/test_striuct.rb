@@ -631,4 +631,32 @@ class TestStriuctHashLike < Test::Unit::TestCase
     assert_equal false, sth.value?(9)
     assert_equal false, sth.value?(nil)
   end
+  
+  def test_select!
+    sth = Sth[hoge: 7, foo: 8]
+    sth2, sth3 = sth.dup, sth.dup
+    
+    assert_kind_of Enumerator, sth.select!
+
+    assert_equal nil, sth2.select!{|k, v|true}
+    assert_equal sth3, sth3.select!{|k, v|k == :hoge && v == 7}
+    assert_equal nil, sth3.foo
+    assert_equal true, sth3.assign?(:hoge)
+    assert_equal false, sth3.assign?(:foo)
+    assert_equal 7, sth3.hoge    
+  end
+
+  def test_keep_if
+    sth = Sth[hoge: 7, foo: 8]
+    sth2, sth3 = sth.dup, sth.dup
+    
+    assert_kind_of Enumerator, sth.keep_if
+
+    assert_equal sth2, sth2.keep_if{|k, v|true}
+    assert_equal sth3, sth3.keep_if{|k, v|k == :hoge && v == 7}
+    assert_equal nil, sth3.foo
+    assert_equal true, sth3.assign?(:hoge)
+    assert_equal false, sth3.assign?(:foo)
+    assert_equal 7, sth3.hoge
+  end
 end
