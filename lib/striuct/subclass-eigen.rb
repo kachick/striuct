@@ -139,16 +139,24 @@ module Eigen
 
   # @param [Symbol, String] name
   # @param [Object] value
-  # @param [Object] context - expected own instance
-  def sufficient?(name, value, context=self)
+  # @param [Subclass] context - expect own instance
+  def sufficient?(name, value, context=nil)
     name = keyable_for name
     raise NameError unless member? name
+
+    if context && ! context.instance_of?(self)
+      raise ArgumentError, "to change context is allowed in instance of #{self}"
+    end
 
     if restrict? name
       conditions_for(name).any?{|condition|
         case condition
         when Proc
-          context.instance_exec value, &condition
+          if context
+            context.instance_exec value, &condition
+          else
+            condition.call value
+          end
         when Method
           condition.call value
         else
