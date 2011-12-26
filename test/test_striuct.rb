@@ -596,7 +596,7 @@ class TestStriuctLoadPairs < Test::Unit::TestCase
   end
 end
 
-class TestStriuctHash < Test::Unit::TestCase
+class TestStriuctObject < Test::Unit::TestCase
   Sth = Striuct.new :foo, :bar, :hoge
 
   def test_hash
@@ -609,5 +609,26 @@ class TestStriuctHash < Test::Unit::TestCase
     assert_equal true, {sth2 => 1}.has_key?(sth1)
     assert_equal 1, {sth1 => 1}[sth2]
     assert_equal 1, {sth2 => 1}[sth1]
+  end
+end
+
+class TestStriuctHashLike < Test::Unit::TestCase
+  Sth = Striuct.new :foo, :bar, :hoge
+
+  def test_empty?
+    sth = Sth[hoge: 7, foo: 8]
+    assert_equal false, sth.empty?
+    sth.each_member{|name|sth[name] = nil}
+    assert_equal false, sth.empty?
+    sth.each_member{|name|sth.unassign name}
+    assert_equal true, sth.empty?
+  end
+  
+  def test_has_value?
+    sth = Sth[hoge: 7, foo: 8]
+    assert_equal true, sth.value?(7)
+    assert_equal true, sth.value?(8)
+    assert_equal false, sth.value?(9)
+    assert_equal false, sth.value?(nil)
   end
 end
