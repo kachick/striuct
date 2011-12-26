@@ -221,9 +221,9 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
   # Struct.[] の仕様とは異なります。
     user3 = User3[lank:10, name: 'foo']
 
-=== あくまでもStructっぽく
+=== Structの良さは活かしたまま
 
-* Struct使い(?)が余り違和感を感じ無いようにしたつもりです。
+* 基本的にはStruct使い(?)が余り違和感を感じ無いようにしたつもりです。
     Sth2 = Striuct.new do
       def my_special_method
       end
@@ -231,10 +231,15 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     
     Sth2.new.respond_to?(:my_special_method) #=> true
 
-=== おまけ
+=== Hashとお近づきに
+
+* どちらかというとStructはHashよりArray寄りな感じを受けるのですが、個人的にHash的な動きをしてくれると嬉しい事の方が多く感じます。
+  ということで、やり過ぎない範囲でHashっぽく使えるように調整しています。
 
 * Hashへの変換も一発です。
     user3.to_h #=> {:lank=>3, :name=>nil}
+
+=== おまけ
 
 * 混在利用させたい向きとかに、Structにもある程度同じようなインターフェイスを用意できます。
   逆に言うと、これを使わない限りは名前空間を汚しません。(標準では読み込みません)
