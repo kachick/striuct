@@ -744,4 +744,20 @@ class TestStriuctHashLike < Test::Unit::TestCase
     assert_equal [:foo, 8, :bar, 1, 2, :hoge, 7], sth.flatten(3)
     assert_equal [:foo, 8, :bar, 1, 2, :hoge, 7], sth.flatten(-1)
   end
+  
+  def test_select
+    sth = Sth[hoge: 7, foo: 8]
+
+    assert_kind_of Enumerator, enum = sth.select
+    
+    assert_equal Sth[hoge: 7], sth.select{|k, v|k == :hoge}
+  end
+
+  def test_reject
+    sth = Sth[hoge: 7, foo: 8]
+
+    assert_kind_of Enumerator, enum = sth.reject
+    
+    assert_equal Sth[foo: 8], sth.reject{|k, v|k == :hoge}
+  end
 end
