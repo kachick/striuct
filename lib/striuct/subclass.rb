@@ -199,6 +199,16 @@ module Subclass
     default_for(name) == self[name]
   end
 
+  def has_value?(value)
+    @db.has_value? value
+  end
+
+  alias_method :value?, :has_value?
+
+  def empty?
+    each_name.none?{|name|assign? name}
+  end
+
   # @endgroup
 
   private
