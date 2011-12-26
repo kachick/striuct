@@ -74,19 +74,6 @@ module Subclass
     __subscript__(key){|name|__set__ name, value}
   end
 
-  # @yield [name] 
-  # @yieldparam [Symbol] name - sequential under defined
-  # @yieldreturn [self]
-  # @return [Enumerator]
-  def each_name
-    return to_enum(__method__) unless block_given?
-    self.class.each_name{|name|yield name}
-    self
-  end
-
-  alias_method :each_member, :each_name
-  alias_method :each_key, :each_name
-
   # @yield [value]
   # @yieldparam [Object] value - sequential under defined
   # @see #each_name
@@ -149,6 +136,19 @@ module Subclass
   end
 
   # @group Struct+
+
+  # @yield [name] 
+  # @yieldparam [Symbol] name - sequential under defined
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_name
+    return to_enum(__method__) unless block_given?
+    self.class.each_name{|name|yield name}
+    self
+  end
+
+  alias_method :each_member, :each_name
+  alias_method :each_key, :each_name
 
   # @return [Hash]
   def to_h(reject_no_assign=false)
