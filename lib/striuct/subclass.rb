@@ -264,12 +264,23 @@ module Subclass
     self
   end
 
+  # @see Hash#assoc
   # @param [Symbol, String] name
   def assoc(name)
     name = keyable_for name
     raise NameError unless member? name
 
     [name, self[name]]
+  end
+
+  # @see Hash#rassoc
+  def rassoc(value)
+    each_pair.find{|pair|pair[1] == value}
+  end
+
+  # @see Hash#flatten
+  def flatten(level=1)
+    each_pair.to_a.flatten level
   end
 
   # @endgroup

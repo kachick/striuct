@@ -727,5 +727,21 @@ class TestStriuctHashLike < Test::Unit::TestCase
       sth.assoc(:dummy)
     end
   end
-  
+
+  def test_rassoc
+    sth = Sth[hoge: 7, foo: 7]
+
+    assert_equal [:foo, 7], sth.rassoc(7)
+    assert_equal [:bar, nil], sth.rassoc(nil)
+    assert_equal nil, sth.rassoc(9)
+  end
+
+  def test_flatten
+    sth = Sth[hoge: 7, foo: 8, bar: [1, 2]]
+    assert_equal [:foo, 8, :bar, [1, 2], :hoge, 7], sth.flatten
+    assert_equal [:foo, 8, :bar, [1, 2], :hoge, 7], sth.flatten(1)
+    assert_equal [:foo, 8, :bar, 1, 2, :hoge, 7], sth.flatten(2)
+    assert_equal [:foo, 8, :bar, 1, 2, :hoge, 7], sth.flatten(3)
+    assert_equal [:foo, 8, :bar, 1, 2, :hoge, 7], sth.flatten(-1)
+  end
 end
