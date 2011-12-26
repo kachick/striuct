@@ -98,7 +98,6 @@ module Eigen
   alias_method :has_key?, :has_member?
   alias_method :key?, :has_key?
 
-
   # @return [Integer]
   def length
     @names.length
@@ -112,20 +111,7 @@ module Eigen
     super
   end
 
-  # @group Struct+
-
-  # @yield [name] 
-  # @yieldparam [Symbol] name - sequential under defined
-  # @yieldreturn [self]
-  # @return [Enumerator]
-  def each_name(&block)
-    return to_enum(__method__) unless block_given?
-    @names.each(&block)
-    self
-  end
-
-  alias_method :each_member, :each_name
-  alias_method :each_key, :each_name
+  # @group Struct+ Safety
 
   # @param [Symbol, String] name
   def has_conditions?(name)
@@ -169,22 +155,6 @@ module Eigen
   end
   
   alias_method :accept?, :sufficient?
-
-  # @param [Symbol, String] name
-  def has_flavor?(name)
-    name = keyable_for name
-    raise NameError unless member? name
-
-    ! @flavors[name].nil?
-  end
-
-  # @param [Symbol, String] name
-  def has_default?(name)
-    name = keyable_for name
-    raise NameError unless member? name
-
-    @defaults.has_key? name
-  end
   
   # @param [Object] name
   def cname?(name)
@@ -213,6 +183,39 @@ module Eigen
     raise NameError unless member? name
 
     @inferences.has_key? name
+  end
+
+  # @endgroup
+
+  # @group Struct+ Handy
+
+  # @yield [name] 
+  # @yieldparam [Symbol] name - sequential under defined
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_name(&block)
+    return to_enum(__method__) unless block_given?
+    @names.each(&block)
+    self
+  end
+
+  alias_method :each_member, :each_name
+  alias_method :each_key, :each_name
+
+  # @param [Symbol, String] name
+  def has_flavor?(name)
+    name = keyable_for name
+    raise NameError unless member? name
+
+    ! @flavors[name].nil?
+  end
+
+  # @param [Symbol, String] name
+  def has_default?(name)
+    name = keyable_for name
+    raise NameError unless member? name
+
+    @defaults.has_key? name
   end
 
   # @endgroup

@@ -135,20 +135,27 @@ module Subclass
     super
   end
 
-  # @group Struct+
+  # @group Struct+ Safety
+  
+  # @param [Symbol, String] name
+  # @param [Object] *values - no argument and use own
+  def sufficient?(name, value=self[name])
+    self.class.sufficient? name, value, self
+  end
+  
+  alias_method :accept?, :sufficient?
 
-  # @yield [name] 
-  # @yieldparam [Symbol] name - sequential under defined
-  # @yieldreturn [self]
-  # @return [Enumerator]
-  def each_name
-    return to_enum(__method__) unless block_given?
-    self.class.each_name{|name|yield name}
-    self
+  def strict?
+    each_pair.all?{|name, value|sufficient? name, value}
+  end
+  
+  def secure?
+    frozen? && self.class.closed? && strict?
   end
 
-  alias_method :each_member, :each_name
-  alias_method :each_key, :each_name
+  # @endgroup
+  
+  # @group Struct + Handy
 
   # @return [Hash]
   def to_h(reject_no_assign=false)
@@ -177,23 +184,7 @@ module Subclass
     
     @db.delete name
   end
-  
-  # @param [Symbol, String] name
-  # @param [Object] *values - no argument and use own
-  def sufficient?(name, value=self[name])
-    self.class.sufficient? name, value, self
-  end
-  
-  alias_method :accept?, :sufficient?
 
-  def strict?
-    each_pair.all?{|name, value|sufficient? name, value}
-  end
-  
-  def secure?
-    frozen? && self.class.closed? && strict?
-  end
-  
   # @param [Symbol, String] name
   def default?(name)
     name = keyable_for name
@@ -202,18 +193,39 @@ module Subclass
     default_for(name) == self[name]
   end
 
+  def empty?
+    each_name.none?{|name|assign? name}
+  end
+
+  # @endgroup
+
+  # @group HashLike
+
+  # @yield [name] 
+  # @yieldparam [Symbol] name - sequential under defined
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_name
+    return to_enum(__method__) unless block_given?
+    self.class.each_name{|name|yield name}
+    self
+  end
+
+  alias_method :each_member, :each_name
+  alias_method :each_key, :each_name
+
   def has_value?(value)
     @db.has_value? value
   end
 
   alias_method :value?, :has_value?
 
-  def empty?
-    each_name.none?{|name|assign? name}
-  end
-
-  # @see Hash#select!
-  # unassign false member
+  # @yield [name, value]
+  # keep truthy only (unassign falsy member)
+  # @see #each_pair
+  # @return [Enumerator]
+  # @yieldreturn [self]
+  # @yieldreturn [nil]
   def select!
     raise "can't modify frozen #{self.class}" if frozen?
     return to_enum(__method__) unless block_given?
@@ -230,7 +242,8 @@ module Subclass
   end
 
   # @see #select!
-  # always return self
+  # @yield [name, value]
+  # @return [Enumerator]
   def keep_if(&block)
     raise "can't modify frozen #{self.class}" if frozen?
     return to_enum(__method__) unless block_given?
@@ -238,8 +251,10 @@ module Subclass
     self
   end
 
-  # @see Hash#reject!
-  # unassign true member
+  # @see #select!
+  # keep falsy only (unassign truthy member)
+  # @yield [name, value]
+  # @return [Enumerator]
   def reject!
     raise "can't modify frozen #{self.class}" if frozen?
     return to_enum(__method__) unless block_given?
@@ -256,7 +271,8 @@ module Subclass
   end
 
   # @see #reject!
-  # always return self
+  # @yield [name, value]
+  # @return [Enumerator]
   def delete_if(&block)
     raise "can't modify frozen #{self.class}" if frozen?
     return to_enum(__method__) unless block_given?
@@ -264,8 +280,8 @@ module Subclass
     self
   end
 
-  # @see Hash#assoc
   # @param [Symbol, String] name
+  # @return [Array] [name, value]
   def assoc(name)
     name = keyable_for name
     raise NameError unless member? name
@@ -273,17 +289,19 @@ module Subclass
     [name, self[name]]
   end
 
-  # @see Hash#rassoc
+  # @return [Array] [name, value]
   def rassoc(value)
     each_pair.find{|pair|pair[1] == value}
   end
 
   # @see Hash#flatten
+  # @return [Array]
   def flatten(level=1)
     each_pair.to_a.flatten level
   end
 
-  # @see Hash#select
+  # @see #select!
+  # @yield [name, value]
   # @return [Subclass]
   def select(&block)
     return to_enum(__method__) unless block_given?
@@ -293,7 +311,8 @@ module Subclass
     }
   end
 
-  # @see Hash#reject
+  # @see #reject!
+  # @yield [name, value]
   # @return [Subclass]
   def reject(&block)
     return to_enum(__method__) unless block_given?
