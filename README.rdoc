@@ -208,10 +208,15 @@ A safety container for you, it is as handy as Struct(+).
     
     Sth1.new.respond_to?(:my_special_method) #=> true
 
-=== Others
+=== HashLike
+
+* some interfaces import from Hash
 
 * easy cast to Hash
-    user3.to_h #=> {:lank=>3, :name=>nil}
+  user3.to_h #=> {:lank=>3, :name=>nil}
+
+
+=== Others
 
 * Here, not taint your name-space. but enhancers are too, you can choose it.
     require 'striuct/import'

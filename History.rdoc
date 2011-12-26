@@ -1,6 +1,25 @@
+=== 0.1.1 2011-12-26
+
+* modify:
+  * Subclass.sufficient?
+
+* add:
+  * Subclass#empty?
+  * Subclass#has_value? (value?)
+  * Subclass#flatten
+  * Subclass#select! (keep_if)
+  * Subclass#select
+  * Subclass#reject! (delete_if)
+  * Subclass#reject
+  * Subclass#assoc
+  * Subclass#rassoc
+
+* fix
+  * Subclass#sufficient?
+
 === 0.1.0 2011-12-25
 
-* modify
+* modify:
   * Subclass.define
 
 * add:
@@ -9,7 +28,7 @@
 
 === 0.0.11 2011-12-23
 
-* modify
+* modify:
   * Subclass.cname?
 
 * add:
@@ -17,10 +36,10 @@
 
 === 0.0.10 2011-12-23
 
-* delete
+* delete:
   * Subclass#lock, Subclass#unlock?
 
-* modify
+* modify:
   * Subclass#freeze
   * has_condition? -> has_conditions?
   * Subclass.lock, Subclass.lock? -> .close, .closed?
@@ -31,7 +50,7 @@
 
 === 0.0.9 2011-12-21
 
-* delete
+* delete:
   * Striuct.load_pairs
   * Subclass.conditions
   * Subclass.procedures
