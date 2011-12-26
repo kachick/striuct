@@ -264,6 +264,14 @@ module Subclass
     self
   end
 
+  # @param [Symbol, String] name
+  def assoc(name)
+    name = keyable_for name
+    raise NameError unless member? name
+
+    [name, self[name]]
+  end
+
   # @endgroup
 
   private

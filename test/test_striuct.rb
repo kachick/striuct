@@ -715,4 +715,17 @@ class TestStriuctHashLike < Test::Unit::TestCase
     assert_equal true, sth3.assign?(:foo)
     assert_equal 8, sth3.foo
   end
+  
+  def test_assoc
+    sth = Sth[hoge: 7, foo: 8]
+
+    assert_equal [:foo, 8], sth.assoc(:foo)
+    assert_equal [:bar, nil], sth.assoc(:bar)
+    assert_equal [:hoge, 7], sth.assoc(:hoge)
+    
+    assert_raises NameError do
+      sth.assoc(:dummy)
+    end
+  end
+  
 end
