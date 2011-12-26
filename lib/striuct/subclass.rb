@@ -235,6 +235,32 @@ module Subclass
     self
   end
 
+  # @see Hash#reject!
+  # unassign true member
+  def reject!
+    raise "can't modify frozen #{self.class}" if frozen?
+    return to_enum(__method__) unless block_given?
+
+    modified = false
+    each_pair do |name, value|
+      if yield name, value
+        unassign name
+        modified = true
+      end
+    end
+    
+    modified ? self : nil
+  end
+
+  # @see #reject!
+  # always return self
+  def delete_if(&block)
+    raise "can't modify frozen #{self.class}" if frozen?
+    return to_enum(__method__) unless block_given?
+    reject!(&block)
+    self
+  end
+
   # @endgroup
 
   private
