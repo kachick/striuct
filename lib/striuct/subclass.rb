@@ -14,7 +14,7 @@ module Subclass
     replace_values(*values)
   end
   
-  # see Eigen.*args
+  # see self.class.*args
   delegate_class_methods(
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
     :size, :keyable_for, :restrict?, :has_default?, :default_for,
