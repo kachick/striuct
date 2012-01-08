@@ -1,4 +1,4 @@
-class Striuct; module Subclass
+class Striuct; module Subclassable
 
 # @author Kenichi Kamiya
 module Eigen

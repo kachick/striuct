@@ -1,4 +1,4 @@
-class Striuct
+class Striuct; module Subclassable
 
 
 # @author Kenichi Kamiya
@@ -23,4 +23,4 @@ module ClassUtil
 end
 
 
-end
+end; end
