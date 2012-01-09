@@ -31,7 +31,7 @@ module Eigen
     def extended(klass)
       klass.class_eval do
         @names, @conditions, @flavors, @defaults = [], {}, {}, {}
-        @inferences, @protect_level = {}, :prevent
+        @inferences, @aliases,  @protect_level = {}, {}, :prevent
       end
     end
   end
@@ -91,7 +91,11 @@ module Eigen
   alias_method :keys, :names
 
   def has_member?(name)
-    @names.include? keyable_for(name)
+    __orgkey_for__(keyable_for name)
+  rescue Exception
+    false
+  else
+    true
   end
   
   alias_method :member?, :has_member?
@@ -115,8 +119,7 @@ module Eigen
 
   # @param [Symbol, String] name
   def has_conditions?(name)
-    name = keyable_for name
-    raise NameError unless member? name
+    name = __orgkey_for__(keyable_for name)
 
     ! @conditions[name].nil?
   end
@@ -127,8 +130,7 @@ module Eigen
   # @param [Object] value
   # @param [Subclass] context - expect own instance
   def sufficient?(name, value, context=nil)
-    name = keyable_for name
-    raise NameError unless member? name
+    name = __orgkey_for__(keyable_for name)
 
     if context && ! context.instance_of?(self)
       raise ArgumentError, "to change context is allowed in instance of #{self}"
@@ -180,8 +182,7 @@ module Eigen
 
   # @param [Symbol, String] name
   def inference?(name)
-    name = keyable_for name
-    raise NameError unless member? name
+    name = __orgkey_for__(keyable_for name)
 
     @inferences.has_key? name
   end
@@ -205,16 +206,14 @@ module Eigen
 
   # @param [Symbol, String] name
   def has_flavor?(name)
-    name = keyable_for name
-    raise NameError unless member? name
+    name = __orgkey_for__(keyable_for name)
 
     ! @flavors[name].nil?
   end
 
   # @param [Symbol, String] name
   def has_default?(name)
-    name = keyable_for name
-    raise NameError unless member? name
+    name = __orgkey_for__(keyable_for name)
 
     @defaults.has_key? name
   end
@@ -242,14 +241,20 @@ module Eigen
     self
   end
 
+  # @param [Symbol] name
+  def __orgkey_for__(name)
+    raise TypeError unless name.instance_of? Symbol
+    return @aliases[name] if @aliases.has_key? name
+    return name if @names.include? name
+    raise NameError, "not defined member for #{name}"
+  end
+
   # @param [Symbol, String] name
   # @return [Symbol]
   def keyable_for(name)
     case name
     when Symbol, String
-      r = name.to_sym
-
-      if r.instance_of? Symbol
+      if (r = name.to_sym).instance_of? Symbol
         r
       else
         raise 'must not happen'
@@ -346,6 +351,23 @@ module Eigen
 
   alias_method :def_members, :define_members
 
+  # @param [Symbol, String] aliased
+  # @param [Symbol, String] original
+  # @return [nil]
+  def alias_member(aliased, original)
+    original = keyable_for original
+    aliased  = keyable_for aliased
+    raise NameError unless member? original
+    raise ArgumentError, %Q!already exist name "#{aliased}"! if member? aliased
+    check_safety_naming aliased
+
+    alias_method aliased, original
+    alias_method "#{aliased}=", "#{original}="
+    @aliases[aliased] = original
+
+    nil
+  end
+
   def __getter__!(name) 
     define_method name do
       __get__ name
@@ -394,10 +416,10 @@ module Eigen
   def __found_family__!(_caller, name, our)
     family = our.class
 
-    unless name.instance_of?(Symbol) and inference?(name)\
-           and member?(name) and _caller.instance_of?(self)
-      raise 'must not happen'
-    end
+    raise 'must not happen' unless name.instance_of?(Symbol) and
+                                   inference?(name) and
+                                   member?(name) and
+                                   _caller.instance_of?(self)
 
     raise ArgumentError unless conditionable? family
     
@@ -407,18 +429,18 @@ module Eigen
     nil
   end
 
+  # @param [Symbol, String] name
   def get_conditions(name)
-    name = keyable_for name
-    raise NameError, 'not defined member' unless member? name
+    name = __orgkey_for__(keyable_for name)
 
     @conditions[name]
   end
   
   alias_method :conditions_for, :get_conditions
-
+  
+  # @param [Symbol, String] name
   def get_flavor(name)
-    name = keyable_for name
-    raise NameError, 'not defined member' unless member? name
+    name = __orgkey_for__(keyable_for name)
 
     @flavors[name]
   end
@@ -427,8 +449,7 @@ module Eigen
 
   # @param [Symbol, String] name
   def get_default_value(name)
-    name = keyable_for name
-    raise NameError, 'not defined member' unless member? name
+    name = __orgkey_for__(keyable_for name)
   
     @defaults[name]
   end
@@ -440,8 +461,7 @@ module Eigen
   # @return [nil]
   def set_default_value(name, value)
     raise "already closed to modify member attributes in #{self}" if closed?
-    name = keyable_for name
-    raise NameError, 'not defined member' unless member? name
+    name = __orgkey_for__(keyable_for name)
     raise ConditionError unless accept? name, value 
   
     @defaults[name] = value

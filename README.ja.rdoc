@@ -201,10 +201,22 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     user3.lank #=> 3
 
 * 「意図的なnil」との区別を付けられます。
-   user3.name  #=> nil
-   user3.assign? :name #=> false
-   user3.name = nil
-   user3.assign? :name #=> true
+    user3.name  #=> nil
+    user3.assign? :name #=> false
+    user3.name = nil
+    user3.assign? :name #=> true
+
+==== Alias
+
+* メンバ名に別名を付与出来ます。当然、添字アクセスも可能。
+    class User3
+      alias_member :position, :lank
+    end
+    
+    user3.lank.equal? user3.position #=> true
+    user3[:lank].equal? user3[:position] #=> true
+    user3[:position] = 4
+    user3.lank  #=> 4
 
 ==== New Constructors
 
