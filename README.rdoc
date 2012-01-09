@@ -213,7 +213,7 @@ A safety container for you, it is as handy as Struct(+).
 * some interfaces import from Hash
 
 * easy cast to Hash
-  user3.to_h #=> {:lank=>3, :name=>nil}
+    user3.to_h #=> {:lank=>3, :name=>nil}
 
 
 === Others
