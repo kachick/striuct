@@ -1,4 +1,5 @@
 require_relative 'classutil'
+require_relative 'eigen'
 autoload :YAML, 'yaml'
 
 
@@ -10,6 +11,14 @@ module Subclassable
 
   extend ClassUtil
   include Enumerable
+  
+  class << self
+    private
+
+    def included(klass)
+      klass.extend Eigen
+    end
+  end
   
   def initialize(*values)
     @db = {}

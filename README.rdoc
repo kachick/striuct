@@ -14,9 +14,10 @@ A safety container for you, it is as handy as Struct(+).
   
   The safety is made from your expressions.
 * When use "inference", member will be fixed under class of first passed object.
+* It is without undesirable naming of conflict, no-identifier and some cases.
 * You can add a step just before link a object. (named "flavor" at here)
 * You can use default-value, and we have different meanings between nil and default-value.
-* It is without undesirable naming of conflict, no-identifier and some cases.
+* It is easy to alias member name.
 * Base API looks like Struct.
 * No taint your name-space(exclude striuct/import).
 * Pure Ruby
@@ -32,9 +33,9 @@ A safety container for you, it is as handy as Struct(+).
 
 === Struct+ "Safety"
 
-==== A class macro named "member"
+==== "member" macro
 
-* Use "member" and you get a accessor, it looks Struct with testers. 
+* Use "member" and you get a accessor, it looks Struct with tester(validator)s. 
     class User < Striuct.new
       member :id,   Integer
       member :age,  (20..140)
@@ -135,7 +136,7 @@ A safety container for you, it is as handy as Struct(+).
 
 ==== Support utils
 
-* acccept? / sufficient?   # can set a argument to a member 
+* valid? / acccept? / sufficient?   # can set a argument to a member 
 * conditionable?           # can set a condition for any members
 * inference?               # inference member and no passed any object
 * restrict?                # has any conditions for a member
