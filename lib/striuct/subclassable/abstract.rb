@@ -152,6 +152,7 @@ module Subclassable
   end
   
   alias_method :accept?, :sufficient?
+  alias_method :valid?, :sufficient?
 
   def strict?
     each_pair.all?{|name, value|sufficient? name, value}

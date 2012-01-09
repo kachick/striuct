@@ -155,6 +155,7 @@ module Eigen
   end
   
   alias_method :accept?, :sufficient?
+  alias_method :valid?, :sufficient?
   
   # @param [Object] name
   def cname?(name)
