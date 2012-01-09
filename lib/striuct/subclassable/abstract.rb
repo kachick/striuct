@@ -137,8 +137,9 @@ module Subclassable
     super
   end
   
+  # @return [String]
   def to_yaml
-    YAML.to_s   # for autoload
+    YAML.__id__   # for autoload
     klass = Struct.new(*members)
     klass.new(*values).to_yaml
   end
@@ -285,6 +286,7 @@ module Subclassable
   def delete_if(&block)
     raise "can't modify frozen #{self.class}" if frozen?
     return to_enum(__method__) unless block_given?
+
     reject!(&block)
     self
   end
@@ -315,9 +317,7 @@ module Subclassable
   def select(&block)
     return to_enum(__method__) unless block_given?
 
-    dup.tap {|r|
-      r.select!(&block)
-    }
+    dup.tap {|r|r.select!(&block)}
   end
 
   # @see #reject!
@@ -326,9 +326,7 @@ module Subclassable
   def reject(&block)
     return to_enum(__method__) unless block_given?
 
-    dup.tap {|r|
-      r.reject!(&block)
-    }
+    dup.tap {|r|r.reject!(&block)}
   end
 
   # @endgroup
