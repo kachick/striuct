@@ -21,10 +21,10 @@ module Subclassable
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
     :size, :keyable_for, :restrict?, :has_default?, :default_for,
     :names, :has_flavor?, :flavor_for, :has_conditions?, :inference?,
-    :conditions_for
+    :conditions_for, :__orgkey_for__
   )
   
-  private :keyable_for, :flavor_for, :conditions_for
+  private :keyable_for, :__orgkey_for__, :flavor_for, :conditions_for
   
   # @return [Boolean]
   def ==(other)
@@ -180,8 +180,7 @@ module Subclassable
   
   # @param [Symbol, String] name
   def assign?(name)
-    name = keyable_for name
-    raise NameError unless member? name
+    name = __orgkey_for__(keyable_for name)
     
     @db.has_key? name
   end
@@ -189,16 +188,14 @@ module Subclassable
   # @param [Symbol, String] name
   def unassign(name)
     raise "can't modify frozen #{self.class}" if frozen?
-    name = keyable_for name
-    raise NameError unless member? name
+    name = __orgkey_for__(keyable_for name)
     
     @db.delete name
   end
 
   # @param [Symbol, String] name
   def default?(name)
-    name = keyable_for name
-    raise NameError unless member? name
+    name = __orgkey_for__(keyable_for name)
 
     default_for(name) == self[name]
   end
@@ -294,8 +291,7 @@ module Subclassable
   # @param [Symbol, String] name
   # @return [Array] [name, value]
   def assoc(name)
-    name = keyable_for name
-    raise NameError unless member? name
+    name = __orgkey_for__(keyable_for name)
 
     [name, self[name]]
   end
@@ -338,16 +334,14 @@ module Subclassable
   end
 
   def __get__(name)
-    name = keyable_for name
-    raise NameError unless member? name
+    name = __orgkey_for__(keyable_for name)
 
     @db[name]
   end
 
   def __set__(name, value)
     raise "can't modify frozen #{self.class}" if frozen?
-    name = keyable_for name
-    raise NameError unless member? name
+    name = __orgkey_for__(keyable_for name)
 
     unless accept? name, value
       raise ConditionError,
@@ -373,7 +367,7 @@ module Subclassable
     when Symbol, String
       name = keyable_for key
       if member? name
-        yield name
+        yield __orgkey_for__(name)
       else
         raise NameError
       end

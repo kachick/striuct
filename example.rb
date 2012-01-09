@@ -170,7 +170,8 @@ debug user2
 user2.name = Class
 debug user2
 
-# provides default value
+# Default value
+
 class User3 < Striuct.new
   member  :lank, Fixnum
   default :lank, 3
@@ -186,7 +187,18 @@ debug user3.assign?(:name)
 user3.name = nil
 debug user3.assign?(:name)
 
-# new constructors
+# Alias
+
+class User3
+  alias_member :position, :lank
+end
+
+debug user3.lank.equal?(user3.position)
+debug user3[:lank].equal?(user3[:position])
+user3[:position] = 4
+debug user3.lank
+
+# New Constructors
 
 # Subclass.define reject floating object
 # * except if no finished assign each members

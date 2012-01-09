@@ -180,10 +180,22 @@ A safety container for you, it is as handy as Struct(+).
     user3.lank #=> 3
     
 * Standard Struct always define "nil is default". Realy?
-   user3.name  #=> nil
-   user3.assign? :name #=> false
-   user3.name = nil
-   user3.assign? :name #=> true
+    user3.name  #=> nil
+    user3.assign? :name #=> false
+    user3.name = nil
+    user3.assign? :name #=> true
+
+==== Alias
+
+* alias member name
+    class User3
+      alias_member :position, :lank
+    end
+    
+    user3.lank.equal? user3.position #=> true
+    user3[:lank].equal? user3[:position] #=> true
+    user3[:position] = 4
+    user3.lank  #=> 4
 
 ==== New Constructors
 
