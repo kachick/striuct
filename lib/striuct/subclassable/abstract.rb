@@ -1,4 +1,6 @@
 require_relative 'classutil'
+autoload :YAML, 'yaml'
+
 
 class Striuct
 
@@ -133,6 +135,12 @@ module Subclassable
   def freeze
     @db.freeze
     super
+  end
+  
+  def to_yaml
+    YAML   # for autoload
+    klass = Struct.new(*members)
+    klass.new(*values).to_yaml
   end
 
   # @group Struct+ Safety

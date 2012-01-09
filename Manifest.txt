@@ -5,11 +5,11 @@ README.ja.rdoc
 Rakefile
 example.rb
 lib/striuct.rb
-lib/striuct/core.rb
+lib/striuct/abstract.rb
 lib/striuct/version.rb
-lib/striuct/classutil.rb
-lib/striuct/subclass.rb
-lib/striuct/subclass-eigen.rb
+lib/striuct/subclassable/classutil.rb
+lib/striuct/subclassable/abstract.rb
+lib/striuct/subclassable/eigen.rb
 lib/striuct/import.rb
 test/test_helper.rb
 test/test_striuct.rb
