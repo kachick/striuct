@@ -39,7 +39,7 @@ module Subclassable
 
   # @return [Integer]
   def hash
-    [self.class, @db].hash
+    @db.hash
   end
   
   # @return [String]
@@ -138,7 +138,7 @@ module Subclassable
   end
   
   def to_yaml
-    YAML   # for autoload
+    YAML.to_s   # for autoload
     klass = Struct.new(*members)
     klass.new(*values).to_yaml
   end
