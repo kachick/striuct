@@ -1,48 +1,50 @@
-=== 0.1.3 ????-?-?
+=== 0.1.3 2012-1-10
 
 * add:
-  * Subclass.alias_member
+  * Subclass.#alias_member
+  * Subclass.#valid?
+  * Subclass#valid?
 
 === 0.1.2 2012-1-9
 
 * modify:
-  * Subclass#hash
+  * Subclass.#hash
 
 * add:
-  * Subclass#to_yaml
+  * Subclass.#to_yaml
 
 === 0.1.1 2011-12-26
 
 * modify:
-  * Subclass.sufficient?
+  * Subclass.#sufficient?
 
 * add:
-  * Subclass#empty?
-  * Subclass#has_value? (value?)
-  * Subclass#flatten
-  * Subclass#select! (keep_if)
-  * Subclass#select
-  * Subclass#reject! (delete_if)
-  * Subclass#reject
-  * Subclass#assoc
-  * Subclass#rassoc
+  * Subclass.#empty?
+  * Subclass.#has_value? (value?)
+  * Subclass.#flatten
+  * Subclass.#select! (keep_if)
+  * Subclass.#select
+  * Subclass.#reject! (delete_if)
+  * Subclass.#reject
+  * Subclass.#assoc
+  * Subclass.#rassoc
 
 * fix
-  * Subclass#sufficient?
+  * Subclass.#sufficient?
 
 === 0.1.0 2011-12-25
 
 * modify:
-  * Subclass.define
+  * Subclass.#define
 
 * add:
-  * Subclass.[] (alias load_pairs)
-  * Subclass#to_h
+  * Subclass.#[] (alias load_pairs)
+  * Subclass.#to_h
 
 === 0.0.11 2011-12-23
 
 * modify:
-  * Subclass.cname?
+  * Subclass.#cname?
 
 * add:
   * inference checker
@@ -50,33 +52,33 @@
 === 0.0.10 2011-12-23
 
 * delete:
-  * Subclass#lock, Subclass#unlock?
+  * Subclass.#lock, Subclass.#unlock?
 
 * modify:
-  * Subclass#freeze
+  * Subclass.#freeze
   * has_condition? -> has_conditions?
-  * Subclass.lock, Subclass.lock? -> .close, .closed?
+  * Subclass.#lock, Subclass.#lock? -> .close, .closed?
 
 * add:
-  * Subclass.protect_level   # class macro
-  * Subclass#default?
+  * Subclass.#protect_level   # class macro
+  * Subclass.#default?
 
 === 0.0.9 2011-12-21
 
 * delete:
   * Striuct.load_pairs
-  * Subclass.conditions
-  * Subclass.procedures
-  * Subclass.defaults
+  * Subclass.#conditions
+  * Subclass.#procedures
+  * Subclass.#defaults
 
 * add:
   * Striuct.define
-  * Subclass.lock
-  * Subclass.default_for
+  * Subclass.#lock
+  * Subclass.#default_for
 
 * fix:
-  * Subclass#inspect
-  * Subclass#to_s
+  * Subclass.#inspect
+  * Subclass.#to_s
 
 * note:
   * innner name changed "procedure" to "flavor"
@@ -84,30 +86,30 @@
 === 0.0.8 2011-12-18
 
 * modify:
-  * Subclass.define
-  * Subclass.accept?
+  * Subclass.#define
+  * Subclass.#accept?
   * functional checker's action:
     Proc: context to instance
     Method: === to call
 
 * add:
-  * Subclass.default
+  * Subclass.#default
 
 * fix:
-  * Subclass#values_at
+  * Subclass.#values_at
 
 === 0.0.7 2011-12-16
 
 * modify:
   * called macro's block to procedure 
-  * public to private Subclass#unlock
+  * public to private Subclass.#unlock
 
 * add:
-  * Subclass.define
-  * Subclass.accept?
-  * Subclass.restrict?
-  * Subclass#assign?
-  * Subclass#assign
+  * Subclass.#define
+  * Subclass.#accept?
+  * Subclass.#restrict?
+  * Subclass.#assign?
+  * Subclass.#assign
 
 * fix:
   * use clone method ( initialize_copy )
@@ -118,13 +120,13 @@
   * error type in some methods
 
 * add:
-  * Subclass.sufficent?
-  * Subclass.define
-  * Subclass#sufficent?
-  * Subclass#secure?
-  * Subclass#lock?
-  * Subclass#lock
-  * Subclass#unlock
+  * Subclass.#sufficent?
+  * Subclass.#define
+  * Subclass.#sufficent?
+  * Subclass.#secure?
+  * Subclass.#lock?
+  * Subclass.#lock
+  * Subclass.#unlock
 
 * fix:
   * typo
@@ -137,7 +139,7 @@
 
 === 0.0.4 2011-12-13
 
-* divide modules for subclass methods
+* divide modules for Subclass.#methods
 * modify return values for void methods
 
 === 0.0.3 2011-12-12

@@ -1,6 +1,5 @@
 # Copyright (C) 2011  Kenichi Kamiya
 
-require_relative 'subclassable/eigen'
 require_relative 'subclassable/abstract'
 
 # @author Kenichi Kamiya
@@ -53,7 +52,6 @@ class Striuct
     
     def inherited(subclass)
       subclass.class_eval do
-        extend  Subclassable::Eigen
         include Subclassable
       end
     end
