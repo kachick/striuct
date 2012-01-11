@@ -19,9 +19,9 @@ class Striuct
     # @return [Class] - with Subclass, Subclass:Eigen
     def new(*names, &block)
       # warning for Ruby's Struct.new user
-      arg1 = names.first
-      if arg1.instance_of?(String) and /\A[A-Z]/ =~ arg1
-        warn "no define constant #{arg1}"
+      first = names.first
+      if first.instance_of?(String) and /\A[A-Z]/ =~ first
+        warn "no define constant #{first}"
       end
 
       Class.new self do
