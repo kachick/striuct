@@ -284,7 +284,7 @@ module Eigen
     case name
     when /[\W]/, /\A[^a-zA-Z_]/, :''
       :no_identifier
-    when /\Aeach/, /\A__\w*__\z/, /[!?]\z/
+    when /\Aeach/, /\A__\w*__\z/, /[!?]\z/, /\Ato_/
       :bad_manners
     when /\A[a-zA-Z_]\w*\z/
       :strict
