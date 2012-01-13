@@ -120,11 +120,7 @@ module Subclassable
 
   # @return [Array]
   def values
-    [].tap {|r|
-      each_value do |v|
-        r << v
-      end
-    }
+    each_value.to_a
   end
   
   alias_method :to_a, :values
