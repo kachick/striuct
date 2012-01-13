@@ -507,18 +507,21 @@ class TestStriuctSafetyNaming < Test::Unit::TestCase
     assert_same false, klass.cname?('__foo__')
     assert_same false, klass.cname?('a b')
     assert_same false, klass.cname?('object_id')
+    assert_same false, klass.cname?('to_ary')
     assert_same true, klass.cname?('foo')
     klass.__send__ :protect_level, :warning
     assert_same false, klass.cname?('m?')
     assert_same false, klass.cname?('__foo__')
     assert_same false, klass.cname?('a b')
     assert_same false, klass.cname?('object_id')
+    assert_same false, klass.cname?('to_ary')
     assert_same true, klass.cname?('foo')
     klass.__send__ :protect_level, :struct
     assert_same true, klass.cname?('m?')
     assert_same true, klass.cname?('__foo__')
     assert_same true, klass.cname?('a b')
     assert_same true, klass.cname?('object_id')
+    assert_same true, klass.cname?('to_ary')
     assert_same true, klass.cname?('foo')
   end
   
