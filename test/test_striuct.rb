@@ -840,3 +840,114 @@ class TestStriuctAliasMember < Test::Unit::TestCase
     end
   end
 end
+
+class TestStriuctSpecificConditions < Test::Unit::TestCase
+  Sth = Striuct.define do
+    member :list_only_int, generics(Integer)
+    member :white_or_black, boolean
+    member :like_str, stringable
+    member :has_a, responsible(:a)
+    member :has_a_and_b, responsibles(:a, :b)
+  end
+  
+  def test_generics
+    sth = Sth.new
+    
+    assert_raises Striuct::ConditionError do
+      sth.list_only_int = [1, '2']
+    end
+  
+    sth.list_only_int = [1, 2]
+    assert_equal [1, 2], sth.list_only_int
+    assert_equal true, sth.valid?(:list_only_int)
+    sth.list_only_int = []
+    assert_equal [], sth.list_only_int
+    assert_equal true, sth.valid?(:list_only_int)
+    sth.list_only_int << '2'
+    assert_equal false, sth.valid?(:list_only_int)
+  end
+  
+  def test_boolean
+    sth = Sth.new
+    
+    assert_raises Striuct::ConditionError do
+      sth.white_or_black = nil
+    end
+    
+    assert_equal false, sth.valid?(:white_or_black)
+  
+    sth.white_or_black = true
+    assert_equal true, sth.white_or_black
+    assert_equal true, sth.valid?(:white_or_black)
+    sth.white_or_black = false
+    assert_equal false, sth.white_or_black
+    assert_equal true, sth.valid?(:white_or_black)
+  end
+  
+  def test_stringable
+    sth = Sth.new
+    obj = Object.new
+    
+    assert_raises Striuct::ConditionError do
+      sth.like_str = obj
+    end
+  
+    sth.like_str = 'str'
+    assert_equal true, sth.valid?(:like_str)
+    sth.like_str = :sym
+    assert_equal true, sth.valid?(:like_str)
+    
+    obj.singleton_class.class_eval do
+      def to_str
+      end
+    end
+    
+    sth.like_str = obj
+    assert_equal true, sth.valid?(:like_str)
+  end
+
+  def test_responsible
+    sth = Sth.new
+    obj = Object.new
+    
+    assert_raises Striuct::ConditionError do
+      sth.has_a = obj
+    end
+    
+    obj.singleton_class.class_eval do
+      def a
+      end
+    end
+    
+    sth.has_a = obj
+    assert_equal obj, sth.has_a
+    assert_equal true, sth.valid?(:has_a)
+  end
+
+  def test_responsibles
+    sth = Sth.new
+    obj = Object.new
+    
+    assert_raises Striuct::ConditionError do
+      sth.has_a_and_b = obj
+    end
+    
+    obj.singleton_class.class_eval do
+      def a
+      end
+    end
+    
+    assert_raises Striuct::ConditionError do
+      sth.has_a_and_b = obj
+    end
+    
+    obj.singleton_class.class_eval do
+      def b
+      end
+    end
+    
+    sth.has_a_and_b = obj
+    assert_equal obj, sth.has_a_and_b
+    assert_equal true, sth.valid?(:has_a_and_b)
+  end
+end
