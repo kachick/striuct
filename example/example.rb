@@ -1,6 +1,6 @@
 #/usr/bin/ruby -w
 
-require_relative 'lib/striuct'
+require_relative '../lib/striuct'
 
 def debug(message)
   puts "line: #{caller.first.slice(/:(\w+)/, 1)}"

@@ -1,6 +1,6 @@
 #/usr/bin/ruby -w
 
-require_relative 'lib/striuct'
+require_relative '../lib/striuct'
 
 class User < Striuct.new
   member :id,   Integer
