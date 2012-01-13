@@ -1,7 +1,7 @@
 #/usr/bin/ruby -w
 
 require 'benchmark'
-require_relative 'lib/striuct'
+require_relative '../lib/striuct'
 
 XStruct = Struct.new :any, :no_use1, :no_use2
 
