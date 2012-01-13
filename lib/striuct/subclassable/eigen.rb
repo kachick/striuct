@@ -136,24 +136,22 @@ module Eigen
       raise ArgumentError, "to change context is allowed in instance of #{self}"
     end
 
-    if restrict? name
-      conditions_for(name).any?{|condition|
-        case condition
-        when Proc
-          if context
-            context.instance_exec value, &condition
-          else
-            condition.call value
-          end
-        when Method
-          condition.call value
+    return true unless restrict? name
+
+    conditions_for(name).any?{|condition|
+      case condition
+      when Proc
+        if context
+          context.instance_exec value, &condition
         else
-          condition === value
+          condition.call value
         end
-      }
-    else
-      true
-    end
+      when Method
+        condition.call value
+      else
+        condition === value
+      end
+    }
   end
   
   alias_method :accept?, :sufficient?
@@ -227,11 +225,11 @@ module Eigen
   end
 
   def __stores__
-    [@names, @flavors, @defaults]
+    [@names, @flavors, @defaults, @aliases]
   end
   
   def initialize_copy(original)
-    @names, @flavors, @defaults = *__stores__.map(&:dup)
+    @names, @flavors, @defaults, @aliases = *__stores__.map(&:dup)
     @conditions, @inferences = @conditions.dup, @inferences.dup
   end
   
