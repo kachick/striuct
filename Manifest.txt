@@ -3,7 +3,6 @@ Manifest.txt
 README.rdoc
 README.ja.rdoc
 Rakefile
-example.rb
 lib/striuct.rb
 lib/striuct/abstract.rb
 lib/striuct/version.rb
@@ -13,3 +12,6 @@ lib/striuct/subclassable/eigen.rb
 lib/striuct/import.rb
 test/test_helper.rb
 test/test_striuct.rb
+/example/example.rb
+/example/benchmarks.rb
+/example/see_trace.rb
