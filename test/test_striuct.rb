@@ -180,8 +180,27 @@ class TestStriuctSubclassInstance3 < Test::Unit::TestCase
   def test_each_member
     assert_same @user, @user.each_member{}
     assert_kind_of Enumerator, enum = @user.each_member
-    assert_equal enum.next, :id
-    assert_equal enum.next, :last_name
+    assert_equal :id, enum.next
+    assert_equal :last_name, enum.next
+    assert_equal :family_name, enum.next
+    assert_equal :address, enum.next
+    assert_equal :age, enum.next
+    assert_raises StopIteration do
+      enum.next
+    end
+  end
+  
+  def test_each_index
+    assert_same @user, @user.each_index{}
+    assert_kind_of Enumerator, enum = @user.each_index
+    assert_equal 0, enum.next
+    assert_equal 1, enum.next
+    assert_equal 2, enum.next
+    assert_equal 3, enum.next
+    assert_equal 4, enum.next
+    assert_raises StopIteration do
+      enum.next
+    end
   end
   
   def test_values

@@ -182,6 +182,16 @@ module Subclassable
   # @endgroup
   
   # @group Struct + Handy
+  
+  # @yield [index] 
+  # @yieldparam [Integer] index
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_index(&block)
+    return to_enum(__method__) unless block_given?
+    self.class.each_index(&block)
+    self
+  end
 
   # @return [Hash]
   def to_h(reject_no_assign=false)
@@ -228,9 +238,9 @@ module Subclassable
   # @yieldparam [Symbol] name - sequential under defined
   # @yieldreturn [self]
   # @return [Enumerator]
-  def each_name
+  def each_name(&block)
     return to_enum(__method__) unless block_given?
-    self.class.each_name{|name|yield name}
+    self.class.each_name(&block)
     self
   end
 
