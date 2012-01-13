@@ -201,6 +201,16 @@ module Eigen
 
   alias_method :each_member, :each_name
   alias_method :each_key, :each_name
+  
+  # @yield [index] 
+  # @yieldparam [Integer] Index
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_index(&block)
+    return to_enum(__method__) unless block_given?
+    @names.each_index(&block)
+    self
+  end
 
   # @param [Symbol, String] name
   def has_flavor?(name)
