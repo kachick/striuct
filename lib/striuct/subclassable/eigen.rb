@@ -31,7 +31,7 @@ module Eigen
     def extended(klass)
       klass.class_eval do
         @names, @conditions, @flavors, @defaults = [], {}, {}, {}
-        @inferences, @aliases,  @protect_level = {}, {}, :prevent
+        @inferences, @aliases, @protect_level = {}, {}, :prevent
       end
     end
   end
@@ -381,10 +381,11 @@ module Eigen
     __set_flavor__! name, &flavor if block_given?
 
     define_method "#{name}=" do |value|
-      __set__ name, value
+        __set__ name, value
     end
  
     nil
+
   end
   
   def __set_conditions__!(name, *conditions)
