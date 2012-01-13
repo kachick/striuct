@@ -83,6 +83,13 @@ module Subclassable
   # @param [Object] value
   def []=(key, value)
     __subscript__(key){|name|__set__ name, value}
+  rescue ConditionError
+    $@ = [
+      "#{$@[-1].sub(/[^:]+\z/){''}}in `[]=': #{$!.message}",
+      $@[-1]
+    ]
+
+    raise
   end
 
   # @yield [value]
@@ -366,6 +373,14 @@ module Subclassable
     end
     
     @db[name] = value
+  rescue ConditionError
+    unless /in \[\]=/ =~ caller[1].slice(/([^:]+)\z/)
+      $@.delete_if{|s|/#{Regexp.escape(File.dirname __FILE__)}/ =~ s}
+      $@.first.sub!(/([^:]+)\z/){"in `#{name}='"}
+      $@ << $@.last
+    end
+  
+    raise
   end
   
   alias_method :assign, :__set__
