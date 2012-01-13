@@ -300,9 +300,9 @@ module Eigen
   alias_method :bool, :boolean
 
   # @parameter [#===] simple_condition
-  def generics(simple_condition)
+  def generics(pattern)
     ->list{
-      list.all?{|v|simple_condition === v}
+      list.all?{|v|pattern === v}
     }
   end
 
