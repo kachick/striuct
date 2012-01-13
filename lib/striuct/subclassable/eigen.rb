@@ -3,28 +3,6 @@ class Striuct; module Subclassable
 # @author Kenichi Kamiya
 module Eigen
 
-  INFERENCE = Object.new.freeze
-
-  NAMING_RISKS = {
-    conflict:      10,
-    no_identifier:  9,
-    bad_manners:    5,
-    no_ascii:       3,
-    strict:         0 
-  }.freeze
-
-  PROTECT_LEVELS = {
-    struct:      {error: 99, warn: 99},
-    warning:     {error: 99, warn:  5},
-    error:       {error:  9, warn:  5},
-    prevent:     {error:  5, warn:  1},
-    nervous:     {error:  1, warn:  1}
-  }.each(&:freeze).freeze
-  
-  if respond_to? :private_constant
-    private_constant :INFERENCE, :NAMING_RISKS, :PROTECT_LEVELS
-  end
-
   class << self
     private
     
@@ -229,92 +207,8 @@ module Eigen
   # @endgroup
   
   private
-
-  def inference
-    INFERENCE
-  end
-
-  def __stores__
-    [@names, @flavors, @defaults, @aliases]
-  end
   
-  def initialize_copy(original)
-    @names, @flavors, @defaults, @aliases = *__stores__.map(&:dup)
-    @conditions, @inferences = @conditions.dup, @inferences.dup
-  end
-  
-  # @return [self]
-  def close
-    __stores__.each(&:freeze)
-    self
-  end
-
-  # @param [Symbol] name
-  def __orgkey_for__(name)
-    raise TypeError unless name.instance_of? Symbol
-    return @aliases[name] if @aliases.has_key? name
-    return name if @names.include? name
-    raise NameError, "not defined member for #{name}"
-  end
-
-  # @param [Symbol, String] name
-  # @return [Symbol]
-  def keyable_for(name)
-    case name
-    when Symbol, String
-      if (r = name.to_sym).instance_of? Symbol
-        r
-      else
-        raise 'must not happen'
-      end
-    else
-      raise TypeError
-    end
-  end
-
-  # @param [Symbol] name
-  # @return [Symbol]
-  def estimate_naming(name)
-    if (instance_methods + private_instance_methods).include? name
-      return :conflict
-    end
-
-    return :no_ascii unless name.encoding.equal? Encoding::ASCII
-
-    case name
-    when /[\W]/, /\A[^a-zA-Z_]/, :''
-      :no_identifier
-    when /\Aeach/, /\A__\w*__\z/, /[!?]\z/, /\Ato_/
-      :bad_manners
-    when /\A[a-zA-Z_]\w*\z/
-      :strict
-    else
-      raise 'must not happen'
-    end
-  end
-
-  # @param [Symbol] name
-  # @return [void]
-  # @yieldreturn [Boolean]
-  def check_safety_naming(name)
-    estimation = estimate_naming name
-    risk    = NAMING_RISKS[estimation]
-    plevels = PROTECT_LEVELS[@protect_level]
-    caution = "undesirable naming '#{name}', because #{estimation}"
-
-    r = case
-    when risk >= plevels[:error]
-      raise NameError, caution unless block_given?
-      false
-    when risk >= plevels[:warn]
-      warn caution unless block_given?
-      false
-    else
-      true
-    end      
-
-    yield r if block_given?
-  end
+  # @group Macro for user
 
   # @macro [attach] protect_level
   # @param [Symbol] level
@@ -374,6 +268,146 @@ module Eigen
     @aliases[aliased] = original
 
     nil
+  end
+  
+  # @return [self]
+  def close
+    __stores__.each(&:freeze)
+    self
+  end
+  
+  # @endgroup
+
+  # @group Specific Conditions
+  
+  specific_conditions = {
+    inference: Object.new.freeze,
+    boolean: ->v{[true, false].include?(v)},
+    stringable: ->v{
+      [String, Symbol].any?{|klass|v.kind_of?(klass)} ||
+      v.respond_to?(:to_str)
+    }
+  }.freeze
+  
+  INFERENCE = specific_conditions[:inference]
+  
+  specific_conditions.each_pair do |name, condition|
+    define_method name do
+      condition
+    end
+  end
+
+  alias_method :bool, :boolean
+
+  # @parameter [#===] simple_condition
+  def generics(simple_condition)
+    ->list{
+      list.all?{|v|simple_condition === v}
+    }
+  end
+
+  def responsible(name)
+    ->v{v.respond_to?(name)}
+  end
+  
+  def responsibles(*names)
+    ->v{
+      names.all?{|name|v.respond_to?(name)}
+    }
+  end
+  
+  # @endgroup
+
+  # @param [Symbol] name
+  def __orgkey_for__(name)
+    raise TypeError unless name.instance_of? Symbol
+    return @aliases[name] if @aliases.has_key? name
+    return name if @names.include? name
+    raise NameError, "not defined member for #{name}"
+  end
+
+  # @param [Symbol, String] name
+  # @return [Symbol]
+  def keyable_for(name)
+    case name
+    when Symbol, String
+      if (r = name.to_sym).instance_of? Symbol
+        r
+      else
+        raise 'must not happen'
+      end
+    else
+      raise TypeError
+    end
+  end
+  
+  NAMING_RISKS = {
+    conflict:      10,
+    no_identifier:  9,
+    bad_manners:    5,
+    no_ascii:       3,
+    strict:         0 
+  }.freeze
+
+  PROTECT_LEVELS = {
+    struct:      {error: 99, warn: 99},
+    warning:     {error: 99, warn:  5},
+    error:       {error:  9, warn:  5},
+    prevent:     {error:  5, warn:  1},
+    nervous:     {error:  1, warn:  1}
+  }.each(&:freeze).freeze
+
+  # @param [Symbol] name
+  # @return [void]
+  # @yieldreturn [Boolean]
+  def check_safety_naming(name)
+    estimation = estimate_naming name
+    risk    = NAMING_RISKS[estimation]
+    plevels = PROTECT_LEVELS[@protect_level]
+    caution = "undesirable naming '#{name}', because #{estimation}"
+
+    r = case
+    when risk >= plevels[:error]
+      raise NameError, caution unless block_given?
+      false
+    when risk >= plevels[:warn]
+      warn caution unless block_given?
+      false
+    else
+      true
+    end      
+
+    yield r if block_given?
+  end
+  
+  # @param [Symbol] name
+  # @return [Symbol]
+  def estimate_naming(name)
+    if (instance_methods + private_instance_methods).include? name
+      return :conflict
+    end
+
+    return :no_ascii unless name.encoding.equal? Encoding::ASCII
+
+    case name
+    when /[\W]/, /\A[^a-zA-Z_]/, :''
+      :no_identifier
+    when /\Aeach/, /\A__\w*__\z/, /[!?]\z/, /\Ato_/
+      :bad_manners
+    when /\A[a-zA-Z_]\w*\z/
+      :strict
+    else
+      raise 'must not happen'
+    end
+  end
+  
+  def __stores__
+    [@names, @flavors, @defaults, @aliases]
+  end
+  
+  def initialize_copy(original)
+    @names, @flavors, @defaults, @aliases = *__stores__.map(&:dup)
+    @conditions, @inferences = @conditions.dup, @inferences.dup
   end
 
   def __getter__!(name) 
@@ -478,7 +512,10 @@ module Eigen
   end
   
   alias_method :default, :set_default_value
-
+  
+  if respond_to? :private_constant
+    private_constant :INFERENCE
+  end
 
 end
 
