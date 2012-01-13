@@ -92,6 +92,8 @@ module Subclassable
     raise
   end
 
+  alias_method :assign, :[]
+
   # @yield [value]
   # @yieldparam [Object] value - sequential under defined
   # @see #each_name
@@ -210,14 +212,14 @@ module Subclassable
     
     @db.has_key? name
   end
-
-  # @param [Symbol, String] name
-  def unassign(name)
-    raise "can't modify frozen #{self.class}" if frozen?
-    name = __orgkey_for__(keyable_for name)
-    
-    @db.delete name
+  
+  # @param [Symbol, String, Fixnum] key
+  def clear_at(key)
+    __subscript__(key){|name|__clear__ name}
   end
+  
+  alias_method :unassign, :clear_at
+  alias_method :reset_at, :clear_at
 
   # @param [Symbol, String] name
   def default?(name)
@@ -393,9 +395,6 @@ module Subclassable
     raise
   end
   
-  alias_method :assign, :__set__
-  public :assign
-  
   def __subscript__(key)
     case key
     when Symbol, String
@@ -414,6 +413,13 @@ module Subclassable
     else
       raise ArgumentError
     end
+  end
+  
+  # @param [Symbol] name
+  def __clear__(name)
+    raise "can't modify frozen #{self.class}" if frozen?
+    
+    @db.delete name
   end
 
   def replace_values(*values)
