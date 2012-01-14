@@ -24,7 +24,7 @@ module Subclassable
     @db = {}
     replace_values(*values)
   end
-  
+
   # see self.class.*args
   delegate_class_methods(
     :members, :keys, :has_member?, :member?, :has_key?, :key?, :length,
@@ -354,6 +354,8 @@ module Subclassable
 
   private
   
+  # @group Use Only Inner
+  
   def initialize_copy(original)
     @db = @db.dup
   end
@@ -440,6 +442,8 @@ module Subclassable
     instance_of?(other.class) && \
     each_pair.all?{|k, v|v.__send__ method, other[k]}
   end
+  
+  # @endgroup
   
 end
 
