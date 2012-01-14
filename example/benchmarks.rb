@@ -18,27 +18,39 @@ TIMES = 100000
 OBJ = 123
 
 Benchmark.bm do |bm|
-  bm.report 'Struct equal Noguard' do
+  bm.report 'Struct(equal Noguard): Setter' do
     TIMES.times do
       xstruct.any = OBJ
     end
   end
   
-  bm.report 'Striuct have no conditions' do
+  bm.report 'Struct: Reader' do
+    TIMES.times do
+      xstruct.any
+    end
+  end
+  
+  bm.report 'Striuct(when Noguard): Setter' do
     TIMES.times do
       xstriuct.any = OBJ
     end
   end
 
-  bm.report 'Striuct under class' do
+  bm.report 'Striuct(guard under class): Setter' do
     TIMES.times do
       xstriuct.int = OBJ
     end
   end
   
-  bm.report 'Striuct under function' do
+  bm.report 'Striuct(guard under function)' do
     TIMES.times do
       xstriuct.truthy = OBJ
+    end
+  end
+  
+  bm.report 'Striuct: Reader' do
+    TIMES.times do
+      xstriuct.any
     end
   end
 end
