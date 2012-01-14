@@ -81,6 +81,7 @@ module Subclassable
   
   # @param [Symbol, String, Fixnum] key
   # @param [Object] value
+  # @return [value]
   def []=(key, value)
     __subscript__(key){|name|__set__ name, value}
   rescue ConditionError
