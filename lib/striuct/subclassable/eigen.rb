@@ -306,7 +306,8 @@ module Eigen
   end
 
   # @return [lambda]
-  def generics(*conditions)
+  def generics(condition1, *conditions)
+    conditions = [condition1, *conditions]
     unless conditions.all?{|c|conditionable? c}
       raise TypeError, 'wrong object for condition'
     end
@@ -322,7 +323,8 @@ module Eigen
   end
 
   # @return [lambda]
-  def responsible(*names)
+  def responsible(name1, *names)
+    names = [name1, *names]
     unless names.all?{|s|[Symbol, String].any?{|klass|s.kind_of? klass}}
       raise TypeError, 'only Symbol or String for name'
     end
@@ -333,7 +335,8 @@ module Eigen
   end
 
   # @return [lambda]
-  def unique(*lists)
+  def unique(list1, *lists)
+    lists = [list1, *lists]
     unless lists.all?{|l|l.respond_to? :none?}
       raise TypeError, 'list must respond #none?'
     end
