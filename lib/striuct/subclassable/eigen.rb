@@ -13,6 +13,22 @@ module Eigen
       end
     end
   end
+  
+  NAMING_RISKS = {
+    conflict:      10,
+    no_identifier:  9,
+    bad_manners:    5,
+    no_ascii:       3,
+    strict:         0 
+  }.freeze
+
+  PROTECT_LEVELS = {
+    struct:      {error: 99, warn: 99},
+    warning:     {error: 99, warn:  5},
+    error:       {error:  9, warn:  5},
+    prevent:     {error:  5, warn:  1},
+    nervous:     {error:  1, warn:  1}
+  }.each(&:freeze).freeze
 
   # @group Constructor
   
@@ -289,20 +305,24 @@ module Eigen
   def inference
     INFERENCE
   end
+  
+  BOOLEAN = ->v{[true, false].include?(v)}
 
   # @return [lambda]
   def boolean
-    ->v{[true, false].include?(v)}
+    BOOLEAN
   end
   
   alias_method :bool, :boolean
+  
+  STRINGABLE = ->v{
+    [String, Symbol].any?{|klass|v.kind_of?(klass)} ||
+    v.respond_to?(:to_str)
+  }
 
   # @return [lambda]
   def stringable
-    ->v{
-      [String, Symbol].any?{|klass|v.kind_of?(klass)} ||
-      v.respond_to?(:to_str)
-    }
+    STRINGABLE
   end
 
   # @return [lambda]
@@ -377,6 +397,8 @@ module Eigen
   end
   
   # @endgroup
+  
+  # @group Use Only Inner
 
   def pass?(value, condition, context)
     case condition
@@ -415,22 +437,6 @@ module Eigen
       raise TypeError
     end
   end
-  
-  NAMING_RISKS = {
-    conflict:      10,
-    no_identifier:  9,
-    bad_manners:    5,
-    no_ascii:       3,
-    strict:         0 
-  }.freeze
-
-  PROTECT_LEVELS = {
-    struct:      {error: 99, warn: 99},
-    warning:     {error: 99, warn:  5},
-    error:       {error:  9, warn:  5},
-    prevent:     {error:  5, warn:  1},
-    nervous:     {error:  1, warn:  1}
-  }.each(&:freeze).freeze
 
   # @param [Symbol] name
   # @return [void]
@@ -575,8 +581,10 @@ module Eigen
   alias_method :default_for, :get_default_value
   public :default_for
   
+  # @endgroup
+  
   if respond_to? :private_constant
-    private_constant :INFERENCE
+    private_constant :INFERENCE, :BOOLEAN, :STRINGABLE
   end
 
 end
