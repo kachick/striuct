@@ -197,10 +197,11 @@ module Eigen
   
   private
   
-  # @group Macro for user
+  # @group Macro for Definition
 
   # @macro [attach] protect_level
   # @param [Symbol] level
+  # @return [nil]
   def protect_level(level)
     raise NameError unless PROTECT_LEVELS.has_key? level
     
@@ -259,6 +260,19 @@ module Eigen
     nil
   end
   
+  # @macro [attach] default
+  # @return [nil]
+  def set_default_value(name, value)
+    raise "already closed to modify member attributes in #{self}" if closed?
+    name = __orgkey_for__(keyable_for name)
+    raise ConditionError unless accept? name, value 
+  
+    @defaults[name] = value
+    nil
+  end
+  
+  alias_method :default, :set_default_value
+  
   # @return [self]
   def close
     __stores__.each(&:freeze)
@@ -270,17 +284,20 @@ module Eigen
   # @group Specific Conditions
   
   INFERENCE = Object.new.freeze
-  
+
+  # @return [INFERENCE]
   def inference
     INFERENCE
   end
-  
+
+  # @return [lambda]
   def boolean
     ->v{[true, false].include?(v)}
   end
   
   alias_method :bool, :boolean
-  
+
+  # @return [lambda]
   def stringable
     ->v{
       [String, Symbol].any?{|klass|v.kind_of?(klass)} ||
@@ -288,6 +305,7 @@ module Eigen
     }
   end
 
+  # @return [lambda]
   def generics(*conditions)
     unless conditions.all?{|c|conditionable? c}
       raise TypeError, 'wrong object for condition'
@@ -303,6 +321,7 @@ module Eigen
     }
   end
 
+  # @return [lambda]
   def responsible(*names)
     unless names.all?{|s|[Symbol, String].any?{|klass|s.kind_of? klass}}
       raise TypeError, 'only Symbol or String for name'
@@ -312,7 +331,8 @@ module Eigen
       names.all?{|name|v.respond_to?(name)}
     }
   end
-  
+
+  # @return [lambda]
   def unique(*lists)
     unless lists.all?{|l|l.respond_to? :none?}
       raise TypeError, 'list must respond #none?'
@@ -322,7 +342,8 @@ module Eigen
       lists.none?{|list|list.include?(v)}
     }
   end
-  
+
+  # @return [lambda]
   def AND(first, second, *others)
     conditions = [first, second, *others]
     unless conditions.all?{|c|conditionable? c}
@@ -336,7 +357,8 @@ module Eigen
       }
     }
   end
-  
+
+  # @return [lambda]
   def OR(first, second, *others)
     conditions = [first, second, *others]
     unless conditions.all?{|c|conditionable? c}
@@ -549,19 +571,6 @@ module Eigen
 
   alias_method :default_for, :get_default_value
   public :default_for
-
-  # @macro [attach] default
-  # @return [nil]
-  def set_default_value(name, value)
-    raise "already closed to modify member attributes in #{self}" if closed?
-    name = __orgkey_for__(keyable_for name)
-    raise ConditionError unless accept? name, value 
-  
-    @defaults[name] = value
-    nil
-  end
-  
-  alias_method :default, :set_default_value
   
   if respond_to? :private_constant
     private_constant :INFERENCE
