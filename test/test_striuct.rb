@@ -203,6 +203,18 @@ class TestStriuctSubclassInstance3 < Test::Unit::TestCase
     end
   end
   
+  def test_each_with_index
+    assert_same @user, @user.each_with_index{}
+    assert_kind_of Enumerator, enum = @user.each_with_index
+    
+    r = []
+    @user.each_with_index do |value, index|
+      r << [value, index]
+    end
+    
+    assert_equal [@user.each_value.to_a, @user.each_index.to_a].transpose, r
+  end
+  
   def test_values
     assert_equal @user.values, [9999, 'taro', 'yamada', 'Tokyo Japan', 30]
   end

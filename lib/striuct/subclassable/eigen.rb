@@ -60,6 +60,7 @@ module Eigen
   # @yieldparam [Subclass] instance
   # @yieldreturn [Subclass] instance
   # @return [void]
+  # usuful wrapper for #new
   def define(check_assign=true, lock=true)
     raise ArgumentError, 'must with block' unless block_given?
     
@@ -123,6 +124,7 @@ module Eigen
   # @param [Symbol, String] name
   # @param [Object] value
   # @param [Subclass] context - expect own instance
+  # value can set the member space
   def sufficient?(name, value, context=nil)
     name = __orgkey_for__(keyable_for name)
 
@@ -141,6 +143,7 @@ module Eigen
   alias_method :valid?, :sufficient?
   
   # @param [Object] name
+  # accpeptable the name into own member, under protect level of runtime
   def cname?(name)
     check_safety_naming(keyable_for name){|r|r}
   rescue Exception
@@ -162,6 +165,7 @@ module Eigen
   end
 
   # @param [Symbol, String] name
+  # inference checker is waiting yet
   def inference?(name)
     name = __orgkey_for__(keyable_for name)
 
@@ -218,6 +222,7 @@ module Eigen
   # @macro [attach] protect_level
   # @param [Symbol] level
   # @return [nil]
+  # change protect level for risk of naming members
   def protect_level(level)
     raise NameError unless PROTECT_LEVELS.has_key? level
     
