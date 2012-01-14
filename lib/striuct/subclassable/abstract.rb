@@ -163,6 +163,7 @@ module Subclassable
   
   # @param [Symbol, String] name
   # @param [Object] *values - no argument and use own
+  # passed under any condition
   def sufficient?(name, value=self[name])
     self.class.sufficient? name, value, self
   end
@@ -170,10 +171,12 @@ module Subclassable
   alias_method :accept?, :sufficient?
   alias_method :valid?, :sufficient?
 
+  # all members passed under any condition
   def strict?
     each_pair.all?{|name, value|sufficient? name, value}
   end
   
+  # freezed, fixed familar members, all members passed any condition
   def secure?
     frozen? && self.class.closed? && strict?
   end
@@ -191,6 +194,18 @@ module Subclassable
     self.class.each_index(&block)
     self
   end
+
+  # @yield [value, index]
+  # @yieldparam [Integer] index
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_value_with_index(&block)
+    return to_enum(__method__) unless block_given?
+    each_value.with_index(&block)
+    self
+  end
+  
+  alias_method :each_with_index, :each_value_with_index
 
   # @return [Hash]
   def to_h(reject_no_assign=false)
@@ -225,6 +240,7 @@ module Subclassable
     default_for(name) == self[name]
   end
 
+  # all members aren't assigned
   def empty?
     each_name.none?{|name|assign? name}
   end
