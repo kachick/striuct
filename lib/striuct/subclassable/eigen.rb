@@ -114,22 +114,11 @@ module Eigen
       raise ArgumentError, "to change context is allowed in instance of #{self}"
     end
 
-    return true unless restrict? name
-
-    conditions_for(name).any?{|condition|
-      case condition
-      when Proc
-        if context
-          context.instance_exec value, &condition
-        else
-          condition.call value
-        end
-      when Method
-        condition.call value
-      else
-        condition === value
-      end
-    }
+    if restrict? name
+      conditions_for(name).any?{|c|pass? value, c, context}
+    else
+      true
+    end
   end
   
   alias_method :accept?, :sufficient?
@@ -280,43 +269,104 @@ module Eigen
 
   # @group Specific Conditions
   
-  specific_conditions = {
-    inference: Object.new.freeze,
-    boolean: ->v{[true, false].include?(v)},
-    stringable: ->v{
+  INFERENCE = Object.new.freeze
+  
+  def inference
+    INFERENCE
+  end
+  
+  def boolean
+    ->v{[true, false].include?(v)}
+  end
+  
+  alias_method :bool, :boolean
+  
+  def stringable
+    ->v{
       [String, Symbol].any?{|klass|v.kind_of?(klass)} ||
       v.respond_to?(:to_str)
     }
-  }.freeze
-  
-  INFERENCE = specific_conditions[:inference]
-  
-  specific_conditions.each_pair do |name, condition|
-    define_method name do
-      condition
-    end
   end
 
-  alias_method :bool, :boolean
-
-  # @parameter [#===] simple_condition
-  def generics(pattern)
+  def generics(*conditions)
+    unless conditions.all?{|c|conditionable? c}
+      raise TypeError, 'wrong object for condition'
+    end
+    
+    eigen = self
     ->list{
-      list.all?{|v|pattern === v}
+      conditions.all?{|condition|
+        list.all?{|v|
+          eigen.__send__(:pass?, v, condition, self)
+        }
+      }
     }
   end
 
-  def responsible(name)
-    ->v{v.respond_to?(name)}
-  end
-  
-  def responsibles(*names)
+  def responsible(*names)
+    unless names.all?{|s|[Symbol, String].any?{|klass|s.kind_of? klass}}
+      raise TypeError, 'only Symbol or String for name'
+    end
+    
     ->v{
       names.all?{|name|v.respond_to?(name)}
     }
   end
   
+  def unique(*lists)
+    unless lists.all?{|l|l.respond_to? :none?}
+      raise TypeError, 'list must respond #none?'
+    end
+    
+    ->v{
+      lists.none?{|list|list.include?(v)}
+    }
+  end
+  
+  def AND(first, second, *others)
+    conditions = [first, second, *others]
+    unless conditions.all?{|c|conditionable? c}
+      raise TypeError, 'wrong object for condition'
+    end
+    
+    eigen = self
+    ->v{
+      conditions.all?{|condition|
+        eigen.__send__(:pass?, v, condition, self)
+      }
+    }
+  end
+  
+  def OR(first, second, *others)
+    conditions = [first, second, *others]
+    unless conditions.all?{|c|conditionable? c}
+      raise TypeError, 'wrong object for condition'
+    end
+    
+    eigen = self
+    ->v{
+      conditions.any?{|condition|
+        eigen.__send__(:pass?, v, condition, self)
+      }
+    }
+  end
+  
   # @endgroup
+
+  def pass?(value, condition, context)
+    case condition
+    when Proc
+      if context
+        context.instance_exec value, &condition
+      else
+        condition.call value
+      end
+    when Method
+      condition.call value
+    else
+      condition === value
+    end
+  end
 
   # @param [Symbol] name
   def __orgkey_for__(name)

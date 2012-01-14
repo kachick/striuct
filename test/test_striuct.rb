@@ -847,7 +847,59 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     member :white_or_black, boolean
     member :like_str, stringable
     member :has_a, responsible(:a)
-    member :has_a_and_b, responsibles(:a, :b)
+    member :has_a_and_b, responsible(:a, :b)
+    member :only_one, unique([1, 3])
+    member :has_ignore, AND(1..5, 3..10)
+    member :all_pass, OR(1..5, 3..10)
+  end
+  
+  def test_or
+    sth = Sth.new
+
+    assert_raises Striuct::ConditionError do
+      sth.all_pass = 11
+    end
+    
+    sth.all_pass = 1
+    assert_equal 1, sth.all_pass
+    sth.all_pass = 4
+    assert_equal 4, sth.all_pass
+    assert_equal true, sth.valid?(:all_pass)
+  end
+
+  def test_and
+    sth = Sth.new
+
+    assert_raises Striuct::ConditionError do
+      sth.has_ignore = 1
+    end
+
+    assert_raises Striuct::ConditionError do
+      sth.has_ignore = 2
+    end
+  
+    sth.has_ignore = 3
+    assert_equal 3, sth.has_ignore
+    assert_equal true, sth.valid?(:has_ignore)
+    
+    assert_raises Striuct::ConditionError do
+      sth.has_ignore = []
+    end
+  end
+  
+  def test_unique
+    sth = Sth.new
+    
+    assert_raises Striuct::ConditionError do
+      sth.only_one = 1
+    end
+  
+    sth.only_one = 2
+    assert_equal 2, sth.only_one
+    assert_equal true, sth.valid?(:only_one)
+    sth.only_one = []
+    assert_equal [], sth.only_one
+    assert_equal true, sth.valid?(:only_one)
   end
   
   def test_generics
@@ -906,7 +958,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     assert_equal true, sth.valid?(:like_str)
   end
 
-  def test_responsible
+  def test_responsible_arg1
     sth = Sth.new
     obj = Object.new
     
@@ -924,7 +976,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     assert_equal true, sth.valid?(:has_a)
   end
 
-  def test_responsibles
+  def test_responsible_arg2
     sth = Sth.new
     obj = Object.new
     
