@@ -431,6 +431,8 @@ module Eigen
   # @param [Symbol, String] name
   # @return [Symbol]
   def keyable_for(name)
+    return name if name.instance_of? Symbol
+
     case name
     when Symbol, String
       if (r = name.to_sym).instance_of? Symbol
