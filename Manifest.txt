@@ -4,8 +4,9 @@ README.rdoc
 README.ja.rdoc
 Rakefile
 lib/striuct.rb
-lib/striuct/abstract.rb
+lib/striuct/frame.rb
 lib/striuct/version.rb
+lib/striuct/abstract.rb
 lib/striuct/subclassable/frame.rb
 lib/striuct/subclassable/classutil.rb
 lib/striuct/subclassable/basic.rb
