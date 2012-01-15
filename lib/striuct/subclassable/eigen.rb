@@ -86,7 +86,7 @@ module Eigen
   alias_method :keys, :names
 
   def has_member?(name)
-    __orgkey_for__(keyable_for name)
+    originalkey_for(keyable_for name)
   rescue Exception
     false
   else
@@ -114,7 +114,7 @@ module Eigen
 
   # @param [Symbol, String] name
   def has_conditions?(name)
-    name = __orgkey_for__(keyable_for name)
+    name = originalkey_for(keyable_for name)
 
     ! @conditions[name].nil?
   end
@@ -126,7 +126,7 @@ module Eigen
   # @param [Subclass] context - expect own instance
   # value can set the member space
   def sufficient?(name, value, context=nil)
-    name = __orgkey_for__(keyable_for name)
+    name = originalkey_for(keyable_for name)
 
     if restrict? name
       conditions_for(name).any?{|c|pass? value, c, context}
@@ -163,7 +163,7 @@ module Eigen
   # @param [Symbol, String] name
   # inference checker is waiting yet
   def inference?(name)
-    name = __orgkey_for__(keyable_for name)
+    name = originalkey_for(keyable_for name)
 
     @inferences.has_key? name
   end
@@ -197,14 +197,14 @@ module Eigen
 
   # @param [Symbol, String] name
   def has_flavor?(name)
-    name = __orgkey_for__(keyable_for name)
+    name = originalkey_for(keyable_for name)
 
     ! @flavors[name].nil?
   end
 
   # @param [Symbol, String] name
   def has_default?(name)
-    name = __orgkey_for__(keyable_for name)
+    name = originalkey_for(keyable_for name)
 
     @defaults.has_key? name
   end
@@ -281,7 +281,7 @@ module Eigen
   # @return [nil]
   def set_default_value(name, value)
     raise "already closed to modify member attributes in #{self}" if closed?
-    name = __orgkey_for__(keyable_for name)
+    name = originalkey_for(keyable_for name)
     raise ConditionError unless accept? name, value 
   
     @defaults[name] = value
@@ -420,9 +420,9 @@ module Eigen
     end ? true : false
   end
 
-  # @param [Symbol] name
-  def __orgkey_for__(name)
-    raise TypeError unless name.instance_of? Symbol
+  # @param [Symbol, String, #to_sym, #to_str] name
+  def originalkey_for(name)
+    name = keyable_for name
     return @aliases[name] if @aliases.has_key? name
     return name if @names.include? name
     raise NameError, "not defined member for #{name}"
@@ -571,7 +571,7 @@ module Eigen
 
   # @param [Symbol, String] name
   def get_conditions(name)
-    name = __orgkey_for__(keyable_for name)
+    name = originalkey_for(keyable_for name)
 
     @conditions[name]
   end
@@ -580,7 +580,7 @@ module Eigen
   
   # @param [Symbol, String] name
   def get_flavor(name)
-    name = __orgkey_for__(keyable_for name)
+    name = originalkey_for(keyable_for name)
 
     @flavors[name]
   end
@@ -589,7 +589,7 @@ module Eigen
 
   # @param [Symbol, String] name
   def get_default_value(name)
-    name = __orgkey_for__(keyable_for name)
+    name = originalkey_for(keyable_for name)
   
     @defaults[name]
   end
