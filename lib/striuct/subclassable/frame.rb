@@ -1,5 +1,5 @@
 require_relative 'classutil'
-require_relative 'eigen'
+require_relative 'eigen/frame'
 
 class Striuct
 
@@ -19,4 +19,9 @@ class Striuct
 
 end
 
-require_relative 'instance'
+require_relative 'basic'
+require_relative 'safety'
+require_relative 'handy'
+require_relative 'hashlike'
+require_relative 'yaml'
+require_relative 'inner'
