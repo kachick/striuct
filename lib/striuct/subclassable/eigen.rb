@@ -128,10 +128,6 @@ module Eigen
   def sufficient?(name, value, context=nil)
     name = __orgkey_for__(keyable_for name)
 
-    if context && ! context.instance_of?(self)
-      raise ArgumentError, "to change context is allowed in instance of #{self}"
-    end
-
     if restrict? name
       conditions_for(name).any?{|c|pass? value, c, context}
     else
@@ -406,6 +402,10 @@ module Eigen
   # @group Use Only Inner
 
   def pass?(value, condition, context)
+    if context && ! context.instance_of?(self)
+      raise ArgumentError, "to change context is allowed in instance of #{self}"
+    end
+
     case condition
     when Proc
       if context
@@ -417,7 +417,7 @@ module Eigen
       condition.call value
     else
       condition === value
-    end
+    end ? true : false
   end
 
   # @param [Symbol] name
