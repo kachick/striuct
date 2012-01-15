@@ -1,6 +1,7 @@
 # Copyright (C) 2011  Kenichi Kamiya
 
-require_relative 'subclassable/abstract'
+require_relative 'version'
+require_relative 'subclassable/frame'
 
 # @author Kenichi Kamiya
 # @abstract

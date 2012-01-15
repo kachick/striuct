@@ -6,10 +6,11 @@ Rakefile
 lib/striuct.rb
 lib/striuct/abstract.rb
 lib/striuct/version.rb
+lib/striuct/subclassable/frame.rb
 lib/striuct/subclassable/classutil.rb
-lib/striuct/subclassable/abstract.rb
 lib/striuct/subclassable/eigen.rb
-lib/striuct/import.rb
+lib/striuct/subclassable/instance.rb
+lib/striuct/_trial/import.rb
 test/test_helper.rb
 test/test_striuct.rb
 /example/example.rb

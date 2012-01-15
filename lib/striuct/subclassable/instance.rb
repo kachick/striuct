@@ -1,25 +1,7 @@
-require_relative 'classutil'
-require_relative 'eigen'
 autoload :YAML, 'yaml'
 
+class Striuct; module Subclassable
 
-class Striuct
-
-
-# @author Kenichi Kamiya
-module Subclassable
-
-  extend ClassUtil
-  include Enumerable
-  
-  class << self
-    private
-
-    def included(klass)
-      klass.extend Eigen
-    end
-  end
-  
   def initialize(*values)
     @db = {}
     replace_values(*values)
@@ -460,8 +442,5 @@ module Subclassable
   end
   
   # @endgroup
-  
-end
 
-
-end
+end; end
