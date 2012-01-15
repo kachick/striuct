@@ -302,14 +302,14 @@ module Eigen
   
   INFERENCE = Object.new.freeze
 
-  # @return [INFERENCE]
+  # @return [Object] INFERENCE specific key of inference checker
   def inference
     INFERENCE
   end
   
   BOOLEAN = ->v{[true, false].include?(v)}
 
-  # @return [lambda]
+  # @return [lambda] BOOLEAN check "true or false"
   def boolean
     BOOLEAN
   end
@@ -321,12 +321,12 @@ module Eigen
     v.respond_to?(:to_str)
   }
 
-  # @return [lambda]
+  # @return [lambda] STRINGABLE check "looks string family"
   def stringable
     STRINGABLE
   end
 
-  # @return [lambda]
+  # @return [lambda] check "list only included object that match any conditions"
   def generics(condition1, *conditions)
     conditions = [condition1, *conditions]
     unless conditions.all?{|c|conditionable? c}
@@ -343,7 +343,7 @@ module Eigen
     }
   end
 
-  # @return [lambda]
+  # @return [lambda] check "can repond to all messages"
   def responsible(name1, *names)
     names = [name1, *names]
     unless names.all?{|s|[Symbol, String].any?{|klass|s.kind_of? klass}}
@@ -367,7 +367,7 @@ module Eigen
     }
   end
 
-  # @return [lambda]
+  # @return [lambda] check "match all conditions"
   def AND(first, second, *others)
     conditions = [first, second, *others]
     unless conditions.all?{|c|conditionable? c}
@@ -382,7 +382,7 @@ module Eigen
     }
   end
 
-  # @return [lambda]
+  # @return [lambda] check "match any condition"
   def OR(first, second, *others)
     conditions = [first, second, *others]
     unless conditions.all?{|c|conditionable? c}
