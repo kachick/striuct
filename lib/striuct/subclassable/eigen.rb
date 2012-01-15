@@ -428,20 +428,29 @@ module Eigen
     raise NameError, "not defined member for #{name}"
   end
 
-  # @param [Symbol, String] name
-  # @return [Symbol]
+  # @param [Symbol, String, #to_sym, #to_str] name
+  # @return [Symbol] name(keyable)
   def keyable_for(name)
     return name if name.instance_of? Symbol
 
-    case name
+    r = case name
     when Symbol, String
-      if (r = name.to_sym).instance_of? Symbol
-        r
-      else
-        raise 'must not happen'
-      end
+      name.to_sym
     else
-      raise TypeError
+      case
+      when name.respond_to?(:to_sym)
+        name.to_sym
+      when name.respond_to?(:to_str)
+        name.to_str.to_sym
+      else
+        raise TypeError
+      end
+    end
+
+    if r.instance_of? Symbol
+      r
+    else
+      raise 'must not happen'
     end
   end
 
