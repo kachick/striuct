@@ -62,8 +62,8 @@ class Striuct; module Subclassable; module Eigen
   end
 
   # @return [lambda] check "match all conditions"
-  def AND(first, second, *others)
-    conditions = [first, second, *others]
+  def AND(cond1, cond2, *conds)
+    conditions = [cond1, cond2, *conds]
     unless conditions.all?{|c|conditionable? c}
       raise TypeError, 'wrong object for condition'
     end
@@ -77,8 +77,8 @@ class Striuct; module Subclassable; module Eigen
   end
 
   # @return [lambda] check "match any condition"
-  def OR(first, second, *others)
-    conditions = [first, second, *others]
+  def OR(cond1, cond2, *conds)
+    conditions = [cond1, cond2, *conds]
     unless conditions.all?{|c|conditionable? c}
       raise TypeError, 'wrong object for condition'
     end
