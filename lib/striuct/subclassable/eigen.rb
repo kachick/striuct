@@ -423,9 +423,14 @@ module Eigen
   # @param [Symbol, String, #to_sym, #to_str] name
   def originalkey_for(name)
     name = keyable_for name
+    
     return @aliases[name] if @aliases.has_key? name
-    return name if @names.include? name
-    raise NameError, "not defined member for #{name}"
+    
+    if @names.include? name
+      name
+    else
+      raise NameError, "not defined member for #{name}"
+    end
   end
 
   # @param [Symbol, String, #to_sym, #to_str] name
@@ -433,19 +438,21 @@ module Eigen
   def keyable_for(name)
     return name if name.instance_of? Symbol
 
-    r = case name
-    when Symbol, String
-      name.to_sym
-    else
-      case
-      when name.respond_to?(:to_sym)
+    r = (
+      case name
+      when Symbol, String
         name.to_sym
-      when name.respond_to?(:to_str)
-        name.to_str.to_sym
       else
-        raise TypeError
+        case
+        when name.respond_to?(:to_sym)
+          name.to_sym
+        when name.respond_to?(:to_str)
+          name.to_str.to_sym
+        else
+          raise TypeError
+        end
       end
-    end
+    )
 
     if r.instance_of? Symbol
       r
@@ -463,16 +470,18 @@ module Eigen
     plevels = PROTECT_LEVELS[@protect_level]
     caution = "undesirable naming '#{name}', because #{estimation}"
 
-    r = case
-    when risk >= plevels[:error]
-      raise NameError, caution unless block_given?
-      false
-    when risk >= plevels[:warn]
-      warn caution unless block_given?
-      false
-    else
-      true
-    end      
+    r = (
+      case
+      when risk >= plevels[:error]
+        raise NameError, caution unless block_given?
+        false
+      when risk >= plevels[:warn]
+        warn caution unless block_given?
+        false
+      else
+        true
+      end
+    )
 
     yield r if block_given?
   end
