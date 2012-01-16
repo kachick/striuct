@@ -29,8 +29,8 @@ class Striuct; module Subclassable; module Eigen
   # @yieldparam [Subclass] instance
   # @yieldreturn [Subclass] instance
   # @return [void]
-  # usuful wrapper for #new
-  def define(check_assign=true, lock=true)
+  # for build the fixed object
+  def define(lock=true, check_assign=true)
     raise ArgumentError, 'must with block' unless block_given?
     
     new.tap {|instance|
@@ -40,7 +40,7 @@ class Striuct; module Subclassable; module Eigen
         raise "not yet finished"
       end
 
-      instance.freeze if lock
+      instance.lock if lock
     }
   end
 
