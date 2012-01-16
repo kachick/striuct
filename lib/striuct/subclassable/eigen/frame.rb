@@ -16,9 +16,6 @@ module Eigen
   end
   
   include Conditions
-  #~ extended Conditions
-  
-  public :pass?
   
   NAMING_RISKS = {
     conflict:      10,
