@@ -2,7 +2,7 @@ class Striuct; module Subclassable
   # @group Basic
   
   def initialize(*values)
-    @db = {}
+    @db, @locks = {}, {}
     replace_values(*values)
   end
 
@@ -126,7 +126,7 @@ class Striuct; module Subclassable
 
   # @return [self]
   def freeze
-    @db.freeze
+    [@db, @locks].each(&:freeze)
     super
   end
 
