@@ -38,13 +38,14 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
     
     user = User2.define{|r|r.age = 1; r.name = ''}
     assert_same 1, user.age
-    assert_same true, user.frozen?
+    assert_same true, user.lock?
+    assert_same false, user.frozen?
     
     assert_raises RuntimeError do
       User2.define{|r|r.age = 1}
     end
     
-    user = User2.define(false){|r|r.age = 1}
+    user = User2.define(true, false){|r|r.age = 1}
     assert_same 1, user.age
     
     user = User2.define(false, false){|r|r.age = 1}
