@@ -1,3 +1,13 @@
+=== 0.1.5 2012-1-17
+
+* add:
+  * #lock, #lock?
+  * some Specific Conditions
+
+* note:
+  multiple conditions for 'or', dupulicated for direct throw member macro
+  please use .#OR method in this case
+
 === 0.1.4 2012-1-16
 
 * modify:
