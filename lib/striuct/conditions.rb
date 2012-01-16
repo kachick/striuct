@@ -39,7 +39,7 @@ class Striuct; module Subclassable
         raise TypeError, 'wrong object for condition'
       end
       
-      ->v{! self.class.pass?(v, condition, self)}
+      ->v{! self.class.__send__(:pass?, v, condition, self)}
     end
     
     def logical_operator(delegated, *conditions)
@@ -49,7 +49,7 @@ class Striuct; module Subclassable
       
       ->v{
         conditions.__send__(delegated) {|condition|
-          self.class.pass? v, condition, self
+          self.class.__send__(:pass?, v, condition, self)
         }
       }
     end
@@ -116,7 +116,7 @@ class Striuct; module Subclassable
       ->v{
         conditions.all?{|condition|
           begin
-            self.class.pass? v, condition, self
+            self.class.__send__(:pass?, v, condition, self)
           rescue Exception
             false
           else
@@ -137,7 +137,7 @@ class Striuct; module Subclassable
       
       ->v{
         begin
-          self.class.pass? v, condition, self
+          self.class.__send__(:pass?, v, condition, self)
         rescue exception
           true
         rescue Exception
@@ -170,7 +170,7 @@ class Striuct; module Subclassable
       ->list{
         conditions.all?{|condition|
           list.all?{|v|
-            self.class.pass? v, condition, self
+            self.class.__send__(:pass?, v, condition, self)
           }
         }
       }
