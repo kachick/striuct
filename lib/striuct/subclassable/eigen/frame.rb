@@ -1,8 +1,9 @@
+require_relative '../../conditions'
+
 class Striuct; module Subclassable
 
 # @author Kenichi Kamiya
 module Eigen
-
   class << self
     private
     
@@ -13,6 +14,11 @@ module Eigen
       end
     end
   end
+  
+  include Conditions
+  #~ extended Conditions
+  
+  public :pass?
   
   NAMING_RISKS = {
     conflict:      10,
@@ -29,20 +35,12 @@ module Eigen
     prevent:     {error:  5, warn:  1},
     nervous:     {error:  1, warn:  1}
   }.each(&:freeze).freeze
-
+  
   INFERENCE = Object.new.freeze
-
-  BOOLEAN = ->v{[true, false].include?(v)}
-
-  STRINGABLE = ->v{
-    [String, Symbol].any?{|klass|v.kind_of?(klass)} ||
-    v.respond_to?(:to_str)
-  }
   
   if respond_to? :private_constant
-    private_constant :INFERENCE, :BOOLEAN, :STRINGABLE
+    private_constant :INFERENCE
   end
-
 end
 
 end; end
@@ -52,5 +50,4 @@ require_relative 'constructor'
 require_relative 'safety'
 require_relative 'handy'
 require_relative 'macro'
-require_relative 'conditions'
 require_relative 'inner'

@@ -3,25 +3,6 @@ class Striuct; module Subclassable; module Eigen
 
   # @group Use Only Inner
 
-  def pass?(value, condition, context)
-    if context && ! context.instance_of?(self)
-      raise ArgumentError, "to change context is allowed in instance of #{self}"
-    end
-
-    case condition
-    when Proc
-      if context
-        context.instance_exec value, &condition
-      else
-        condition.call value
-      end
-    when Method
-      condition.call value
-    else
-      condition === value
-    end ? true : false
-  end
-
   # @param [Symbol, String, #to_sym, #to_str] name
   def originalkey_for(name)
     name = keyable_for name

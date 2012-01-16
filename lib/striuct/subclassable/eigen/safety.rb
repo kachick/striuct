@@ -1,6 +1,11 @@
 class Striuct; module Subclassable; module Eigen
   # @group Struct+ Safety
 
+  # @return [INFERENCE] specific key of inference checker
+  def inference
+    INFERENCE
+  end
+
   # @param [Symbol, String] name
   def has_conditions?(name)
     name = originalkey_for(keyable_for name)
@@ -33,16 +38,6 @@ class Striuct; module Subclassable; module Eigen
     check_safety_naming(keyable_for name){|r|r}
   rescue Exception
     false
-  end
-
-  # @param [Object] condition
-  def conditionable?(condition)
-    case condition
-    when Proc, Method
-      condition.arity == 1
-    else
-      condition.respond_to? :===
-    end
   end
   
   def closed?
