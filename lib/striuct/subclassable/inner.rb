@@ -9,7 +9,7 @@ class Striuct; module Subclassable
   )
   
   def initialize_copy(original)
-    @db = @db.dup
+    @db, @locks = @db.dup, {}
   end
 
   def __get__(name)
@@ -21,6 +21,7 @@ class Striuct; module Subclassable
   def __set__(name, value)
     raise "can't modify frozen #{self.class}" if frozen?
     name = originalkey_for(keyable_for name)
+    raise "can't modify locked member #{name}" if lock? name
 
     unless accept? name, value
       raise ConditionError,
