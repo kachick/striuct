@@ -16,7 +16,8 @@ class Striuct; module Subclassable; module Eigen
 
   # @macro [attach] member
   # @return [nil]
-  def define_member(name, *conditions, &flavor) 
+  def define_member(name, *conditions, &flavor)
+    warn 'deprecated multiple conditions here, please use .#OR' if conditions.length >= 2
     raise "already closed to add member in #{self}" if closed?
     name = keyable_for name
     raise ArgumentError, %Q!already exist name "#{name}"! if member? name

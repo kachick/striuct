@@ -7,6 +7,7 @@ lib/striuct.rb
 lib/striuct/frame.rb
 lib/striuct/version.rb
 lib/striuct/abstract.rb
+lib/striuct/conditions.rb
 lib/striuct/subclassable/frame.rb
 lib/striuct/subclassable/classutil.rb
 lib/striuct/subclassable/basic.rb
@@ -21,7 +22,6 @@ lib/striuct/subclassable/eigen/constructor.rb
 lib/striuct/subclassable/eigen/safety.rb
 lib/striuct/subclassable/eigen/handy.rb
 lib/striuct/subclassable/eigen/macro.rb
-lib/striuct/subclassable/eigen/conditions.rb
 lib/striuct/subclassable/eigen/inner.rb
 lib/striuct/_trial/import.rb
 test/test_helper.rb

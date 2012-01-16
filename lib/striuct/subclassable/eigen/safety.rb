@@ -5,6 +5,14 @@ class Striuct; module Subclassable; module Eigen
   def inference
     INFERENCE
   end
+  
+  # @param [Symbol, String] name
+  # inference checker is waiting yet
+  def inference?(name)
+    name = originalkey_for(keyable_for name)
+
+    @inferences.has_key? name
+  end
 
   # @param [Symbol, String] name
   def has_conditions?(name)
@@ -42,14 +50,6 @@ class Striuct; module Subclassable; module Eigen
   
   def closed?
     __stores__.any?(&:frozen?)
-  end
-
-  # @param [Symbol, String] name
-  # inference checker is waiting yet
-  def inference?(name)
-    name = originalkey_for(keyable_for name)
-
-    @inferences.has_key? name
   end
 
   # @endgroup
