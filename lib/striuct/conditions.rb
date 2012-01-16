@@ -1,4 +1,4 @@
-class Striuct; module Subclassable
+class Striuct
 
   # Useful Condition Patterns
   module Conditions
@@ -188,7 +188,7 @@ class Striuct; module Subclassable
       }
     end
 
-    STRINGABLE = OR(OR(String, Symbol), OR(CAN(:to_str), CAN(:to_sym)))
+    STRINGABLE = OR(String, Symbol, CAN(:to_str), CAN(:to_sym))
 
     # @return [STRINGABLE] check "looks string family"
     def stringable
@@ -196,4 +196,4 @@ class Striuct; module Subclassable
     end
   end
 
-end; end
+end
