@@ -856,15 +856,69 @@ end
 class TestStriuctSpecificConditions < Test::Unit::TestCase
   Sth = Striuct.define do
     member :list_only_int, generics(Integer)
-    member :white_or_black, boolean
+    member :true_or_false, boolean
     member :like_str, stringable
-    member :has_a, responsible(:a)
-    member :has_a_and_b, responsible(:a, :b)
-    member :only_one, unique([1, 3])
+    member :has_x, CAN(:x)
+    member :has_x_and_y, responsible_for(:x, :y)
+    member :one_of_member, member_of([1, 3])
     member :has_ignore, AND(1..5, 3..10)
     member :all_pass, OR(1..5, 3..10)
+    member :catch_name_error, CATCH(NameError){|v|v.no_name!}
+    member :no_exception, STILL(->v{v.class})
+    member :not_integer, NOT(Integer)
   end
-  
+
+  def test_not
+    sth = Sth.new
+    
+    obj = Object.new
+    
+    sth.not_integer = obj
+    assert_same obj, sth.not_integer
+
+    assert_raises Striuct::ConditionError do
+      sth.not_integer = 1
+    end
+  end
+
+
+  def test_still
+    sth = Sth.new
+    
+    obj = Object.new
+    
+    sth.no_exception = obj
+    assert_same obj, sth.no_exception
+    sth.no_exception = false
+
+    obj.singleton_class.class_eval do
+      undef_method :class
+    end
+
+    assert_raises Striuct::ConditionError do
+      sth.no_exception = obj
+    end
+  end
+
+  def test_catch
+    sth = Sth.new
+    
+    obj = Object.new
+    
+    sth.catch_name_error = obj
+    assert_same obj, sth.catch_name_error
+    sth.catch_name_error = false
+
+    obj.singleton_class.class_eval do
+      def no_name!
+      end
+    end
+
+    assert_raises Striuct::ConditionError do
+      sth.catch_name_error = obj
+    end
+  end
+
   def test_or
     sth = Sth.new
 
@@ -899,19 +953,16 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     end
   end
   
-  def test_unique
+  def test_member_of
     sth = Sth.new
     
     assert_raises Striuct::ConditionError do
-      sth.only_one = 1
+      sth.one_of_member = 4
     end
   
-    sth.only_one = 2
-    assert_equal 2, sth.only_one
-    assert_equal true, sth.valid?(:only_one)
-    sth.only_one = []
-    assert_equal [], sth.only_one
-    assert_equal true, sth.valid?(:only_one)
+    sth.one_of_member = 3
+    assert_equal 3, sth.one_of_member
+    assert_equal true, sth.valid?(:one_of_member)
   end
   
   def test_generics
@@ -935,17 +986,17 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     sth = Sth.new
     
     assert_raises Striuct::ConditionError do
-      sth.white_or_black = nil
+      sth.true_or_false = nil
     end
     
-    assert_equal false, sth.valid?(:white_or_black)
+    assert_equal false, sth.valid?(:true_or_false)
   
-    sth.white_or_black = true
-    assert_equal true, sth.white_or_black
-    assert_equal true, sth.valid?(:white_or_black)
-    sth.white_or_black = false
-    assert_equal false, sth.white_or_black
-    assert_equal true, sth.valid?(:white_or_black)
+    sth.true_or_false = true
+    assert_equal true, sth.true_or_false
+    assert_equal true, sth.valid?(:true_or_false)
+    sth.true_or_false = false
+    assert_equal false, sth.true_or_false
+    assert_equal true, sth.valid?(:true_or_false)
   end
   
   def test_stringable
@@ -975,17 +1026,17 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     obj = Object.new
     
     assert_raises Striuct::ConditionError do
-      sth.has_a = obj
+      sth.has_x = obj
     end
     
     obj.singleton_class.class_eval do
-      def a
+      def x
       end
     end
     
-    sth.has_a = obj
-    assert_equal obj, sth.has_a
-    assert_equal true, sth.valid?(:has_a)
+    sth.has_x = obj
+    assert_equal obj, sth.has_x
+    assert_equal true, sth.valid?(:has_x)
   end
 
   def test_responsible_arg2
@@ -993,26 +1044,26 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     obj = Object.new
     
     assert_raises Striuct::ConditionError do
-      sth.has_a_and_b = obj
+      sth.has_x_and_y = obj
     end
     
     obj.singleton_class.class_eval do
-      def a
+      def x
       end
     end
     
     assert_raises Striuct::ConditionError do
-      sth.has_a_and_b = obj
+      sth.has_x_and_y = obj
     end
     
     obj.singleton_class.class_eval do
-      def b
+      def y
       end
     end
     
-    sth.has_a_and_b = obj
-    assert_equal obj, sth.has_a_and_b
-    assert_equal true, sth.valid?(:has_a_and_b)
+    sth.has_x_and_y = obj
+    assert_equal obj, sth.has_x_and_y
+    assert_equal true, sth.valid?(:has_x_and_y)
   end
 end
 
