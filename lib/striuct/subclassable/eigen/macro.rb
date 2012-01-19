@@ -21,7 +21,7 @@ class Striuct; module Subclassable; module Eigen
     raise "already closed to add member in #{self}" if closed?
     name = keyable_for name
     raise ArgumentError, %Q!already exist name "#{name}"! if member? name
-    check_safety_naming name
+    _check_safety_naming name
 
     @names << name
     __getter__! name
@@ -57,11 +57,11 @@ class Striuct; module Subclassable; module Eigen
     aliased  = keyable_for aliased
     raise NameError unless member? original
     raise ArgumentError, %Q!already exist name "#{aliased}"! if member? aliased
-    check_safety_naming aliased
+    _check_safety_naming aliased
 
     alias_method aliased, original
     alias_method "#{aliased}=", "#{original}="
-    @aliases[aliased] = original
+    _alias_member aliased, original
 
     nil
   end
@@ -71,17 +71,21 @@ class Striuct; module Subclassable; module Eigen
   def set_default_value(name, value)
     raise "already closed to modify member attributes in #{self}" if closed?
     name = originalkey_for(keyable_for name)
-    raise ConditionError unless accept? name, value 
-  
-    @defaults[name] = value
-    nil
+    raise ConditionError unless accept? name, value
+
+    if has_default? name
+      raise "already settled default value for #{name}"
+    else
+      _set_default_value name, value
+      nil
+    end
   end
   
   alias_method :default, :set_default_value
   
   # @return [self]
   def close
-    __stores__.each(&:freeze)
+    [@names, @flavors, @defaults, @aliases].each(&:freeze)
     self
   end
   
