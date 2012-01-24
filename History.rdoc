@@ -1,3 +1,17 @@
+=== 0.1.6 2012-1-25
+
+* modify:
+  * Subclass.#define
+  * naming risks (add bad name "_foo")
+  * Conditions.#GENERICS (enum prior all? to each_value.all?)
+  * timing of check default value
+
+* add:
+  * detail error message in Subclass.#define
+
+* fix:
+  * inherited behavior
+
 === 0.1.5 2012-1-17
 
 * add:
