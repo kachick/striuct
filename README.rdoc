@@ -241,7 +241,7 @@ A safety container for you, it is as handy as Struct(+).
 
 == Note
 
-* Documents are pool
+* Documents are poor
 
 == REQUIREMENTS
 
