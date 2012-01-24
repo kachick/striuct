@@ -7,7 +7,7 @@ class Striuct; module Subclassable; module Eigen
   # @return [Enumerator]
   def each_name(&block)
     return to_enum(__method__) unless block_given?
-    @names.each(&block)
+    _names.each(&block)
     self
   end
 
@@ -20,15 +20,54 @@ class Striuct; module Subclassable; module Eigen
   # @return [Enumerator]
   def each_index(&block)
     return to_enum(__method__) unless block_given?
-    @names.each_index(&block)
+    _names.each_index(&block)
     self
+  end
+  
+  # @param [Symbol, String] name
+  def original?(name)
+    if member? name
+      @names.include? name
+    else
+      raise NameError
+    end
+  end
+  
+  # @param [Symbol, String] name
+  def aliased?(name)
+    if member? name
+      @aliases.has_key? name
+    else
+      raise NameError
+    end
+  end
+  
+  # @param [Symbol, String] original
+  def has_aliases?(original)
+    if original? original
+      @aliases.has_value? original
+    else
+      raise NameError
+    end
+  end
+  
+  # @param [Symbol, String] original
+  # @return [Array<Symbol>]
+  def aliases_for(original)
+    original = keyable_for original
+
+    if has_aliases? original
+      _aliases_for original
+    else
+      raise NameError
+    end
   end
 
   # @param [Symbol, String] name
   def has_flavor?(name)
     name = originalkey_for(keyable_for name)
 
-    ! @flavors[name].nil?
+    ! flavor_for(name).nil?
   end
 
   # @param [Symbol, String] name
@@ -36,6 +75,17 @@ class Striuct; module Subclassable; module Eigen
     name = originalkey_for(keyable_for name)
 
     @defaults.has_key? name
+  end
+  
+  # @param [Symbol, String] name
+  def default_for(name)
+    name = originalkey_for(keyable_for name)
+  
+    if has_default? name
+      _default_for name
+    else
+      raise "#{name} has no default value"
+    end
   end
 
   # @endgroup

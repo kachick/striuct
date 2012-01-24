@@ -860,7 +860,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     member :true_or_false, boolean
     member :like_str, stringable
     member :has_x, CAN(:x)
-    member :has_x_and_y, responsible_for(:x, :y)
+    member :has_x_and_y, CAN(:x, :y)
     member :one_of_member, member_of([1, 3])
     member :has_ignore, AND(1..5, 3..10)
     member :all_pass, OR(1..5, 3..10)
