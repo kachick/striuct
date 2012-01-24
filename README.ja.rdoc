@@ -21,6 +21,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 6. メンバによっては標準値も定義したい
 7. Hashとの親和性を高くしたい
 8. メンバ名にaliasかけたいけど、alias_methodだけだと添え字アクセス出来なくて歯がゆい
+9. 構造体クラスでも継承を使った上で、更にメンバ追加がしたい
 
 == FEATURES
 
@@ -30,6 +31,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 * どれか一つの構造体で最初に代入したオブジェクトのクラスに沿うようなメンバを作れます。
 * 参照直前に、ちょっとした処理を加える事も可能です
 * 構造体としてのメンバ追加時、Rubyの既存メソッドと干渉しないかを指定レベル別にチェック出来ます。
+* 違和感のない継承利用
 * なるべくStructの心地よい操作感を残したまま機能追加をしています。
 * 既存クラスやメソッドの上書き等を（勝手には）しない、控えめな名前空間
 * Pure Ruby
@@ -49,12 +51,11 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 
 * memberというクラスマクロを使うことで構造体のメンバを定義できます。
   引数2以降に、参照するための「条件」を渡して下さい。
-  caseのwhen節と大体同じ感覚なので、これだけでも型チェック+で使えます。
   何も条件を渡さなければ、Struct同様ノーチェックです。
     class User < Striuct.new
       member :id,   Integer
       member :age,  (20..140)
-      member :name, /\A\w+\z/, /\A\w+ \w+\z/
+      member :name, OR(/\A\w+\z/, /\A\w+ \w+\z/)
     end
 
     # pass
@@ -78,7 +79,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 
       class DB < Striuct.new
         member :monsters,   ->list{(list - characters).empty?}
-        member :characters, ->list{list.all?{|c|c.kind_of? Character}}
+        member :characters, GENERICS(Character)
       end
 
       monster = Character.new
@@ -101,7 +102,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
   最初に参照したオブジェクトのクラスが、以降全インスタンスでの参照条件となります。
     class FlexibleContainer < Striuct.new
       member :anything, inference
-      member :number,   inference, Numeric
+      member :number, Numeric, inference
     end
 
     fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
@@ -155,7 +156,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 
 ==== この辺に関わる述語メソッド
 
-* acccept? / sufficient?   # そのメンバにその値が設定出来るか
+* valid? / acccept? / sufficient?   # そのメンバにその値が設定出来るか
 * conditionable?           # 条件式として受け入れ可能なオブジェクトか
 * inference?               # 定義時にinferenceを使った上で、一つも参照されていないか
 * restrict?                # そのメンバに参照条件がかけられているか
@@ -209,7 +210,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 
 ==== Alias
 
-* メンバ名に別名を付与出来ます。当然、添字アクセスも可能。
+* メンバ名を付与出来ます。(標準Structだと、添字アクセス可能にしたりするのが面倒。)
     class User3
       alias_member :position, :lank
     end
@@ -219,12 +220,21 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
     user3[:position] = 4
     user3.lank  #=> 4
 
+==== Inherit
+
+* (writing...)
+
+==== Lock
+
+* (writing...)
+
 ==== New Constructors
 
 * Subclass.define は、生成時から先オブジェクトを変える必要が無いケースで使います。
   * ブロックパラメータに新しいインスタンスがわたり、またこれが返り値となります
-  * すべてのメンバに何かしら参照がないと、例外を吐きます。(引数へ偽で変更可)
-  * 返り値は凍結した状態になります。(引数へ偽で変更可)
+  * すべてのメンバがアサイン済みかをチェックします
+  * ブロックを抜ける直前に、全て問題ない値かチェックします(オプション指定可)
+  * ブロックを抜ける直前に、全てlockをかけます(オプション指定可)
       user3 = User3.define do |r|
         r.lank = 10
         r.name = 'foo'
@@ -252,18 +262,10 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 * Hashへの変換も一発です。
     user3.to_h #=> {:lank=>3, :name=>nil}
 
-=== おまけ
+== Note
 
-* 混在利用させたい向きとかに、Structにもある程度同じようなインターフェイスを用意できます。
-  逆に言うと、これを使わない限りは名前空間を汚しません。(標準では読み込みません)
-    require 'striuct/import'
-
-* Structと比較して目立つ追加・変更点は多分このぐらいです。
-  ここの例だと返り値や例外が見づらいと思うので、同梱の example.rb を動かしてみてください
-
-* tips:
-  * run example.rb
-  * https://github.com/kachick/striuct/wiki
+* 現状、このReadme含めてドキュメントは殆ど更新出来ていません。
+  0.2.0 までにはなんとかしたい
 
 == REQUIREMENTS
 

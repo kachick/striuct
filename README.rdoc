@@ -18,6 +18,7 @@ A safety container for you, it is as handy as Struct(+).
 * You can add a step just before link a object. (named "flavor" at here)
 * You can use default-value, and we have different meanings between nil and default-value.
 * It is easy to alias member name.
+* You can use inherite of structual class. 
 * Base API looks like Struct.
 * No taint your name-space(exclude striuct/import).
 * Pure Ruby
@@ -39,7 +40,7 @@ A safety container for you, it is as handy as Struct(+).
     class User < Striuct.new
       member :id,   Integer
       member :age,  (20..140)
-      member :name, /\A\w+\z/, /\A\w+ \w+\z/
+      member :name, OR(/\A\w+\z/, /\A\w+ \w+\z/)
     end
 
     # pass
@@ -61,7 +62,7 @@ A safety container for you, it is as handy as Struct(+).
 
       class DB < Striuct.new
         member :monsters,   ->list{(list - characters).empty?}
-        member :characters, ->list{list.all?{|c|c.kind_of? Character}}
+        member :characters, GENERICS(Character)
       end
       
       monster = Character.new
@@ -83,7 +84,7 @@ A safety container for you, it is as handy as Struct(+).
 * Use "inference" and all instance test under class of first passed object.
     class FlexibleContainer < Striuct.new
       member :anything, inference
-      member :number,   inference, Numeric
+      member :number, Numeric, inference
     end
 
     fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
@@ -198,16 +199,25 @@ A safety container for you, it is as handy as Struct(+).
     user3[:position] = 4
     user3.lank  #=> 4
 
+==== Inherit
+
+* (writing...)
+
+==== Lock
+
+* (writing...)
+
 ==== New Constructors
 
 * Subclass.define reject floating object.
   * block parameter is new instance
-  * except if no finished to assign each member(modifiable)
-  * returning object is frozen(modifiable)
+  * except if no finished to assign each member
+  * returning object is tested strict(optional)
+  * returning object is locked(optional)
       user3 = User3.define do |r|
         r.lank = 10
         r.name = 'foo'
-      end #=> (flozen)
+      end
 
 * Subclass.[](load_pairs) make from Hash and like Hash
     user3 = User3[lank: 10, name: 'foo']
@@ -229,14 +239,9 @@ A safety container for you, it is as handy as Struct(+).
     user3.to_h #=> {:lank=>3, :name=>nil}
 
 
-=== Others
+== Note
 
-* Here, not taint your name-space. but enhancers are too, you can choose it.
-    require 'striuct/import'
-
-* tips:
-  * run example.rb
-  * https://github.com/kachick/striuct/wiki
+* Documents are pool
 
 == REQUIREMENTS
 
