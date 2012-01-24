@@ -83,10 +83,12 @@ class Striuct; module Subclassable; module Eigen
   alias_method :default, :set_default_value
   
   # @return [self]
-  def close
+  def fix_structural
     [@names, @flavors, @defaults, @aliases].each(&:freeze)
     self
   end
+  
+  alias_method :close, :fix_structural
   
   # @endgroup
 end; end; end
