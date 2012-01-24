@@ -219,6 +219,10 @@ class Striuct
     def stringable
       STRINGABLE
     end
+    
+    class << self
+      private :_logical_operator
+    end
   end
 
 end
