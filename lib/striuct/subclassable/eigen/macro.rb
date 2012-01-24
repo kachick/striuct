@@ -71,7 +71,6 @@ class Striuct; module Subclassable; module Eigen
   def set_default_value(name, value)
     raise "already closed to modify member attributes in #{self}" if closed?
     name = originalkey_for(keyable_for name)
-    raise ConditionError unless accept? name, value
 
     if has_default? name
       raise "already settled default value for #{name}"
