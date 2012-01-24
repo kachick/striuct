@@ -6,7 +6,7 @@
 
 == DESCRIPTION
 
-A safety container for you, it is as handy as Struct(+).
+Struct++
 
 == FEATURES
 * When you link a object, Striuct checks "They are valid objects?".
@@ -20,7 +20,7 @@ A safety container for you, it is as handy as Struct(+).
 * It is easy to alias member name.
 * You can use inherite of structual class. 
 * Base API looks like Struct.
-* No taint your name-space(exclude striuct/import).
+* No taint your name-space.
 * Pure Ruby
 
 == SYNOPSIS
