@@ -41,9 +41,26 @@ class Striuct; class << self
 
   private
   
+  alias_method :original_inherited, :inherited
+  
   def inherited(subclass)
+    attributes = (
+      if equal? ::Striuct
+        [[], {}, {}, {}, {}, {}, :prevent]
+      else
+        [*[@names, @conditions, @flavors, @defaults,\
+        @inferences, @aliases].map(&:dup), @protect_level]
+      end
+    )
+    
+    eigen = self
+
     subclass.class_eval do
-      include Subclassable
+      original_inherited subclass
+      include Subclassable if ::Striuct.equal? eigen
+      
+      @names, @conditions, @flavors, @defaults,\
+      @inferences, @aliases, @protect_level  = *attributes
     end
   end
 end; end
