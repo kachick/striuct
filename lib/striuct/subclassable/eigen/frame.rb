@@ -3,18 +3,7 @@ require_relative '../../conditions'
 class Striuct; module Subclassable
 
 # @author Kenichi Kamiya
-module Eigen
-  class << self
-    private
-    
-    def extended(klass)
-      klass.class_eval do
-        @names, @conditions, @flavors, @defaults = [], {}, {}, {}
-        @inferences, @aliases, @protect_level = {}, {}, :prevent
-      end
-    end
-  end
-  
+module Eigen  
   include Conditions
   
   NAMING_RISKS = {
