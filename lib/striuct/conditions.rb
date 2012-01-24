@@ -178,7 +178,7 @@ class Striuct
       
       ->list{
         conditions.all?{|condition|
-          list.all?{|v|
+          (list.respond_to?(:each_value) ? list.each_value : list.each).all?{|v|
             self.class.__send__(:pass?, v, condition, self)
           }
         }
