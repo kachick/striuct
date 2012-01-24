@@ -2,7 +2,7 @@ class Striuct
 
   # Useful Condition Patterns
   module Conditions
-    module_function  # do not use Module#alias_method
+    module_function
 
     # @param [Object] condition
     def conditionable?(condition)
@@ -58,13 +58,14 @@ class Striuct
         }
       }
     end
-    
-    private :_logical_operator
 
     # @return [lambda] check "match all conditions"
     def AND(cond1, cond2, *conds)
       _logical_operator :all?, cond1, cond2, *conds
     end
+    
+    alias_method :ALL, :AND
+    module_function :ALL
   
     # @return [lambda] 
     def NAND(cond1, cond2, *conds)
@@ -76,6 +77,9 @@ class Striuct
       _logical_operator :any?, cond1, cond2, *conds
     end
 
+    alias_method :ANY, :OR
+    module_function :ANY
+
     # @return [lambda] 
     def NOR(cond1, cond2, *conds)
       ! OR(cond1, cond2, *conds)
@@ -85,6 +89,9 @@ class Striuct
     def XOR(cond1, cond2, *conds)
       _logical_operator :one?, cond1, cond2, *conds
     end
+    
+    alias_method :ONE, :XOR
+    module_function :ONE
 
     # @return [lambda] 
     def XNOR(cond1, cond2, *conds)
@@ -102,7 +109,7 @@ class Striuct
     end
 
     # @return [lambda] true when respond to all method names
-    def CAN(name1, *names)
+    def RESPONSIBLE(name1, *names)
       names = [name1, *names]
       unless names.all?{|s|[Symbol, String].any?{|klass|s.kind_of? klass}}
         raise TypeError, 'only Symbol or String for name'
@@ -112,9 +119,14 @@ class Striuct
         names.all?{|name|v.respond_to? name}
       }
     end
+
+    alias_method :CAN, :RESPONSIBLE
+    alias_method :RESPOND_TO, :RESPONSIBLE
+    alias_method :responsible, :RESPONSIBLE
+    module_function :CAN, :responsible, :RESPOND_TO
     
     # @return [lambda] true when faced no exceptions in checking all conditions
-    def STILL(condition1, *conditions)
+    def NO_RAISES(condition1, *conditions)
       conditions = [condition1, *conditions]
       unless conditions.all?{|c|conditionable? c}
         raise TypeError, 'wrong object for condition'
@@ -133,6 +145,9 @@ class Striuct
       }
     end
     
+    alias_method :STILL, :NO_RAISES
+    module_function :STILL
+    
     # @return [lambda] true when catch the exception
     def CATCH(exception=Exception, &condition)
       raise ArgumentError unless conditionable? condition
@@ -150,18 +165,9 @@ class Striuct
         end
       }
     end
-
-    BOOLEAN = OR(SAME(true), SAME(false))
-
-    # @return [BOOLEAN] "true or false"
-    def boolean
-      BOOLEAN
-    end
     
-    # @see #boolean
-    def bool
-      BOOLEAN
-    end
+    alias_method :RESCUE, :CATCH
+    module_function :RESCUE
 
     # @return [lambda] check "all included objects match any conditions"
     def GENERICS(condition1, *conditions)
@@ -180,6 +186,7 @@ class Striuct
     end
     
     alias_method :generics, :GENERICS
+    module_function :generics
 
     # @return [lambda]
     def MEMBER_OF(list1, *lists)
@@ -194,6 +201,17 @@ class Striuct
     end
     
     alias_method :member_of, :MEMBER_OF
+    module_function :member_of
+    
+    BOOLEAN = OR(SAME(true), SAME(false))
+
+    # @return [BOOLEAN] "true or false"
+    def boolean
+      BOOLEAN
+    end
+
+    alias_method :bool, :boolean
+    module_function :bool
 
     STRINGABLE = OR(String, Symbol, CAN(:to_str), CAN(:to_sym))
 
