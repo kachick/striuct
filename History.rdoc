@@ -1,5 +1,8 @@
 === 0.1.6 2012-1-25
 
+* delete:
+  * import.rb
+
 * modify:
   * Subclass.#define
   * naming risks (add bad name "_foo")
