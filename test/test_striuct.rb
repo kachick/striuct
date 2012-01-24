@@ -343,7 +343,7 @@ end
 
 class TestStriuctDefaultValue < Test::Unit::TestCase
   Sth = Striuct.new do
-    member :lank, Integer
+    member :lank, OR(Bignum, Fixnum)
     default :lank, 1
   end
   
@@ -363,12 +363,14 @@ class TestStriuctDefaultValue < Test::Unit::TestCase
         default :anything, 10
       end
     end
-        
+
+    (klass = Sth.dup).class_eval do
+      member :lank2, Integer
+      default :lank2, '10'
+    end
+
     assert_raises Striuct::ConditionError do
-      Sth.class_eval do
-        member :lank2, Integer
-        default :lank2, '10'
-      end
+      klass.new
     end
   end
 end
