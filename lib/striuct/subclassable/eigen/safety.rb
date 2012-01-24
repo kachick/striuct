@@ -18,7 +18,7 @@ class Striuct; module Subclassable; module Eigen
   def has_conditions?(name)
     name = originalkey_for(keyable_for name)
 
-    ! @conditions[name].nil?
+    @conditions.has_key?(name)
   end
   
   alias_method :restrict?, :has_conditions?
@@ -43,13 +43,13 @@ class Striuct; module Subclassable; module Eigen
   # @param [Object] name
   # accpeptable the name into own member, under protect level of runtime
   def cname?(name)
-    check_safety_naming(keyable_for name){|r|r}
+    _check_safety_naming(keyable_for name){|r|r}
   rescue Exception
     false
   end
   
   def closed?
-    __stores__.any?(&:frozen?)
+    [@names, @flavors, @defaults, @aliases].any?(&:frozen?)
   end
 
   # @endgroup
