@@ -36,8 +36,10 @@ class Striuct; module Subclassable; module Eigen
     new.tap {|instance|
       yield instance
   
-      if check_assign && each_member.any?{|name|! instance.assign?(name)}
-        raise "not yet finished"
+      if check_assign &&
+        ! (yets = each_name.select{|name|! instance.assign?(name)}).empty?
+
+        raise "not assigned members are, yet '#{yets.inspect} in #{self}'"
       end
 
       instance.lock if lock
