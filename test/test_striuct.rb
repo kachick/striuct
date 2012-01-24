@@ -10,7 +10,10 @@ class User < Striuct.new
 end
 
 class TestStriuctSubclassEigen < Test::Unit::TestCase
-  User2 = Striuct.new :name, :age
+  User2 = Striuct.define do
+    member :name, AND(String, NOT(''))
+    member :age, Fixnum
+  end
   
   def test_builder
     klass = Striuct.new
@@ -29,14 +32,14 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
   end
 
   def test_define
-    user = User2.define{|r|r.age = 1; r.name = ''}
+    user = User2.define{|r|r.age = 1; r.name = 'a'}
     assert_same 1, user.age
     
     assert_raises RuntimeError do
       user.age = 1
     end
     
-    user = User2.define{|r|r.age = 1; r.name = ''}
+    user = User2.define{|r|r.age = 1; r.name = 'a'}
     assert_same 1, user.age
     assert_same true, user.lock?
     assert_same false, user.frozen?
@@ -45,11 +48,20 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
       User2.define{|r|r.age = 1}
     end
     
-    user = User2.define(true, false){|r|r.age = 1}
+    user = User2.define(lock: true){|r|r.age = 1; r.name = 'a'}
     assert_same 1, user.age
+    assert_same true, user.lock?
+    user = User2.define(lock: false){|r|r.age = 1; r.name = 'a'}
+    assert_same false, user.lock?
+    assert_equal true, user.strict?
     
-    user = User2.define(false, false){|r|r.age = 1}
-    assert_same false, user.frozen?
+    assert_raises Striuct::ConditionError do
+      User2.define{|r|r.age = 1; r.name = 'a'; r.name.clear}
+    end
+    
+    user = User2.define(strict: false){|r|r.age = 1; r.name = 'a'; r.name.clear}
+    assert_equal '', user.name
+    assert_equal false, user.strict?
   end
   
   def test_sufficient?
