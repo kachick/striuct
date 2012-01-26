@@ -26,6 +26,21 @@ class Striuct; module Subclassable
   
   alias_method :each_with_index, :each_value_with_index
   
+  # @yield [name, value, index]
+  # @yieldparam [Symbol] name
+  # @yieldparam [Integer] index
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_pair_with_index
+    return to_enum(__method__) unless block_given?
+    index = 0
+    each_pair do |name, value|
+      yield name, value, index
+      index += 1
+    end
+    self
+  end
+  
   # @param [Symbol, String] name
   def assign?(name)
     name = originalkey_for(keyable_for name)

@@ -1208,3 +1208,22 @@ class TestStriuctConstants < Test::Unit::TestCase
     assert_same Striuct::VERSION, Striuct::Version
   end
 end
+
+class TestStriuctConstants < Test::Unit::TestCase
+  Sth = Striuct.define do
+    member :name
+    member :age
+  end
+  
+  def test_each_pair_with_index
+    sth = Sth.new 'a', 10
+    assert_same sth, sth.each_pair_with_index{}
+    
+    enum = sth.each_pair_with_index    
+    assert_equal [:name, 'a', 0], enum.next
+    assert_equal [:age, 10, 1], enum.next
+    assert_raises StopIteration do
+      enum.next
+    end
+  end
+end
