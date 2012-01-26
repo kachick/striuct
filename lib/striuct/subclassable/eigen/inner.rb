@@ -1,14 +1,6 @@
 class Striuct; module Subclassable; module Eigen
   # @group Use Only Inner
 
-  def dup
-    r = super
-    @names, @flavors, @defaults, @aliases = 
-    *[@names, @flavors, @defaults, @aliases].map(&:dup)
-    @conditions, @inferences = @conditions.dup, @inferences.dup
-    r
-  end
-
   private
 
   def _names

@@ -34,5 +34,13 @@ class Striuct; module Subclassable; module Eigen
     super
   end
 
+  def dup
+    r = super
+    @names, @flavors, @defaults, @aliases = 
+    *[@names, @flavors, @defaults, @aliases].map(&:dup)
+    @conditions, @inferences = @conditions.dup, @inferences.dup
+    r
+  end
+
   # @endgroup
 end; end; end
