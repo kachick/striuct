@@ -86,7 +86,15 @@ class Striuct; module Subclassable
     excess = members.last(size - values.size)
       
     excess.each do |name|
-      self[name] = default_for name if has_default? name
+      if has_default? name
+        self[name] = (
+          if (value = default_for name).kind_of? SpecificContainer
+            value.value.call self, name
+          else
+            value
+          end
+        )
+      end
     end
   end
 

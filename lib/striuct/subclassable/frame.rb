@@ -7,7 +7,13 @@ class Striuct
   module Subclassable
     extend ClassUtil
     include Enumerable
+
+    SpecificContainer = Struct.new :value
     
+    if respond_to? :private_constant
+      private_constant :SpecificContainer
+    end
+
     class << self
       private
 

@@ -375,8 +375,8 @@ class TestStriuctDefaultValue < Test::Unit::TestCase
         default :anything, 10
       end
     end
-
-    (klass = Sth.dup).class_eval do
+    
+    klass = Striuct.define do
       member :lank2, Integer
       default :lank2, '10'
     end
@@ -384,6 +384,37 @@ class TestStriuctDefaultValue < Test::Unit::TestCase
     assert_raises Striuct::ConditionError do
       klass.new
     end
+    
+    scope = self
+    seef = nil
+    klass = Striuct.define do
+      member :lank, Integer
+      scope.assert_raises ArgumentError do
+        default :lank, '10', &->own, name{rand}
+      end
+      
+      scope.assert_raises ArgumentError do
+        default :lank, '10', &->own{rand}
+      end
+      
+      scope.assert_raises ArgumentError do
+        default :lank, '10', &->{rand}
+      end
+      
+      default :lank, &->own, name{(seef = own); rand}
+    end
+    
+    assert_raises Striuct::ConditionError do
+      klass.new
+    end
+    
+    klass = Striuct.define do
+      member :lank, Integer      
+      default :lank, &->own, name{(seef = own); 10 - name.length}
+    end
+    
+    assert_equal 6, klass.new.lank
+    assert_equal seef, klass.new
   end
 end
 

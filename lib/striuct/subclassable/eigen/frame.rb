@@ -23,7 +23,7 @@ module Eigen
   }.each(&:freeze).freeze
   
   INFERENCE = Object.new.freeze
-  
+
   if respond_to? :private_constant
     private_constant :INFERENCE
   end
