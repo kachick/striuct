@@ -64,11 +64,6 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
     assert_equal false, user.strict?
   end
   
-  def test_sufficient?
-    assert_equal false, User.sufficient?(:age, 19)
-    assert_equal true, User.sufficient?(:age, 20)
-  end
-  
   def test_restrict?
     klass = Striuct.new :foo do
       member :var, //
