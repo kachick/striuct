@@ -174,7 +174,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
       member :age, Fixnum, &->v{Integer v}
       
       # Symbolに変換した上で代入。
-      member :name, Symbol &->v{v.to_s.to_sym}
+      member :name, Symbol, &->v{v.to_s.to_sym}
     end
     
     user2 = User2.new
