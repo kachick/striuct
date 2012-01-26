@@ -28,9 +28,8 @@ Striuct = (YetAnotherStruct << safety << useful)
 * setup
     require 'striuct'
 
-* use two namespace (same meanings)
+* use only below namespace
     Striuct
-    StrictStruct
 
 === Struct+ "Safety"
 
@@ -83,8 +82,8 @@ Striuct = (YetAnotherStruct << safety << useful)
 
 * Use "inference" and all instance test under class of first passed object.
     class FlexibleContainer < Striuct.new
-      member :anything, inference
-      member :number, Numeric, inference
+      member :anything, anything, inference: true
+      member :number, Numeric, inference: true
     end
 
     fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
@@ -152,13 +151,8 @@ Striuct = (YetAnotherStruct << safety << useful)
 * Block with member macro, it is called "flavor" at here.
   Below cases for type cast.
     class User2 < Striuct.new
-      member :age, /\A\d+\z/, Numeric do |arg|
-        Integer arg
-      end
-      
-      member :name, ->v{v.respond_to? :to_s} do |v|
-        v.to_s.to_sym
-      end
+      member :age, Fixnum, &->v{Integer v}
+      member :name, Symbol &->v{v.to_s.to_sym}
     end
     
     user2 = User2.new
@@ -171,7 +165,7 @@ Striuct = (YetAnotherStruct << safety << useful)
 
 ==== Default
 
-* provides default value
+* provides default value and can use block parameter(like Hash.new)
     class User3 < Striuct.new
       member  :lank, Fixnum
       default :lank, 3
