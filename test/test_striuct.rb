@@ -325,9 +325,7 @@ end
 
 class TestStriuctProcedure < Test::Unit::TestCase
   Sth = Striuct.new do
-    member :age, OR(/\A\d+\z/, Numeric) do |arg|
-      Integer arg
-    end
+    member :age, Numeric, &->arg{Integer arg}
   end
   
   def setup
