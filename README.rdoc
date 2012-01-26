@@ -6,7 +6,7 @@
 
 == DESCRIPTION
 
-Struct++
+Striuct = (YetAnotherStruct << safety << useful)
 
 == FEATURES
 * When you link a object, Striuct checks "They are valid objects?".

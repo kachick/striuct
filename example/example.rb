@@ -14,7 +14,7 @@ end
 class User < Striuct.new
   member :id,   Integer
   member :age,  (20..140)
-  member :name, /\A\w+\z/, /\A\w+ \w+\z/
+  member :name, OR(/\A\w+\z/, /\A\w+ \w+\z/)
 end
 
 user = User.new 128381, 20
@@ -50,7 +50,7 @@ module Game
 
   class DB < Striuct.new
     member :monsters,   ->list{(list - characters).empty?}
-    member :characters, ->list{list.all?{|c|c.kind_of? Character}}
+    member :characters, GENERICS(Character)
   end
   
   monster = Character.new
@@ -78,7 +78,7 @@ end
 # through "inference", and check under first passed object class
 class FlexibleContainer < Striuct.new
   member :anything, inference
-  member :number,   inference, Numeric
+  member :number,   Numeric, inference
 end
 
 fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
