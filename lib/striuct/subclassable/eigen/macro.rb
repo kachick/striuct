@@ -69,16 +69,29 @@ class Striuct; module Subclassable; module Eigen
   
   # @macro [attach] default
   # @return [nil]
-  def set_default_value(name, value)
+  def set_default_value(name, value=nil, &block)
     raise "already closed to modify member attributes in #{self}" if closed?
     name = originalkey_for(keyable_for name)
+    raise "already settled default value for #{name}" if has_default? name
 
-    if has_default? name
-      raise "already settled default value for #{name}"
-    else
-      _set_default_value name, value
-      nil
-    end
+    value = (
+      if block_given?
+        if value.nil?
+          if (arity = block.arity) == 2
+            SpecificContainer.new block
+          else
+            raise ArgumentError, "wrong number of block parameter #{arity } for 2"
+          end
+        else
+          raise ArgumentError, 'can not use value and block arguments'
+        end
+      else
+        value
+      end
+    )
+    
+    _set_default_value name, value
+    nil
   end
   
   alias_method :default, :set_default_value
