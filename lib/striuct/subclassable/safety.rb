@@ -2,7 +2,7 @@ class Striuct; module Subclassable
   # @group Struct+ Safety
   
   # see self.class.*args
-  delegate_class_methods :restrict?, :has_conditions?, :inference?
+  delegate_class_methods :restrict?, :has_condition?, :inference?
   
   # @param [Symbol, String] name
   # @param [Object] *values - no argument and use own

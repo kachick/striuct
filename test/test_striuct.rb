@@ -251,10 +251,10 @@ end
 
 class TestStriuctSubclassInstance4 < Test::Unit::TestCase
   class Sth < Striuct.new
-    member :bool, true, false
+    member :bool, OR(true, false)
     member :sth
     protect_level :struct
-    member :lambda, ->v{v % 3 == 2}, ->v{v.kind_of? Float}
+    member :lambda, OR(->v{v % 3 == 2}, ->v{v.kind_of? Float})
   end
   
   def setup
@@ -330,7 +330,7 @@ end
 
 class TestStriuctProcedure < Test::Unit::TestCase
   Sth = Striuct.new do
-    member :age, /\A\d+\z/, Numeric do |arg|
+    member :age, OR(/\A\d+\z/, Numeric) do |arg|
       Integer arg
     end
   end
@@ -631,8 +631,8 @@ end
 class TestStriuctInference < Test::Unit::TestCase
   def test_inference
     klass = Striuct.define do
-      member :n, Numeric, inference
-      member :m, inference
+      member :n, Numeric, inference: true
+      member :m, anything, inference: true
     end
     
     sth, sth2 = klass.new, klass.new

@@ -14,18 +14,21 @@ class Striuct; module Subclassable; module Eigen
     nil
   end
 
+  MEMBER_OPTIONS = [:inference].freeze
+
   # @macro [attach] member
   # @return [nil]
-  def add_member(name, *conditions, &flavor)
-    warn 'deprecated multiple conditions here, please use .#OR' if conditions.length >= 2
+  def add_member(name, condition=ANYTHING, options={}, &flavor)
     raise "already closed to add member in #{self}" if closed?
+    raise ArgumentError, 'invalid option parameter is' unless (options.keys - MEMBER_OPTIONS).empty?
     name = keyable_for name
     raise ArgumentError, %Q!already exist name "#{name}"! if member? name
     _check_safety_naming name
+    _mark_inference name if options[:inference]
 
     @names << name
     __getter__! name
-    __setter__! name, *conditions, &flavor
+    __setter__! name, condition, &flavor
     nil
   end
 
