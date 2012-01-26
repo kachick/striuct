@@ -61,6 +61,14 @@ class Striuct; class << self
       
       @names, @conditions, @flavors, @defaults,\
       @inferences, @aliases, @protect_level  = *attributes
+      
+      singleton_class.instance_eval do
+        define_method :initialize_copy do |original|
+          @names, @flavors, @defaults, @aliases = 
+          *[@names, @flavors, @defaults, @aliases].map(&:dup)
+          @conditions, @inferences = @conditions.dup, @inferences.dup
+        end
+      end
     end
   end
 end; end
