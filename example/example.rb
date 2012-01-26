@@ -77,8 +77,8 @@ end
 
 # through "inference", and check under first passed object class
 class FlexibleContainer < Striuct.new
-  member :anything, inference
-  member :number,   Numeric, inference
+  member :anything, anything, inference: true
+  member :number,   Numeric, inference: true
 end
 
 fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
@@ -146,7 +146,7 @@ end
 # to through block called "flavor"
 # below case for type cast
 class User2 < Striuct.new
-  member :age, /\A\d+\z/, Numeric do |arg|
+  member :age, OR(/\A\d+\z/, Numeric) do |arg|
     Integer arg
   end
   
