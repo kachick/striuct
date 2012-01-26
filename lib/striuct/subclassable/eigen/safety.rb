@@ -1,10 +1,5 @@
 class Striuct; module Subclassable; module Eigen
   # @group Struct+ Safety
-
-  # @return [INFERENCE] specific key of inference checker
-  def inference
-    INFERENCE
-  end
   
   # @param [Symbol, String] name
   # inference checker is waiting yet
@@ -15,30 +10,13 @@ class Striuct; module Subclassable; module Eigen
   end
 
   # @param [Symbol, String] name
-  def has_conditions?(name)
+  def has_condition?(name)
     name = originalkey_for(keyable_for name)
 
     @conditions.has_key?(name)
   end
   
-  alias_method :restrict?, :has_conditions?
-
-  # @param [Symbol, String] name
-  # @param [Object] value
-  # @param [Subclass] context - expect own instance
-  # value can set the member space
-  def sufficient?(name, value, context=nil)
-    name = originalkey_for(keyable_for name)
-
-    if restrict? name
-      conditions_for(name).any?{|c|pass? value, c, context}
-    else
-      true
-    end
-  end
-  
-  alias_method :accept?, :sufficient?
-  alias_method :valid?, :sufficient?
+  alias_method :restrict?, :has_condition?
   
   # @param [Object] name
   # accpeptable the name into own member, under protect level of runtime

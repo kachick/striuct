@@ -64,11 +64,6 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
     assert_equal false, user.strict?
   end
   
-  def test_sufficient?
-    assert_equal false, User.sufficient?(:age, 19)
-    assert_equal true, User.sufficient?(:age, 20)
-  end
-  
   def test_restrict?
     klass = Striuct.new :foo do
       member :var, //
@@ -251,10 +246,10 @@ end
 
 class TestStriuctSubclassInstance4 < Test::Unit::TestCase
   class Sth < Striuct.new
-    member :bool, true, false
+    member :bool, OR(true, false)
     member :sth
     protect_level :struct
-    member :lambda, ->v{v % 3 == 2}, ->v{v.kind_of? Float}
+    member :lambda, OR(->v{v % 3 == 2}, ->v{v.kind_of? Float})
   end
   
   def setup
@@ -330,9 +325,7 @@ end
 
 class TestStriuctProcedure < Test::Unit::TestCase
   Sth = Striuct.new do
-    member :age, /\A\d+\z/, Numeric do |arg|
-      Integer arg
-    end
+    member :age, Numeric, &->arg{Integer arg}
   end
   
   def setup
@@ -631,8 +624,8 @@ end
 class TestStriuctInference < Test::Unit::TestCase
   def test_inference
     klass = Striuct.define do
-      member :n, Numeric, inference
-      member :m, inference
+      member :n, Numeric, inference: true
+      member :m, anything, inference: true
     end
     
     sth, sth2 = klass.new, klass.new
@@ -1205,5 +1198,13 @@ class TestStriuctInherit < Test::Unit::TestCase
     assert_equal false, SubSubSth.__send__(:closed?)
     SubSubSth.__send__(:close)
     assert_equal true, SubSubSth.__send__(:closed?)
+  end
+end
+
+class TestStriuctConstants < Test::Unit::TestCase
+  def test_const_version
+    assert_equal '0.2.0.a', Striuct::VERSION
+    assert_equal true, Striuct::VERSION.frozen?
+    assert_same Striuct::VERSION, Striuct::Version
   end
 end

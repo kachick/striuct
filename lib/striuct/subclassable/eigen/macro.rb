@@ -14,27 +14,29 @@ class Striuct; module Subclassable; module Eigen
     nil
   end
 
+  MEMBER_OPTIONS = [:inference].freeze
+
   # @macro [attach] member
   # @return [nil]
-  def define_member(name, *conditions, &flavor)
-    warn 'deprecated multiple conditions here, please use .#OR' if conditions.length >= 2
+  def add_member(name, condition=ANYTHING, options={}, &flavor)
     raise "already closed to add member in #{self}" if closed?
+    raise ArgumentError, 'invalid option parameter is' unless (options.keys - MEMBER_OPTIONS).empty?
     name = keyable_for name
     raise ArgumentError, %Q!already exist name "#{name}"! if member? name
     _check_safety_naming name
+    _mark_inference name if options[:inference]
 
     @names << name
     __getter__! name
-    __setter__! name, *conditions, &flavor
+    __setter__! name, condition, &flavor
     nil
   end
 
-  alias_method :def_member, :define_member
-  alias_method :member, :define_member
+  alias_method :member, :add_member
 
   # @macro [attach] define_members
   # @return [nil]
-  def define_members(*names)
+  def add_members(*names)
     raise "already closed to add members in #{self}" if closed?
     unless names.length >= 1
       raise ArgumentError, 'wrong number of arguments (0 for 1+)'
@@ -46,8 +48,6 @@ class Striuct; module Subclassable; module Eigen
 
     nil
   end
-
-  alias_method :def_members, :define_members
 
   # @param [Symbol, String] aliased
   # @param [Symbol, String] original
@@ -97,12 +97,13 @@ class Striuct; module Subclassable; module Eigen
   alias_method :default, :set_default_value
   
   # @return [self]
-  def fix_structural
+  def close_member
     [@names, @flavors, @defaults, @aliases].each(&:freeze)
     self
   end
   
-  alias_method :close, :fix_structural
+  alias_method :fix_structural, :close_member
+  alias_method :close, :close_member
   
   # @endgroup
 end; end; end
