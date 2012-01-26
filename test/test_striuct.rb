@@ -1202,3 +1202,11 @@ class TestStriuctInherit < Test::Unit::TestCase
     assert_equal true, SubSubSth.__send__(:closed?)
   end
 end
+
+class TestStriuctConstants < Test::Unit::TestCase
+  def test_const_version
+    assert_equal '0.2.0.a', Striuct::VERSION
+    assert_equal true, Striuct::VERSION.frozen?
+    assert_same Striuct::VERSION, Striuct::Version
+  end
+end
