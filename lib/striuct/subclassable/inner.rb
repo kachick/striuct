@@ -5,7 +5,7 @@ class Striuct; module Subclassable
   
   # see self.class.*args
   delegate_class_methods(
-    :keyable_for, :flavor_for, :conditions_for, :originalkey_for
+    :keyable_for, :flavor_for, :condition_for, :originalkey_for
   )
   
   def initialize_copy(original)
@@ -25,7 +25,7 @@ class Striuct; module Subclassable
 
     unless accept? name, value
       raise ConditionError,
-            "#{value.inspect} is deficient for #{conditions_for(name).inspect}"
+            "#{value.inspect} is deficient for #{name} in #{self.class}"
     end
           
     if has_flavor? name

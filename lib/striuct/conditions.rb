@@ -2,11 +2,19 @@ class Striuct
 
   # Useful Condition Patterns
   module Conditions
+    ANYTHING = Object.new.freeze
+  
     module_function
+    
+    def anything
+      ANYTHING
+    end
 
     # @param [Object] condition
     def conditionable?(condition)
       case condition
+      when ANYTHING
+        true
       when Proc, Method
         condition.arity == 1
       else
@@ -24,6 +32,8 @@ class Striuct
       end
 
       case condition
+      when ANYTHING
+        true
       when Proc
         if context
           context.instance_exec value, &condition

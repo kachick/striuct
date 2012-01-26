@@ -31,8 +31,8 @@ class Striuct; module Subclassable; module Eigen
     @flavors[name] = flavor
   end
   
-  def _set_conditions(name, conditions)
-    @conditions[name] = conditions
+  def _set_condition(name, condition)
+    @conditions[name] = condition
   end
   
   def _set_default_value(name, value)
@@ -136,8 +136,8 @@ class Striuct; module Subclassable; module Eigen
     nil
   end
 
-  def __setter__!(name, *conditions, &flavor)
-    __set_conditions__! name, *conditions
+  def __setter__!(name, condition, &flavor)
+    __set_condition__! name, condition unless ANYTHING.equal? condition
     __set_flavor__! name, &flavor if block_given?
 
     define_method "#{name}=" do |value|
@@ -148,17 +148,11 @@ class Striuct; module Subclassable; module Eigen
 
   end
   
-  def __set_conditions__!(name, *conditions)
-    if conditions.reject!{|c|INFERENCE.equal? c}
-      _mark_inference name
-    end
-
-    unless conditions.empty?
-      if conditions.all?{|c|conditionable? c}
-        _set_conditions name, conditions
-      else
-        raise TypeError, 'wrong object for condition'
-      end
+  def __set_condition__!(name, condition)
+    if conditionable? condition
+      _set_condition name, condition
+    else
+      raise TypeError, 'wrong object for condition'
     end
  
     nil
@@ -184,19 +178,19 @@ class Striuct; module Subclassable; module Eigen
 
     raise ArgumentError unless conditionable? family
 
-    _set_conditions name, [family]
+    _set_condition name, family
     _remove_inference name
 
     nil
   end
   
-  def _conditions_for(name)
+  def _condition_for(name)
     @conditions[name]
   end
   
   # @param [Symbol, String] name
-  def conditions_for(name)
-    _conditions_for originalkey_for(keyable_for name)
+  def condition_for(name)
+    _condition_for originalkey_for(keyable_for name)
   end
   
   def _flavor_for(name)
