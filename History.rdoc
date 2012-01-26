@@ -1,10 +1,25 @@
+=== 0.2.0 2012-1-27
+
+* delete:
+  * constant StrictStruct
+  * Eigen.#sufficient? (alias -> valid?, accept?)
+
+* modify:
+  * conditions to a condition (use condition generator Conditions#OR)
+  * to expr a flavor, before check condition
+  * inference flag under option parameter
+  * long macro names (define_xxx -> add_xxx)
+
+* add:
+  * #each_pair_with_index
+
 === 0.1.7 2012-1-26
 
 * add:
   * default with Proc
   * detail error message in Subclass.#[]=
 
-* fix
+* fix:
   * class duplicating
 
 === 0.1.6 2012-1-25
