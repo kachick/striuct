@@ -53,6 +53,7 @@ class Striuct; module Subclassable; module Eigen
   # @param [Symbol, String] original
   # @return [nil]
   def alias_member(aliased, original)
+    raise "already closed to add members in #{self}" if closed?
     original = keyable_for original
     aliased  = keyable_for aliased
     raise NameError unless member? original
