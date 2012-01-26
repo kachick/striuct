@@ -80,7 +80,7 @@ class Striuct; module Subclassable; module Eigen
           if (arity = block.arity) == 2
             SpecificContainer.new block
           else
-            raise ArgumentError, "wrong number of block parameter #{arity } for 2"
+            raise ArgumentError, "wrong number of block parameter #{arity} for 2"
           end
         else
           raise ArgumentError, 'can not use value and block arguments'
