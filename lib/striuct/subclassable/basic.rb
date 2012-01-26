@@ -61,10 +61,11 @@ class Striuct; module Subclassable
   # @param [Object] value
   # @return [value]
   def []=(key, value)
-    __subscript__(key){|name|__set__ name, value}
+    true_name = nil
+    __subscript__(key){|name|true_name = name; __set__ name, value}
   rescue ConditionError
     $@ = [
-      "#{$@[-1].sub(/[^:]+\z/){''}}in `[]=': #{$!.message}",
+      "#{$@[-1].sub(/[^:]+\z/){''}}in `[#{key}(#{true_name})]=': #{$!.message}",
       $@[-1]
     ]
 
