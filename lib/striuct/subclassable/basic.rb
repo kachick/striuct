@@ -65,7 +65,7 @@ class Striuct; module Subclassable
     __subscript__(key){|name|true_name = name; __set__ name, value}
   rescue ConditionError
     $@ = [
-      "#{$@[-1].sub(/[^:]+\z/){''}}in `[#{key}(#{true_name})]=': #{$!.message}",
+      "#{$@[-1].sub(/[^:]+\z/){''}}in `[#{key.inspect}(#{true_name})]=': #{$!.message}",
       $@[-1]
     ]
 

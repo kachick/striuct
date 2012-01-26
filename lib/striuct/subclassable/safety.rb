@@ -2,13 +2,31 @@ class Striuct; module Subclassable
   # @group Struct+ Safety
   
   # see self.class.*args
-  delegate_class_methods :restrict?, :has_conditions?, :inference?
-  
+  delegate_class_methods :restrict?, :has_condition?, :inference?
+
+  # @param [Object] value
+  # @param [Proc, Method, #===] condition
+  def pass?(value, condition)
+    case condition
+    when Conditions::ANYTHING
+      true
+    when Proc
+      instance_exec value, &condition
+    when Method
+      condition.call value
+    else
+      condition === value
+    end ? true : false
+  end
+
   # @param [Symbol, String] name
-  # @param [Object] *values - no argument and use own
+  # @param [Object] value - no argument and use own
   # passed under any condition
   def sufficient?(name, value=self[name])
-    self.class.sufficient? name, value, self
+    name = originalkey_for(keyable_for name)
+    return true unless restrict? name
+    
+    pass? value, condition_for(name)
   end
   
   alias_method :accept?, :sufficient?

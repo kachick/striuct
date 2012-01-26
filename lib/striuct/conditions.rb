@@ -2,39 +2,24 @@ class Striuct
 
   # Useful Condition Patterns
   module Conditions
+    ANYTHING = Object.new.freeze
+  
     module_function
+    
+    def anything
+      ANYTHING
+    end
 
     # @param [Object] condition
     def conditionable?(condition)
       case condition
+      when ANYTHING
+        true
       when Proc, Method
         condition.arity == 1
       else
         condition.respond_to? :===
       end
-    end
-
-    # @param [Object] value
-    # @param [Proc, Method, #===] condition
-    # @param [self(class)] context
-    def pass?(value, condition, context)
-      if context && ! context.instance_of?(self)
-        raise ArgumentError,
-              "to change context is allowed in instance of #{self}"
-      end
-
-      case condition
-      when Proc
-        if context
-          context.instance_exec value, &condition
-        else
-          condition.call value
-        end
-      when Method
-        condition.call value
-      else
-        condition === value
-      end ? true : false
     end
 
     # @return [lambda] 
@@ -43,7 +28,7 @@ class Striuct
         raise TypeError, 'wrong object for condition'
       end
       
-      ->v{! self.class.__send__(:pass?, v, condition, self)}
+      ->v{! pass? v, condition}
     end
 
     # @return [lambda] 
@@ -54,7 +39,7 @@ class Striuct
       
       ->v{
         conditions.__send__(delegated) {|condition|
-          self.class.__send__(:pass?, v, condition, self)
+          pass? v, condition
         }
       }
     end
@@ -135,7 +120,7 @@ class Striuct
       ->v{
         conditions.all?{|condition|
           begin
-            self.class.__send__(:pass?, v, condition, self)
+            pass? v, condition
           rescue Exception
             false
           else
@@ -155,7 +140,7 @@ class Striuct
       
       ->v{
         begin
-          self.class.__send__(:pass?, v, condition, self)
+          pass? v, condition
         rescue exception
           true
         rescue Exception
@@ -179,7 +164,7 @@ class Striuct
       ->list{
         conditions.all?{|condition|
           (list.respond_to?(:each_value) ? list.each_value : list.each).all?{|v|
-            self.class.__send__(:pass?, v, condition, self)
+            pass? v, condition
           }
         }
       }
