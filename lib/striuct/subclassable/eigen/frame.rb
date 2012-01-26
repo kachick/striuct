@@ -21,12 +21,6 @@ module Eigen
     prevent:     {error:  5, warn:  1},
     nervous:     {error:  1, warn:  1}
   }.each(&:freeze).freeze
-  
-  INFERENCE = Object.new.freeze
-
-  if respond_to? :private_constant
-    private_constant :INFERENCE
-  end
 end
 
 end; end

@@ -5,7 +5,7 @@ class Striuct; module Subclassable
   
   # see self.class.*args
   delegate_class_methods(
-    :keyable_for, :flavor_for, :conditions_for, :originalkey_for
+    :keyable_for, :flavor_for, :condition_for, :originalkey_for
   )
   
   def initialize_copy(original)
@@ -23,13 +23,17 @@ class Striuct; module Subclassable
     name = originalkey_for(keyable_for name)
     raise "can't modify locked member #{name}" if lock? name
 
+    if has_flavor? name
+      begin
+        value = instance_exec value, &flavor_for(name)
+      rescue Exception
+        raise ConditionError
+      end
+    end
+
     unless accept? name, value
       raise ConditionError,
-            "#{value.inspect} is deficient for #{conditions_for(name).inspect}"
-    end
-          
-    if has_flavor? name
-      value = instance_exec value, &flavor_for(name)
+            "#{value.inspect} is deficient for #{name} in #{self.class}"
     end
 
     if inference? name

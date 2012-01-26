@@ -6,7 +6,7 @@
 
 == DESCRIPTION
 
-Struct以上の手軽さで扱える、Structより堅いコンテナを目指しています。
+Structっぽい手触りで扱える、多機能なStructを目指しています。
 
 メンバ名にチェックがかかる＆一つの新しいクラスとして扱えるStructは、場面によってはHashよりも好ましい事があるかと思います。
 でもそうやってStructを使うぐらいなわけだから、値の方にもある程度のチェックをかけたいと思う事が多くありませんか？
@@ -33,7 +33,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 * 構造体としてのメンバ追加時、Rubyの既存メソッドと干渉しないかを指定レベル別にチェック出来ます。
 * 違和感のない継承利用
 * なるべくStructの心地よい操作感を残したまま機能追加をしています。
-* 既存クラスやメソッドの上書き等を（勝手には）しない、控えめな名前空間
+* 既存クラスやメソッドの上書き等をしない、控えめな名前空間
 * Pure Ruby
 
 == SYNOPSIS
@@ -41,9 +41,8 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 * setup
     require 'striuct'
 
-* 2つの名前空間をお借りしますが、どっちも同じクラスを指します
+* この名前空間以外は汚しません。
     Striuct
-    StrictStruct
 
 === Struct+ "Safety"
 
@@ -98,11 +97,11 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
       db.monsters = [monster]
     end
 
-* 構造体クラスのコンテキスト内だけで使える "inference" というメソッドの返り値を渡すと、
-  最初に参照したオブジェクトのクラスが、以降全インスタンスでの参照条件となります。
+* オプションパラメータにinferenceというキーワードをtrueで渡すと、
+  最初に参照したオブジェクトのクラスが以降全インスタンスでの参照条件となります。
     class FlexibleContainer < Striuct.new
-      member :anything, inference
-      member :number, Numeric, inference
+      member :anything, anything, inference: true
+      member :number, Numeric, inference: true
     end
 
     fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
@@ -171,15 +170,11 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 
 * memberマクロへブロックを渡しておくと、チェック後一処理加えた値を参照可能です。
     class User2 < Striuct.new
-      # 数字っぽければIntegerへ変換してから
-      member :age, /\A\d+\z/, Numeric do |v|
-        Integer v
-      end
+      # 必ずInteger経由でキャスト
+      member :age, Fixnum, &->v{Integer v}
       
       # Symbolに変換した上で代入。
-      member :name, ->v{v.respond_to? :to_s} do |v|
-        v.to_s.to_sym
-      end
+      member :name, Symbol &->v{v.to_s.to_sym}
     end
     
     user2 = User2.new
@@ -193,6 +188,7 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 ==== Default
 
 * defaultマクロを用いることで、メンバ毎に標準値を定義することが出来ます。
+  ブロックを渡すと、初期化時にブロックの中身を評価して設定します。（Hash.newっぽく）
     class User3 < Striuct.new
       member  :lank, Fixnum
       default :lank, 3
@@ -265,7 +261,6 @@ RubyのStructを愛しつつも、こういった部分をなんとかしたい�
 == Note
 
 * 現状、このReadme含めてドキュメントは殆ど更新出来ていません。
-  0.2.0 までにはなんとかしたい
 
 == REQUIREMENTS
 
