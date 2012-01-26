@@ -162,8 +162,15 @@ class Striuct
       end
       
       ->list{
+        enum = (
+          (list.respond_to?(:each_value) && list.each_value) or
+          (list.respond_to?(:all?) && list) or
+          (list.respond_to?(:each) && list.each) or
+          (raise TypeError, 'not list object')
+        )
+      
         conditions.all?{|condition|
-          (list.respond_to?(:each_value) ? list.each_value : list.each).all?{|v|
+          enum.all?{|v|
             pass? v, condition
           }
         }
