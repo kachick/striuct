@@ -16,7 +16,7 @@ class Striuct; module Subclassable; module Eigen
 
   # @macro [attach] member
   # @return [nil]
-  def define_member(name, *conditions, &flavor)
+  def add_member(name, *conditions, &flavor)
     warn 'deprecated multiple conditions here, please use .#OR' if conditions.length >= 2
     raise "already closed to add member in #{self}" if closed?
     name = keyable_for name
@@ -29,12 +29,11 @@ class Striuct; module Subclassable; module Eigen
     nil
   end
 
-  alias_method :def_member, :define_member
-  alias_method :member, :define_member
+  alias_method :member, :add_member
 
   # @macro [attach] define_members
   # @return [nil]
-  def define_members(*names)
+  def add_members(*names)
     raise "already closed to add members in #{self}" if closed?
     unless names.length >= 1
       raise ArgumentError, 'wrong number of arguments (0 for 1+)'
@@ -46,8 +45,6 @@ class Striuct; module Subclassable; module Eigen
 
     nil
   end
-
-  alias_method :def_members, :define_members
 
   # @param [Symbol, String] aliased
   # @param [Symbol, String] original
@@ -97,12 +94,13 @@ class Striuct; module Subclassable; module Eigen
   alias_method :default, :set_default_value
   
   # @return [self]
-  def fix_structural
+  def close_member
     [@names, @flavors, @defaults, @aliases].each(&:freeze)
     self
   end
   
-  alias_method :close, :fix_structural
+  alias_method :fix_structural, :close_member
+  alias_method :close, :close_member
   
   # @endgroup
 end; end; end
