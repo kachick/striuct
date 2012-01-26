@@ -17,23 +17,6 @@ class Striuct; module Subclassable; module Eigen
   end
   
   alias_method :restrict?, :has_condition?
-
-  # @param [Symbol, String] name
-  # @param [Object] value
-  # @param [Subclass] context - expect own instance
-  # value can set the member space
-  def sufficient?(name, value, context=nil)
-    name = originalkey_for(keyable_for name)
-
-    if restrict? name
-      pass? value, condition_for(name), context
-    else
-      true
-    end
-  end
-  
-  alias_method :accept?, :sufficient?
-  alias_method :valid?, :sufficient?
   
   # @param [Object] name
   # accpeptable the name into own member, under protect level of runtime
