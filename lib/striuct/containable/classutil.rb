@@ -1,4 +1,4 @@
-class Striuct; module Subclassable
+class Striuct; module Containable
 
 
 # @author Kenichi Kamiya

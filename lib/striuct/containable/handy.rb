@@ -1,4 +1,4 @@
-class Striuct; module Subclassable  
+class Striuct; module Containable 
   # @group Struct + Handy
   
   # see self.class.*args
