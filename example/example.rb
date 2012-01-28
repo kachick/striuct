@@ -223,3 +223,13 @@ Sth1 = Striuct.new do
 end
 
 debug Sth1.new.respond_to?(:my_special_method)
+
+# to_struct
+MyC = Striuct.new :a, :b
+a =  MyC.to_struct_class
+p a
+
+p MyC.new.to_struct
+myc = Striuct.new :a, :b
+p myc.new.to_struct
+

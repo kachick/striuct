@@ -87,6 +87,24 @@ class Striuct; module Containable; module Eigen
       raise "#{name} has no default value"
     end
   end
+  
+  def to_struct_class
+    raise 'No defined members' if names.empty?
+
+    struct_klass = Struct.new(*names)
+  
+    if name
+      tail_name = name.slice(/[^:]+\z/)
+      if ::Striuct::Structs.const_defined?(tail_name) && 
+          ((already = ::Striuct::Structs.const_get(tail_name)).members == members)
+          already
+      else
+        ::Striuct::Structs.const_set tail_name, struct_klass
+      end
+    else
+      struct_klass
+    end
+  end
 
   # @endgroup
 end; end; end

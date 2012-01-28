@@ -67,6 +67,10 @@ class Striuct; module Containable
   def empty?
     each_name.none?{|name|assign? name}
   end
+  
+  def to_struct
+    self.class.to_struct_class.new(*values)
+  end
 
   # @endgroup
 end; end
