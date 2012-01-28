@@ -76,6 +76,14 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
     assert_equal false, klass.restrict?(:hoge)
     assert_equal true, klass.restrict?(:moge)
   end
+  
+  def test_add_members
+    klass = Striuct.new :foo do
+      add_members :aaa, 'bbb', :ccc
+    end
+    
+    assert_equal [:foo, :aaa, :bbb, :ccc], klass.members
+  end
 end  
 
 class TestStriuctSubclassInstance1 < Test::Unit::TestCase

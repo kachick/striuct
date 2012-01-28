@@ -36,16 +36,10 @@ class Striuct; module Containable; module Eigen
 
   # @macro [attach] define_members
   # @return [nil]
-  def add_members(*names)
+  def add_members(name, *names)
     raise "already closed to add members in #{self}" if closed?
-    unless names.length >= 1
-      raise ArgumentError, 'wrong number of arguments (0 for 1+)'
-    end
     
-    names.each do |name|
-      define_member name
-    end
-
+    [name, *names].each {|_name|add_member _name}
     nil
   end
 
@@ -63,7 +57,6 @@ class Striuct; module Containable; module Eigen
     alias_method aliased, original
     alias_method "#{aliased}=", "#{original}="
     _alias_member aliased, original
-
     nil
   end
   
