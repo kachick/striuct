@@ -31,7 +31,7 @@ class Striuct; module Containable
   
   # @return [String]
   def inspect
-    "#<#{self.class} (StrictStruct)".tap do |s|
+    "#<#{self.class} (Striuct)".tap do |s|
       each_pair do |name, value|
         suffix = (has_default?(name) && default?(name)) ? '(default)' : nil
         s << " #{name}=#{value.inspect}#{suffix}"
