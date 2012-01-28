@@ -88,6 +88,7 @@ class Striuct; module Containable; module Eigen
     end
   end
   
+  # @return [Class]
   def to_struct_class
     raise 'No defined members' if names.empty?
 
