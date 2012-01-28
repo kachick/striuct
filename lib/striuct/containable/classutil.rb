@@ -12,12 +12,8 @@ module ClassUtil
     end
   end
   
-  def delegate_class_methods(*names)
-    unless names.length >= 1
-      raise ArgumentError, 'wrong number of argument 0 for 1+'
-    end
-    
-    names.each{|name|delegate_class_method name}
+  def delegate_class_methods(name, *names)
+    [name, *names].each{|_name|delegate_class_method _name}
   end
 
 end
