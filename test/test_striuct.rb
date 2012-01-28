@@ -904,12 +904,12 @@ end
 
 class TestStriuctSpecificConditions < Test::Unit::TestCase
   Sth = Striuct.define do
-    member :list_only_int, generics(Integer)
+    member :list_only_int, GENERICS(Integer)
     member :true_or_false, boolean
     member :like_str, stringable
     member :has_x, CAN(:x)
     member :has_x_and_y, CAN(:x, :y)
-    member :one_of_member, member_of([1, 3])
+    member :one_of_member, MEMBER_OF([1, 3])
     member :has_ignore, AND(1..5, 3..10)
     member :all_pass, OR(1..5, 3..10)
     member :catch_name_error, CATCH(NameError){|v|v.no_name!}
@@ -1255,5 +1255,39 @@ class TestStriuct_to_Struct < Test::Unit::TestCase
     
     Striuct.new(:a, :b, :c).new.to_struct
     assert_equal 1, Striuct::Structs.constants.length
+  end
+end
+
+class TestStriuctFlavors < Test::Unit::TestCase
+  class MyClass
+    def self.parse(v)
+      raise unless /\A[a-z]+\z/ =~ v
+      new
+    end
+  end
+  
+  Sth = Striuct.define do
+    member :integer, Integer, &PARSE(Integer)
+    member :myobj, ->v{v.instance_of? MyClass}, &PARSE(MyClass)
+  end
+
+  def test_PARSE
+    sth = Sth.new
+    
+    assert_raises Striuct::ConditionError do
+      sth.integer = '1.0'
+    end
+    
+    sth.integer = '1'
+    
+    assert_equal 1, sth.integer
+    
+    assert_raises Striuct::ConditionError do
+      sth.myobj = '1'
+    end
+    
+    sth.myobj = 'a'
+    
+    assert_kind_of MyClass, sth.myobj
   end
 end

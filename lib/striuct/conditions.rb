@@ -1,6 +1,7 @@
 class Striuct
 
-  # Useful Condition Patterns
+  # Useful Condition Builders
+  # @author Kenichi Kamiya
   module Conditions
     ANYTHING = Object.new.freeze
     BOOLEAN = ->v{[true, false].any?{|bool|bool.equal? v}}
