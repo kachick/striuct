@@ -1,4 +1,4 @@
-class Striuct; module Subclassable; module Eigen
+class Striuct; module Containable; module Eigen
   # @group Constructor
   
   # @return [Subclass]

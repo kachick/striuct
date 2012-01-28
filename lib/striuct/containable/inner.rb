@@ -1,4 +1,4 @@
-class Striuct; module Subclassable
+class Striuct; module Containable
   private
   
   # @group Use Only Inner

@@ -4,7 +4,7 @@ require_relative 'eigen/frame'
 class Striuct
 
   # @author Kenichi Kamiya
-  module Subclassable
+  module Containable
     extend ClassUtil
     include Enumerable
 

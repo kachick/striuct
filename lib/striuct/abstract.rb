@@ -1,4 +1,4 @@
-require_relative 'subclassable/frame'
+require_relative 'containable/frame'
 
 class Striuct; class << self
   # @group Constructor
@@ -57,7 +57,7 @@ class Striuct; class << self
 
     subclass.class_eval do
       original_inherited subclass
-      include Subclassable if ::Striuct.equal? eigen
+      include Containable if ::Striuct.equal? eigen
       
       @names, @conditions, @flavors, @defaults,\
       @inferences, @aliases, @protect_level  = *attributes

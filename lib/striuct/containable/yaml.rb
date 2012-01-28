@@ -1,6 +1,6 @@
 autoload :YAML, 'yaml'
 
-class Striuct; module Subclassable
+class Striuct; module Containable
   # @group for YAML
 
   # @return [String]
