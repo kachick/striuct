@@ -3,6 +3,7 @@ class Striuct
   # Useful Condition Patterns
   module Conditions
     ANYTHING = Object.new.freeze
+    BOOLEAN = ->v{[true, false].any?{|bool|bool.equal? v}}
   
     module_function
     
@@ -48,9 +49,6 @@ class Striuct
     def AND(cond1, cond2, *conds)
       _logical_operator :all?, cond1, cond2, *conds
     end
-    
-    alias_method :ALL, :AND
-    module_function :ALL
   
     # @return [lambda] 
     def NAND(cond1, cond2, *conds)
@@ -61,9 +59,6 @@ class Striuct
     def OR(cond1, cond2, *conds)
       _logical_operator :any?, cond1, cond2, *conds
     end
-
-    alias_method :ANY, :OR
-    module_function :ANY
 
     # @return [lambda] 
     def NOR(cond1, cond2, *conds)
@@ -195,8 +190,6 @@ class Striuct
     alias_method :member_of, :MEMBER_OF
     module_function :member_of
     
-    BOOLEAN = OR(SAME(true), SAME(false))
-
     # @return [BOOLEAN] "true or false"
     def boolean
       BOOLEAN
@@ -206,7 +199,7 @@ class Striuct
     module_function :bool
 
     STRINGABLE = OR(String, Symbol, CAN(:to_str), CAN(:to_sym))
-
+  
     # @return [STRINGABLE] check "looks string family"
     def stringable
       STRINGABLE
