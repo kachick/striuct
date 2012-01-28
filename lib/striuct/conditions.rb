@@ -1,6 +1,7 @@
 class Striuct
 
   # Useful Condition Builders
+  #   some generated conditions need #pass?(arg, condition) method
   # @author Kenichi Kamiya
   module Conditions
     ANYTHING = Object.new.freeze
