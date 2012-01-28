@@ -52,8 +52,7 @@ class Striuct
       end
       
       ->v{
-        case parser
-        when ->_{::Integer.equal? parser}
+        if ::Integer.equal? parser
           ::Kernel.Integer v
         else
           parser.parse(
