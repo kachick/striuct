@@ -68,6 +68,7 @@ class Striuct; module Containable
     each_name.none?{|name|assign? name}
   end
   
+  # @return [Struct]
   def to_struct
     self.class.to_struct_class.new(*values)
   end
