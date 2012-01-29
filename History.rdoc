@@ -1,3 +1,14 @@
+=== 0.2.1 2012-1-30
+
+* delete:
+  * Conditions#ANY, ALL
+
+* add:
+  * can choose timing of validation (member with option and safety_setter? and more)
+  * add Flavors (Useful flavor builders)
+  * .#to_struct_class, #to_struct
+  * #each_name_with_index (alias-> #each_member_with_index, #each_key_with_index)
+
 === 0.2.0 2012-1-27
 
 * delete:
