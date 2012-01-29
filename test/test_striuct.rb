@@ -1267,10 +1267,40 @@ class TestStriuctFlavors < Test::Unit::TestCase
   end
   
   Sth = Striuct.define do
+    member :chomped, AND(Symbol, /[^\n]\z/), &WHEN(String, ->v{v.chomp.to_sym})
+    member :no_reduced, Symbol, &->v{v.to_sym}
+    member :reduced, Symbol, &FLAVORS(->v{v.to_s}, ->v{v.to_sym})
     member :integer, Integer, &PARSE(Integer)
     member :myobj, ->v{v.instance_of? MyClass}, &PARSE(MyClass)
   end
+  
+  def test_WHEN
+    sth = Sth.new
+    
+    assert_raises Striuct::ConditionError do
+      sth.chomped = :"a\n"
+    end
+    
+    sth.chomped = "a\n"
+    
+    assert_equal :a, sth.chomped
+    
+    sth.chomped = :b
+    assert_equal :b, sth.chomped
+  end
 
+  def test_REDUCE
+    sth = Sth.new
+    
+    assert_raises Striuct::ConditionError do
+      sth.no_reduced = 1
+    end
+    
+    sth.reduced = 1
+    
+    assert_equal :'1', sth.reduced
+  end
+  
   def test_PARSE
     sth = Sth.new
     
