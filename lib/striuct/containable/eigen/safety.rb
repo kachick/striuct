@@ -17,7 +17,25 @@ class Striuct; module Containable; module Eigen
   end
   
   alias_method :restrict?, :has_condition?
+
+  # @param [Symbol, String] name
+  def safety_getter?(name)
+    name = originalkey_for(keyable_for name)
+
+    @getter_validations.has_key?(name)
+  end
   
+  alias_method :safety_reader?, :safety_getter?
+  
+  # @param [Symbol, String] name
+  def safety_setter?(name)
+    name = originalkey_for(keyable_for name)
+
+    @setter_validations.has_key?(name)
+  end
+
+  alias_method :safety_writer?, :safety_setter?
+
   # @param [Object] name
   # accpeptable the name into own member, under protect level of runtime
   def cname?(name)

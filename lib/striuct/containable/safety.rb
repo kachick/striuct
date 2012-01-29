@@ -2,7 +2,8 @@ class Striuct; module Containable
   # @group Struct+ Safety
   
   # see self.class.*args
-  delegate_class_methods :restrict?, :has_condition?, :inference?
+  delegate_class_methods :restrict?, :has_condition?,
+    :safety_getter?, :safety_reader?, :safety_setter?, :safty_writer?, :inference?
 
   # @param [Object] value
   # @param [Proc, Method, #===] condition

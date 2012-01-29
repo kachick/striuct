@@ -13,18 +13,31 @@ class Striuct; module Containable; module Eigen
     nil
   end
 
-  MEMBER_OPTIONS = [:inference].freeze
+  VALID_MEMBER_OPTIONS = [
+    :inference,
+    :reader_validation,
+    :getter_validation,
+    :writer_validation,
+    :setter_validation
+  ].freeze
+  
+  DEFAULT_MEMBER_OPTIONS = {
+    setter_validation: true
+  }.freeze
 
   # @param [Symbol, String] name
   # @param [#===, Proc, Method, ANYTHING] condition
   # @param [Hash] options
   # @return [nil]
-  def add_member(name, condition=ANYTHING, options={}, &flavor)
+  def add_member(name, condition=ANYTHING, options=DEFAULT_MEMBER_OPTIONS, &flavor)
     raise "already closed to add member in #{self}" if closed?
-    raise ArgumentError, 'invalid option parameter is' unless (options.keys - MEMBER_OPTIONS).empty?
+    options = DEFAULT_MEMBER_OPTIONS.merge options
+    raise ArgumentError, 'invalid option parameter is' unless (options.keys - VALID_MEMBER_OPTIONS).empty?
     name = keyable_for name
     raise ArgumentError, %Q!already exist name "#{name}"! if member? name
     _check_safety_naming name
+    _mark_setter_validation name if options[:setter_validation] or options[:writer_validation]
+    _mark_getter_validation name if options[:getter_validation] or options[:reader_validation]
     _mark_inference name if options[:inference]
 
     @names << name

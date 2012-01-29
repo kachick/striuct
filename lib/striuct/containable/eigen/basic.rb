@@ -36,8 +36,8 @@ class Striuct; module Containable; module Eigen
 
   def dup
     r = super
-    @names, @flavors, @defaults, @aliases = 
-    *[@names, @flavors, @defaults, @aliases].map(&:dup)
+    @names, @flavors, @defaults, @aliases, @setter_validations, @getter_validations = 
+    *[@names, @flavors, @defaults, @aliases, @setter_validations, @getter_validations].map(&:dup)
     @conditions, @inferences = @conditions.dup, @inferences.dup
     r
   end
