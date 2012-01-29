@@ -23,6 +23,14 @@ class Striuct; module Containable; module Eigen
     @inferences.delete name
   end
   
+  def _mark_setter_validation(name)
+    @setter_validations[name] = true
+  end
+
+  def _mark_getter_validation(name)
+    @getter_validations[name] = true
+  end
+
   def _mark_inference(name)
     @inferences[name] = true
   end

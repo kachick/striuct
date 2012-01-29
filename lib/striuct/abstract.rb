@@ -46,10 +46,10 @@ class Striuct; class << self
   def inherited(subclass)
     attributes = (
       if equal? ::Striuct
-        [[], {}, {}, {}, {}, {}, :prevent]
+        [[], {}, {}, {}, {}, {}, {}, {}, :prevent]
       else
         [*[@names, @conditions, @flavors, @defaults,\
-        @inferences, @aliases].map(&:dup), @protect_level]
+        @inferences, @aliases, @setter_validations, @getter_validations].map(&:dup), @protect_level]
       end
     )
     
@@ -60,12 +60,12 @@ class Striuct; class << self
       include Containable if ::Striuct.equal? eigen
       
       @names, @conditions, @flavors, @defaults,\
-      @inferences, @aliases, @protect_level  = *attributes
+      @inferences, @aliases, @setter_validations, @getter_validations, @protect_level  = *attributes
       
       singleton_class.instance_eval do
         define_method :initialize_copy do |original|
-          @names, @flavors, @defaults, @aliases = 
-          *[@names, @flavors, @defaults, @aliases].map(&:dup)
+          @names, @flavors, @defaults, @aliases, @setter_validations, @getter_validations = 
+          *[@names, @flavors, @defaults, @aliases, @setter_validations, @getter_validations].map(&:dup)
           @conditions, @inferences = @conditions.dup, @inferences.dup
         end
       end

@@ -14,8 +14,14 @@ class Striuct; module Containable
 
   def __get__(name)
     name = originalkey_for(keyable_for name)
+    value = @db[name]
+  
+    if safety_getter?(name) and !accept?(name, value)
+      raise ConditionError,
+            "#{value.inspect} is deficient for #{name} in #{self.class}"
+    end
 
-    @db[name]
+    value
   end
 
   def __set__(name, value)
@@ -31,7 +37,7 @@ class Striuct; module Containable
       end
     end
 
-    unless accept? name, value
+    if safety_setter?(name) and !accept?(name, value)
       raise ConditionError,
             "#{value.inspect} is deficient for #{name} in #{self.class}"
     end
