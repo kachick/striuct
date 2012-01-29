@@ -9,9 +9,12 @@ class Striuct
   
     module_function
     
-    def anything
+    def ANYTHING
       ANYTHING
     end
+    
+    alias_method :anything, :ANYTHING
+    module_function :anything
 
     # @param [Object] condition
     def conditionable?(condition)
@@ -199,13 +202,20 @@ class Striuct
 
     alias_method :bool, :boolean
     module_function :bool
+    alias_method :BOOLEAN, :boolean
+    module_function :BOOLEAN
+    alias_method :BOOL, :boolean
+    module_function :BOOL
 
     STRINGABLE = OR(String, Symbol, CAN(:to_str), CAN(:to_sym))
   
     # @return [STRINGABLE] check "looks string family"
-    def stringable
+    def STRINGABLE
       STRINGABLE
     end
+    
+    alias_method :stringable, :STRINGABLE
+    module_function :stringable
     
     class << self
       private :_logical_operator

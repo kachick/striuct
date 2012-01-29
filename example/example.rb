@@ -232,4 +232,3 @@ p a
 p MyC.new.to_struct
 myc = Striuct.new :a, :b
 p myc.new.to_struct
-

@@ -3,7 +3,6 @@ class Striuct; module Containable; module Eigen
 
   private
 
-  # @macro [attach] protect_level
   # @param [Symbol] level
   # @return [nil]
   # change protect level for risk of naming members
@@ -16,7 +15,9 @@ class Striuct; module Containable; module Eigen
 
   MEMBER_OPTIONS = [:inference].freeze
 
-  # @macro [attach] member
+  # @param [Symbol, String] name
+  # @param [#===, Proc, Method, ANYTHING] condition
+  # @param [Hash] options
   # @return [nil]
   def add_member(name, condition=ANYTHING, options={}, &flavor)
     raise "already closed to add member in #{self}" if closed?
@@ -34,7 +35,8 @@ class Striuct; module Containable; module Eigen
 
   alias_method :member, :add_member
 
-  # @macro [attach] define_members
+  # @param [Symbol, String] name
+  # @param [Symbol, String] *names
   # @return [nil]
   def add_members(name, *names)
     raise "already closed to add members in #{self}" if closed?
@@ -60,7 +62,7 @@ class Striuct; module Containable; module Eigen
     nil
   end
   
-  # @macro [attach] default
+  # @param [Symbol, String] name
   # @return [nil]
   def set_default_value(name, value=nil, &block)
     raise "already closed to modify member attributes in #{self}" if closed?
