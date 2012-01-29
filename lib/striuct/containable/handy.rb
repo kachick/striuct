@@ -8,19 +8,33 @@ class Striuct; module Containable
   # @yieldparam [Integer] index
   # @yieldreturn [self]
   # @return [Enumerator]
-  def each_index(&block)
+  def each_index
     return to_enum(__method__) unless block_given?
-    self.class.each_index(&block)
+    self.class.each_index{|index|yield index}
     self
   end
+
+  # @yield [name, index]
+  # @yieldparam [Symbol] name
+  # @yieldparam [Integer] index
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_name_with_index
+    return to_enum(__method__) unless block_given?
+    self.class.each_name_with_index{|name, index|yield name, index}
+    self
+  end
+
+  alias_method :each_member_with_index, :each_name_with_index
+  alias_method :each_key_with_index, :each_name_with_index
 
   # @yield [value, index]
   # @yieldparam [Integer] index
   # @yieldreturn [self]
   # @return [Enumerator]
-  def each_value_with_index(&block)
+  def each_value_with_index
     return to_enum(__method__) unless block_given?
-    each_value.with_index(&block)
+    each_value.with_index{|value, index|yield value, index}
     self
   end
   

@@ -5,9 +5,9 @@ class Striuct; module Containable; module Eigen
   # @yieldparam [Symbol] name - sequential under defined
   # @yieldreturn [self]
   # @return [Enumerator]
-  def each_name(&block)
+  def each_name
     return to_enum(__method__) unless block_given?
-    _names.each(&block)
+    _names.each{|name|yield name}
     self
   end
 
@@ -18,12 +18,26 @@ class Striuct; module Containable; module Eigen
   # @yieldparam [Integer] Index
   # @yieldreturn [self]
   # @return [Enumerator]
-  def each_index(&block)
+  def each_index
     return to_enum(__method__) unless block_given?
-    _names.each_index(&block)
+    _names.each_index{|index|yield index}
+    self
+  end
+
+  # @yield [name, index]
+  # @yieldparam [Symbol] name
+  # @yieldparam [Integer] index
+  # @yieldreturn [self]
+  # @return [Enumerator]
+  def each_name_with_index
+    return to_enum(__method__) unless block_given?
+    _names.each_with_index{|name, index|yield name, index}
     self
   end
   
+  alias_method :each_member_with_index, :each_name_with_index
+  alias_method :each_key_with_index, :each_name_with_index
+
   # @param [Symbol, String] name
   def original?(name)
     if member? name
