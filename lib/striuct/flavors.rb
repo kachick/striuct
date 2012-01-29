@@ -38,7 +38,7 @@ class Striuct
       end
 
       ->v{
-        flavors.reduce(v){|ret|flavor.call(ret)}
+        flavors.reduce(v){|ret, flavor|flavor.call ret}
       }
     end
     
