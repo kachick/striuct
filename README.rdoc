@@ -1,24 +1,24 @@
 = Striuct
 
 * http://github.com/kachick/striuct
-* https://rubygems.org/gems/striuct
+* http://rubygems.org/gems/striuct
 * http://rubyforge.org/projects/striuct
 
-== DESCRIPTION
+== Description
 
 This library provides a metaclass that build sub container classes.
 
-== FEATURES
+== Features
 
 * Base APIs look like Struct.
 * Validators
-* Hook before running setters
+* Hook just before running setters
 * Default value
 * Member aliasing
 * Inheritable
 * Pure Ruby :)
 
-== SYNOPSIS
+== Usage
 
 * setup
     require 'striuct'  # importing namespace only "::Striuct"
@@ -124,16 +124,6 @@ This library provides a metaclass that build sub container classes.
       member :object_id, :'?  !'
     end
 
-==== Support utils
-
-* valid? / acccept? / sufficient?   # can set a argument to a member 
-* conditionable?           # can set a condition for any members
-* inference?               # inference member and no passed any object
-* restrict?                # has any conditions for a member
-* strict?                  # now, all members are passed any conditions
-* secure?                  # instance and class are fixed and strict 
-* cname?                   # can use member name under protect level
-
 === Struct+ "Handy"
 
 ==== Flavor
@@ -222,18 +212,21 @@ This library provides a metaclass that build sub container classes.
 * easy cast to Hash
     user3.to_h #=> {:lank=>3, :name=>nil}
 
-== REQUIREMENTS
+== Requirements
 
 * Ruby 1.9.2 or later
-  (test under 1.9.2, 1.9.3)
+  
+  tested release versions
+    * 1.9.3-p125
+    * 1.9.2-p290
 
-== INSTALL
+== Installation
 
 * sudo gem install striuct
 
-== LICENSE
+== License
 
-Copyright (C) 2011 Kenichi Kamiya
+Copyright (C) 2011  Kenichi Kamiya
 
 (The MIT License)
 See the included file LICENSE.
