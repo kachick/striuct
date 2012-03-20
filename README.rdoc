@@ -6,30 +6,22 @@
 
 == DESCRIPTION
 
-Striuct = (YetAnotherStruct << safety << useful)
+This library provides a metaclass that build sub container classes.
 
 == FEATURES
-* When you link a object, Striuct checks "They are valid objects?".
-  These checkers don't depend only types(class).
-  
-  The safety is made from your expressions.
-* When use "inference", member will be fixed under class of first passed object.
-* It is without undesirable naming of conflict, no-identifier and some cases.
-* You can add a step just before link a object. (named "flavor" at here)
-* You can use default-value, and we have different meanings between nil and default-value.
-* It is easy to alias member name.
-* You can use inherite of structual class. 
-* Base API looks like Struct.
-* No taint your name-space.
-* Pure Ruby
+
+* Base APIs look like Struct.
+* Validators
+* Hook before running setters
+* Default value
+* Member aliasing
+* Inheritable
+* Pure Ruby :)
 
 == SYNOPSIS
 
 * setup
-    require 'striuct'
-
-* use only below namespace
-    Striuct
+    require 'striuct'  # importing namespace only "::Striuct"
 
 === Struct+ "Safety"
 
@@ -44,8 +36,6 @@ Striuct = (YetAnotherStruct << safety << useful)
 
     # pass
     user = User.new 128381, 20
-
-    # pass
     user.age = 30
     user[2] = 'foo bar'
 
@@ -232,14 +222,10 @@ Striuct = (YetAnotherStruct << safety << useful)
 * easy cast to Hash
     user3.to_h #=> {:lank=>3, :name=>nil}
 
-
-== Note
-
-* Documents are poor
-
 == REQUIREMENTS
 
-* Ruby 1.9.2 and later (tested 1.9.2, 1.9.3)
+* Ruby 1.9.2 or later
+  (test under 1.9.2, 1.9.3)
 
 == INSTALL
 
@@ -247,25 +233,7 @@ Striuct = (YetAnotherStruct << safety << useful)
 
 == LICENSE
 
+Copyright (C) 2011 Kenichi Kamiya
+
 (The MIT License)
-
-Copyright (c) 2011  Kenichi Kamiya
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+See the included file LICENSE.
