@@ -31,25 +31,25 @@ class Striuct; module Containable
   
   # @return [String]
   def inspect
-    "#<#{self.class} (Striuct)".tap do |s|
+    "#<#{self.class} (Striuct)".tap {|s|
       each_pair do |name, value|
         suffix = (has_default?(name) && default?(name)) ? '(default)' : nil
         s << " #{name}=#{value.inspect}#{suffix}"
       end
       
       s << ">"
-    end
+    }
   end
 
   # @return [String]
   def to_s
-    "#<struct #{self.class}".tap do |s|
+    "#<struct #{self.class}".tap {|s|
       each_pair do |name, value|
         s << " #{name}=#{value.inspect}"
       end
       
       s << '>'
-    end
+    }
   end
 
   # @param [Symbol, String, Fixnum] key
@@ -107,9 +107,9 @@ class Striuct; module Containable
 
   # @param [Fixnum, Range] *keys
   # @return [Array]
-  def values_at(*keys)
+  def values_at(*_keys)
     [].tap {|r|
-      keys.each do |key|
+      _keys.each do |key|
         case key
         when Fixnum
           r << self[key]
