@@ -11,7 +11,7 @@ This library provides a metaclass that build sub container classes.
 == Features
 
 * Base APIs look like Struct.
-* Validators
+* Easy and Flexible Validations
 * Hook just before running setters
 * Default value
 * Member aliasing
