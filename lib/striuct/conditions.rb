@@ -166,7 +166,7 @@ class Striuct
           (list.respond_to?(:each_value) && list.each_value) or
           (list.respond_to?(:all?) && list) or
           (list.respond_to?(:each) && list.each) or
-          (raise TypeError, 'not list object')
+          return false
         )
       
         conditions.all?{|condition|
