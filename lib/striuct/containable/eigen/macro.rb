@@ -85,7 +85,7 @@ class Striuct; module Containable; module Eigen
     value = (
       if block_given?
         if value.nil?
-          if (arity = block.arity) == 2
+          if (arity = block.arity) <= 2
             SpecificContainer.new block
           else
             raise ArgumentError, "wrong number of block parameter #{arity} for 2"
