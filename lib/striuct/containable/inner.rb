@@ -99,7 +99,9 @@ class Striuct; module Containable
       if has_default? name
         self[name] = (
           if (value = default_for name).kind_of? SpecificContainer
-            value.value.call self, name
+            block = value.value
+            args = [self, name][0, block.arity]
+            block.call(*args)
           else
             value
           end
