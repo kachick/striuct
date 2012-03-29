@@ -1,7 +1,7 @@
 class Striuct
 
   # Useful Condition Builders
-  #   some generated conditions need #pass?(arg, condition) method
+  #   Conditions need #pass?(arg, condition) method
   # @author Kenichi Kamiya
   module Conditions
     ANYTHING = Object.new.freeze
@@ -9,12 +9,13 @@ class Striuct
   
     module_function
     
-    def ANYTHING
+    def ANYTHING?
       ANYTHING
     end
-    
-    alias_method :anything, :ANYTHING
-    module_function :anything
+
+    alias_method :ANYTHING, :ANYTHING?  
+    alias_method :anything, :ANYTHING?
+    module_function :anything, :ANYTHING
 
     # @param [Object] condition
     def conditionable?(condition)
@@ -196,26 +197,27 @@ class Striuct
     module_function :member_of
     
     # @return [BOOLEAN] "true or false"
-    def boolean
+    def BOOLEAN?
       BOOLEAN
     end
 
-    alias_method :bool, :boolean
-    module_function :bool
-    alias_method :BOOLEAN, :boolean
-    module_function :BOOLEAN
-    alias_method :BOOL, :boolean
-    module_function :BOOL
+    alias_method :boolean, :BOOLEAN?
+    alias_method :bool, :BOOLEAN?
+    alias_method :BOOLEAN, :BOOLEAN?
+    alias_method :BOOL, :BOOLEAN?
+    alias_method :BOOL?, :BOOLEAN?
+    module_function :boolean, :bool, :BOOLEAN, :BOOL, :BOOL?
 
     STRINGABLE = OR(String, Symbol, CAN(:to_str), CAN(:to_sym))
   
     # @return [STRINGABLE] check "looks string family"
-    def STRINGABLE
+    def STRINGABLE?
       STRINGABLE
     end
     
-    alias_method :stringable, :STRINGABLE
-    module_function :stringable
+    alias_method :stringable, :STRINGABLE?
+    alias_method :STRINGABLE, :STRINGABLE?
+    module_function :stringable, :STRINGABLE
     
     class << self
       private :_logical_operator
