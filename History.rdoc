@@ -1,3 +1,12 @@
+=== 0.2.2 2012-3-30
+
+* add:
+  * aliases Conditions#[FUNC()] -> Conditions#[FUNC?()]
+
+* fix:
+  * GENERICS check when build condition
+  * arity checker when default with block parameter
+
 === 0.2.1 2012-1-30
 
 * delete:

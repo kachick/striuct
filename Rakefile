@@ -13,7 +13,7 @@ $hoe = Hoe.spec 'striuct' do
   developer 'Kenichi Kamiya', 'kachick1+ruby@gmail.com'
   self.rubyforge_name       = self.name
   require_ruby_version '>= 1.9.2'
-  dependency 'yard', '~> 0.7.4', :development
+  dependency 'yard', '~> 0.7.5', :development
 end
 
 require 'newgem/tasks'
