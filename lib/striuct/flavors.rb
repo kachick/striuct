@@ -2,9 +2,14 @@ class Striuct
 
   # Useful Flavor Builders
   # @author Kenichi Kamiya
+  # @example overview
+  #   class MyClass < Striuct
+  #     member :id, &WHEN(String, PARSE(Integer))
   module Flavors
     module_function
 
+    # true if argument is sufficient for flavor.
+    # A flavor have to be arity equal 1.
     # @param [Object] flavor
     def adjustable?(flavor)
       case flavor
@@ -21,6 +26,7 @@ class Striuct
     
     alias_method :flavorable?, :adjustable?
     
+    # Apply flavor when passed condition.
     # @return [lambda]
     def WHEN(condition, flavor)
       raise TypeError, 'wrong object for condition' unless conditionable? condition
@@ -29,6 +35,7 @@ class Striuct
       ->v{pass?(v, condition) ? flavor.call(v) : v}
     end
     
+    # Sequencial apply all flavors.
     # @return [lambda]
     def REDUCE(flavor1, flavor2, *flavors)
       flavors = [flavor1, flavor2, *flavors]
@@ -45,6 +52,7 @@ class Striuct
     alias_method :FLAVORS, :REDUCE
     alias_method :INJECT, :REDUCE
 
+    # Accept any parser when that resopond to parse method.
     # @return [lambda]
     def PARSE(parser)
       if !::Integer.equal?(parser) and !parser.respond_to?(:parse)
