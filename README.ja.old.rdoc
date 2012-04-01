@@ -1,0 +1,298 @@
+= Striuct
+
+* http://github.com/kachick/striuct
+* https://rubygems.org/gems/striuct
+* http://rubyforge.org/projects/striuct
+
+== DESCRIPTION
+
+Structっぽい手触りで扱える、多機能なStructを目指しています。
+
+メンバ名にチェックがかかる＆一つの新しいクラスとして扱えるStructは、場面によってはHashよりも好ましい事があるかと思います。
+でもそうやってStructを使うぐらいなわけだから、値の方にもある程度のチェックをかけたいと思う事が多くありませんか？
+
+RubyのStructを愛しつつも、こういった部分をなんとかしたいと感じている方へお勧めします。
+
+1. ノーガードで参照を付けられるのがおっかないときもある
+2. かといって、型チェックしか出来ないようじゃRubyのメリットが死ぬんではなかろうか
+3. メンバ名でフツーのメソッド名を上書きしかねないのもおっかない
+4. 最初に代入したオブジェクトのクラスで固定したい（これは無いか）
+5. どうせなら、チェックだけじゃなくキャストなりやらせたものを参照したい
+6. メンバによっては標準値も定義したい
+7. Hashとの親和性を高くしたい
+8. メンバ名にaliasかけたいけど、alias_methodだけだと添え字アクセス出来なくて歯がゆい
+9. 構造体クラスでも継承を使った上で、更にメンバ追加がしたい
+
+== FEATURES
+
+* メンバ毎に、参照条件を簡単に定義できます。
+* 型チェックではなく式チェックなので、動的型の良さを殺しません
+* Proc(lambda)やMethod等 を使うことで、さらに柔軟なチェックが可能です
+* どれか一つの構造体で最初に代入したオブジェクトのクラスに沿うようなメンバを作れます。
+* 参照直前に、ちょっとした処理を加える事も可能です
+* 構造体としてのメンバ追加時、Rubyの既存メソッドと干渉しないかを指定レベル別にチェック出来ます。
+* 違和感のない継承利用
+* なるべくStructの心地よい操作感を残したまま機能追加をしています。
+* 既存クラスやメソッドの上書き等をしない、控えめな名前空間
+* Pure Ruby
+
+== SYNOPSIS
+
+* setup
+    require 'striuct'
+
+* この名前空間以外は汚しません。
+    Striuct
+
+=== Struct+ "Safety"
+
+==== 基本的な使い方
+
+* memberというクラスマクロを使うことで構造体のメンバを定義できます。
+  引数2以降に、参照するための「条件」を渡して下さい。
+  何も条件を渡さなければ、Struct同様ノーチェックです。
+    class User < Striuct.new
+      member :id,   Integer
+      member :age,  (20..140)
+      member :name, OR(/\A\w+\z/, /\A\w+ \w+\z/)
+    end
+
+    # pass
+    user = User.new 128381, 20
+
+    # pass
+    user.age = 30
+    user[2] = 'taro yamada'
+
+    # fail
+    user[:id] = 10.0
+    user.age = 19
+    user[2] = nil
+
+
+* 更に柔軟なチェッカが必要であれば関数的なオブジェクトを使って下さい。
+  この時Proc(lambda)を構造体インスタンスのコンテキストで評価する為、他のメンバと連携したチェックも簡単です。
+    module Game
+      class Character
+      end
+
+      class DB < Striuct.new
+        member :monsters,   ->list{(list - characters).empty?}
+        member :characters, GENERICS(Character)
+      end
+
+      monster = Character.new
+      db = DB.new
+      
+      # fail
+      db.characters = [1, 2]
+      
+      # pass
+      db.characters = [monster, Character.new]
+      
+      # fail
+      db.monsters = [:Character.new]
+      
+      # pass
+      db.monsters = [monster]
+    end
+
+* オプションパラメータにinferenceというキーワードをtrueで渡すと、
+  最初に参照したオブジェクトのクラスが以降全インスタンスでの参照条件となります。
+    class FlexibleContainer < Striuct.new
+      member :anything, anything, inference: true
+      member :number, Numeric, inference: true
+    end
+
+    fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
+    # pass
+    fc1.anything = 'str'
+ 
+    # fail
+    fc1.anything = :sym
+    fc2.anything = :sym
+    
+    # pass
+    fc2.anything = 'string too'
+    
+    # fail
+    fc1.number = 'str'
+    
+    # pass
+    fc1.number = 1.0
+
+    # fail
+    fc2.number = 1
+
+==== 意図しない名前干渉は避ける
+
+* Structはこんな感じで、ノーガード上書き＆メソッド定義出来ない物も無警告で進みます(object_id, __id__ なんかもそうですね)
+    NoGuard = Struct.new :__send__, :'?  !'
+    noguard = NoGuard.new false
+    p noguard.__send__
+    p noguard.methods.include?(:'?  !') # lost!!
+
+* ということで、意図しない上書き等を防ぐために安全度を設定出来るようにしました。
+  標準値は上から2番目の「:prevent」です。
+    class SafetyNaming < Striuct.new
+      begin
+        member :__send__
+      rescue
+        p $!
+      end
+      
+      begin
+        member :'?  !'
+      rescue
+        p $!
+      end
+      
+      # ここで下げると、定義可能に
+      protect_level :struct
+      
+      member :__send__, :'?  !'
+    end
+
+==== この辺に関わる述語メソッド
+
+* valid? / acccept? / sufficient?   # そのメンバにその値が設定出来るか
+* conditionable?           # 条件式として受け入れ可能なオブジェクトか
+* inference?               # 定義時にinferenceを使った上で、一つも参照されていないか
+* restrict?                # そのメンバに参照条件がかけられているか
+* strict?                  # 今時点で全てのメンバが参照条件を満たしているか
+* secure?                  # インスタンスもクラスも変動することない状態で、インスタンスにfreezeがかかっているか
+* cname?                   # そのメンバ名は、今のprotect level下で望ましいものか
+
+
+=== Struct+ "Handy"
+
+==== Flavor
+
+* memberマクロへブロックを渡しておくと、チェック後一処理加えた値を参照可能です。
+    class User2 < Striuct.new
+      # 必ずInteger経由でキャスト
+      member :age, Fixnum, &->v{Integer v}
+      
+      # Symbolに変換した上で代入。
+      member :name, Symbol, &->v{v.to_s.to_sym}
+    end
+    
+    user2 = User2.new
+    user2.age = 9 #=> 9(Fixnum)
+    user2.age = 10.1 #=> 10(Fixnum)
+    user2.age = '10' #=> 10(Fixnum)
+    
+    user2.name = 10 #=> :10(Symbol)
+    user2.name = Class #=> :Class(Symbol)
+
+==== Default
+
+* defaultマクロを用いることで、メンバ毎に標準値を定義することが出来ます。
+  ブロックを渡すと、初期化時にブロックの中身を評価して設定します。（Hash.newっぽく）
+    class User3 < Striuct.new
+      member  :lank, Fixnum
+      default :lank, 3
+      member  :name
+    end
+    
+    user3 = User3.new
+    user3.lank #=> 3
+
+* 「意図的なnil」との区別を付けられます。
+    user3.name  #=> nil
+    user3.assign? :name #=> false
+    user3.name = nil
+    user3.assign? :name #=> true
+
+==== Alias
+
+* メンバ名を付与出来ます。(標準Structだと、添字アクセス可能にしたりするのが面倒。)
+    class User3
+      alias_member :position, :lank
+    end
+    
+    user3.lank.equal? user3.position #=> true
+    user3[:lank].equal? user3[:position] #=> true
+    user3[:position] = 4
+    user3.lank  #=> 4
+
+==== Inherit
+
+* (writing...)
+
+==== Lock
+
+* (writing...)
+
+==== New Constructors
+
+* Subclass.define は、生成時から先オブジェクトを変える必要が無いケースで使います。
+  * ブロックパラメータに新しいインスタンスがわたり、またこれが返り値となります
+  * すべてのメンバがアサイン済みかをチェックします
+  * ブロックを抜ける直前に、全て問題ない値かチェックします(オプション指定可)
+  * ブロックを抜ける直前に、全てlockをかけます(オプション指定可)
+      user3 = User3.define do |r|
+        r.lank = 10
+        r.name = 'foo'
+      end
+
+* Subclass.[](load_pairs) は、HashなりHashっぽいものから作る時用です。
+  # Struct.[] の仕様とは異なります。
+    user3 = User3[lank:10, name: 'foo']
+
+=== Structの良さは活かしたまま
+
+* 基本的にはStruct使い(?)が余り違和感を感じ無いようにしたつもりです。
+    Sth2 = Striuct.new do
+      def my_special_method
+      end
+    end
+    
+    Sth2.new.respond_to?(:my_special_method) #=> true
+
+=== Hashとお近づきに
+
+* どちらかというとStructはHashよりArray寄りな感じを受けるのですが、個人的にHash的な動きをしてくれると嬉しい事の方が多く感じます。
+  ということで、やり過ぎない範囲でHashっぽく使えるように調整しています。
+
+* Hashへの変換も一発です。
+    user3.to_h #=> {:lank=>3, :name=>nil}
+
+== Note
+
+* 現状、このReadme含めてドキュメントは殆ど更新出来ていません。
+
+== REQUIREMENTS
+
+=== Ruby
+
+* Ruby 1.9.2 and later (tested 1.9.2, 1.9.3)
+
+== INSTALL
+
+* sudo gem install striuct
+
+== LICENSE
+
+(The MIT License)
+
+Copyright (c) 2011  Kenichi Kamiya
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
