@@ -6,7 +6,7 @@
 
 == Description
 
-This library provides a metaclass that build sub container classes.
+Struct++
 
 == Features
 
@@ -21,212 +21,43 @@ This library provides a metaclass that build sub container classes.
 == Usage
 
 * setup
-    require 'striuct'  # importing namespace only "::Striuct"
+    require 'striuct'
 
-=== Struct+ "Safety"
+=== Example
 
-==== "member" macro
-
-* Use "member" and you get a accessor, it looks Struct with tester(validator)s. 
-    class User < Striuct.new
-      member :id,   Integer
-      member :age,  (20..140)
-      member :name, OR(/\A\w+\z/, /\A\w+ \w+\z/)
-    end
-
-    # pass
-    user = User.new 128381, 20
-    user.age = 30
-    user[2] = 'foo bar'
-
-    # fail
-    user[:id] = 10.0
-    user.age = 19
-    user[2] = nil
-
-* Use functional object and you get a tester on upstairs.
-    module Game
-      class Character
-      end
-
-      class DB < Striuct.new
-        member :monsters,   ->list{(list - characters).empty?}
-        member :characters, GENERICS(Character)
-      end
-      
-      monster = Character.new
-      db = DB.new
-      
-      # fail
-      db.characters = [1, 2]
-      
-      # pass
-      db.characters = [monster, Character.new]
-      
-      # fail
-      db.monsters = [Character.new]
-      
-      # pass
-      db.monsters = [monster]
-    end
-
-* Use "inference" and all instance test under class of first passed object.
-    class FlexibleContainer < Striuct.new
-      member :anything, anything, inference: true
-      member :number, Numeric, inference: true
-    end
-
-    fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
-    # pass
-    fc1.anything = 'str'
- 
-    # fail
-    fc1.anything = :sym
-    fc2.anything = :sym
-    
-    # pass
-    fc2.anything = 'string too'
-    
-    # fail
-    fc1.number = 'str'
-    
-    # pass
-    fc1.number = 1.0
-
-    # fail
-    fc2.number = 1
-
-==== Protect from risks in naming members
-
-* Standard Struct dosen't check member-name. 
-    NoGuard = Struct.new :object_id, :'?  !'
-    noguard = NoGuard.new false
-    noguard.object_id #=> false
-    noguard.methods.include?(:'?  !') #=> false(lost!!)
-
-* Striuct provides safety levels for this. (default: :prevent)
-    class SafetyNaming < Striuct.new
-      begin
-        member :object_id
-      rescue
-        p $!
-      end
-      
-      begin
-        member :'?  !'
-      rescue
-        p $!
-      end
-      
-      # set lower
-      protect_level :struct
-      
-      member :object_id, :'?  !'
-    end
-
-=== Struct+ "Handy"
-
-==== Flavor
-
-* Block with member macro, it is called "flavor" at here.
-  Below cases for type cast.
-    class User2 < Striuct.new
-      member :age, Fixnum, &->v{Integer v}
-      member :name, Symbol, &->v{v.to_s.to_sym}
+    Person = Striuct.define do
+      member :name, AND(String, /\A\w+( \w+)?\z/)
     end
     
-    user2 = User2.new
-    user2.age = 9 #=> 9(Fixnum)
-    user2.age = 10.1 #=> 10(Fixnum)
-    user2.age = '10' #=> 10(Fixnum)
-
-    user2.name = 10 #=> :10(Symbol)
-    user2.name = Class #=> :Class(Symbol)
-
-==== Default
-
-* provides default value and can use block parameter(like Hash.new)
-    class User3 < Striuct.new
-      member  :lank, Fixnum
-      default :lank, 3
-      member  :name
+    class User < Person
+      member :id, AND(Integer, 1..99999)
     end
     
-    user3 = User3.new
-    user3.lank #=> 3
-    
-* Standard Struct always define "nil is default". Realy?
-    user3.name  #=> nil
-    user3.assign? :name #=> false
-    user3.name = nil
-    user3.assign? :name #=> true
+    user = User.new
+    user.members      #=> [:name, :id]
+    user.name = :Ken  #=> error
+    user.name = ''    #=> error
+    user.name = 'Ken' #=> pass
 
-==== Alias
+=== More Example
 
-* alias member name
-    class User3
-      alias_member :position, :lank
-    end
-    
-    user3.lank.equal? user3.position #=> true
-    user3[:lank].equal? user3[:position] #=> true
-    user3[:position] = 4
-    user3.lank  #=> 4
-
-==== Inherit
-
-* (writing...)
-
-==== Lock
-
-* (writing...)
-
-==== New Constructors
-
-* Subclass.define reject floating object.
-  * block parameter is new instance
-  * except if no finished to assign each member
-  * returning object is tested strict(optional)
-  * returning object is locked(optional)
-      user3 = User3.define do |r|
-        r.lank = 10
-        r.name = 'foo'
-      end
-
-* Subclass.[](load_pairs) make from Hash and like Hash
-    user3 = User3[lank: 10, name: 'foo']
-
-=== Almost interfaces are keeping Struct has.
-
-    Sth1 = Striuct.new do
-      def my_special_method
-      end
-    end
-    
-    Sth1.new.respond_to?(:my_special_method) #=> true
-
-=== HashLike
-
-* some interfaces import from Hash
-
-* easy cast to Hash
-    user3.to_h #=> {:lank=>3, :name=>nil}
+example/*
 
 == Requirements
 
 * Ruby 1.9.2 or later
   
   tested release versions
-    * 1.9.3-p125
-    * 1.9.2-p290
+
+  * 1.9.3-p125
+  * 1.9.2-p290
 
 == Installation
 
-* sudo gem install striuct
+* gem install striuct
 
 == License
 
 Copyright (C) 2011  Kenichi Kamiya
 
-(The MIT License)
-See the included file LICENSE.
+The MIT License (See the file LICENSE.)
