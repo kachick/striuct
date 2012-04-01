@@ -72,7 +72,7 @@ class Striuct
     # A condition builder.
     # @return [lambda] 
     def NAND(cond1, cond2, *conds)
-      ! AND(cond1, cond2, *conds)
+      NOT AND(cond1, cond2, *conds)
     end
 
     # A condition builder.
@@ -85,7 +85,7 @@ class Striuct
     # A condition builder.
     # @return [lambda] 
     def NOR(cond1, cond2, *conds)
-      ! OR(cond1, cond2, *conds)
+      NOT OR(cond1, cond2, *conds)
     end
 
     # A condition builder.
@@ -100,7 +100,7 @@ class Striuct
     # A condition builder.
     # @return [lambda] 
     def XNOR(cond1, cond2, *conds)
-      ! XOR(cond1, cond2, *conds)
+      NOT XOR(cond1, cond2, *conds)
     end
 
     # A condition builder.

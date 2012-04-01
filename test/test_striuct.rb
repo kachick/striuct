@@ -923,6 +923,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     member :has_x_and_y, CAN(:x, :y)
     member :one_of_member, MEMBER_OF([1, 3])
     member :has_ignore, AND(1..5, 3..10)
+    member :nand, NAND(1..5, 3..10)
     member :all_pass, OR(1..5, 3..10)
     member :catch_name_error, CATCH(NameError){|v|v.no_name!}
     member :no_exception, STILL(->v{v.class})
@@ -1002,7 +1003,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     end
 
     assert_raises Striuct::ConditionError do
-      sth.has_ignore = 2
+      sth.has_ignore= 2
     end
   
     sth.has_ignore = 3
@@ -1013,7 +1014,27 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
       sth.has_ignore = []
     end
   end
+
+  def test_nand
+    sth = Sth.new
+
+    assert_raises Striuct::ConditionError do
+      sth.nand = 4
+    end
+
+    assert_raises Striuct::ConditionError do
+      sth.nand = 4.5
+    end
   
+    sth.nand = 2
+    assert_equal 2, sth.nand
+    assert_equal true, sth.valid?(:nand)
+    sth.nand = []
+    assert_equal [], sth.nand
+  end
+
+
+
   def test_member_of
     sth = Sth.new
     
