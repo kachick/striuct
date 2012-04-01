@@ -9,7 +9,7 @@ lib/striuct/version.rb
 lib/striuct/abstract.rb
 lib/striuct/conditions.rb
 lib/striuct/flavors.rb
-lib/striuct/containable/frame.rb
+lib/striuct/containable.rb
 lib/striuct/containable/classutil.rb
 lib/striuct/containable/basic.rb
 lib/striuct/containable/safety.rb

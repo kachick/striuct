@@ -1,4 +1,4 @@
-require_relative 'containable/frame'
+require_relative 'containable'
 
 class Striuct; class << self
   # @group Constructor
