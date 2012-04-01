@@ -17,7 +17,7 @@ lib/striuct/containable/handy.rb
 lib/striuct/containable/hashlike.rb
 lib/striuct/containable/yaml.rb
 lib/striuct/containable/inner.rb
-lib/striuct/containable/eigen/frame.rb
+lib/striuct/containable/eigen.rb
 lib/striuct/containable/eigen/basic.rb
 lib/striuct/containable/eigen/constructor.rb
 lib/striuct/containable/eigen/safety.rb
