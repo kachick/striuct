@@ -5,7 +5,6 @@ README.ja.rdoc
 Rakefile
 LICENSE
 lib/striuct.rb
-lib/striuct/frame.rb
 lib/striuct/version.rb
 lib/striuct/abstract.rb
 lib/striuct/conditions.rb
