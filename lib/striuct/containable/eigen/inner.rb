@@ -145,7 +145,7 @@ class Striuct; module Containable; module Eigen
   end
 
   def __setter__!(name, condition, &flavor)
-    __set_condition__! name, condition unless ANYTHING.equal? condition
+    __set_condition__! name, condition unless Validation::Condition::ANYTHING.equal? condition
     __set_flavor__! name, &flavor if block_given?
 
     define_method "#{name}=" do |value|
@@ -157,7 +157,7 @@ class Striuct; module Containable; module Eigen
   end
   
   def __set_condition__!(name, condition)
-    if conditionable? condition
+    if ::Validation.conditionable? condition
       _set_condition name, condition
     else
       raise TypeError, 'wrong object for condition'
@@ -167,7 +167,7 @@ class Striuct; module Containable; module Eigen
   end
 
   def __set_flavor__!(name, &flavor)
-    if (arity = flavor.arity) == 1
+    if ::Validation.adjustable? flavor
       _set_flavor name, flavor
     else
       raise ArgumentError, "wrong number of block argument #{arity} for 1"
@@ -184,7 +184,7 @@ class Striuct; module Containable; module Eigen
                                    member?(name) and
                                    _caller.instance_of?(self)
 
-    raise ArgumentError unless conditionable? family
+    raise ArgumentError unless Validation.conditionable? family
 
     _set_condition name, family
     _remove_inference name
