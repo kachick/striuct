@@ -5,21 +5,6 @@ class Striuct; module Containable
   delegate_class_methods :restrict?, :has_condition?,
     :safety_getter?, :safety_reader?, :safety_setter?, :safty_writer?, :inference?
 
-  # @param [Object] value
-  # @param [Proc, Method, #===] condition
-  def pass?(value, condition)
-    case condition
-    when Conditions::ANYTHING
-      true
-    when Proc
-      instance_exec value, &condition
-    when Method
-      condition.call value
-    else
-      condition === value
-    end ? true : false
-  end
-
   # @param [Symbol, String] name
   # @param [Object] value - no argument and use own
   # passed under any condition
@@ -27,7 +12,7 @@ class Striuct; module Containable
     name = originalkey_for(keyable_for name)
     return true unless restrict? name
     
-    pass? value, condition_for(name)
+    _valid? condition_for(name), value
   end
   
   alias_method :accept?, :sufficient?
