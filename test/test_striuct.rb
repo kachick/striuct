@@ -1268,7 +1268,7 @@ end
 
 class TestStriuctConstants < Test::Unit::TestCase
   def test_const_version
-    assert_equal '0.2.3', Striuct::VERSION
+    assert_equal '0.3.0', Striuct::VERSION
     assert_equal true, Striuct::VERSION.frozen?
     assert_same Striuct::VERSION, Striuct::Version
   end
