@@ -1,13 +1,7 @@
-require_relative '../conditions'
-require_relative '../flavors'
-
 class Striuct; module Containable
 
 # @author Kenichi Kamiya
-module Eigen  
-  include Conditions
-  include Flavors
-  
+module Eigen
   NAMING_RISKS = {
     conflict:      10,
     no_identifier:  9,

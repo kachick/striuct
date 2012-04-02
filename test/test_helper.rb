@@ -1,3 +1,2 @@
-require 'stringio'
 require 'test/unit'
-require File.dirname(__FILE__) + '/../lib/striuct'
+require_relative '../lib/striuct'

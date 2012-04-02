@@ -63,7 +63,7 @@ class Striuct; module Containable
   def []=(key, value)
     true_name = nil
     __subscript__(key){|name|true_name = name; __set__ name, value}
-  rescue ConditionError
+  rescue Validation::InvalidWritingError
     $@ = [
       "#{$@[-1].sub(/[^:]+\z/){''}}in `[#{key.inspect}(#{true_name})]=': #{$!.message}",
       $@[-1]

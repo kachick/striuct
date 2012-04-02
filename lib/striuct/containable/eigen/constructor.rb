@@ -47,7 +47,7 @@ class Striuct; module Containable; module Eigen
       if strict &&
         ! (invalids = each_name.select{|name|! instance.valid?(name)}).empty?
 
-        raise ConditionError, "invalids members are, yet '#{invalids.inspect} in #{self}'"
+        raise Validation::InvalidWritingError, "invalids members are, yet '#{invalids.inspect} in #{self}'"
       end
 
       instance.lock if lock

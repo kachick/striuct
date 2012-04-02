@@ -17,7 +17,7 @@ class Striuct; module Containable
     value = @db[name]
   
     if safety_getter?(name) and !accept?(name, value)
-      raise ConditionError,
+      raise ::Validation::InvalidReadingError,
             "#{value.inspect} is deficient for #{name} in #{self.class}"
     end
 
@@ -33,12 +33,12 @@ class Striuct; module Containable
       begin
         value = instance_exec value, &flavor_for(name)
       rescue Exception
-        raise ConditionError
+        raise ::Validation::UnmanagebleError
       end
     end
 
     if safety_setter?(name) and !accept?(name, value)
-      raise ConditionError,
+      raise ::Validation::InvalidWritingError,
             "#{value.inspect} is deficient for #{name} in #{self.class}"
     end
 
@@ -47,7 +47,7 @@ class Striuct; module Containable
     end
     
     @db[name] = value
-  rescue ConditionError
+  rescue ::Validation::InvalidError
     unless /in \[\]=/ =~ caller[1].slice(/([^:]+)\z/)
       $@.delete_if{|s|/#{Regexp.escape(File.dirname __FILE__)}/ =~ s}
       $@.first.sub!(/([^:]+)\z/){"in `#{name}='"}
