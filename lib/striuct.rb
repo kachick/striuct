@@ -2,11 +2,13 @@
 # Striuct
 #   Provides a Struct++ class.
 
+require 'validation'
+
 # @author Kenichi Kamiya
 # @abstract
 class Striuct
-  class ConditionError < ArgumentError; end
-  
+  include Validation
+
   # namespace for .to_struct_class, #to_struct
   module Structs
   end

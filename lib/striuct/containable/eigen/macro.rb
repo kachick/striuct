@@ -29,7 +29,7 @@ class Striuct; module Containable; module Eigen
   # @param [#===, Proc, Method, ANYTHING] condition
   # @param [Hash] options
   # @return [nil]
-  def add_member(name, condition=ANYTHING, options=DEFAULT_MEMBER_OPTIONS, &flavor)
+  def add_member(name, condition=Validation::Condition::ANYTHING, options=DEFAULT_MEMBER_OPTIONS, &flavor)
     raise "already closed to add member in #{self}" if closed?
     options = DEFAULT_MEMBER_OPTIONS.merge options
     raise ArgumentError, 'invalid option parameter is' unless (options.keys - VALID_MEMBER_OPTIONS).empty?

@@ -1,15 +1,15 @@
 $VERBOSE = true
-require File.dirname(__FILE__) + '/test_helper.rb'
-
-class User < Striuct.new
-  member :id, Integer
-  member :last_name, /\A\w+\z/
-  member :family_name, /\A\w+\z/
-  member :address, /\A((\w+) ?)+\z/
-  member :age, ->age{(20..140).include? age}
-end
+require_relative 'test_helper'
 
 class TestStriuctSubclassEigen < Test::Unit::TestCase
+  class User < Striuct.new
+    member :id, Integer
+    member :last_name, /\A\w+\z/
+    member :family_name, /\A\w+\z/
+    member :address, /\A((\w+) ?)+\z/
+    member :age, ->age{(20..140).include? age}
+  end
+  
   User2 = Striuct.define do
     member :name, AND(String, NOT(''))
     member :age, Fixnum
@@ -55,7 +55,7 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
     assert_same false, user.lock?
     assert_equal true, user.strict?
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       User2.define{|r|r.age = 1; r.name = 'a'; r.name.clear}
     end
     
@@ -87,6 +87,14 @@ class TestStriuctSubclassEigen < Test::Unit::TestCase
 end  
 
 class TestStriuctSubclassInstance1 < Test::Unit::TestCase
+  class User < Striuct.new
+    member :id, Integer
+    member :last_name, /\A\w+\z/
+    member :family_name, /\A\w+\z/
+    member :address, /\A((\w+) ?)+\z/
+    member :age, ->age{(20..140).include? age}
+  end
+
   def test_setter
     user = User.new
     user[:last_name] = 'foo'
@@ -94,15 +102,15 @@ class TestStriuctSubclassInstance1 < Test::Unit::TestCase
     user.last_name = 'bar'
     assert_equal user[:last_name], 'bar'
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       user[:last_name] = 'foo s'
     end
   
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       User.new 'asda'
     end
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       user.age = 19
     end
   end
@@ -117,6 +125,14 @@ class TestStriuctSubclassInstance1 < Test::Unit::TestCase
 end
 
 class TestStriuctSubclassInstance2 < Test::Unit::TestCase
+  class User < Striuct.new
+    member :id, Integer
+    member :last_name, /\A\w+\z/
+    member :family_name, /\A\w+\z/
+    member :address, /\A((\w+) ?)+\z/
+    member :age, ->age{(20..140).include? age}
+  end
+  
   def setup
     @user = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
   end
@@ -137,15 +153,15 @@ class TestStriuctSubclassInstance2 < Test::Unit::TestCase
   end
   
   def test_setter_fail
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       @user.id = 2139203509295.0
     end
 
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       @user.last_name = 'ignore name'
     end
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       @user.age = 19
     end
   end
@@ -161,6 +177,14 @@ class TestStriuctSubclassInstance2 < Test::Unit::TestCase
 end
 
 class TestStriuctSubclassInstance3 < Test::Unit::TestCase
+  class User < Striuct.new
+    member :id, Integer
+    member :last_name, /\A\w+\z/
+    member :family_name, /\A\w+\z/
+    member :address, /\A((\w+) ?)+\z/
+    member :age, ->age{(20..140).include? age}
+  end
+
   def setup
     @user = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
     @user2 = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
@@ -282,7 +306,7 @@ class TestStriuctSubclassInstance4 < Test::Unit::TestCase
     @sth.bool = false
     assert_same false, @sth.bool
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       @sth.bool = nil
     end
     
@@ -295,11 +319,11 @@ class TestStriuctSubclassInstance4 < Test::Unit::TestCase
     @sth.sth = Class.class
     assert_same Class.class, @sth.sth
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       @sth.lambda = 9
     end
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       @sth.lambda = 7
     end
     
@@ -359,7 +383,7 @@ class TestStriuctProcedure < Test::Unit::TestCase
     @sth.age = 10.0
     assert_same 10, @sth.age
 
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::UnmanagebleError do
       @sth.age = '10.0'
     end
     
@@ -396,7 +420,7 @@ class TestStriuctDefaultValue < Test::Unit::TestCase
       default :lank2, '10'
     end
 
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       klass.new
     end
     
@@ -419,7 +443,7 @@ class TestStriuctDefaultValue < Test::Unit::TestCase
       default :lank, &->own, name{(seef = own); rand}
     end
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       klass.new
     end
     
@@ -445,7 +469,7 @@ class TestStriuctFunctionalCondition < Test::Unit::TestCase
     sth.lank = 2
     assert_equal 2, sth.lank
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.lank = 31
     end
   end
@@ -461,7 +485,7 @@ class TestStriuctFunctionalCondition < Test::Unit::TestCase
     sth.lank = 8
     assert_equal 8, sth.lank
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.lank = 2
     end
   end
@@ -475,7 +499,7 @@ class TestStriuctFunctionalCondition < Test::Unit::TestCase
     sth.lank = 8
     assert_equal 8, sth.lank
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.lank = 6
     end
   end
@@ -645,12 +669,12 @@ class TestStriuctInference < Test::Unit::TestCase
   def test_inference
     klass = Striuct.define do
       member :n, Numeric, inference: true
-      member :m, anything, inference: true
+      member :m, ANYTHING?, inference: true
     end
     
     sth, sth2 = klass.new, klass.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.n = '1'
     end
     
@@ -658,11 +682,11 @@ class TestStriuctInference < Test::Unit::TestCase
     
     assert_equal 1.1, sth.n
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.n = 1
     end
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth2.n = 1
     end
     
@@ -675,11 +699,11 @@ class TestStriuctInference < Test::Unit::TestCase
     
     assert_equal 1, sth2.m
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.m = 1.0
     end
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth2.m = 1.0
     end
     
@@ -894,15 +918,15 @@ class TestStriuctAliasMember < Test::Unit::TestCase
     sth[:abc] = 6
     assert_equal 6, sth.bar
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth[:abc] = 'a'
     end
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.abc = 'a'
     end
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.bar = 'a'
     end
     
@@ -917,16 +941,16 @@ end
 class TestStriuctSpecificConditions < Test::Unit::TestCase
   Sth = Striuct.define do
     member :list_only_int, GENERICS(Integer)
-    member :true_or_false, boolean
-    member :like_str, stringable
+    member :true_or_false, BOOL?
+    member :like_str, STRINGABLE?
     member :has_x, CAN(:x)
     member :has_x_and_y, CAN(:x, :y)
     member :one_of_member, MEMBER_OF([1, 3])
     member :has_ignore, AND(1..5, 3..10)
     member :nand, NAND(1..5, 3..10)
     member :all_pass, OR(1..5, 3..10)
-    member :catch_name_error, CATCH(NameError){|v|v.no_name!}
-    member :no_exception, STILL(->v{v.class})
+    member :catch_error, CATCH(NoMethodError){|v|v.no_name!}
+    member :no_exception, QUIET(->v{v.class})
     member :not_integer, NOT(Integer)
   end
 
@@ -938,7 +962,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     sth.not_integer = obj
     assert_same obj, sth.not_integer
 
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.not_integer = 1
     end
   end
@@ -957,7 +981,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
       undef_method :class
     end
 
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.no_exception = obj
     end
   end
@@ -967,24 +991,24 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     
     obj = Object.new
     
-    sth.catch_name_error = obj
-    assert_same obj, sth.catch_name_error
-    sth.catch_name_error = false
+    sth.catch_error = obj
+    assert_same obj, sth.catch_error
+    sth.catch_error = false
 
     obj.singleton_class.class_eval do
       def no_name!
       end
     end
 
-    assert_raises Striuct::ConditionError do
-      sth.catch_name_error = obj
+    assert_raises Validation::InvalidWritingError do
+      sth.catch_error = obj
     end
   end
 
   def test_or
     sth = Sth.new
 
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.all_pass = 11
     end
     
@@ -998,11 +1022,11 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
   def test_and
     sth = Sth.new
 
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.has_ignore = 1
     end
 
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.has_ignore= 2
     end
   
@@ -1010,7 +1034,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     assert_equal 3, sth.has_ignore
     assert_equal true, sth.valid?(:has_ignore)
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.has_ignore = []
     end
   end
@@ -1018,11 +1042,11 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
   def test_nand
     sth = Sth.new
 
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.nand = 4
     end
 
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.nand = 4.5
     end
   
@@ -1038,7 +1062,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
   def test_member_of
     sth = Sth.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.one_of_member = 4
     end
   
@@ -1050,7 +1074,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
   def test_generics
     sth = Sth.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.list_only_int = [1, '2']
     end
   
@@ -1067,7 +1091,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
   def test_boolean
     sth = Sth.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.true_or_false = nil
     end
     
@@ -1085,7 +1109,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     sth = Sth.new
     obj = Object.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.like_str = obj
     end
   
@@ -1107,7 +1131,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     sth = Sth.new
     obj = Object.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.has_x = obj
     end
     
@@ -1125,7 +1149,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     sth = Sth.new
     obj = Object.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.has_x_and_y = obj
     end
     
@@ -1134,7 +1158,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
       end
     end
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.has_x_and_y = obj
     end
     
@@ -1206,11 +1230,11 @@ class TestStriuctInherit < Test::Unit::TestCase
     sth = Sth.new
     substh = SubSth.new
 
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       substh.bar = 'str'
     end
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       substh.hoge = 4
     end
     
@@ -1224,7 +1248,7 @@ class TestStriuctInherit < Test::Unit::TestCase
     
     subsubsth = SubSubSth.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       subsubsth.rest = 4
     end
     
@@ -1244,7 +1268,7 @@ end
 
 class TestStriuctConstants < Test::Unit::TestCase
   def test_const_version
-    assert_equal '0.2.3', Striuct::VERSION
+    assert_equal '0.3.0', Striuct::VERSION
     assert_equal true, Striuct::VERSION.frozen?
     assert_same Striuct::VERSION, Striuct::Version
   end
@@ -1302,7 +1326,7 @@ class TestStriuctFlavors < Test::Unit::TestCase
   Sth = Striuct.define do
     member :chomped, AND(Symbol, /[^\n]\z/), &WHEN(String, ->v{v.chomp.to_sym})
     member :no_reduced, Symbol, &->v{v.to_sym}
-    member :reduced, Symbol, &FLAVORS(->v{v.to_s}, ->v{v.to_sym})
+    member :reduced, Symbol, &INJECT(->v{v.to_s}, ->v{v.to_sym})
     member :integer, Integer, &PARSE(Integer)
     member :myobj, ->v{v.instance_of? MyClass}, &PARSE(MyClass)
   end
@@ -1310,7 +1334,7 @@ class TestStriuctFlavors < Test::Unit::TestCase
   def test_WHEN
     sth = Sth.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.chomped = :"a\n"
     end
     
@@ -1322,10 +1346,10 @@ class TestStriuctFlavors < Test::Unit::TestCase
     assert_equal :b, sth.chomped
   end
 
-  def test_REDUCE
+  def test_INJECT
     sth = Sth.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::UnmanagebleError do
       sth.no_reduced = 1
     end
     
@@ -1337,7 +1361,7 @@ class TestStriuctFlavors < Test::Unit::TestCase
   def test_PARSE
     sth = Sth.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::UnmanagebleError do
       sth.integer = '1.0'
     end
     
@@ -1345,7 +1369,7 @@ class TestStriuctFlavors < Test::Unit::TestCase
     
     assert_equal 1, sth.integer
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::UnmanagebleError do
       sth.myobj = '1'
     end
     
@@ -1365,7 +1389,7 @@ class TestGetterValidation < Test::Unit::TestCase
   def test_getter_validation
     sth = Sth.new
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidWritingError do
       sth.plus_getter = ''
     end
     
@@ -1373,13 +1397,13 @@ class TestGetterValidation < Test::Unit::TestCase
     assert_equal 'abc', sth.plus_getter
     sth.plus_getter.clear
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidReadingError do
       sth.plus_getter
     end
     
     sth.only_getter = ''
     
-    assert_raises Striuct::ConditionError do
+    assert_raises Validation::InvalidReadingError do
       sth.only_getter
     end
   end
