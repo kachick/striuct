@@ -1,5 +1,5 @@
 $VERBOSE = true
-require_relative 'test_helper.rb'
+require_relative 'test_helper'
 
 class TestStriuctSubclassEigen < Test::Unit::TestCase
   class User < Striuct.new
@@ -949,7 +949,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     member :has_ignore, AND(1..5, 3..10)
     member :nand, NAND(1..5, 3..10)
     member :all_pass, OR(1..5, 3..10)
-    member :catch_name_error, CATCH(NameError){|v|v.no_name!}
+    member :catch_error, CATCH(NoMethodError){|v|v.no_name!}
     member :no_exception, QUIET(->v{v.class})
     member :not_integer, NOT(Integer)
   end
@@ -991,9 +991,9 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     
     obj = Object.new
     
-    sth.catch_name_error = obj
-    assert_same obj, sth.catch_name_error
-    sth.catch_name_error = false
+    sth.catch_error = obj
+    assert_same obj, sth.catch_error
+    sth.catch_error = false
 
     obj.singleton_class.class_eval do
       def no_name!
@@ -1001,7 +1001,7 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     end
 
     assert_raises Validation::InvalidWritingError do
-      sth.catch_name_error = obj
+      sth.catch_error = obj
     end
   end
 

@@ -7,15 +7,12 @@ LICENSE
 lib/striuct.rb
 lib/striuct/version.rb
 lib/striuct/abstract.rb
-lib/striuct/conditions.rb
-lib/striuct/flavors.rb
 lib/striuct/containable.rb
 lib/striuct/containable/classutil.rb
 lib/striuct/containable/basic.rb
 lib/striuct/containable/safety.rb
 lib/striuct/containable/handy.rb
 lib/striuct/containable/hashlike.rb
-lib/striuct/containable/yaml.rb
 lib/striuct/containable/inner.rb
 lib/striuct/containable/eigen.rb
 lib/striuct/containable/eigen/basic.rb
