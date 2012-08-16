@@ -15,7 +15,7 @@ Struct++
 * Easy and Flexible Validations
 * Prevent to conflict member names
 
-=== Usueful
+=== Useful
 
 * Hook just before setters
 * Default value
