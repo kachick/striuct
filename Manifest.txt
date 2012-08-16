@@ -23,9 +23,9 @@ lib/striuct/containable/eigen/macro.rb
 lib/striuct/containable/eigen/inner.rb
 test/test_helper.rb
 test/test_striuct.rb
-example/example.rb
-example/example1.rb
-example/example2.rb
-example/example.old.rdoc
-example/benchmarks.rb
-example/see_trace.rb
+examples/README.rb
+examples/example1.rb
+examples/example2.rb
+examples/example.old.rdoc
+examples/benchmarks.rb
+examples/see_trace.rb

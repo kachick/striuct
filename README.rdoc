@@ -1,8 +1,7 @@
 = Striuct
 
-* http://github.com/kachick/striuct
-* http://rubygems.org/gems/striuct
-* http://rubyforge.org/projects/striuct
+code   :: https://github.com/kachick/striuct
+issues :: https://github.com/kachick/striuct/issues
 
 == Description
 
@@ -10,54 +9,77 @@ Struct++
 
 == Features
 
-* Base APIs look like Struct.
+=== Strict
+
+* Base API looks like Struct
 * Easy and Flexible Validations
-* Hook just before running setters
+* Prevent to conflict member names
+
+=== Usueful
+
+* Hook just before setters
 * Default value
 * Member aliasing
 * Inheritable
+
+=== Onepoint
+
 * Pure Ruby :)
 
 == Usage
 
-* setup
+=== Setup
+
     require 'striuct'
 
-=== Example
+=== Overview
+
+==== Define member & Classic validation
 
     Person = Striuct.define do
-      member :name, AND(String, /\A\w+( \w+)?\z/)
+      member :name, String
     end
-    
+
+==== Inferitable & Flexible validation & Member aliasing
+
     class User < Person
-      member :id, AND(Integer, 1..99999)
+      member :identifier, AND(Integer, 1..10)
+      alias_member :id, :identifier
     end
     
     user = User.new
-    user.members      #=> [:name, :id]
-    user.name = :Ken  #=> error
-    user.name = ''    #=> error
+    user.members      #=> [:name, :identifier]
+    user.name = :Ken  #=> exception / in `name=': :Ken is deficient for name in User (Validation::InvalidWritingError)
     user.name = 'Ken' #=> pass
+    user[:id] = 2     #=> pass
+    user[:id] = 11    #=> exception / in `[:id(identifier)]=': 11 is deficient for identifier in User (Validation::InvalidWritingError)
 
-=== More Example
+=== More Examples
 
-example/*
+==== Basics
+
+examples/*
+
+==== Real Problems
+
+See "Dependent gems"
+
+http://metagem.info/gems/striuct
+
 
 == Requirements
 
 * Ruby 1.9.2 or later
-  
-  tested release versions
-
-  * 1.9.3-p125
-  * 1.9.2-p290
 
 == Installation
 
-* gem install striuct
+    gem install striuct
 
 == License
 
-Copyright (C) 2011  Kenichi Kamiya
+The MIT X License
 
-The MIT License (See the file LICENSE.)
+Copyright (c) 2011 Kenichi Kamiya
+
+See the file LICENSE for further details.
+
