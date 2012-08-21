@@ -1,7 +1,6 @@
 = Striuct
 
-code   :: https://github.com/kachick/striuct
-issues :: https://github.com/kachick/striuct/issues
+{<img src="https://secure.travis-ci.org/kachick/striuct.png" />}[http://travis-ci.org/kachick/striuct]
 
 == Description
 
@@ -60,13 +59,6 @@ Struct++
 
 examples/*
 
-==== Real Problems
-
-See "Dependent gems"
-
-http://metagem.info/gems/striuct
-
-
 == Requirements
 
 * Ruby 1.9.2 or later
@@ -74,6 +66,14 @@ http://metagem.info/gems/striuct
 == Installation
 
     gem install striuct
+
+== Links
+
+code   :: https://github.com/kachick/striuct
+issues :: https://github.com/kachick/striuct/issues
+CI     :: http://travis-ci.org/#!/kachick/striuct
+gem    :: https://rubygems.org/gems/striuct
+gem+   :: http://metagem.info/gems/striuct
 
 == License
 
