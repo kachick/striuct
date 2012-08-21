@@ -1,9 +1,11 @@
-History.rdoc
-Manifest.txt
 README.rdoc
 README.ja.old.rdoc
-Rakefile
 LICENSE
+History.rdoc
+Manifest.txt
+Rakefile
+Gemfile
+striuct.gemspec
 lib/striuct.rb
 lib/striuct/version.rb
 lib/striuct/abstract.rb
@@ -27,5 +29,6 @@ examples/README.rb
 examples/example1.rb
 examples/example2.rb
 examples/example.old.rdoc
-examples/benchmarks.rb
 examples/see_trace.rb
+benchmarks/basics.rb
+
