@@ -77,7 +77,7 @@ end
 
 # through "inference", and check under first passed object class
 class FlexibleContainer < Striuct.new
-  member :anything, anything, inference: true
+  member :anything, ANYTHING?, inference: true
   member :number,   Numeric, inference: true
 end
 
