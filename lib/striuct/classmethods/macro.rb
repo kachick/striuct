@@ -1,3 +1,5 @@
+require 'keyvalidatable'
+
 class Striuct; module ClassMethods
   # @group Macro for Definition
 
@@ -14,6 +16,8 @@ class Striuct; module ClassMethods
   end
 
   VALID_MEMBER_OPTIONS = [
+    :default,
+    :default_proc,
     :inference,
     :reader_validation,
     :getter_validation,
@@ -28,11 +32,22 @@ class Striuct; module ClassMethods
   # @param [Symbol, String] name
   # @param [#===, Proc, Method, ANYTHING] condition
   # @param [Hash] options
+  # @option options [BasicObject] :default
+  # @option options [Proc] :default_proc
+  # @option options [Boolean] :inference
+  # @option options [Boolean] :reader_validation
+  # @option options [Boolean] :getter_validation
+  # @option options [Boolean] :writer_validation
+  # @option options [Boolean] :setter_validation
   # @return [nil]
   def add_member(name, condition=Validation::Condition::ANYTHING, options=DEFAULT_MEMBER_OPTIONS, &flavor)
     raise "already closed to add member in #{self}" if closed?
-    options = DEFAULT_MEMBER_OPTIONS.merge options
-    raise ArgumentError, 'invalid option parameter is' unless (options.keys - VALID_MEMBER_OPTIONS).empty?
+    options = DEFAULT_MEMBER_OPTIONS.merge(options).extend(KeyValidatable)    
+    options.assert_keys let: VALID_MEMBER_OPTIONS
+    if options.has_key?(:default) and options.has_key?(:default_proc)
+      raise ArgumentError, 'It is not able to choose "default" with "default_proc" in options'
+    end
+    
     name = keyable_for name
     raise ArgumentError, %Q!already exist name "#{name}"! if member? name
     _check_safety_naming name
@@ -43,6 +58,15 @@ class Striuct; module ClassMethods
     @names << name
     __getter__! name
     __setter__! name, condition, &flavor
+    
+    if options.has_key?(:default)
+      set_default_value name, options.fetch(:default)
+    end
+    
+    if options.has_key?(:default_proc)
+      set_default_value name, &options.fetch(:default_proc)
+    end
+    
     nil
   end
 

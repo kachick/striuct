@@ -457,6 +457,68 @@ class TestStriuctDefaultValue < Test::Unit::TestCase
   end
 end
 
+class TestStriuctDefaultValueinMemberMacro < Test::Unit::TestCase
+  Sth = Striuct.new do
+    member :lank, OR(Bignum, Fixnum), default: 1
+  end
+  
+  def test_default
+    sth = Sth.new 2
+    assert_equal 2, sth.lank
+    sth = Sth.new
+    assert_equal 1, sth.lank
+    assert_equal true, sth.default?(:lank)
+    sth.lank = 2
+    assert_equal false, sth.default?(:lank)
+  end
+  
+  def test_define_default
+    assert_raises NameError do
+      Sth.class_eval do
+        default :anything, 10
+      end
+    end
+    
+    klass = Striuct.define do
+      member :lank2, Integer, default: '10'
+    end
+
+    assert_raises Validation::InvalidWritingError do
+      klass.new
+    end
+    
+    scope = self
+    seef = nil
+    klass = Striuct.define do
+      
+      scope.assert_raises ArgumentError do
+        member :lank, Integer, default: '10', default_proc: ->own,name{rand}
+      end
+      
+      #~ scope.assert_raises ArgumentError do
+        #~ member :lank, default_proc: ->own{rand}
+      #~ end
+      
+      #~ scope.assert_raises ArgumentError do
+        #~ member :lank, default_proc: ->{rand}
+      #~ end
+      
+      member :lank, default_proc: ->own,name{(seef = own); rand}
+    end
+    
+    #~ assert_raises Validation::InvalidWritingError do
+      #~ klass.new
+    #~ end
+    
+    klass = Striuct.define do
+      member :lank, Integer, default_proc: ->own,name{(seef = own); 10 - name.length}
+    end
+    
+    assert_equal 6, klass.new.lank
+    assert_equal seef, klass.new
+  end
+end
+
 class TestStriuctFunctionalCondition < Test::Unit::TestCase
   Sthlambda = Striuct.new do
     member :lank, ->lank{lanks.include? lank}
