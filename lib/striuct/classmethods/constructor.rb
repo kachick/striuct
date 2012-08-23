@@ -2,15 +2,16 @@ class Striuct; module ClassMethods
   # @group Constructor
   
   # @return [Subclass]
-  def load_values(*values)
+  def for_values(*values)
     new_instance(*values)
   end
 
-  alias_method :new, :load_values
+  alias_method :load_values, :for_values
+  alias_method :new, :for_values
 
-  # @param [#each_pair, #keys] pairs ex: Hash, Struct
-  # @return [Subclass]
-  def load_pairs(pairs)
+  # @param [Hash, Struct]
+  # @return [Striuct]
+  def for_pairs(pairs)
     unless pairs.respond_to?(:each_pair) and pairs.respond_to?(:keys)
       raise TypeError, 'no pairs object'
     end
@@ -24,10 +25,11 @@ class Striuct; module ClassMethods
     }
   end
 
-  alias_method :[], :load_pairs
+  alias_method :load_pairs, :for_pairs
+  alias_method :[], :for_pairs
 
-  # @yieldparam [Subclass] instance
-  # @yieldreturn [Subclass] instance
+  # @yieldparam [Striuct] instance
+  # @yieldreturn [Striuct] instance
   # @return [void]
   # for build the fixed object
   def define(options={lock: true, strict: true})
