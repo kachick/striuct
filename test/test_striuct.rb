@@ -428,6 +428,11 @@ class TestStriuctDefaultValue < Test::Unit::TestCase
     seef = nil
     klass = Striuct.define do
       member :lank, Integer
+
+      scope.assert_raises ArgumentError do
+        default :lank, &->own, name, exess{rand}
+      end
+
       scope.assert_raises ArgumentError do
         default :lank, '10', &->own, name{rand}
       end
@@ -495,20 +500,12 @@ class TestStriuctDefaultValueinMemberMacro < Test::Unit::TestCase
         member :lank, Integer, default: '10', default_proc: ->own,name{rand}
       end
       
-      #~ scope.assert_raises ArgumentError do
-        #~ member :lank, default_proc: ->own{rand}
-      #~ end
-      
-      #~ scope.assert_raises ArgumentError do
-        #~ member :lank, default_proc: ->{rand}
-      #~ end
-      
-      member :lank, default_proc: ->own,name{(seef = own); rand}
+      member :lank, Integer, default_proc: ->own,name{(seef = own); rand}
     end
     
-    #~ assert_raises Validation::InvalidWritingError do
-      #~ klass.new
-    #~ end
+    assert_raises Validation::InvalidWritingError do
+      klass.new
+    end
     
     klass = Striuct.define do
       member :lank, Integer, default_proc: ->own,name{(seef = own); 10 - name.length}

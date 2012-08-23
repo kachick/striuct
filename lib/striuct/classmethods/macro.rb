@@ -42,7 +42,7 @@ class Striuct; module ClassMethods
   # @return [nil]
   def add_member(name, condition=Validation::Condition::ANYTHING, options=DEFAULT_MEMBER_OPTIONS, &flavor)
     raise "already closed to add member in #{self}" if closed?
-    options = DEFAULT_MEMBER_OPTIONS.merge(options).extend(KeyValidatable)    
+    options = DEFAULT_MEMBER_OPTIONS.merge(options).extend(KeyValidatable)
     options.assert_keys let: VALID_MEMBER_OPTIONS
     if options.has_key?(:default) and options.has_key?(:default_proc)
       raise ArgumentError, 'It is not able to choose "default" with "default_proc" in options'
@@ -109,10 +109,12 @@ class Striuct; module ClassMethods
     value = (
       if block_given?
         if value.nil?
-          if (arity = block.arity) <= 2
+          arity = block.arity
+          
+          if valid_default_proc? block
             SpecificContainer.new block
           else
-            raise ArgumentError, "wrong number of block parameter #{arity} for 2"
+            raise ArgumentError, "wrong number of block parameter #{arity} for 0..2"
           end
         else
           raise ArgumentError, 'can not use value and block arguments'
@@ -127,6 +129,10 @@ class Striuct; module ClassMethods
   end
   
   alias_method :default, :set_default_value
+  
+  def valid_default_proc?(_proc)
+    _proc.arity <= 2
+  end
   
   # @return [self]
   def close_member
