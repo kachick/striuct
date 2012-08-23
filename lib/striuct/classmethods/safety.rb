@@ -1,4 +1,4 @@
-class Striuct; module Containable; module ClassMethods
+class Striuct; module ClassMethods
   # @group Struct+ Safety
   
   # @param [Symbol, String] name
@@ -49,4 +49,4 @@ class Striuct; module Containable; module ClassMethods
   end
 
   # @endgroup
-end; end; end
+end; end

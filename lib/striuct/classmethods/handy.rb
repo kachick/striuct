@@ -1,4 +1,4 @@
-class Striuct; module Containable; module ClassMethods
+class Striuct; module ClassMethods
   # @group Struct+ Handy
 
   # @yield [name] 
@@ -122,4 +122,4 @@ class Striuct; module Containable; module ClassMethods
   end
 
   # @endgroup
-end; end; end
+end; end

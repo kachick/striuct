@@ -1,4 +1,4 @@
-class Striuct; module Containable; module ClassMethods
+class Striuct; module ClassMethods
   # @group Macro for Definition
 
   private
@@ -114,4 +114,4 @@ class Striuct; module Containable; module ClassMethods
   alias_method :close, :close_member
   
   # @endgroup
-end; end; end
+end; end

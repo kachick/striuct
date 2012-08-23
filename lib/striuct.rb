@@ -15,4 +15,7 @@ class Striuct
 end
 
 require_relative 'striuct/version'
+require_relative 'striuct/specificcontainer'
+require_relative 'striuct/classmethods'
+require_relative 'striuct/instancemethods'
 require_relative 'striuct/singleton_class'

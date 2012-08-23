@@ -1,5 +1,5 @@
 $VERBOSE = true
-require_relative 'test_helper'
+require_relative 'helper'
 
 class TestStriuctSubclassEigen < Test::Unit::TestCase
   class User < Striuct.new
@@ -1268,9 +1268,7 @@ end
 
 class TestStriuctConstants < Test::Unit::TestCase
   def test_const_version
-    assert_equal '0.3.0', Striuct::VERSION
     assert_equal true, Striuct::VERSION.frozen?
-    assert_same Striuct::VERSION, Striuct::Version
   end
 end
 

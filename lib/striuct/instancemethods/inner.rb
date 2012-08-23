@@ -1,4 +1,5 @@
-class Striuct; module Containable
+class Striuct; module InstanceMethods
+
   private
   
   # @group Use Only Inner
@@ -49,9 +50,8 @@ class Striuct; module Containable
     @db[name] = value
   rescue ::Validation::InvalidError
     unless /in \[\]=/ =~ caller[1].slice(/([^:]+)\z/)
-      $@.delete_if{|s|/#{Regexp.escape(File.dirname __FILE__)}/ =~ s}
-      $@.first.sub!(/([^:]+)\z/){"in `#{name}='"}
-      $@ << $@.last
+      $!.backtrace.delete_if{|s|/#{Regexp.escape(File.dirname __FILE__)}/ =~ s}
+      $!.backtrace.first.sub!(/([^:]+)\z/){"in `#{name}='"}
     end
   
     raise
@@ -117,4 +117,5 @@ class Striuct; module Containable
   end
   
   # @endgroup
+
 end; end

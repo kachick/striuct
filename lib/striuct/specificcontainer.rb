@@ -1,4 +1,4 @@
-class Striuct; module Containable
+class Striuct
 
   class SpecificContainer
 
@@ -14,4 +14,4 @@ class Striuct; module Containable
     private_constant :SpecificContainer
   end
 
-end; end
+end

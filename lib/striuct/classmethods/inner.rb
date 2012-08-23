@@ -1,4 +1,4 @@
-class Striuct; module Containable; module ClassMethods
+class Striuct; module ClassMethods
   # @group Use Only Inner
 
   private
@@ -148,8 +148,8 @@ class Striuct; module Containable; module ClassMethods
     __set_condition__! name, condition unless Validation::Condition::ANYTHING.equal? condition
     __set_flavor__! name, &flavor if block_given?
 
-    define_method "#{name}=" do |value|
-        __set__ name, value
+    define_method :"#{name}=" do |value|
+      __set__ name, value
     end
  
     nil
@@ -215,4 +215,4 @@ class Striuct; module Containable; module ClassMethods
   end
 
   # @endgroup
-end; end; end
+end; end

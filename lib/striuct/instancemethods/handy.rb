@@ -1,4 +1,4 @@
-class Striuct; module Containable 
+class Striuct; module InstanceMethods 
   # @group Struct + Handy
   
   # see self.class.*args
