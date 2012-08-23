@@ -57,7 +57,7 @@ class Striuct; module InstanceMethods
   
   # @param [Symbol, String] name
   def assign?(name)
-    name = originalkey_for(keyable_for name)
+    name = autonym_for(keyable_for name)
     
     @db.has_key? name
   end
@@ -72,7 +72,7 @@ class Striuct; module InstanceMethods
 
   # @param [Symbol, String] name
   def default?(name)
-    name = originalkey_for(keyable_for name)
+    name = autonym_for(keyable_for name)
 
     default_for(name) == self[name]
   end
