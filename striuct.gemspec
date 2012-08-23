@@ -5,8 +5,8 @@ require File.expand_path('../lib/striuct/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ['Kenichi Kamiya']
   gem.email         = ['kachick1+ruby@gmail.com']
-  gem.description   = %q{Struct++}
   gem.summary       = %q{Struct++}
+  gem.description   = %q{validatable, inheritable, And more Struct++ features :)}
   gem.homepage      = 'https://github.com/kachick/striuct'
 
   gem.files         = `git ls-files`.split($\)
