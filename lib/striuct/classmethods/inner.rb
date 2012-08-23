@@ -48,7 +48,7 @@ class Striuct; module ClassMethods
   end
 
   # @param [Symbol, String, #to_sym, #to_str] name
-  def originalkey_for(name)
+  def autonym_for(name)
     name = keyable_for name
     
     if _names.include? name
@@ -198,7 +198,7 @@ class Striuct; module ClassMethods
   
   # @param [Symbol, String] name
   def condition_for(name)
-    _condition_for originalkey_for(keyable_for name)
+    _condition_for autonym_for(keyable_for name)
   end
   
   def _flavor_for(name)
@@ -207,7 +207,7 @@ class Striuct; module ClassMethods
 
   # @param [Symbol, String] name
   def flavor_for(name)
-    _flavor_for originalkey_for(keyable_for name)
+    _flavor_for autonym_for(keyable_for name)
   end
   
   def _default_for(name)

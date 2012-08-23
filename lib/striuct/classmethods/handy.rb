@@ -79,21 +79,21 @@ class Striuct; module ClassMethods
 
   # @param [Symbol, String] name
   def has_flavor?(name)
-    name = originalkey_for(keyable_for name)
+    name = autonym_for(keyable_for name)
 
     ! flavor_for(name).nil?
   end
 
   # @param [Symbol, String] name
   def has_default?(name)
-    name = originalkey_for(keyable_for name)
+    name = autonym_for(keyable_for name)
 
     @defaults.has_key? name
   end
   
   # @param [Symbol, String] name
   def default_for(name)
-    name = originalkey_for(keyable_for name)
+    name = autonym_for(keyable_for name)
   
     if has_default? name
       _default_for name

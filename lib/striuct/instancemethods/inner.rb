@@ -6,7 +6,7 @@ class Striuct; module InstanceMethods
   
   # see self.class.*args
   delegate_class_methods(
-    :keyable_for, :flavor_for, :condition_for, :originalkey_for
+    :keyable_for, :flavor_for, :condition_for, :autonym_for
   )
   
   def initialize_copy(original)
@@ -14,7 +14,7 @@ class Striuct; module InstanceMethods
   end
 
   def __get__(name)
-    name = originalkey_for(keyable_for name)
+    name = autonym_for(keyable_for name)
     value = @db[name]
   
     if safety_getter?(name) and !accept?(name, value)
@@ -27,7 +27,7 @@ class Striuct; module InstanceMethods
 
   def __set__(name, value)
     raise "can't modify frozen #{self.class}" if frozen?
-    name = originalkey_for(keyable_for name)
+    name = autonym_for(keyable_for name)
     raise "can't modify locked member #{name}" if lock? name
 
     if has_flavor? name
@@ -62,7 +62,7 @@ class Striuct; module InstanceMethods
     when Symbol, String
       name = keyable_for key
       if member? name
-        yield originalkey_for(name)
+        yield autonym_for(name)
       else
         raise NameError
       end
