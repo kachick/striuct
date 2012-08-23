@@ -1,32 +1,15 @@
 require_relative 'containable/classutil'
-require_relative 'containable/eigen'
+require_relative 'containable/classmethods'
+require_relative 'containable/specificcontainer'
+require_relative 'containable/singleton_class'
 
 class Striuct
 
-  # @author Kenichi Kamiya
   module Containable
+
     extend ClassUtil
     include Enumerable
 
-    class SpecificContainer
-      attr_reader :value
-
-      def initialize(value)
-        @value = value
-      end
-    end
-    
-    if respond_to? :private_constant
-      private_constant :SpecificContainer
-    end
-
-    class << self
-      private
-
-      def included(klass)
-        klass.extend Eigen
-      end
-    end
   end
 
 end

@@ -1,4 +1,4 @@
-class Striuct; module Containable; module Eigen
+class Striuct; module Containable; module ClassMethods
   # @group Use Only Inner
 
   private
