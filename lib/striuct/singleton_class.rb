@@ -1,4 +1,4 @@
-require_relative 'containable'
+require_relative 'instancemethods'
 
 class Striuct
 
@@ -10,7 +10,7 @@ class Striuct
     private :new_instance
     
     # @param [Symbol, String] *names
-    # @return [Class] - with Subclass, Subclass::ClassMethods
+    # @return [Class]
     def new(*names, &block)
       # warning for Ruby's Struct.new user
       first = names.first
@@ -51,8 +51,13 @@ class Striuct
         if equal? ::Striuct
           [[], {}, {}, {}, {}, {}, {}, {}, :prevent]
         else
-          [*[@names, @conditions, @flavors, @defaults,\
-          @inferences, @aliases, @setter_validations, @getter_validations].map(&:dup), @protect_level]
+          [
+           *[
+             @names, @conditions, @flavors, @defaults,
+             @inferences, @aliases, @setter_validations,
+             @getter_validations
+            ].map(&:dup), @protect_level
+          ]
         end
       )
       
@@ -60,7 +65,12 @@ class Striuct
 
       subclass.class_eval do
         original_inherited subclass
-        include Containable if ::Striuct.equal? eigen
+
+        if ::Striuct.equal? eigen
+          extend ClassMethods
+          include Enumerable
+          include InstanceMethods
+        end
         
         @names, @conditions, @flavors, @defaults,
         @inferences, @aliases, @setter_validations,

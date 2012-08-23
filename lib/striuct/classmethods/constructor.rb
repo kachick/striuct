@@ -1,4 +1,4 @@
-class Striuct; module Containable; module ClassMethods
+class Striuct; module ClassMethods
   # @group Constructor
   
   # @return [Subclass]
@@ -55,4 +55,4 @@ class Striuct; module Containable; module ClassMethods
   end
 
   # @endgroup
-end; end; end
+end; end

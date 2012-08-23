@@ -1,4 +1,4 @@
-class Striuct; module Containable; module ClassMethods
+class Striuct; module ClassMethods
   # @group Basic
 
   # @return [Array<Symbol>]
@@ -45,4 +45,4 @@ class Striuct; module Containable; module ClassMethods
   end
 
   # @endgroup
-end; end; end
+end; end

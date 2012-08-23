@@ -1,7 +1,7 @@
-class Striuct; module Containable
+class Striuct; module InstanceMethods
 
-  module ClassUtil
-
+  class << self
+    
     private
     
     def delegate_class_method(name)
@@ -13,7 +13,7 @@ class Striuct; module Containable
     def delegate_class_methods(name, *names)
       [name, *names].each{|_name|delegate_class_method _name}
     end
-
+    
   end
 
 end; end

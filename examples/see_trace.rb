@@ -15,6 +15,10 @@ rescue
   puts $!.backtrace
 end
 
+puts '-' * 80
+
+$stdout.flush
+
 begin
   user.age = 19
 rescue

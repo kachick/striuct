@@ -1,4 +1,4 @@
-class Striuct; module Containable
+class Striuct
 
   module ClassMethods
 
@@ -20,11 +20,4 @@ class Striuct; module Containable
 
   end
 
-end; end
-
-require_relative 'classmethods/basic'
-require_relative 'classmethods/constructor'
-require_relative 'classmethods/safety'
-require_relative 'classmethods/handy'
-require_relative 'classmethods/macro'
-require_relative 'classmethods/inner'
+end

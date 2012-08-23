@@ -1,4 +1,4 @@
-class Striuct; module Containable
+class Striuct; module InstanceMethods
   # @group Basic
   
   def initialize(*values)
@@ -64,10 +64,10 @@ class Striuct; module Containable
     true_name = nil
     __subscript__(key){|name|true_name = name; __set__ name, value}
   rescue Validation::InvalidWritingError
-    $@ = [
-      "#{$@[-1].sub(/[^:]+\z/){''}}in `[#{key.inspect}(#{true_name})]=': #{$!.message}",
-      $@[-1]
-    ]
+    $!.set_backtrace([
+      "#{$!.backtrace[-1].sub(/[^:]+\z/){''}}in `[#{key.inspect}(#{true_name})]=': #{$!.message}",
+      $!.backtrace[-1]
+    ])
 
     raise
   end

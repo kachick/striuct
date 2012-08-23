@@ -1,0 +1,6 @@
+require_relative 'singleton_class'
+require_relative 'inner'
+require_relative 'basic'
+require_relative 'handy'
+require_relative 'hashlike'
+require_relative 'safety'
