@@ -31,8 +31,9 @@ class Striuct; module InstanceMethods
 
   alias_method :value?, :has_value?
 
-  # @yield [name, value]
   # keep truthy only (unassign falsy member)
+  # @yield [name, value]
+  # @yieldparam [Symbol] name
   # @see #each_pair
   # @return [Enumerator]
   # @yieldreturn [self]
@@ -54,6 +55,7 @@ class Striuct; module InstanceMethods
 
   # @see #select!
   # @yield [name, value]
+  # @yieldparam [Symbol] name
   # @return [Enumerator]
   def keep_if(&block)
     raise "can't modify frozen #{self.class}" if frozen?
@@ -65,6 +67,7 @@ class Striuct; module InstanceMethods
   # @see #select!
   # keep falsy only (unassign truthy member)
   # @yield [name, value]
+  # @yieldparam [Symbol] name
   # @return [Enumerator]
   def reject!
     raise "can't modify frozen #{self.class}" if frozen?
@@ -83,6 +86,7 @@ class Striuct; module InstanceMethods
 
   # @see #reject!
   # @yield [name, value]
+  # @yieldparam [Symbol] name
   # @return [Enumerator]
   def delete_if(&block)
     raise "can't modify frozen #{self.class}" if frozen?
@@ -93,7 +97,7 @@ class Striuct; module InstanceMethods
   end
 
   # @param [Symbol, String] name
-  # @return [Array] [name, value]
+  # @return [Array] e.g [name, value]
   def assoc(name)
     name = originalkey_for(keyable_for name)
 
@@ -113,7 +117,8 @@ class Striuct; module InstanceMethods
 
   # @see #select!
   # @yield [name, value]
-  # @return [Subclass]
+  # @yieldparam [Symbol] name
+  # @return [Striuct]
   def select(&block)
     return to_enum(__method__) unless block_given?
 
@@ -122,7 +127,8 @@ class Striuct; module InstanceMethods
 
   # @see #reject!
   # @yield [name, value]
-  # @return [Subclass]
+  # @yieldparam [Symbol] name
+  # @return [Striuct]
   def reject(&block)
     return to_enum(__method__) unless block_given?
 
