@@ -103,7 +103,7 @@ class Striuct; module ClassMethods
   # @return [nil]
   def set_default_value(name, value=nil, &block)
     raise "already closed to modify member attributes in #{self}" if closed?
-    name = autonym_for(keyable_for name)
+    name = autonym_for(name)
     raise "already settled default value for #{name}" if has_default? name
 
     value = (

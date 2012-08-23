@@ -10,7 +10,7 @@ class Striuct; module ClassMethods
   alias_method :keys, :names
 
   def has_member?(name)
-    autonym_for(keyable_for name)
+    autonym_for name
   rescue Exception
     false
   else

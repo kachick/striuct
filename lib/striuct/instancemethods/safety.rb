@@ -9,7 +9,7 @@ class Striuct; module InstanceMethods
   # @param [Object] value - no argument and use own
   # passed under any condition
   def sufficient?(name, value=self[name])
-    name = autonym_for(keyable_for name)
+    name = autonym_for name
     return true unless restrict? name
     
     _valid? condition_for(name), value

@@ -14,7 +14,7 @@ class Striuct; module InstanceMethods
   end
 
   def __get__(name)
-    name = autonym_for(keyable_for name)
+    name = autonym_for name
     value = @db[name]
   
     if safety_getter?(name) and !accept?(name, value)
@@ -27,7 +27,7 @@ class Striuct; module InstanceMethods
 
   def __set__(name, value)
     raise "can't modify frozen #{self.class}" if frozen?
-    name = autonym_for(keyable_for name)
+    name = autonym_for name
     raise "can't modify locked member #{name}" if lock? name
 
     if has_flavor? name
