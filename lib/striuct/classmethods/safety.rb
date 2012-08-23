@@ -4,14 +4,14 @@ class Striuct; module ClassMethods
   # @param [Symbol, String] name
   # inference checker is waiting yet
   def inference?(name)
-    name = autonym_for(keyable_for name)
+    name = autonym_for name
 
     @inferences.has_key? name
   end
 
   # @param [Symbol, String] name
   def has_condition?(name)
-    name = autonym_for(keyable_for name)
+    name = autonym_for name
 
     @conditions.has_key?(name)
   end
@@ -20,7 +20,7 @@ class Striuct; module ClassMethods
 
   # @param [Symbol, String] name
   def safety_getter?(name)
-    name = autonym_for(keyable_for name)
+    name = autonym_for name
 
     @getter_validations.has_key?(name)
   end
@@ -29,7 +29,7 @@ class Striuct; module ClassMethods
   
   # @param [Symbol, String] name
   def safety_setter?(name)
-    name = autonym_for(keyable_for name)
+    name = autonym_for name
 
     @setter_validations.has_key?(name)
   end
