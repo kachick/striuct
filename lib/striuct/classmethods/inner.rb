@@ -62,32 +62,10 @@ class Striuct; module ClassMethods
     end
   end
 
-  # @param [Symbol, String, #to_sym, #to_str] name
-  # @return [Symbol] name(keyable)
+  # @param [Symbol, String, #to_sym] name
+  # @return [Symbol]
   def keyable_for(name)
-    return name if name.instance_of? Symbol
-
-    r = (
-      case name
-      when Symbol, String
-        name.to_sym
-      else
-        case
-        when name.respond_to?(:to_sym)
-          name.to_sym
-        when name.respond_to?(:to_str)
-          name.to_str.to_sym
-        else
-          raise TypeError
-        end
-      end
-    )
-
-    if r.instance_of? Symbol
-      r
-    else
-      raise 'must not happen'
-    end
+    name.to_sym
   end
 
   # @param [Symbol] name
