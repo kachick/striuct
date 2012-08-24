@@ -8,14 +8,6 @@ class Striuct
 
   include Validation
 
-  # namespace for .to_struct_class, #to_struct
-  module Structs
-  end
-
 end
 
-require_relative 'striuct/version'
-require_relative 'striuct/specificcontainer'
-require_relative 'striuct/classmethods'
-require_relative 'striuct/instancemethods'
-require_relative 'striuct/singleton_class'
+require_relative 'striuct/requirements'
