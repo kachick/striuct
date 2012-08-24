@@ -43,7 +43,7 @@ class Striuct; module ClassMethods
   def add_member(name, condition=Validation::Condition::ANYTHING, options=DEFAULT_MEMBER_OPTIONS, &flavor)
     raise "already closed to add member in #{self}" if closed?
     options = DEFAULT_MEMBER_OPTIONS.merge(options).extend(KeyValidatable)
-    options.assert_keys let: VALID_MEMBER_OPTIONS
+    options.validate_keys let: VALID_MEMBER_OPTIONS
     if options.has_key?(:default) and options.has_key?(:default_proc)
       raise ArgumentError, 'It is not able to choose "default" with "default_proc" in options'
     end

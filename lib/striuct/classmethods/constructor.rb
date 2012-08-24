@@ -1,3 +1,5 @@
+require 'keyvalidatable'
+
 class Striuct; module ClassMethods
   # @group Constructor
   
@@ -28,14 +30,16 @@ class Striuct; module ClassMethods
   alias_method :load_pairs, :for_pairs
   alias_method :[], :for_pairs
 
+  # for build the fixed object
+  # @param [Hash] options
+  # @option options [Boolean] :lock
+  # @option options [Boolean] :strict
   # @yieldparam [Striuct] instance
   # @yieldreturn [Striuct] instance
   # @return [void]
-  # for build the fixed object
   def define(options={lock: true, strict: true})
-    raise TypeError, 'arguments have to be pairs object' unless options.respond_to? :keys
-    raise ArgumentError, 'Unknown parameters' unless (options.keys - [:lock, :strict]).empty?
     raise ArgumentError, 'must with block' unless block_given?
+    options.extend(KeyValidatable).validate_keys let: [:lock, :strict]
     
     lock, strict = options[:lock], options[:strict]
     
