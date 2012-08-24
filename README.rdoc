@@ -61,7 +61,7 @@ examples/*
 
 == Requirements
 
-* Ruby 1.9.2 or later
+* Ruby 1.9.2 or later ({MRI/YARV, Rubinius, JRuby}[http://travis-ci.org/#!/kachick/striuct])
 * validation - 0.0.3
 * keyvalidatable - 0.0.2
 
