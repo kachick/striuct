@@ -6,8 +6,14 @@ class Striuct; module ClassMethods
     @names.dup
   end
 
+  alias_method :autonyms, :names
   alias_method :members, :names
   alias_method :keys, :names
+  
+  # @return [Array<Symbol>]
+  def all_members
+    @names + @aliases.keys
+  end
 
   def has_member?(name)
     autonym_for name

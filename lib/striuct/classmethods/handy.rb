@@ -76,6 +76,11 @@ class Striuct; module ClassMethods
       raise NameError
     end
   end
+  
+  # @return [Hash] alias => autonym
+  def aliases
+    @aliases.dup
+  end
 
   # @param [Symbol, String] name
   def has_flavor?(name)

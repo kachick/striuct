@@ -8,7 +8,7 @@ class Striuct; module InstanceMethods
 
   # see self.class.*args
   delegate_class_methods(
-    :members, :keys, :names,
+    :members, :keys, :names, :autonyms, :all_members, :aliases,
     :has_member?, :member?, :has_key?, :key?,
     :length, :size
   )

@@ -18,6 +18,9 @@ class TestStriuctAliasMember < Test::Unit::TestCase
   def test_alias_member
     sth = Sth.new 'A'
     assert_equal [:foo, :bar, :hoge], sth.members
+    assert_equal [:foo, :bar, :hoge], sth.autonyms
+    assert_equal({abc: :bar}, sth.aliases)
+    assert_equal [:foo, :bar, :hoge, :abc], sth.all_members
 
     assert_equal 8, sth[:abc]
     flavor = Sth.__send__(:flavor_for, :abc)
