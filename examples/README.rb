@@ -19,7 +19,7 @@ end
 
 john = User.new 'john'
 p john[:name]      #=> 'john' 
-#~ p john.name = :symbol  #=> error
+#~ p john.name = ''  #=> error
 p john.id          #=> 1
 ken = User[name: 'ken']                       # Construct from hash
 p ken.id           #=> 2
