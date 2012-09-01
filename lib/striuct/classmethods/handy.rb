@@ -40,29 +40,23 @@ class Striuct; module ClassMethods
 
   # @param [Symbol, String] name
   def original?(name)
-    if member? name
-      @names.include? name
-    else
-      raise NameError
-    end
+    raise NameError unless member? name
+
+    @names.include? name
   end
   
   # @param [Symbol, String] name
   def aliased?(name)
-    if member? name
-      @aliases.has_key? name
-    else
-      raise NameError
-    end
+    raise NameError unless member? name
+
+    @aliases.has_key? name
   end
   
   # @param [Symbol, String] original
   def has_aliases?(original)
-    if original? original
-      @aliases.has_value? original
-    else
-      raise NameError
-    end
+    raise NameError unless original? original
+
+    @aliases.has_value? original
   end
   
   # @param [Symbol, String] original

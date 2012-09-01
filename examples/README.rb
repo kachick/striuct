@@ -2,18 +2,24 @@ $VERBOSE = true
 
 require '../lib/striuct'
 
-Person = Striuct.define do
-  member :name, String
+class Person < Striuct
+  member :fullname, AND(String, /\A.+\z/)     # Flexible Validation
+  alias_member :name, :fullname               # Use other name
 end
 
-class User < Person
-  member :identifier, AND(Integer, 1..10)
-  alias_member :id, :identifier
+class User < Person                           # Inheritable
+  member :id, Integer,                        # Looks typed validation
+              default_proc: ->{User.next_id}  # With default value
+
+  def self.next_id
+    @id ||= 0
+    @id += 1
+  end
 end
 
-user = User.new
-p user.members      #=> [:name, :id]
-#~ p user.name = :Ken  #=> error
-p user.name   = 'Ken' #=> pass
-p user[:id]   = 2     #=> pass
-p user[:id]   = 11    #=> error
+john = User.new 'john'
+p john[:name]      #=> 'john' 
+#~ p john.name = :symbol  #=> error
+p john.id          #=> 1
+ken = User[name: 'ken']                       # Construct from hash
+p ken.id           #=> 2
