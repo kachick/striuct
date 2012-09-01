@@ -1,7 +1,7 @@
 striuct
-######=
+=======
 
-{<img src="https://secure.travis-ci.org/kachick/striuct.png" />}[http://travis-ci.org/kachick/striuct]
+[![Build Status](https://secure.travis-ci.org/kachick/striuct.png)](http://travis-ci.org/kachick/striuct)
 
 Description
 -----------
@@ -53,7 +53,7 @@ end
 
 john = User.new 'john'
 john[:name]              #=> 'john' 
-john.name = :symbol      #=> Exception        # Validate with setter
+john.name = ''           #=> Exception        # Validate with setter
 john.id                  #=> 1
 ken = User[name: 'ken']                       # Construct from hash
 ken.id                   #=> 2
