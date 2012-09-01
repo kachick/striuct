@@ -6,8 +6,8 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     member :list_only_int, GENERICS(Integer)
     member :true_or_false, BOOL?
     member :like_str, STRINGABLE?
-    member :has_x, CAN(:x)
-    member :has_x_and_y, CAN(:x, :y)
+    member :has_foo, CAN(:foo)
+    member :has_foo_and_bar, CAN(:foo, :bar)
     member :one_of_member, MEMBER_OF([1, 3])
     member :has_ignore, AND(1..5, 3..10)
     member :nand, NAND(1..5, 3..10)
@@ -120,8 +120,6 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     assert_equal [], sth.nand
   end
 
-
-
   def test_member_of
     sth = Sth.new
     
@@ -194,45 +192,56 @@ class TestStriuctSpecificConditions < Test::Unit::TestCase
     sth = Sth.new
     obj = Object.new
     
+    raise if obj.respond_to? :foo
+    
     assert_raises Validation::InvalidWritingError do
-      sth.has_x = obj
+      sth.has_foo = obj
     end
     
     obj.singleton_class.class_eval do
-      def x
+      def foo
       end
     end
     
-    sth.has_x = obj
-    assert_equal obj, sth.has_x
-    assert_equal true, sth.valid?(:has_x)
+    raise unless obj.respond_to? :foo
+    
+    sth.has_foo = obj
+    assert_equal obj, sth.has_foo
+    assert_equal true, sth.valid?(:has_foo)
   end
 
   def test_responsible_arg2
     sth = Sth.new
     obj = Object.new
     
+    raise if obj.respond_to? :foo
+    raise if obj.respond_to? :bar
+    
     assert_raises Validation::InvalidWritingError do
-      sth.has_x_and_y = obj
+      sth.has_foo_and_bar = obj
     end
     
     obj.singleton_class.class_eval do
-      def x
+      def foo
       end
     end
     
     assert_raises Validation::InvalidWritingError do
-      sth.has_x_and_y = obj
+      sth.has_foo_and_bar = obj
     end
     
+    raise unless obj.respond_to? :foo
+    
     obj.singleton_class.class_eval do
-      def y
+      def bar
       end
     end
     
-    sth.has_x_and_y = obj
-    assert_equal obj, sth.has_x_and_y
-    assert_equal true, sth.valid?(:has_x_and_y)
+    raise unless obj.respond_to? :bar
+    
+    sth.has_foo_and_bar = obj
+    assert_equal obj, sth.has_foo_and_bar
+    assert_equal true, sth.valid?(:has_foo_and_bar)
   end
 
 end
