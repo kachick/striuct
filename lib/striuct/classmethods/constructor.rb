@@ -18,7 +18,7 @@ class Striuct; module ClassMethods
       raise TypeError, 'no pairs object'
     end
 
-    raise ArgumentError, "different members" unless pairs.keys.all?{|k|member? k}
+    pairs.dup.extend(KeyValidatable).validate_keys let: all_members
 
     new.tap {|instance|
       pairs.each_pair do |name, value|

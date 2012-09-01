@@ -31,36 +31,32 @@ Features
 Usage
 -----
 
-### Setup
+### Overview
 
 ```ruby
 require 'striuct'
-```
 
-### Overview
-
-#### Define member & Classic validation
-
-```ruby
-Person = Striuct.define do
-  member :name, String
-end
-```
-
-#### Inferitable & Flexible validation & Member aliasing
-
-```ruby
-class User < Person
-  member :identifier, AND(Integer, 1..10)
-  alias_member :id, :identifier
+class Person < Striuct
+  member :fullname, AND(String, /\A.+\z/)     # Flexible Validation
+  alias_member :name, :fullname               # Use other name
 end
 
-user = User.new
-user.members      #=> [:name, :identifier]
-user.name = :Ken  #=> exception / in `name=': :Ken is deficient for name in User
-user.name = 'Ken' #=> pass
-user[:id] = 2     #=> pass
-user[:id] = 11    #=> exception / in `[:id(identifier)]=': 11 is deficient for identifier in User
+class User < Person                           # Inheritable
+  member :id, Integer,                        # Looks typed validation
+              default_proc: ->{User.next_id}  # With default value
+
+  def self.next_id
+    @id ||= 0
+    @id += 1
+  end
+end
+
+john = User.new 'john'
+john[:name]              #=> 'john' 
+john.name = :symbol      #=> Exception        # Validate with setter
+john.id                  #=> 1
+ken = User[name: 'ken']                       # Construct from hash
+ken.id                   #=> 2
 ```
 
 ### More Examples
