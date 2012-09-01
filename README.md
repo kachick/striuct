@@ -1,8 +1,6 @@
 striuct
 =======
 
-[![Build Status](https://secure.travis-ci.org/kachick/striuct.png)](http://travis-ci.org/kachick/striuct)
-
 Description
 -----------
 
