@@ -11,9 +11,9 @@ Features
 
 ### Strict
 
-* Base API looks like Struct
 * Easy and Flexible Validations
 * Prevent to conflict member names
+* Lock setters for each member
 
 ### Useful
 
@@ -21,9 +21,12 @@ Features
 * Default value
 * Member aliasing
 * Inheritable
+* Hndling between nil <-> unassigned
+* More flendly API for Hash
 
 ### Onepoint
 
+* Base API looks like Struct
 * Pure Ruby :)
 
 Usage
