@@ -30,3 +30,5 @@ doc/
 
 # other
 *.lock
+*.bak
+tool/

@@ -49,7 +49,7 @@ class Striuct; module ClassMethods
   end
   
   def _set_flavor(name, flavor)
-    @flavors[name] = flavor
+    @adjusters[name] = flavor
   end
   
   def _set_condition(name, condition)
