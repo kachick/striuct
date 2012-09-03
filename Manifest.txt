@@ -6,6 +6,7 @@ Manifest.txt
 Rakefile
 Gemfile
 striuct.gemspec
+.yardopts
 
 lib/striuct.rb
 lib/striuct/version.rb
