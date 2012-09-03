@@ -48,8 +48,8 @@ class Striuct; module ClassMethods
     @inferences[name] = true
   end
   
-  def _set_flavor(name, flavor)
-    @adjusters[name] = flavor
+  def _set_adjuster(name, adjuster)
+    @adjusters[name] = adjuster
   end
   
   def _set_condition(name, condition)
@@ -60,9 +60,9 @@ class Striuct; module ClassMethods
     @defaults[name] = value
   end
 
-  def __setter__!(name, condition, &flavor)
+  def __setter__!(name, condition, &adjuster)
     __set_condition__! name, condition unless Validation::Condition::ANYTHING.equal? condition
-    __set_flavor__! name, &flavor if block_given?
+    __set_adjuster__! name, &adjuster if block_given?
 
     define_method :"#{name}=" do |value|
       __set__ name, value
@@ -82,9 +82,9 @@ class Striuct; module ClassMethods
     nil
   end
 
-  def __set_flavor__!(name, &flavor)
-    if ::Validation.adjustable? flavor
-      _set_flavor name, flavor
+  def __set_adjuster__!(name, &adjuster)
+    if ::Validation.adjustable? adjuster
+      _set_adjuster name, adjuster
     else
       raise ArgumentError, "wrong number of block argument #{arity} for 1"
     end
