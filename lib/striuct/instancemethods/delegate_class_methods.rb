@@ -4,7 +4,7 @@ class Striuct; module InstanceMethods
   
   # @see self.class.*args
   delegate_class_methods(
-    :keyable_for, :autonym_for,
+    :keyable_for, :autonym_for, :aliases_for,
     :validator_for, :condition_for,
     :adjuster_for, :flavor_for,
     :members, :keys, :names, :autonyms, :all_members, :aliases,

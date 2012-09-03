@@ -9,13 +9,13 @@ class Striuct; module ClassMethods
   end
 
   # @return [Array<Symbol>]
-  def names
+  def autonyms
     @names.dup
   end
 
-  alias_method :autonyms, :names
-  alias_method :members, :names
-  alias_method :keys, :names
+  alias_method :names, :autonyms
+  alias_method :members, :autonyms
+  alias_method :keys, :autonyms
   
   # @return [Array<Symbol>]
   def all_members
@@ -39,7 +39,7 @@ class Striuct; module ClassMethods
   def autonym_for(name)
     name = keyable_for name
     
-    if _names.include? name
+    if _autonyms.include? name
       name
     else
       if autonym = _autonym_for(name)
@@ -68,7 +68,7 @@ class Striuct; module ClassMethods
     @aliases.has_key? name
   end
   
-  # @param [Symbol, String] original
+  # @param [Symbol, String] autonym
   def has_aliases?(autonym)
     raise NameError unless autonym? autonym
 

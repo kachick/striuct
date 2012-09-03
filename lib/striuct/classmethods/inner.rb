@@ -12,9 +12,11 @@ class Striuct; module ClassMethods
     nil
   end
 
-  def _names
+  def _autonyms
     @names
   end
+  
+  alias_method :_names, :_autonyms
   
   def _alias_member(aliased, original)
     @aliases[aliased] = original

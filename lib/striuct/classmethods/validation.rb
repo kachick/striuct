@@ -5,16 +5,16 @@ class Striuct; module ClassMethods
   # @param [Symbol, String] name
   # inference checker is waiting yet
   def inference?(name)
-    name = autonym_for name
+    autonym = autonym_for name
 
-    @inferences.has_key? name
+    @inferences.has_key? autonym
   end
 
   # @param [Symbol, String] name
   def has_validator?(name)
-    name = autonym_for name
+    autonym = autonym_for name
 
-    @conditions.has_key?(name)
+    @conditions.has_key? autonym
   end
   
   alias_method :has_condition?, :has_validator?
@@ -29,18 +29,18 @@ class Striuct; module ClassMethods
 
   # @param [Symbol, String] name
   def safety_getter?(name)
-    name = autonym_for name
+    autonym = autonym_for name
 
-    @getter_validations.has_key?(name)
+    @getter_validations.has_key? autonym
   end
   
   alias_method :safety_reader?, :safety_getter?
   
   # @param [Symbol, String] name
   def safety_setter?(name)
-    name = autonym_for name
+    autonym = autonym_for name
 
-    @setter_validations.has_key?(name)
+    @setter_validations.has_key? autonym
   end
 
   alias_method :safety_writer?, :safety_setter?

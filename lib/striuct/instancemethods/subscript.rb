@@ -4,7 +4,7 @@ class Striuct; module InstanceMethods
 
   # @param [Symbol, String, Fixnum] key
   def [](key)
-    __subscript__(key){|name|__get__ name}
+    __subscript__(key){|autonym|__get__ autonym}
   end
   
   # @param [Symbol, String, Fixnum] key
@@ -12,7 +12,7 @@ class Striuct; module InstanceMethods
   # @return [value]
   def []=(key, value)
     true_name = nil
-    __subscript__(key){|name|true_name = name; __set__ name, value}
+    __subscript__(key){|autonym|true_name = autonym; __set__ autonym, value}
   rescue Validation::InvalidWritingError
     $!.set_backtrace([
       "#{$!.backtrace[-1].sub(/[^:]+\z/){''}}in `[#{key.inspect}(#{true_name})]=': #{$!.message}",
@@ -24,6 +24,9 @@ class Striuct; module InstanceMethods
 
   private
 
+  # @param [Symbol, String, Fixnum] key
+  # @yield [autonym]
+  # @yieldparam [Symbol] autonym
   def __subscript__(key)
     case key
     when Symbol, String
@@ -34,8 +37,8 @@ class Striuct; module InstanceMethods
         raise NameError
       end
     when Fixnum
-      if name = members[key]
-        yield name
+      if autonym = autonyms[key]
+        yield autonym
       else
         raise IndexError
       end

@@ -2,44 +2,45 @@ class Striuct; module InstanceMethods
 
   # @group Enumerative
 
-  # @yield [name] 
-  # @yieldparam [Symbol] name - sequential under defined
+  # @yield [autonym] 
+  # @yieldparam [Symbol] autonym - sequential under defined
   # @yieldreturn [self]
   # @return [Enumerator]
-  def each_name(&block)
+  def each_autonym(&block)
     return to_enum(__method__) unless block_given?
 
-    self.class.each_name(&block)
+    self.class.each_autonym(&block)
     self
   end
 
-  alias_method :each_member, :each_name
-  alias_method :each_key, :each_name
+  alias_method :each_name, :each_autonym
+  alias_method :each_member, :each_autonym
+  alias_method :each_key, :each_autonym
 
   # @yield [value]
   # @yieldparam [Object] value - sequential under defined
-  # @see #each_name
+  # @see #each_autonym
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_value
     return to_enum(__method__) unless block_given?
   
-    each_member{|member|yield self[member]}
+    each_autonym{|autonym|yield self[autonym]}
   end
   
   alias_method :each, :each_value
 
-  # @yield [name, value]
-  # @yieldparam [Symbol] name
+  # @yield [autonym, value]
+  # @yieldparam [Symbol] autonym
   # @yieldparam [Object] value
   # @yieldreturn [self]
   # @return [Enumerator]
-  # @see #each_name
+  # @see #each_autonym
   # @see #each_value 
   def each_pair
     return to_enum(__method__) unless block_given?
 
-    each_name{|name|yield name, self[name]}
+    each_autonym{|autonym|yield autonym, self[autonym]}
   end
 
   # @yield [index] 
@@ -53,20 +54,21 @@ class Striuct; module InstanceMethods
     self
   end
 
-  # @yield [name, index]
-  # @yieldparam [Symbol] name
+  # @yield [autonym, index]
+  # @yieldparam [Symbol] autonym
   # @yieldparam [Integer] index
   # @yieldreturn [self]
   # @return [Enumerator]
-  def each_name_with_index
+  def each_autonym_with_index
     return to_enum(__method__) unless block_given?
 
-    self.class.each_name_with_index{|name, index|yield name, index}
+    self.class.each_autonym_with_index{|autonym, index|yield autonym, index}
     self
   end
 
-  alias_method :each_member_with_index, :each_name_with_index
-  alias_method :each_key_with_index, :each_name_with_index
+  alias_method :each_name_with_index, :each_autonym_with_index
+  alias_method :each_member_with_index, :each_autonym_with_index
+  alias_method :each_key_with_index, :each_autonym_with_index
 
   # @yield [value, index]
   # @yieldparam [Integer] index
@@ -81,8 +83,8 @@ class Striuct; module InstanceMethods
   
   alias_method :each_with_index, :each_value_with_index
   
-  # @yield [name, value, index]
-  # @yieldparam [Symbol] name
+  # @yield [autonym, value, index]
+  # @yieldparam [Symbol] autonym
   # @yieldparam [Integer] index
   # @yieldreturn [self]
   # @return [Enumerator]
@@ -90,8 +92,8 @@ class Striuct; module InstanceMethods
     return to_enum(__method__) unless block_given?
 
     index = 0
-    each_pair do |name, value|
-      yield name, value, index
+    each_pair do |autonym, value|
+      yield autonym, value, index
       index += 1
     end
     self

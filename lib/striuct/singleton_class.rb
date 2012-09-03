@@ -9,18 +9,18 @@ class Striuct
     alias_method :new_instance, :new
     private :new_instance
     
-    # @param [Symbol, String] *names
+    # @param [Symbol, String] autonyms
     # @return [Class]
-    def new(*names, &block)
+    def new(*autonyms, &block)
       # warning for Ruby's Struct.new user
-      first = names.first
+      first = autonyms.first
       if first.instance_of?(String) and /\A[A-Z]/ =~ first
         warn "no define constant #{first}"
       end
 
       Class.new self do
-        names.each do |name|
-          member name
+        autonyms.each do |autonym|
+          member autonym
         end
 
         class_eval(&block) if block_given?
@@ -34,7 +34,7 @@ class Striuct
 
       new(&block).tap do |subclass|
         subclass.instance_eval do
-          raise 'not yet finished' if members.empty?
+          raise 'not yet finished' if autonyms.empty?
           close
         end
       end

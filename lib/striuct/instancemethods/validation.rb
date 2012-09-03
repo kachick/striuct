@@ -6,10 +6,10 @@ class Striuct; module InstanceMethods
   # @param [Object] value - no argument and use own
   # passed under any condition
   def sufficient?(name, value=self[name])
-    name = autonym_for name
-    return true unless restrict? name
+    autonym = autonym_for name
+    return true unless restrict? autonym
     
-    _valid? condition_for(name), value
+    _valid? condition_for(autonym), value
   end
   
   alias_method :accept?, :sufficient?
@@ -17,7 +17,7 @@ class Striuct; module InstanceMethods
 
   # all members passed under any condition
   def strict?
-    each_pair.all?{|name, value|sufficient? name, value}
+    each_pair.all?{|autonym, value|sufficient? autonym, value}
   end
 
   # @endgroup

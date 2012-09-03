@@ -4,9 +4,9 @@ class Striuct; module ClassMethods
   
   # @param [Symbol, String] name
   def has_adjuster?(name)
-    name = autonym_for name
+    autonym = autonym_for name
 
-    ! flavor_for(name).nil?
+    ! flavor_for(autonym).nil?
   end
 
   alias_method :has_flavor?, :has_adjuster?
@@ -23,6 +23,7 @@ class Striuct; module ClassMethods
   def _adjuster_for(name)
     @flavors[name]
   end
+
   alias_method :_flavor_for, :_adjuster_for
 
   # @endgroup

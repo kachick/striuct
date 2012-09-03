@@ -11,8 +11,8 @@ class Striuct; module InstanceMethods
     return @db.dup if reject_no_assign
 
     {}.tap {|h|
-      each_pair do |k, v|
-        h[k] = v
+      each_pair do |autonym, val|
+        h[autonym] = val
       end
     }
   end
@@ -24,8 +24,8 @@ class Striuct; module InstanceMethods
   alias_method :value?, :has_value?
 
   # keep truthy only (unassign falsy member)
-  # @yield [name, value]
-  # @yieldparam [Symbol] name
+  # @yield [autonym, value]
+  # @yieldparam [Symbol] autonym
   # @see #each_pair
   # @return [Enumerator]
   # @yieldreturn [self]
@@ -35,9 +35,9 @@ class Striuct; module InstanceMethods
     return to_enum(__method__) unless block_given?
 
     modified = false
-    each_pair do |name, value|
-      unless yield name, value
-        unassign name
+    each_pair do |autonym, value|
+      unless yield autonym, value
+        unassign autonym
         modified = true
       end
     end
@@ -46,29 +46,30 @@ class Striuct; module InstanceMethods
   end
 
   # @see #select!
-  # @yield [name, value]
-  # @yieldparam [Symbol] name
+  # @yield [autonym, value]
+  # @yieldparam [Symbol] autonym
   # @return [Enumerator]
   def keep_if(&block)
     raise "can't modify frozen #{self.class}" if frozen?
     return to_enum(__method__) unless block_given?
+
     select!(&block)
     self
   end
 
   # @see #select!
   # keep falsy only (unassign truthy member)
-  # @yield [name, value]
-  # @yieldparam [Symbol] name
+  # @yield [autonym, value]
+  # @yieldparam [Symbol] autonym
   # @return [Enumerator]
   def reject!
     raise "can't modify frozen #{self.class}" if frozen?
     return to_enum(__method__) unless block_given?
 
     modified = false
-    each_pair do |name, value|
-      if yield name, value
-        unassign name
+    each_pair do |autonym, value|
+      if yield autonym, value
+        unassign autonym
         modified = true
       end
     end
@@ -77,8 +78,8 @@ class Striuct; module InstanceMethods
   end
 
   # @see #reject!
-  # @yield [name, value]
-  # @yieldparam [Symbol] name
+  # @yield [autonym, value]
+  # @yieldparam [Symbol] autonym
   # @return [Enumerator]
   def delete_if(&block)
     raise "can't modify frozen #{self.class}" if frozen?
@@ -89,16 +90,16 @@ class Striuct; module InstanceMethods
   end
 
   # @param [Symbol, String] name
-  # @return [Array] e.g [name, value]
+  # @return [Array] e.g [autonym, value]
   def assoc(name)
-    name = autonym_for name
+    autonym = autonym_for name
 
-    [name, self[name]]
+    [autonym, self[name]]
   end
 
-  # @return [Array] [name, value]
+  # @return [Array] [autonym, value]
   def rassoc(value)
-    each_pair.find{|pair|pair[1] == value}
+    each_pair.find{|_, val|val == value}
   end
 
   # @see Hash#flatten
@@ -108,8 +109,8 @@ class Striuct; module InstanceMethods
   end
 
   # @see #select!
-  # @yield [name, value]
-  # @yieldparam [Symbol] name
+  # @yield [autonym, value]
+  # @yieldparam [Symbol] autonym
   # @return [Striuct]
   def select(&block)
     return to_enum(__method__) unless block_given?
@@ -118,8 +119,8 @@ class Striuct; module InstanceMethods
   end
 
   # @see #reject!
-  # @yield [name, value]
-  # @yieldparam [Symbol] name
+  # @yield [autonym, value]
+  # @yieldparam [Symbol] autonym
   # @return [Striuct]
   def reject(&block)
     return to_enum(__method__) unless block_given?
