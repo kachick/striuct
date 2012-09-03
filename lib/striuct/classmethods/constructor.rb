@@ -4,7 +4,7 @@ class Striuct; module ClassMethods
 
   # @group Constructor
   
-  # @return [Subclass]
+  # @return [Striuct]
   def for_values(*values)
     new_instance(*values)
   end
