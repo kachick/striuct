@@ -8,6 +8,7 @@ class Striuct; module ClassMethods
     super
   end
 
+  # @return [Class]
   def dup
     r = super
     @names, @flavors, @defaults, @aliases,
