@@ -1,5 +1,10 @@
+require_relative 'subscript'
+
 class Striuct; module InstanceMethods
-  # @group HashLike
+
+  # @group Like Ruby's Hash
+  
+  alias_method :fetch, :[]
   
   # @return [Hash]
   def to_h(reject_no_assign=false)
@@ -11,19 +16,6 @@ class Striuct; module InstanceMethods
       end
     }
   end
-
-  # @yield [name] 
-  # @yieldparam [Symbol] name - sequential under defined
-  # @yieldreturn [self]
-  # @return [Enumerator]
-  def each_name(&block)
-    return to_enum(__method__) unless block_given?
-    self.class.each_name(&block)
-    self
-  end
-
-  alias_method :each_member, :each_name
-  alias_method :each_key, :each_name
 
   def has_value?(value)
     @db.has_value? value
@@ -136,4 +128,5 @@ class Striuct; module InstanceMethods
   end
 
   # @endgroup
+
 end; end
