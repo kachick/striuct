@@ -1,19 +1,8 @@
 require 'keyvalidatable'
 
 class Striuct; module ClassMethods
-  # @group Macro for Definition
 
-  private
-
-  # @param [Symbol] level
-  # @return [nil]
-  # change protect level for risk of naming members
-  def protect_level(level)
-    raise NameError unless PROTECT_LEVELS.has_key? level
-    
-    @protect_level = level
-    nil
-  end
+  # @group Macro for Member Definition
 
   VALID_MEMBER_OPTIONS = [
     :default,
@@ -28,6 +17,12 @@ class Striuct; module ClassMethods
   DEFAULT_MEMBER_OPTIONS = {
     setter_validation: true
   }.freeze
+  
+  def closed?
+    [@names, @flavors, @defaults, @aliases].any?(&:frozen?)
+  end
+
+  private
 
   # @param [Symbol, String] name
   # @param [#===, Proc, Method, ANYTHING] condition
@@ -130,6 +125,7 @@ class Striuct; module ClassMethods
   
   alias_method :default, :set_default_value
   
+  # @param [Proc] _proc
   def valid_default_proc?(_proc)
     _proc.arity <= 2
   end
@@ -144,4 +140,5 @@ class Striuct; module ClassMethods
   alias_method :close, :close_member
   
   # @endgroup
+
 end; end
