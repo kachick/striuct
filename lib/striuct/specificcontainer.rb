@@ -10,8 +10,10 @@ class Striuct
 
   end
   
+  class DefaultProcHolder < SpecificContainer; end
+
   if respond_to? :private_constant
-    private_constant :SpecificContainer
+    private_constant :SpecificContainer, :DefaultProcHolder
   end
 
 end

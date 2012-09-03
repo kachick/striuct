@@ -107,7 +107,7 @@ class Striuct; module ClassMethods
           arity = block.arity
           
           if valid_default_proc? block
-            SpecificContainer.new block
+            DefaultProcHolder.new block
           else
             raise ArgumentError, "wrong number of block parameter #{arity} for 0..2"
           end
