@@ -44,7 +44,8 @@ class Striuct; module InstanceMethods
     excess.each do |autonym|
       if has_default? autonym
         self[autonym] = (
-          if (value = default_for autonym).kind_of? SpecificContainer
+          value = default_for autonym
+          if value.kind_of? DefaultProcHolder
             block = value.value
             args = [self, autonym][0, block.arity]
             block.call(*args)
