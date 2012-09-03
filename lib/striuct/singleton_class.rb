@@ -20,7 +20,7 @@ class Striuct
 
       Class.new self do
         autonyms.each do |autonym|
-          member autonym
+          add_member autonym
         end
 
         class_eval(&block) if block_given?
