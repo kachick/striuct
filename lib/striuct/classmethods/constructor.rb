@@ -1,6 +1,7 @@
 require 'keyvalidatable'
 
 class Striuct; module ClassMethods
+
   # @group Constructor
   
   # @return [Subclass]
@@ -39,7 +40,7 @@ class Striuct; module ClassMethods
   # @return [void]
   def define(options={lock: true, strict: true})
     raise ArgumentError, 'must with block' unless block_given?
-    options.extend(KeyValidatable).validate_keys let: [:lock, :strict]
+    options.dup.extend(KeyValidatable).validate_keys let: [:lock, :strict]
     
     lock, strict = options[:lock], options[:strict]
     
@@ -61,4 +62,5 @@ class Striuct; module ClassMethods
   end
 
   # @endgroup
+
 end; end

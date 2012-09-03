@@ -1,7 +1,16 @@
 class Striuct; module ClassMethods
-  # @group Use Only Inner
+
+  # @group Inner Methods
 
   private
+
+  def __getter__!(name) 
+    define_method name do
+      __get__ name
+    end
+    
+    nil
+  end
 
   def _names
     @names
@@ -11,9 +20,11 @@ class Striuct; module ClassMethods
     @aliases[aliased] = original
   end
   
-  def _original_for(aliased)
+  def _autonym_for(aliased)
     @aliases[aliased]
   end
+  
+  alias_method :_original_for, :_autonym_for
 
   def _aliases_for(original)
     @aliases.group_by{|aliased, org|org}[original]
@@ -45,81 +56,6 @@ class Striuct; module ClassMethods
   
   def _set_default_value(name, value)
     @defaults[name] = value
-  end
-
-  # @param [Symbol, String, #to_sym, #to_str] name
-  def autonym_for(name)
-    name = keyable_for name
-    
-    if _names.include? name
-      name
-    else
-      if original = _original_for(name)
-        original
-      else
-        raise NameError, "not defined member for #{name}"
-      end
-    end
-  end
-
-  # @param [Symbol, String, #to_sym] name
-  # @return [Symbol]
-  def keyable_for(name)
-    name.to_sym
-  end
-
-  # @param [Symbol] name
-  # @return [void]
-  # @yieldreturn [Boolean]
-  def _check_safety_naming(name)
-    estimation = _estimate_naming name
-    risk    = NAMING_RISKS[estimation]
-    plevels = PROTECT_LEVELS[@protect_level]
-    caution = "undesirable naming '#{name}', because #{estimation}"
-
-    r = (
-      case
-      when risk >= plevels[:error]
-        raise NameError, caution unless block_given?
-        false
-      when risk >= plevels[:warn]
-        warn caution unless block_given?
-        false
-      else
-        true
-      end
-    )
-
-    yield r if block_given?
-  end
-  
-  # @param [Symbol] name
-  # @return [Symbol]
-  def _estimate_naming(name)
-    if (instance_methods + private_instance_methods).include? name
-      return :conflict
-    end
-
-    return :no_ascii unless name.encoding.equal? Encoding::ASCII
-
-    case name
-    when /[\W]/, /\A[^a-zA-Z_]/, :''
-      :no_identifier
-    when /\Aeach/, /\A__[^_]*__\z/, /\A_[^_]*\z/, /[!?]\z/, /\Ato_/
-      :bad_manners
-    when /\A[a-zA-Z_]\w*\z/
-      :strict
-    else
-      raise 'must not happen'
-    end
-  end
-
-  def __getter__!(name) 
-    define_method name do
-      __get__ name
-    end
-    
-    nil
   end
 
   def __setter__!(name, condition, &flavor)
@@ -170,27 +106,6 @@ class Striuct; module ClassMethods
     nil
   end
   
-  def _condition_for(name)
-    @conditions[name]
-  end
-  
-  # @param [Symbol, String] name
-  def condition_for(name)
-    _condition_for autonym_for(name)
-  end
-  
-  def _flavor_for(name)
-    @flavors[name]
-  end
-
-  # @param [Symbol, String] name
-  def flavor_for(name)
-    _flavor_for autonym_for(name)
-  end
-  
-  def _default_for(name)
-    @defaults[name]
-  end
-
   # @endgroup
+
 end; end
