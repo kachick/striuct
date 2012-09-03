@@ -19,7 +19,7 @@ class Striuct; module ClassMethods
   }.freeze
   
   def closed?
-    [@names, @flavors, @defaults, @aliases].any?(&:frozen?)
+    [@names, @adjusters, @defaults, @aliases].any?(&:frozen?)
   end
 
   private
@@ -132,7 +132,7 @@ class Striuct; module ClassMethods
   
   # @return [self]
   def close_member
-    [@names, @flavors, @defaults, @aliases].each(&:freeze)
+    [@names, @adjusters, @defaults, @aliases].each(&:freeze)
     self
   end
   

@@ -53,7 +53,7 @@ class Striuct
         else
           [
            *[
-             @names, @conditions, @flavors, @defaults,
+             @names, @conditions, @adjusters, @defaults,
              @inferences, @aliases, @setter_validations,
              @getter_validations
             ].map(&:dup), @protect_level
@@ -72,15 +72,15 @@ class Striuct
           include InstanceMethods
         end
         
-        @names, @conditions, @flavors, @defaults,
+        @names, @conditions, @adjusters, @defaults,
         @inferences, @aliases, @setter_validations,
         @getter_validations, @protect_level = *attributes
         
         singleton_class.instance_eval do
           define_method :initialize_copy do |original|
-            @names, @flavors, @defaults, @aliases,
+            @names, @adjusters, @defaults, @aliases,
             @setter_validations, @getter_validations = 
-            *[@names, @flavors, @defaults, @aliases,
+            *[@names, @adjusters, @defaults, @aliases,
               @setter_validations, @getter_validations].map(&:dup)
             @conditions, @inferences = @conditions.dup, @inferences.dup
           end

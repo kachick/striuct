@@ -21,7 +21,7 @@ class Striuct; module ClassMethods
   private
   
   def _adjuster_for(name)
-    @flavors[name]
+    @adjusters[name]
   end
 
   alias_method :_flavor_for, :_adjuster_for
