@@ -61,7 +61,7 @@ ken.id                   #=> 2
 
 #### Basics
 
-examples/*
+example/*
 
 Requirements
 -------------

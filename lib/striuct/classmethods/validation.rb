@@ -1,5 +1,6 @@
 class Striuct; module ClassMethods
-  # @group Struct+ Safety
+
+  # @group Validation
   
   # @param [Symbol, String] name
   # inference checker is waiting yet
@@ -10,13 +11,21 @@ class Striuct; module ClassMethods
   end
 
   # @param [Symbol, String] name
-  def has_condition?(name)
+  def has_validator?(name)
     name = autonym_for name
 
     @conditions.has_key?(name)
   end
   
-  alias_method :restrict?, :has_condition?
+  alias_method :has_condition?, :has_validator?
+  alias_method :restrict?, :has_validator?
+  
+  # @param [Symbol, String] name
+  def validator_for(name)
+    _condition_for autonym_for(name)
+  end
+  
+  alias_method :condition_for, :validator_for
 
   # @param [Symbol, String] name
   def safety_getter?(name)
@@ -36,17 +45,12 @@ class Striuct; module ClassMethods
 
   alias_method :safety_writer?, :safety_setter?
 
-  # @param [Object] name
-  # accpeptable the name into own member, under protect level of runtime
-  def cname?(name)
-    _check_safety_naming(keyable_for name){|r|r}
-  rescue Exception
-    false
-  end
+  private
   
-  def closed?
-    [@names, @flavors, @defaults, @aliases].any?(&:frozen?)
+  def _condition_for(name)
+    @conditions[name]
   end
 
   # @endgroup
+
 end; end
