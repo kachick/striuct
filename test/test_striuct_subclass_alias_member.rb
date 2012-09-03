@@ -23,9 +23,9 @@ class TestStriuctAliasMember < Test::Unit::TestCase
     assert_equal [:foo, :bar, :hoge, :abc], sth.all_members
 
     assert_equal 8, sth[:abc]
-    flavor = Sth.__send__(:flavor_for, :abc)
-    assert_kind_of Proc, flavor
-    assert_same flavor, Sth.__send__(:flavor_for, :bar)
+    adjuster = Sth.__send__(:adjuster_for, :abc)
+    assert_kind_of Proc, adjuster
+    assert_same adjuster, Sth.__send__(:adjuster_for, :bar)
     assert_equal 8, sth.abc
     sth.abc = 5
     assert_equal 5, sth.bar

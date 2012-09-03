@@ -21,9 +21,9 @@ class Striuct; module InstanceMethods
     autonym = autonym_for name
     raise "can't modify locked member #{name}" if lock? autonym
 
-    if has_flavor? autonym
+    if has_adjuster? autonym
       begin
-        value = instance_exec value, &flavor_for(autonym)
+        value = instance_exec value, &adjuster_for(autonym)
       rescue Exception
         raise ::Validation::UnmanagebleError
       end

@@ -35,7 +35,7 @@ class Striuct; module ClassMethods
   # @option options [Boolean] :writer_validation
   # @option options [Boolean] :setter_validation
   # @return [nil]
-  def add_member(name, condition=Validation::Condition::ANYTHING, options=DEFAULT_MEMBER_OPTIONS, &flavor)
+  def add_member(name, condition=Validation::Condition::ANYTHING, options=DEFAULT_MEMBER_OPTIONS, &adjuster)
     raise "already closed to add member in #{self}" if closed?
     options = DEFAULT_MEMBER_OPTIONS.merge(options).extend(KeyValidatable)
     options.validate_keys let: VALID_MEMBER_OPTIONS
@@ -53,7 +53,7 @@ class Striuct; module ClassMethods
 
     @autonyms << autonym
     __getter__! autonym
-    __setter__! autonym, condition, &flavor
+    __setter__! autonym, condition, &adjuster
     
     if options.has_key?(:default)
       set_default_value autonym, options.fetch(:default)

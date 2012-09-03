@@ -12,7 +12,7 @@ class Striuct; module InstanceMethods
     :length, :size,
     :restrict?, :has_validator?, :has_condition?,
     :safety_getter?, :safety_reader?, :safety_setter?, :safty_writer?, :inference?,
-    :has_default?, :default_for, :has_flavor?
+    :has_default?, :default_for, :has_adjuster?, :has_flavor?
   )
 
   # @endgroup
