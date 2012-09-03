@@ -11,9 +11,9 @@ class Striuct; module ClassMethods
   # @return [Class]
   def dup
     r = super
-    @names, @adjusters, @defaults, @aliases,
+    @autonyms, @adjusters, @defaults, @aliases,
     @setter_validations, @getter_validations = 
-    *[@names, @adjusters, @defaults, @aliases,
+    *[@autonyms, @adjusters, @defaults, @aliases,
       @setter_validations, @getter_validations].map(&:dup)
     @conditions, @inferences = @conditions.dup, @inferences.dup
     r

@@ -13,7 +13,7 @@ class Striuct; module ClassMethods
   end
 
   def _autonyms
-    @names
+    @autonyms
   end
   
   alias_method :_names, :_autonyms
