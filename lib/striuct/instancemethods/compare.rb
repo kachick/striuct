@@ -23,7 +23,7 @@ class Striuct; module InstanceMethods
   # @param [Symbol] method
   def __compare_all__(other, method)
     instance_of?(other.class) && \
-    each_pair.all?{|k, v|v.__send__ method, other[k]}
+      each_pair.all?{|k, v|v.__send__ method, other[k]}
   end
 
   # @endgroup

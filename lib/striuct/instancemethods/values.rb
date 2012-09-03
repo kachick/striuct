@@ -9,7 +9,7 @@ class Striuct; module InstanceMethods
   
   alias_method :to_a, :values
 
-  # @param [Fixnum, Range] *keys
+  # @param [Fixnum, Range] _keys
   # @return [Array]
   def values_at(*_keys)
     [].tap {|r|
@@ -39,14 +39,14 @@ class Striuct; module InstanceMethods
       self[index] = value
     end
       
-    excess = members.last(size - values.size)
+    excess = autonyms.last(size - values.size)
       
-    excess.each do |name|
-      if has_default? name
-        self[name] = (
-          if (value = default_for name).kind_of? SpecificContainer
+    excess.each do |autonym|
+      if has_default? autonym
+        self[autonym] = (
+          if (value = default_for autonym).kind_of? SpecificContainer
             block = value.value
-            args = [self, name][0, block.arity]
+            args = [self, autonym][0, block.arity]
             block.call(*args)
           else
             value

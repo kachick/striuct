@@ -12,7 +12,7 @@ class Striuct; module ClassMethods
   alias_method :load_values, :for_values
   alias_method :new, :for_values
 
-  # @param [Hash, Struct]
+  # @param [Hash, Struct] pairs
   # @return [Striuct]
   def for_pairs(pairs)
     unless pairs.respond_to?(:each_pair) and pairs.respond_to?(:keys)
@@ -47,12 +47,12 @@ class Striuct; module ClassMethods
     new.tap {|instance|
       yield instance
   
-      unless (yets = each_name.select{|name|! instance.assign?(name)}).empty?
+      unless (yets = autonyms.select{|autonym|! instance.assign?(autonym)}).empty?
         raise "not assigned members are, yet '#{yets.inspect} in #{self}'"
       end
       
       if strict &&
-        ! (invalids = each_name.select{|name|! instance.valid?(name)}).empty?
+        ! (invalids = autonyms.select{|autonym|! instance.valid?(autonym)}).empty?
 
         raise Validation::InvalidWritingError, "invalids members are, yet '#{invalids.inspect} in #{self}'"
       end

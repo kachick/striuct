@@ -4,7 +4,7 @@ class Striuct; module ClassMethods
 
   # @return [Class]
   def to_struct_class
-    raise 'No defined members' if names.empty?
+    raise 'No defined members' if autonyms.empty?
 
     struct_klass = Struct.new(*names)
   

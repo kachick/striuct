@@ -4,9 +4,9 @@ class Striuct; module InstanceMethods
   
   # @param [Symbol, String] name
   def default?(name)
-    name = autonym_for name
+    autonym = autonym_for name
 
-    default_for(name) == self[name]
+    default_for(autonym) == self[autonym]
   end
 
   # @endgroup

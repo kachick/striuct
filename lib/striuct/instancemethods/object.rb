@@ -10,9 +10,9 @@ class Striuct; module InstanceMethods
   # @return [String]
   def inspect
     "#<#{self.class} (Striuct)".tap {|s|
-      each_pair do |name, value|
-        suffix = (has_default?(name) && default?(name)) ? '(default)' : nil
-        s << " #{name}=#{value.inspect}#{suffix}"
+      each_pair do |autonym, value|
+        suffix = (has_default?(autonym) && default?(autonym)) ? '(default)' : nil
+        s << " #{autonym}=#{value.inspect}#{suffix}"
       end
       
       s << ">"
@@ -22,8 +22,8 @@ class Striuct; module InstanceMethods
   # @return [String]
   def to_s
     "#<struct #{self.class}".tap {|s|
-      each_pair do |name, value|
-        s << " #{name}=#{value.inspect}"
+      each_pair do |autonym, value|
+        s << " #{autonym}=#{value.inspect}"
       end
       
       s << '>'

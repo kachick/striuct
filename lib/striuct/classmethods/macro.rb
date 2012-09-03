@@ -43,23 +43,24 @@ class Striuct; module ClassMethods
       raise ArgumentError, 'It is not able to choose "default" with "default_proc" in options'
     end
     
-    name = keyable_for name
-    raise ArgumentError, %Q!already exist name "#{name}"! if member? name
-    _check_safety_naming name
+    autonym = keyable_for name # First difinition for an autonym
+
+    raise ArgumentError, %Q!already exist name "#{autonym}"! if member? autonym
+    _check_safety_naming autonym
     _mark_setter_validation name if options[:setter_validation] or options[:writer_validation]
     _mark_getter_validation name if options[:getter_validation] or options[:reader_validation]
     _mark_inference name if options[:inference]
 
-    @names << name
-    __getter__! name
-    __setter__! name, condition, &flavor
+    @names << autonym
+    __getter__! autonym
+    __setter__! autonym, condition, &flavor
     
     if options.has_key?(:default)
-      set_default_value name, options.fetch(:default)
+      set_default_value autonym, options.fetch(:default)
     end
     
     if options.has_key?(:default_proc)
-      set_default_value name, &options.fetch(:default_proc)
+      set_default_value autonym, &options.fetch(:default_proc)
     end
     
     nil
@@ -67,30 +68,29 @@ class Striuct; module ClassMethods
 
   alias_method :member, :add_member
 
-  # @param [Symbol, String] name
-  # @param [Symbol, String] *names
+  # @param [Symbol, String] autonym
+  # @param [Symbol, String] autonyms
   # @return [nil]
-  def add_members(name, *names)
+  def add_members(autonym, *autonyms)
     raise "already closed to add members in #{self}" if closed?
     
-    [name, *names].each {|_name|add_member _name}
+    [autonym, *autonyms].each {|_autonym|add_member _autonym}
     nil
   end
 
   # @param [Symbol, String] aliased
-  # @param [Symbol, String] original
+  # @param [Symbol, String] autonym
   # @return [nil]
-  def alias_member(aliased, original)
+  def alias_member(aliased, autonym)
     raise "already closed to add members in #{self}" if closed?
-    original = keyable_for original
+    autonym = autonym_for autonym
     aliased  = keyable_for aliased
-    raise NameError unless member? original
     raise ArgumentError, %Q!already exist name "#{aliased}"! if member? aliased
     _check_safety_naming aliased
 
-    alias_method aliased, original
-    alias_method "#{aliased}=", "#{original}="
-    _alias_member aliased, original
+    alias_method aliased, autonym
+    alias_method :"#{aliased}=", :"#{autonym}="
+    _alias_member aliased, autonym
     nil
   end
   
@@ -98,8 +98,8 @@ class Striuct; module ClassMethods
   # @return [nil]
   def set_default_value(name, value=nil, &block)
     raise "already closed to modify member attributes in #{self}" if closed?
-    name = autonym_for(name)
-    raise "already settled default value for #{name}" if has_default? name
+    autonym = autonym_for(name)
+    raise "already settled default value for #{name}" if has_default? autonym
 
     value = (
       if block_given?
@@ -119,7 +119,7 @@ class Striuct; module ClassMethods
       end
     )
     
-    _set_default_value name, value
+    _set_default_value autonym, value
     nil
   end
   

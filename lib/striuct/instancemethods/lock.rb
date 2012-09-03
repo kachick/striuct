@@ -13,11 +13,11 @@ class Striuct; module InstanceMethods
     raise "can't modify frozen #{self.class}" if frozen?
     
     if key.equal? true
-      names.each do |name|
-        @locks[name] = true
+      autonyms.each do |autonym|
+        @locks[autonym] = true
       end
     else
-      __subscript__(key){|name|@locks[name] = true}
+      __subscript__(key){|autonym|@locks[autonym] = true}
     end
 
     self
@@ -26,9 +26,9 @@ class Striuct; module InstanceMethods
   # @see #lock
   def lock?(key=true)
     if key.equal? true
-      names.all?{|name|@locks[name]}
+      autonyms.all?{|autonym|@locks[autonym]}
     else
-      __subscript__(key){|name|@locks[name]} || false
+      __subscript__(key){|autonym|@locks[autonym]} || false
     end
   end
   
@@ -40,7 +40,7 @@ class Striuct; module InstanceMethods
     if key.equal? true
       @locks.clear
     else
-      __subscript__(key){|name|@locks.delete name}
+      __subscript__(key){|autonym|@locks.delete autonym}
     end
 
     self

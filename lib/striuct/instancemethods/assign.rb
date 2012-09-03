@@ -8,14 +8,14 @@ class Striuct; module InstanceMethods
   
   # @param [Symbol, String] name
   def assign?(name)
-    name = autonym_for name
+    autonym = autonym_for name
     
-    @db.has_key? name
+    @db.has_key? autonym
   end
   
   # @param [Symbol, String, Fixnum] key
   def clear_at(key)
-    __subscript__(key){|name|__clear__ name}
+    __subscript__(key){|autonym|__clear__ autonym}
   end
   
   alias_method :unassign, :clear_at
@@ -23,7 +23,7 @@ class Striuct; module InstanceMethods
 
   # all members aren't assigned
   def empty?
-    each_name.none?{|name|assign? name}
+    autonyms.none?{|autonym|assign? autonym}
   end
 
   # @endgroup
