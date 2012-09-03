@@ -24,7 +24,7 @@ class Striuct; module ClassMethods
 
   private
 
-  # @param [Symbol, String] name
+  # @param [Symbol, String] autonym
   # @param [#===, Proc, Method, ANYTHING] condition
   # @param [Hash] options
   # @option options [BasicObject] :default
@@ -35,7 +35,7 @@ class Striuct; module ClassMethods
   # @option options [Boolean] :writer_validation
   # @option options [Boolean] :setter_validation
   # @return [nil]
-  def add_member(name, condition=Validation::Condition::ANYTHING, options=DEFAULT_MEMBER_OPTIONS, &adjuster)
+  def add_member(autonym, condition=Validation::Condition::ANYTHING, options=DEFAULT_MEMBER_OPTIONS, &adjuster)
     raise "already closed to add member in #{self}" if closed?
     options = DEFAULT_MEMBER_OPTIONS.merge(options).extend(KeyValidatable)
     options.validate_keys let: VALID_MEMBER_OPTIONS
@@ -43,13 +43,13 @@ class Striuct; module ClassMethods
       raise ArgumentError, 'It is not able to choose "default" with "default_proc" in options'
     end
     
-    autonym = keyable_for name # First difinition for an autonym
+    autonym = keyable_for autonym # First difinition for an autonym
 
     raise ArgumentError, %Q!already exist name "#{autonym}"! if member? autonym
     _check_safety_naming autonym
-    _mark_setter_validation name if options[:setter_validation] or options[:writer_validation]
-    _mark_getter_validation name if options[:getter_validation] or options[:reader_validation]
-    _mark_inference name if options[:inference]
+    _mark_setter_validation autonym if options[:setter_validation] or options[:writer_validation]
+    _mark_getter_validation autonym if options[:getter_validation] or options[:reader_validation]
+    _mark_inference autonym if options[:inference]
 
     @autonyms << autonym
     __getter__! autonym
