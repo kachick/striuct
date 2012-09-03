@@ -32,7 +32,7 @@ class Striuct; module InstanceMethods
   # @yieldreturn [nil]
   def select!
     raise "can't modify frozen #{self.class}" if frozen?
-    return to_enum(__method__) unless block_given?
+    return to_enum(__callee__) unless block_given?
 
     modified = false
     each_pair do |autonym, value|
@@ -51,7 +51,7 @@ class Striuct; module InstanceMethods
   # @return [Enumerator]
   def keep_if(&block)
     raise "can't modify frozen #{self.class}" if frozen?
-    return to_enum(__method__) unless block_given?
+    return to_enum(__callee__) unless block_given?
 
     select!(&block)
     self
@@ -64,7 +64,7 @@ class Striuct; module InstanceMethods
   # @return [Enumerator]
   def reject!
     raise "can't modify frozen #{self.class}" if frozen?
-    return to_enum(__method__) unless block_given?
+    return to_enum(__callee__) unless block_given?
 
     modified = false
     each_pair do |autonym, value|
@@ -83,7 +83,7 @@ class Striuct; module InstanceMethods
   # @return [Enumerator]
   def delete_if(&block)
     raise "can't modify frozen #{self.class}" if frozen?
-    return to_enum(__method__) unless block_given?
+    return to_enum(__callee__) unless block_given?
 
     reject!(&block)
     self
@@ -113,7 +113,7 @@ class Striuct; module InstanceMethods
   # @yieldparam [Symbol] autonym
   # @return [Striuct]
   def select(&block)
-    return to_enum(__method__) unless block_given?
+    return to_enum(__callee__) unless block_given?
 
     dup.tap {|r|r.select!(&block)}
   end
@@ -123,7 +123,7 @@ class Striuct; module InstanceMethods
   # @yieldparam [Symbol] autonym
   # @return [Striuct]
   def reject(&block)
-    return to_enum(__method__) unless block_given?
+    return to_enum(__callee__) unless block_given?
 
     dup.tap {|r|r.reject!(&block)}
   end
