@@ -84,6 +84,7 @@ Link
 ----
 
 * [code](https://github.com/kachick/striuct)
+* [API](http://kachick.github.com/docs/striuct/api/frames.html)
 * [issues](https://github.com/kachick/striuct/issues)
 * [CI](http://travis-ci.org/#!/kachick/striuct)
 * [gem](https://rubygems.org/gems/striuct)
