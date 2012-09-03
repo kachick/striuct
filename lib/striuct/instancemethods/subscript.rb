@@ -12,7 +12,10 @@ class Striuct; module InstanceMethods
   # @return [value]
   def []=(key, value)
     true_name = nil
-    __subscript__(key){|autonym|true_name = autonym; __set__ autonym, value}
+    __subscript__(key){|autonym|
+      true_name = autonym
+      __set__ autonym, value
+    }
   rescue Validation::InvalidWritingError
     $!.set_backtrace([
       "#{$!.backtrace[-1].sub(/[^:]+\z/){''}}in `[#{key.inspect}(#{true_name})]=': #{$!.message}",
