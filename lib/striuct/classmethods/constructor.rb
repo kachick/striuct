@@ -15,9 +15,7 @@ class Striuct; module ClassMethods
   # @param [Hash, Struct] pairs
   # @return [Striuct]
   def for_pairs(pairs)
-    unless pairs.respond_to?(:each_pair) and pairs.respond_to?(:keys)
-      raise TypeError, 'no pairs object'
-    end
+    raise TypeError, 'no pairs object' unless pairs.respond_to?(:each_pair)
 
     pairs.dup.extend(KeyValidatable).validate_keys let: all_members
 
