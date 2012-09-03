@@ -19,7 +19,7 @@ class Striuct; module ClassMethods
   }.freeze
   
   def closed?
-    [@names, @adjusters, @defaults, @aliases].any?(&:frozen?)
+    [@autonyms, @adjusters, @defaults, @aliases].any?(&:frozen?)
   end
 
   private
@@ -51,7 +51,7 @@ class Striuct; module ClassMethods
     _mark_getter_validation name if options[:getter_validation] or options[:reader_validation]
     _mark_inference name if options[:inference]
 
-    @names << autonym
+    @autonyms << autonym
     __getter__! autonym
     __setter__! autonym, condition, &flavor
     
@@ -132,7 +132,7 @@ class Striuct; module ClassMethods
   
   # @return [self]
   def close_member
-    [@names, @adjusters, @defaults, @aliases].each(&:freeze)
+    [@autonyms, @adjusters, @defaults, @aliases].each(&:freeze)
     self
   end
   

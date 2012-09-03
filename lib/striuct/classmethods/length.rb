@@ -4,7 +4,7 @@ class Striuct; module ClassMethods
 
   # @return [Integer]
   def length
-    @names.length
+    @autonyms.length
   end
   
   alias_method :size, :length
