@@ -105,13 +105,11 @@ class TestStriuctSubclassInstance3 < Test::Unit::TestCase
   end
   
   def test_to_s
-    /\b(taro)\b/ =~ @user.to_s
-    assert_equal 'taro', $1
+    assert_equal %q!#<struct' TestStriuctSubclassInstance3::User id=9999, last_name="taro", family_name="yamada", address="Tokyo Japan", age=30>!, @user.to_s
   end
 
   def test_inspect
-    /\b(taro)\b/ =~ @user.inspect
-    assert_equal 'taro', $1
+    assert_equal %q!#<struct' TestStriuctSubclassInstance3::User strict?:true id=9999(valid?:true, lock?:false), last_name="taro"(valid?:true, lock?:false), family_name="yamada"(valid?:true, lock?:false), address="Tokyo Japan"(valid?:true, lock?:false), age=30(valid?:true, lock?:false)>!, @user.inspect
   end
 
   def test_members
