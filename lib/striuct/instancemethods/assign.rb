@@ -23,7 +23,7 @@ class Striuct; module InstanceMethods
 
   # all members aren't assigned
   def empty?
-    autonyms.none?{|autonym|assign? autonym}
+    _autonyms.none?{|autonym|assign? autonym}
   end
 
   # @endgroup
