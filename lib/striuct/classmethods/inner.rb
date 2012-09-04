@@ -16,8 +16,6 @@ class Striuct; module ClassMethods
     @autonyms
   end
   
-  alias_method :_names, :_autonyms
-  
   def _alias_member(aliased, original)
     @aliases[aliased] = original
   end
