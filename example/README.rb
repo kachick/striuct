@@ -23,3 +23,22 @@ p john[:name]      #=> 'john'
 p john.id          #=> 1
 ken = User[name: 'ken']                       # Construct from hash
 p ken.id           #=> 2
+
+class Foo < Striuct
+  member :foo
+  member :bar, Numeric, inference: true
+  member :with_adjuster, Integer, &->v{Integer v}
+end
+
+foo = Foo.new
+p foo.foo           #=> nil
+p foo.assign?(:foo) #=> false
+foo.foo = nil
+p foo.assign?(:foo) #=> true
+foo.lock(:foo)
+#~ foo.foo = nil       #=> error
+foo.bar = 1.2
+#~ foo.bar = 1          #=> error
+
+foo.with_adjuster = '5'
+p foo.with_adjuster

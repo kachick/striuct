@@ -21,7 +21,7 @@ Features
 * Default value
 * Member aliasing
 * Inheritable
-* Hndling between nil <-> unassigned
+* Handling between nil <-> unassigned
 * More flendly API for Hash
 
 ### Onepoint
@@ -32,7 +32,7 @@ Features
 Usage
 -----
 
-### Overview
+### Overview - Case 1
 
 ```ruby
 require 'striuct'
@@ -59,6 +59,36 @@ john.id                  #=> 1
 ken = User[name: 'ken']                       # Construct from hash
 ken.id                   #=> 2
 ```
+### Overview - Case 2
+
+```ruby
+class Foo < Striuct
+  member :foo
+  member :bar, Numeric, inference: true
+  member :with_adjuster, Integer, &->v{Integer v}
+end
+
+foo = Foo.new
+
+# nil <-> unaasigned
+foo.foo                  #=> nil
+foo.assign?(:foo)        #=> false
+foo.foo = nil
+foo.assign?(:foo)        #=> true
+
+# Lock to a member
+foo.lock(:foo)
+foo.foo = nil            #=> error
+
+# Inference Validation
+foo.bar = 1.2            #=> pass             # memorize 1.2's class is Float
+foo.bar = 1              #=> error            # 1 is not Float
+
+# With adjuster
+foo.with_adjuster = '5'
+foo.with_adjuster        #=> 5                # Casted via adjuster
+```
+
 
 ### More Examples
 
@@ -88,7 +118,6 @@ Link
 * [issues](https://github.com/kachick/striuct/issues)
 * [CI](http://travis-ci.org/#!/kachick/striuct)
 * [gem](https://rubygems.org/gems/striuct)
-* [gem+](http://metagem.info/gems/striuct)
 
 License
 --------
