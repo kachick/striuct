@@ -4,13 +4,13 @@ class Striuct; module InstanceMethods
   
   # @return [Boolean]
   def ==(other)
-    __compare_all__ other, :==
+    __compare_all__? other, :==
   end
 
   alias_method :===, :==
   
   def eql?(other)
-    __compare_all__ other, :eql?
+    __compare_all__? other, :eql?
   end
 
   # @return [Integer]
@@ -21,9 +21,8 @@ class Striuct; module InstanceMethods
   private  
 
   # @param [Symbol] method
-  def __compare_all__(other, method)
-    instance_of?(other.class) && \
-      each_pair.all?{|k, v|v.__send__ method, other[k]}
+  def __compare_all__?(other, method)
+    other.instance_of?(self.class) && each_pair.all?{|k, v|v.__send__ method, other[k]}
   end
 
   # @endgroup
