@@ -22,8 +22,13 @@ class Striuct; module InstanceMethods
 
     self
   end
-  
-  # @see #lock
+
+  # @overload lock?(key)
+  #   predicate locking a setter for key 
+  #   @param [Symbol, String, Fixnum] key
+  # @overload lock?(true)
+  #   predicate locking for all members
+  #   @param [true] true
   def lock?(key=true)
     if key.equal? true
       autonyms.all?{|autonym|@locks[autonym]}
@@ -34,6 +39,12 @@ class Striuct; module InstanceMethods
   
   private
   
+  # @overload unlock(key)
+  #   unlock a setter for key 
+  #   @param [Symbol, String, Fixnum] key
+  # @overload unlock(true)
+  #   unlock setters for all members
+  #   @param [true] true
   def unlock(key=true)
     raise "can't modify frozen #{self.class}" if frozen?
     
