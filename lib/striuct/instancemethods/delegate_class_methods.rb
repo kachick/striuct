@@ -1,9 +1,12 @@
+require 'forwardable'
+
 class Striuct; module InstanceMethods
+  
+  extend Forwardable
 
   # @group Delegate Class Methods
   
-  # @see self.class.*args
-  delegate_class_methods(
+  def_delegators :'self.class',
     :keyable_for, :autonym_for, :aliases_for,
     :validator_for, :condition_for,
     :adjuster_for, :flavor_for,
@@ -13,7 +16,6 @@ class Striuct; module InstanceMethods
     :restrict?, :has_validator?, :has_condition?,
     :safety_getter?, :safety_reader?, :safety_setter?, :safty_writer?, :inference?,
     :has_default?, :default_for, :has_adjuster?, :has_flavor?
-  )
 
   # @endgroup
 
