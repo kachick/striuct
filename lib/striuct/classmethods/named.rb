@@ -61,12 +61,14 @@ class Striuct; module ClassMethods
   alias_method :original?, :autonym?
   
   # @param [Symbol, String] name
-  def aliased?(name)
+  def alias?(name)
     name = keyable_for name
     raise NameError unless member? name
 
     @aliases.has_key? name
   end
+  
+  alias_method :aliased?, :alias?
   
   # @param [Symbol, String] autonym
   def has_aliases?(autonym)
