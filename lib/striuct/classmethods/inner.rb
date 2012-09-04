@@ -12,67 +12,49 @@ class Striuct; module ClassMethods
     nil
   end
 
-  def _autonyms
-    @autonyms
+  def _remove_inference(autonym)
+    @inferences.delete autonym
   end
   
-  def _alias_member(aliased, original)
-    @aliases[aliased] = original
-  end
-  
-  def _autonym_for(aliased)
-    @aliases[aliased]
-  end
-  
-  alias_method :_original_for, :_autonym_for
-
-  def _aliases_for(original)
-    @aliases.group_by{|aliased, org|org}[original]
+  def _mark_setter_validation(autonym)
+    @setter_validations[autonym] = true
   end
 
-  def _remove_inference(name)
-    @inferences.delete name
-  end
-  
-  def _mark_setter_validation(name)
-    @setter_validations[name] = true
+  def _mark_getter_validation(autonym)
+    @getter_validations[autonym] = true
   end
 
-  def _mark_getter_validation(name)
-    @getter_validations[name] = true
-  end
-
-  def _mark_inference(name)
-    @inferences[name] = true
+  def _mark_inference(autonym)
+    @inferences[autonym] = true
   end
   
-  def _set_adjuster(name, adjuster)
-    @adjusters[name] = adjuster
+  def _set_adjuster(autonym, adjuster)
+    @adjusters[autonym] = adjuster
   end
   
-  def _set_condition(name, condition)
-    @conditions[name] = condition
+  def _set_condition(autonym, condition)
+    @conditions[autonym] = condition
   end
   
-  def _set_default_value(name, value)
-    @defaults[name] = value
+  def _set_default_value(autonym, value)
+    @defaults[autonym] = value
   end
 
-  def __setter__!(name, condition, &adjuster)
-    __set_condition__! name, condition unless Validation::Condition::ANYTHING.equal? condition
-    __set_adjuster__! name, &adjuster if block_given?
+  def __setter__!(autonym, condition, &adjuster)
+    __set_condition__! autonym, condition unless Validation::Condition::ANYTHING.equal? condition
+    __set_adjuster__! autonym, &adjuster if block_given?
 
-    define_method :"#{name}=" do |value|
-      __set__ name, value
+    define_method :"#{autonym}=" do |value|
+      __set__ autonym, value
     end
  
     nil
 
   end
   
-  def __set_condition__!(name, condition)
+  def __set_condition__!(autonym, condition)
     if ::Validation.conditionable? condition
-      _set_condition name, condition
+      _set_condition autonym, condition
     else
       raise TypeError, 'wrong object for condition'
     end
@@ -80,9 +62,9 @@ class Striuct; module ClassMethods
     nil
   end
 
-  def __set_adjuster__!(name, &adjuster)
+  def __set_adjuster__!(autonym, &adjuster)
     if ::Validation.adjustable? adjuster
-      _set_adjuster name, adjuster
+      _set_adjuster autonym, adjuster
     else
       raise ArgumentError, "wrong number of block argument #{arity} for 1"
     end
@@ -90,18 +72,17 @@ class Striuct; module ClassMethods
     nil
   end
 
-  def __found_family__!(_caller, name, our)
+  def __found_family__!(_caller, autonym, our)
     family = our.class
 
-    raise 'must not happen' unless name.instance_of?(Symbol) and
-                                   inference?(name) and
-                                   member?(name) and
+    raise 'must not happen' unless inference?(autonym) and
+                                    autonym?(autonym) and
                                    _caller.instance_of?(self)
 
     raise ArgumentError unless Validation.conditionable? family
 
-    _set_condition name, family
-    _remove_inference name
+    _set_condition autonym, family
+    _remove_inference autonym
 
     nil
   end

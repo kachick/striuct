@@ -90,6 +90,24 @@ class Striuct; module ClassMethods
   def aliases
     @aliases.dup
   end
+  
+  private
+  
+  def _autonyms
+    @autonyms
+  end
+  
+  def _alias_member(aliased, autonym)
+    @aliases[aliased] = autonym
+  end
+  
+  def _autonym_for(aliased)
+    @aliases[aliased]
+  end
+  
+  def _aliases_for(autonym)
+    @aliases.group_by{|aliased, an|an}.fetch(autonym)
+  end
 
   # @endgroup
 
