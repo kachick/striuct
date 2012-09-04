@@ -30,7 +30,6 @@ lib/striuct/classmethods/validation.rb
 
 lib/striuct/instancemethods.rb
 lib/striuct/instancemethods/requirements.rb
-lib/striuct/instancemethods/singleton_class.rb
 lib/striuct/instancemethods/delegate_class_methods.rb
 lib/striuct/instancemethods/inner.rb
 lib/striuct/instancemethods/object.rb
