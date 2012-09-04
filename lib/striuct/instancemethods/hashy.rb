@@ -5,17 +5,6 @@ class Striuct; module InstanceMethods
   # @group Like Ruby's Hash
   
   alias_method :fetch, :[]
-  
-  # @return [Hash]
-  def to_h(reject_no_assign=false)
-    return @db.dup if reject_no_assign
-
-    {}.tap {|h|
-      each_pair do |autonym, val|
-        h[autonym] = val
-      end
-    }
-  end
 
   def has_value?(value)
     @db.has_value? value

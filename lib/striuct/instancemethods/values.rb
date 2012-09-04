@@ -2,13 +2,6 @@ class Striuct; module InstanceMethods
 
   # @group Behavior under Values
 
-  # @return [Array]
-  def values
-    each_value.to_a
-  end
-  
-  alias_method :to_a, :values
-
   # @param [Fixnum, Range] _keys
   # @return [Array]
   def values_at(*_keys)
