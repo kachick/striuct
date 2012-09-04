@@ -32,7 +32,7 @@ class Striuct; module InstanceMethods
       self[index] = value
     end
       
-    excess = autonyms.last(size - values.size)
+    excess = _autonyms.last(size - values.size)
       
     excess.each do |autonym|
       if has_default? autonym

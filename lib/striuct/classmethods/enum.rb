@@ -9,7 +9,7 @@ class Striuct; module ClassMethods
   def each_autonym
     return to_enum(__callee__) unless block_given?
 
-    _autonyms.each{|autonym|yield autonym}
+    @autonyms.each{|autonym|yield autonym}
     self
   end
 
@@ -24,7 +24,7 @@ class Striuct; module ClassMethods
   def each_index
     return to_enum(__callee__) unless block_given?
 
-    _autonyms.each_index{|index|yield index}
+    @autonyms.each_index{|index|yield index}
     self
   end
 
@@ -36,7 +36,7 @@ class Striuct; module ClassMethods
   def each_autonym_with_index
     return to_enum(__callee__) unless block_given?
 
-    _autonyms.each_with_index{|autonym, index|yield autonym, index}
+    @autonyms.each_with_index{|autonym, index|yield autonym, index}
     self
   end
 

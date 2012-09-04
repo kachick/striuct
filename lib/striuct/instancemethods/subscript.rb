@@ -40,7 +40,7 @@ class Striuct; module InstanceMethods
         raise NameError
       end
     when Fixnum
-      if autonym = autonyms[key]
+      if autonym = _autonyms[key]
         yield autonym
       else
         raise IndexError

@@ -39,7 +39,7 @@ class Striuct; module ClassMethods
   def autonym_for(name)
     name = keyable_for name
     
-    if _autonyms.include? name
+    if @autonyms.include? name
       name
     else
       if autonym = _autonym_for(name)

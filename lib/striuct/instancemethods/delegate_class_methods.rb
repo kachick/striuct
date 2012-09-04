@@ -10,6 +10,7 @@ class Striuct; module InstanceMethods
   # @group Delegate Class Methods
   
   def_delegators :'self.class',
+    :_autonyms,
     :keyable_for, :autonym_for, :aliases_for,
     :validator_for, :condition_for,
     :adjuster_for, :flavor_for,
@@ -19,6 +20,8 @@ class Striuct; module InstanceMethods
     :restrict?, :has_validator?, :has_condition?,
     :safety_getter?, :safety_reader?, :safety_setter?, :safty_writer?, :inference?,
     :has_default?, :default_for, :has_adjuster?, :has_flavor?
+
+  private :_autonyms
 
   # @endgroup
   
