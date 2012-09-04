@@ -36,7 +36,7 @@ lib/striuct/instancemethods/inner.rb
 lib/striuct/instancemethods/object.rb
 lib/striuct/instancemethods/compare.rb
 lib/striuct/instancemethods/values.rb
-lib/striuct/instancemethods/to_struct.rb
+lib/striuct/instancemethods/cast.rb
 lib/striuct/instancemethods/default.rb
 lib/striuct/instancemethods/enum.rb
 lib/striuct/instancemethods/hashy.rb
