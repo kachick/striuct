@@ -3,6 +3,9 @@ require 'forwardable'
 class Striuct; module InstanceMethods
   
   extend Forwardable
+  
+  # Forwardable has public/protected class_macro
+  private_class_method(*Forwardable.instance_methods)
 
   # @group Delegate Class Methods
   
@@ -18,5 +21,5 @@ class Striuct; module InstanceMethods
     :has_default?, :default_for, :has_adjuster?, :has_flavor?
 
   # @endgroup
-
+  
 end; end
