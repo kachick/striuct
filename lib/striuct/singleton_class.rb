@@ -79,10 +79,11 @@ class Striuct
         singleton_class.instance_eval do
           define_method :initialize_copy do |original|
             @autonyms, @adjusters, @defaults, @aliases,
+            @conditions, @inferences,
             @setter_validations, @getter_validations = 
             *[@autonyms, @adjusters, @defaults, @aliases,
+              @conditions, @inferences,
               @setter_validations, @getter_validations].map(&:dup)
-            @conditions, @inferences = @conditions.dup, @inferences.dup
           end
         end
       end
