@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctDefaultValue < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_Default_Value < Test::Unit::TestCase
 
   Sth = Striuct.new do
     member :lank, OR(Bignum, Fixnum)
@@ -72,7 +72,7 @@ class TestStriuctDefaultValue < Test::Unit::TestCase
 
 end
 
-class TestStriuctDefaultValueinMemberMacro < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_DefaultValue_Under_MemberMacro < Test::Unit::TestCase
 
   Sth = Striuct.new do
     member :lank, OR(Bignum, Fixnum), default: 1

@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctFreeze < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance__Freeze < Test::Unit::TestCase
 
   Sth = Striuct.new :foo
   

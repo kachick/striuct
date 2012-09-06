@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctSpecificConditions < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
 
   Sth = Striuct.define do
     member :list_only_int, GENERICS(Integer)

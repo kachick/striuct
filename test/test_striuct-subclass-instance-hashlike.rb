@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctHashLike < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_HashLike < Test::Unit::TestCase
 
   Sth = Striuct.new :foo, :bar, :hoge
 

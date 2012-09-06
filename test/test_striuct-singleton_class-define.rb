@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctDefine < Test::Unit::TestCase
+class Test_Striuct_Define < Test::Unit::TestCase
 
   def test_define
     assert_raises RuntimeError do

@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctInheritable < Test::Unit::TestCase
+class Test_Striuct_Subclass_Class_Inheritable < Test::Unit::TestCase
 
   Sth = Striuct.define do
     member :foo, String

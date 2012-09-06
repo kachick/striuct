@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuct_to_Struct < Test::Unit::TestCase
+class Test_Striuct_Subclass_to_Struct < Test::Unit::TestCase
 
   Sth = Striuct.define do
     member :name, String

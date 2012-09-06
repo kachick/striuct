@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctSafetyNaming < Test::Unit::TestCase
+class Test_Striuct_Subclass_Class_SafetyNaming < Test::Unit::TestCase
 
   def test_cname?
     klass = Striuct.new

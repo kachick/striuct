@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctKeyVallidatable < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_KeyVallidatable < Test::Unit::TestCase
 
   Sth = Striuct.new :foo, :bar
   

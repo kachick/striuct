@@ -1,12 +1,12 @@
 require_relative 'helper'
 
-class TestStriuctClassLock < Test::Unit::TestCase
+class Test_Striuct_Subclass_Class_Close < Test::Unit::TestCase
 
   Sth = Striuct.new do
     member :foo
   end
 
-  def test_class_lock
+  def test_class_close
     sth = Sth.new
 
     assert_equal true, sth.member?(:foo)
