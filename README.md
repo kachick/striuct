@@ -101,7 +101,7 @@ Requirements
 
 * Ruby 1.9.2 or later [MRI/YARV, Rubinius](http://travis-ci.org/#!/kachick/striuct)
 * validation - 0.0.3
-* keyvalidatable - 0.0.2
+* keyvalidatable - 0.0.3
 
 Install
 -------
@@ -122,7 +122,7 @@ Link
 License
 --------
 
-The MIT X License  
+The MIT X11 License  
 Copyright (c) 2011 Kenichi Kamiya  
 See the file LICENSE for further details.
 

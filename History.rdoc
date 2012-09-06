@@ -1,3 +1,15 @@
+=== 0.3.3 2012-9-7
+
+* modify:
+  * SubClass#to_s
+  * SubClass#inspect
+
+* fix:
+  * SubClass.freeze
+
+* add:
+  * compatibility with keyvalidatable-API
+
 === 0.3.2 2012-9-4
 
 * fix:
