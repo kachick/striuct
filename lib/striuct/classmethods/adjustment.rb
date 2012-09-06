@@ -13,15 +13,17 @@ class Striuct; module ClassMethods
   
   # @param [Symbol, String] name
   def adjuster_for(name)
-    _adjuster_for autonym_for(name)
+    autonym = autonym_for name
+    
+    _adjuster_for autonym
   end
   
   alias_method :flavor_for, :adjuster_for
 
   private
   
-  def _adjuster_for(name)
-    @adjusters[name]
+  def _adjuster_for(autonym)
+    @adjusters[autonym]
   end
 
   alias_method :_flavor_for, :_adjuster_for

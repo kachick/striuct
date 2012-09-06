@@ -19,8 +19,8 @@ class Striuct; module ClassMethods
   
   private
   
-  def _default_for(name)
-    @defaults[name]
+  def _default_for(autonym)
+    @defaults[autonym]
   end
 
   # @endgroup
