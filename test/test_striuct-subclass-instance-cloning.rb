@@ -1,4 +1,3 @@
-$VERBOSE = true
 require_relative 'helper'
 
 class TestStriuctInstanceCloning < Test::Unit::TestCase

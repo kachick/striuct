@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctSubclassClassMethods < Test::Unit::TestCase
+class Test_Striuct_Subclass_Class_Constructor < Test::Unit::TestCase
 
   class User < Striuct.new
     member :id, Integer
@@ -15,7 +15,7 @@ class TestStriuctSubclassClassMethods < Test::Unit::TestCase
     member :age, Fixnum
   end
   
-  def test_builder
+  def test_new
     klass = Striuct.new
     assert_kind_of Striuct, klass.new
     
@@ -64,24 +64,19 @@ class TestStriuctSubclassClassMethods < Test::Unit::TestCase
     assert_equal false, user.strict?
   end
   
-  def test_restrict?
-    klass = Striuct.new :foo do
-      member :var, //
-      member :hoge
-      member :moge, nil
-    end
-    
-    assert_equal false, klass.restrict?(:foo)
-    assert_equal true, klass.restrict?(:var)
-    assert_equal false, klass.restrict?(:hoge)
-    assert_equal true, klass.restrict?(:moge)
-  end
+  Sth = Striuct.new :foo, :bar, :hoge
+  SampleStruct = Struct.new :foo, :bar, :hoge
   
-  def test_add_members
-    klass = Striuct.new :foo do
-      add_members :aaa, 'bbb', :ccc
-    end
-    
-    assert_equal [:foo, :aaa, :bbb, :ccc], klass.members
+  def test_for_pairs_from_hash
+    sth = Sth[hoge: 7, foo: 8]
+   
+    assert_equal [8, nil, 7], sth.values
   end
+
+  def test_for_pairs_from_struct
+    sth = Sth[SampleStruct.new 8, nil, 7]
+   
+    assert_equal [8, nil, 7], sth.values
+  end
+
 end  
