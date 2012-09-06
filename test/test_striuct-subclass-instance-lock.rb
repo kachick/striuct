@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctLock < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_Lock < Test::Unit::TestCase
 
   Sth = Striuct.new :foo, :bar
   Sth.__send__ :close

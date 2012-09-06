@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctAliasMember < Test::Unit::TestCase
+class Test_Striuct_Subclass_AliasMember < Test::Unit::TestCase
 
   class Sth < Striuct.new
     member :foo, String

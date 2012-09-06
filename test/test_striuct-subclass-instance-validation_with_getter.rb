@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestGetterValidation < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_GetterValidation < Test::Unit::TestCase
 
   Sth = Striuct.define do
     member :plus_getter, /./, getter_validation: true

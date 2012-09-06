@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctVersion < Test::Unit::TestCase
+class Test_Striuct_Version < Test::Unit::TestCase
 
   def test_const_version
     assert_kind_of String, Striuct::VERSION

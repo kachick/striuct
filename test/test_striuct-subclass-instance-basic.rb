@@ -14,10 +14,6 @@ class Test_Striuct_Subclass_Instance_Basic < Test::Unit::TestCase
     @user = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
     @user2 = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
   end
-
-  def test_members
-    assert_equal @user.members, [:id, :last_name, :family_name, :address, :age]
-  end
   
   def test_delegate_class_method
     assert_equal @user.members, User.members

@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctAssign < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_Assign < Test::Unit::TestCase
 
   Sth = Striuct.new do
     member :foo

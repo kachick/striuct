@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class TestStriuctInference < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_Inference < Test::Unit::TestCase
 
   def test_inference
     klass = Striuct.define do

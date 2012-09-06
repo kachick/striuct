@@ -1,34 +1,7 @@
 require_relative 'helper'
 
-class TestStriuctAdjusterOld < Test::Unit::TestCase
 
-  Sth = Striuct.new do
-    member :age, Numeric, &->arg{Integer arg}
-  end
-  
-  def setup
-    @sth = Sth.new
-    assert_same nil, @sth.age
-  end
-  
-  def test_procedure
-    @sth.age = 10
-    assert_same 10, @sth.age
-    @sth.age = 10.0
-    assert_same 10, @sth.age
-
-    assert_raises Validation::UnmanagebleError do
-      @sth.age = '10.0'
-    end
-    
-    @sth.age = '10'
-    assert_same 10, @sth.age
-  end
-
-end
-
-
-class TestStriuctAdjuster < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_Adjuster < Test::Unit::TestCase
 
   class MyClass
     def self.parse(v)
@@ -90,6 +63,33 @@ class TestStriuctAdjuster < Test::Unit::TestCase
     sth.myobj = 'a'
     
     assert_kind_of MyClass, sth.myobj
+  end
+
+end
+
+class Test_Striuct_Subclass_Instance_AdjusterOld < Test::Unit::TestCase
+
+  Sth = Striuct.new do
+    member :age, Numeric, &->arg{Integer arg}
+  end
+  
+  def setup
+    @sth = Sth.new
+    assert_same nil, @sth.age
+  end
+  
+  def test_procedure
+    @sth.age = 10
+    assert_same 10, @sth.age
+    @sth.age = 10.0
+    assert_same 10, @sth.age
+
+    assert_raises Validation::UnmanagebleError do
+      @sth.age = '10.0'
+    end
+    
+    @sth.age = '10'
+    assert_same 10, @sth.age
   end
 
 end
