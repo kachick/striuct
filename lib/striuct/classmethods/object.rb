@@ -4,7 +4,7 @@ class Striuct; module ClassMethods
 
   # @return [self]
   def freeze
-    __stores__.each(&:freeze)
+    __floating_attributes__.each(&:freeze)
     super
   end
 
@@ -14,10 +14,16 @@ class Striuct; module ClassMethods
     @autonyms, @adjusters, @defaults, @aliases,
     @setter_validations, @getter_validations,
     @conditions, @inferences    = 
-    *[@autonyms, @adjusters, @defaults, @aliases,
-      @setter_validations, @getter_validations,
-      @conditions, @inferences].map(&:dup)
+    *__floating_attributes__.map(&:dup)
     r
+  end
+  
+  private
+  
+  def __floating_attributes__
+    [@autonyms, @adjusters, @defaults, @aliases,
+     @setter_validations, @getter_validations,
+     @conditions, @inferences]
   end
 
   # @endgroup
