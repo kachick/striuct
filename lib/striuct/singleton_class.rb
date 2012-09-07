@@ -15,7 +15,7 @@ class Striuct
       # warning for Ruby's Struct.new user
       first = autonyms.first
       if first.instance_of?(String) and /\A[A-Z]/ =~ first
-        warn "no define constant #{first}"
+        warn "no define constant first-arg(#{first}), the Struct behavior is not supported in Striuct"
       end
 
       Class.new self do
