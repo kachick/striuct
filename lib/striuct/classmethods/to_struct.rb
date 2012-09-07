@@ -6,18 +6,16 @@ class Striuct; module ClassMethods
   def to_struct_class
     raise 'No defined members' if autonyms.empty?
 
-    struct_klass = Struct.new(*names)
-  
-    if name
-      tail_name = name.slice(/[^:]+\z/)
-      if ::Striuct::Structs.const_defined?(tail_name) && 
-          ((already = ::Striuct::Structs.const_get(tail_name)).members == members)
-          already
-      else
-        ::Striuct::Structs.const_set tail_name, struct_klass
-      end
+    struct_cls = ::Struct.new(*autonyms)
+    return struct_cls unless name
+
+    const_suffix = name.slice(/[^:]+\z/).to_sym
+    if ::Striuct::Structs.const_defined?(const_suffix, false) && 
+       (already_cls = ::Striuct::Structs.const_get(const_suffix, false)).members == autonyms
+       raise unless already_cls.superclass.equal? Struct
+       already_cls
     else
-      struct_klass
+      ::Striuct::Structs.const_set const_suffix, struct_cls
     end
   end
 
