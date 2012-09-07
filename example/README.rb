@@ -1,6 +1,6 @@
 $VERBOSE = true
 
-require '../lib/striuct'
+require_relative '../lib/striuct'
 
 class Person < Striuct
   member :fullname, AND(String, /\A.+\z/)     # Flexible Validation
