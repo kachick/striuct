@@ -59,6 +59,7 @@ test/test_striuct-subclass-class-inheritable.rb
 test/test_striuct-subclass-class-macro.rb
 test/test_striuct-subclass-class-safety_naming.rb
 test/test_striuct-subclass-class-validation.rb
+test/test_striuct-subclass-feature-validation_util.rb
 test/test_striuct-subclass-feature-alias_member.rb
 test/test_striuct-subclass-feature-to_struct.rb
 test/test_striuct-subclass-instance-accessor.rb

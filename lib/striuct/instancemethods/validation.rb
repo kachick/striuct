@@ -8,8 +8,12 @@ class Striuct; module InstanceMethods
   def sufficient?(name, value=self[name])
     autonym = autonym_for name
     return true unless restrict? autonym
-    
-    _valid? condition_for(autonym), value
+  
+    begin  
+      _valid? condition_for(autonym), value
+    rescue Exception
+      false
+    end
   end
   
   alias_method :accept?, :sufficient?
