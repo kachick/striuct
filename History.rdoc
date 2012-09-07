@@ -2,6 +2,7 @@
 
 * fix:
   * SubClass.#to_struct
+  * SubClass#sufficient? (catch any error: error -> false)
 
 === 0.3.3 2012-9-7
 
