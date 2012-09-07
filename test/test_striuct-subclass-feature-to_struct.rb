@@ -49,7 +49,6 @@ class Test_Striuct_Subclass_to_Struct < Test::Unit::TestCase
   def test_to_toplevel_struct
     assert_same 0, Striuct::Structs.constants.length
     struct_cls = TopLevelSthForTest_to_Struct.to_struct_class
-    p struct_cls
     assert_same Struct, struct_cls.superclass
     assert_equal [:name, :age], struct_cls.members
     assert_same 1, Striuct::Structs.constants.length
