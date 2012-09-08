@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class Test_Striuct_Subclass_Instance_Cloning < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_Copy < Test::Unit::TestCase
 
   class Sth < Striuct.new
     member :sth

@@ -1,7 +1,9 @@
+require_relative 'hashdeepdupulicatable'
+require_relative 'classmethods'
 require_relative 'instancemethods'
 
 class Striuct
-  
+
   class << self
 
     # @group Constructor
@@ -54,9 +56,9 @@ class Striuct
         include Enumerable
         include InstanceMethods
         
-        @autonyms = []
-        @conditions, @adjusters, @defaults, @inferences, @aliases, @setter_validations, @getter_validations = \
-          {}, {}, {}, {}, {}, {}, {}
+        @autonyms      = []
+        @attributes    = {}.extend HashDeepDupulicatable # autonym => Attributes
+        @aliases       = {} # aliased => autonym
         @protect_level = :prevent
       end
     end
