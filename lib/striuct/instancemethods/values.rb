@@ -31,23 +31,6 @@ class Striuct; module InstanceMethods
     values.each_with_index do |value, index|
       self[index] = value
     end
-      
-    excess = _autonyms.last(size - values.size)
-      
-    excess.each do |autonym|
-      if has_default? autonym
-        self[autonym] = (
-          value = default_for autonym
-          if value.kind_of? DefaultProcHolder
-            block = value.value
-            args = [self, autonym][0, block.arity]
-            block.call(*args)
-          else
-            value
-          end
-        )
-      end
-    end
     
     self
   end
