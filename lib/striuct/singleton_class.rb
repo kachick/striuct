@@ -54,9 +54,9 @@ class Striuct
         include Enumerable
         include InstanceMethods
         
-        @autonyms = []
-        @conditions, @adjusters, @defaults, @inferences, @aliases, @setter_validations, @getter_validations = \
-          {}, {}, {}, {}, {}, {}, {}
+        @autonyms      = []
+        @attributes    = {} # autonym => Attributes
+        @aliases       = {} # aliased => autonym
         @protect_level = :prevent
       end
     end

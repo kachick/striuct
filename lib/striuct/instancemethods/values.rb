@@ -36,14 +36,13 @@ class Striuct; module InstanceMethods
       
     excess.each do |autonym|
       if has_default? autonym
+        default = default_value_for autonym
         self[autonym] = (
-          value = default_for autonym
-          if value.kind_of? DefaultProcHolder
-            block = value.value
-            args = [self, autonym][0, block.arity]
-            block.call(*args)
+          if default_type_for(autonym) == :proc
+            args = [self, autonym][0, default.arity]
+            default.call(*args)
           else
-            value
+            default
           end
         )
       end

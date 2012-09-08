@@ -19,7 +19,7 @@ class Striuct; module ClassMethods
   }.freeze
   
   def closed?
-    [@autonyms, @adjusters, @defaults, @aliases].any?(&:frozen?)
+    [@autonyms, @attributes].any?(&:frozen?)
   end
 
   private
@@ -47,11 +47,20 @@ class Striuct; module ClassMethods
 
     raise ArgumentError, %Q!already exist name "#{autonym}"! if member? autonym
     _check_safety_naming autonym
-    _mark_setter_validation autonym if options[:setter_validation] or options[:writer_validation]
-    _mark_getter_validation autonym if options[:getter_validation] or options[:reader_validation]
-    _mark_inference autonym if options[:inference]
+    add_autonym autonym
 
-    @autonyms << autonym
+    if options[:setter_validation] or options[:writer_validation]
+      attributes_for(autonym).validate_with_setter = true
+    end
+
+    if options[:getter_validation] or options[:reader_validation]
+      attributes_for(autonym).validate_with_getter = true
+    end
+
+    if options[:inference]
+      attributes_for(autonym).inference = true
+    end
+
     __getter__! autonym
     __setter__! autonym, condition, &adjuster
     
@@ -101,25 +110,22 @@ class Striuct; module ClassMethods
     autonym = autonym_for(name)
     raise "already settled default value for #{name}" if has_default? autonym
 
-    value = (
-      if block_given?
-        if value.nil?
-          arity = block.arity
-          
-          if valid_default_proc? block
-            DefaultProcHolder.new block
-          else
-            raise ArgumentError, "wrong number of block parameter #{arity} for 0..2"
-          end
+    if block_given?
+      if value.nil?
+        arity = block.arity
+        
+        if valid_default_proc? block
+          attributes_for(autonym).set_default block, :proc
         else
-          raise ArgumentError, 'can not use value and block arguments'
+          raise ArgumentError, "wrong number of block parameter #{arity} for 0..2"
         end
       else
-        value
+        raise ArgumentError, 'can not use value and block arguments'
       end
-    )
+    else
+      attributes_for(autonym).set_default value, :value
+    end
     
-    _set_default_value autonym, value
     nil
   end
   
@@ -127,12 +133,12 @@ class Striuct; module ClassMethods
   
   # @param [Proc] _proc
   def valid_default_proc?(_proc)
-    _proc.arity <= 2
+    _proc.respond_to?(:call) && _proc.arity <= 2
   end
   
   # @return [self]
   def close_member
-    [@autonyms, @adjusters, @defaults, @aliases].each(&:freeze)
+    [@autonyms, @attributes].each(&:freeze)
     self
   end
   

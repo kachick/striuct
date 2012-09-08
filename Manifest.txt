@@ -10,11 +10,14 @@ striuct.gemspec
 
 lib/striuct.rb
 lib/striuct/version.rb
-lib/striuct/specificcontainer.rb
+lib/striuct/attributes.rb
+lib/striuct/structs.rb
+lib/striuct/requirements.rb
 lib/striuct/singleton_class.rb
+lib/striuct/classmethods.rb
+lib/striuct/instancemethods.rb
 
 lib/striuct/classmethods/README.md
-lib/striuct/classmethods.rb
 lib/striuct/classmethods/requirements.rb
 lib/striuct/classmethods/inner.rb
 lib/striuct/classmethods/named.rb
@@ -30,7 +33,6 @@ lib/striuct/classmethods/prevent_conflicts.rb
 lib/striuct/classmethods/validation.rb
 
 lib/striuct/instancemethods/README.md
-lib/striuct/instancemethods.rb
 lib/striuct/instancemethods/requirements.rb
 lib/striuct/instancemethods/delegate_class_methods.rb
 lib/striuct/instancemethods/keyvalidatable.rb
