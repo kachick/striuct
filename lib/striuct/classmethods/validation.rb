@@ -7,31 +7,34 @@ class Striuct; module ClassMethods
   def inference?(name)
     autonym = autonym_for name
 
-    @inferences.has_key? autonym
+    attributes_for(autonym).inference?
   end
 
   # @param [Symbol, String] name
-  def has_validator?(name)
+  def has_condition?(name)
     autonym = autonym_for name
 
-    @conditions.has_key? autonym
+    attributes_for(autonym).has_condition?
   end
   
-  alias_method :has_condition?, :has_validator?
-  alias_method :restrict?, :has_validator?
-  
+  alias_method :restrict?, :has_condition?
+  alias_method :has_validator?, :has_condition?
+
   # @param [Symbol, String] name
-  def validator_for(name)
-    _condition_for autonym_for(name)
+  def condition_for(name)
+    return nil unless has_condition? name
+    autonym = autonym_for name
+
+    attributes_for(autonym).condition
   end
   
-  alias_method :condition_for, :validator_for
+  alias_method :validator_for, :condition_for
 
   # @param [Symbol, String] name
   def safety_getter?(name)
     autonym = autonym_for name
 
-    @getter_validations.has_key? autonym
+    attributes_for(autonym).validate_with_getter?
   end
   
   alias_method :safety_reader?, :safety_getter?
@@ -40,16 +43,10 @@ class Striuct; module ClassMethods
   def safety_setter?(name)
     autonym = autonym_for name
 
-    @setter_validations.has_key? autonym
+    attributes_for(autonym).validate_with_setter?
   end
 
   alias_method :safety_writer?, :safety_setter?
-
-  private
-  
-  def _condition_for(name)
-    @conditions[name]
-  end
 
   # @endgroup
 

@@ -1,6 +1,7 @@
 require_relative 'inner'
 require_relative 'named'
-require_relative 'object'
+require_relative 'copy'
+require_relative 'fix'
 require_relative 'length'
 require_relative 'to_struct'
 require_relative 'constructor'

@@ -1,6 +1,7 @@
 require_relative 'version'
 require_relative 'structs'
-require_relative 'specificcontainer'
+require_relative 'attributes'
+require_relative 'hashdeepdupulicatable'
 require_relative 'classmethods'
 require_relative 'instancemethods'
 require_relative 'singleton_class'

@@ -4,6 +4,18 @@ class Striuct; module ClassMethods
 
   private
 
+  def add_autonym(autonym)
+    autonym = keyable_for autonym
+    raise NameError, 'already defined' if member? autonym
+
+    @attributes[autonym] = Attributes.new
+    @autonyms << autonym
+  end
+
+  def attributes_for(autonym)
+    @attributes.fetch autonym
+  end
+
   def __getter__!(name) 
     define_method name do
       __get__ name
@@ -12,63 +24,37 @@ class Striuct; module ClassMethods
     nil
   end
 
-  def _remove_inference(autonym)
-    @inferences.delete autonym
-  end
-  
-  def _mark_setter_validation(autonym)
-    @setter_validations[autonym] = true
-  end
-
-  def _mark_getter_validation(autonym)
-    @getter_validations[autonym] = true
-  end
-
-  def _mark_inference(autonym)
-    @inferences[autonym] = true
-  end
-  
-  def _set_adjuster(autonym, adjuster)
-    @adjusters[autonym] = adjuster
-  end
-  
-  def _set_condition(autonym, condition)
-    @conditions[autonym] = condition
-  end
-  
-  def _set_default_value(autonym, value)
-    @defaults[autonym] = value
-  end
-
   def __setter__!(autonym, condition, &adjuster)
-    __set_condition__! autonym, condition unless Validation::Condition::ANYTHING.equal? condition
-    __set_adjuster__! autonym, &adjuster if block_given?
+    unless Validation::Condition::ANYTHING.equal? condition
+      __set_condition__! autonym, condition 
+    end
+
+    if block_given?
+      __set_adjuster__! autonym, &adjuster
+    end
 
     define_method :"#{autonym}=" do |value|
       __set__ autonym, value
     end
  
     nil
-
   end
   
   def __set_condition__!(autonym, condition)
-    if ::Validation.conditionable? condition
-      _set_condition autonym, condition
-    else
-      raise TypeError, 'wrong object for condition'
+    unless ::Validation.conditionable? condition
+      raise TypeError, 'wrong object for condition' 
     end
- 
+
+    attributes_for(autonym).condition = condition 
     nil
   end
 
   def __set_adjuster__!(autonym, &adjuster)
-    if ::Validation.adjustable? adjuster
-      _set_adjuster autonym, adjuster
-    else
+    unless ::Validation.adjustable? adjuster
       raise ArgumentError, "wrong number of block argument #{arity} for 1"
     end
- 
+    
+    attributes_for(autonym).adjuster = adjuster 
     nil
   end
 
@@ -79,10 +65,8 @@ class Striuct; module ClassMethods
                                     autonym?(autonym) and
                                    _caller.instance_of?(self)
 
-    raise ArgumentError unless Validation.conditionable? family
-
-    _set_condition autonym, family
-    _remove_inference autonym
+    __set_condition__! autonym ,family
+    attributes_for(autonym).inference = false
 
     nil
   end
