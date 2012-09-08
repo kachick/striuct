@@ -5,6 +5,8 @@ class Striuct; module InstanceMethods
   def initialize(*values)
     @db, @locks = {}, {}
     replace_values(*values)
+    excess = _autonyms.last(size - values.size)
+    set_defaults(*excess)
   end
 
   # @return [self]
@@ -17,6 +19,29 @@ class Striuct; module InstanceMethods
   
   def initialize_copy(original)
     @db, @locks = @db.dup, {}
+  end
+
+  # @endgroup
+
+  # @group Default Value
+
+  # @return [self]
+  def set_defaults(*target_autonyms)
+    target_autonyms.each do |autonym|
+      if has_default? autonym
+        default = default_value_for autonym
+        self[autonym] = (
+          if default_type_for(autonym) == :lazy
+            args = [self, autonym][0, default.arity]
+            default.call(*args)
+          else
+            default
+          end
+        )
+      end
+    end
+    
+    self
   end
 
   # @endgroup
