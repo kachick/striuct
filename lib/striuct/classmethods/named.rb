@@ -2,12 +2,6 @@ class Striuct; module ClassMethods
 
   # @group Named
 
-  # @param [Symbol, String, #to_sym] name
-  # @return [Symbol]
-  def keyable_for(name)
-    name.to_sym
-  end
-
   # @return [Array<Symbol>]
   def autonyms
     @autonyms.dup
@@ -15,7 +9,6 @@ class Striuct; module ClassMethods
 
   alias_method :names, :autonyms
   alias_method :members, :autonyms
-  alias_method :keys, :autonyms
   
   # @return [Array<Symbol>]
   def all_members
@@ -31,8 +24,6 @@ class Striuct; module ClassMethods
   end
   
   alias_method :member?, :has_member?
-  alias_method :has_key?, :has_member?
-  alias_method :key?, :has_key?
 
   # @param [Symbol, String, #to_sym] name - autonym or aliased-name
   # @return [Symbol]
@@ -90,6 +81,12 @@ class Striuct; module ClassMethods
   end
   
   private
+
+  # @param [Symbol, String, #to_sym] name
+  # @return [Symbol]
+  def keyable_for(name)
+    name.to_sym
+  end
   
   # for access from own instance
   def _autonyms

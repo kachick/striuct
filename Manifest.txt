@@ -28,6 +28,7 @@ lib/striuct/classmethods/length.rb
 lib/striuct/classmethods/to_struct.rb
 lib/striuct/classmethods/constructor.rb
 lib/striuct/classmethods/enum.rb
+lib/striuct/classmethods/hashy.rb
 lib/striuct/classmethods/default.rb
 lib/striuct/classmethods/adjustment.rb
 lib/striuct/classmethods/macro.rb
