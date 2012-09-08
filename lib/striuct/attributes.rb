@@ -26,10 +26,22 @@ class Striuct
       define_method role do
         @hash.fetch role
       end
+    end
 
-      define_method "#{role}=".to_sym do |arg|
-        @hash[role] = arg
+    def condition=(condition)
+      unless ::Validation.conditionable? condition
+        raise TypeError, 'wrong object for condition' 
       end
+
+      @hash[:condition] = condition
+    end
+
+    def adjuster=(adjuster)
+      unless ::Validation.adjustable? adjuster
+        raise ArgumentError, "wrong number of block argument #{arity} for 1"
+      end
+
+      @hash[:adjuster] = adjuster
     end
 
     BOOLEANS.each do |role|
