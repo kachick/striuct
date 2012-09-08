@@ -95,7 +95,7 @@ class Striuct; module ClassMethods
 
     alias_method aliased, autonym
     alias_method :"#{aliased}=", :"#{autonym}="
-    _alias_member aliased, autonym
+    @aliases[aliased] = autonym
     nil
   end
   
