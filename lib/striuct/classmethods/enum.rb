@@ -15,7 +15,6 @@ class Striuct; module ClassMethods
 
   alias_method :each_name, :each_autonym
   alias_method :each_member, :each_autonym
-  alias_method :each_key, :each_autonym
   
   # @yield [index] 
   # @yieldparam [Integer] Index
@@ -42,7 +41,6 @@ class Striuct; module ClassMethods
 
   alias_method :each_name_with_index, :each_autonym_with_index
   alias_method :each_member_with_index, :each_autonym_with_index
-  alias_method :each_key_with_index, :each_autonym_with_index
 
   # @endgroup
 
