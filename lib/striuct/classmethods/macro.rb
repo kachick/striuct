@@ -57,8 +57,8 @@ class Striuct; module ClassMethods
       attributes_for(autonym).inference = true
     end
 
-    __getter__! autonym
-    __setter__! autonym, condition, &adjuster
+    __def_getter__! autonym
+    __def_setter__! autonym, condition, &adjuster
     
     if options.has_key?(:default)
       set_default_value autonym, options.fetch(:default)

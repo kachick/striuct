@@ -16,15 +16,15 @@ class Striuct; module ClassMethods
     @attributes.fetch autonym
   end
 
-  def __getter__!(name) 
-    define_method name do
-      __get__ name
+  def __def_getter__!(autonym) 
+    define_method autonym do
+      __get__ autonym
     end
     
     nil
   end
 
-  def __setter__!(autonym, condition, &adjuster)
+  def __def_setter__!(autonym, condition, &adjuster)
     unless Validation::Condition::ANYTHING.equal? condition
       attributes_for(autonym).condition = condition
     end
