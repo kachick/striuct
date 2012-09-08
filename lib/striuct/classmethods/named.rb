@@ -91,6 +91,7 @@ class Striuct; module ClassMethods
   
   private
   
+  # for access from own instance
   def _autonyms
     @autonyms
   end
