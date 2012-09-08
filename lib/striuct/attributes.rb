@@ -71,6 +71,13 @@ class Striuct
       @hash.freeze
       ret
     end
+
+    def dup
+      #ret = super
+      @hash = @hash.dup
+      #ret
+      super
+    end
     
     private
     

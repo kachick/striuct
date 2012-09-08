@@ -10,11 +10,11 @@ class Striuct; module ClassMethods
 
   # @return [Class]
   def dup
-    r = super
+    ret = super
     @autonyms = @autonyms.dup
     @aliases = @aliases.dup
-    @attributes = @attributes.dup
-    r
+    @attributes = @attributes.deep_dup
+    ret
   end
   
   private
@@ -22,7 +22,7 @@ class Striuct; module ClassMethods
   def inherited(subclass)
     autonyms = @autonyms.dup
     aliases  = @aliases.dup
-    attributes = @attributes.dup
+    attributes = @attributes.deep_dup
     protect_level = @protect_level
     
     subclass.class_eval do
@@ -37,9 +37,9 @@ class Striuct; module ClassMethods
      
   def initialize_copy(original)
     ret = super original
-    @autonyms = @autonyms.dup
-    @aliases = @aliases.dup
-    @attributes = @attributes.dup
+    @autonyms = @autonyms.clone
+    @aliases = @aliases.clone
+    @attributes = @attributes.deep_clone
     ret
   end
 
