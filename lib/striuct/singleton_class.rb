@@ -1,28 +1,8 @@
+require_relative 'hashdeepdupulicatable'
+require_relative 'classmethods'
 require_relative 'instancemethods'
 
 class Striuct
-  
-
-
-  module HashDeepDupulicatable
-    def deep_dup
-      dup.tap {|h|
-        each_pair do |key, value|
-          h[key] = value.dup
-        end
-        h.extend HashDeepDupulicatable
-      }
-    end
-
-    def deep_clone
-      clone.tap {|h|
-        each_pair do |key, value|
-          h[key] = value.clone
-        end
-        h.extend HashDeepDupulicatable
-      }
-    end
-  end
 
   class << self
 
