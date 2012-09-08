@@ -56,15 +56,21 @@ class Striuct
       @hash.fetch :default_type
     end
 
-    # @param [Symbol] type - :value / :proc
+    # @param [Symbol] type - :value / :lazy
     def set_default(value, type)
-      raise TypeError unless type.equal?(:value) or type.equal?(:proc)
-      if type.equal?(:proc) and !value.respond_to?(:call)
-        raise TypeError
-      end
+      raise TypeError unless type.equal?(:value) or type.equal?(:lazy)
+      check_default_lazy_proc value if type.equal?(:lazy)
       
       @hash[:default_type] = type
       @hash[:default_value] = value
+    end
+
+    def check_default_lazy_proc(_proc)
+      raise TypeError unless _proc.respond_to? :call
+      arity = _proc.arity
+      unless arity <= 2
+        raise ArgumentError, "wrong number of block parameter #{arity} for 0..2"
+      end
     end
 
     def freeze

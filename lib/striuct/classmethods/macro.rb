@@ -107,17 +107,11 @@ class Striuct; module ClassMethods
     raise "already settled default value for #{name}" if has_default? autonym
 
     if block_given?
-      if value.nil?
-        arity = block.arity
-        
-        if valid_default_proc? block
-          attributes_for(autonym).set_default block, :proc
-        else
-          raise ArgumentError, "wrong number of block parameter #{arity} for 0..2"
-        end
-      else
+      unless value.nil?
         raise ArgumentError, 'can not use value and block arguments'
       end
+
+      attributes_for(autonym).set_default block, :lazy
     else
       attributes_for(autonym).set_default value, :value
     end
@@ -126,11 +120,6 @@ class Striuct; module ClassMethods
   end
   
   alias_method :default, :set_default_value
-  
-  # @param [Proc] _proc
-  def valid_default_proc?(_proc)
-    _proc.respond_to?(:call) && _proc.arity <= 2
-  end
 
   # @endgroup
 

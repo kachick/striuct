@@ -38,7 +38,7 @@ class Striuct; module InstanceMethods
       if has_default? autonym
         default = default_value_for autonym
         self[autonym] = (
-          if default_type_for(autonym) == :proc
+          if default_type_for(autonym) == :lazy
             args = [self, autonym][0, default.arity]
             default.call(*args)
           else
