@@ -17,7 +17,8 @@ class Striuct; module InstanceMethods
         @locks[autonym] = true
       end
     else
-      __subscript__(key){|autonym|@locks[autonym] = true}
+      autonym = _autonym_for_key key
+      @locks[autonym] = true
     end
 
     self
@@ -33,7 +34,8 @@ class Striuct; module InstanceMethods
     if key.equal? true
       _autonyms.all?{|autonym|@locks[autonym]}
     else
-      __subscript__(key){|autonym|@locks[autonym]} || false
+      autonym = _autonym_for_key key
+      @locks[autonym] || false
     end
   end
   
@@ -51,7 +53,8 @@ class Striuct; module InstanceMethods
     if key.equal? true
       @locks.clear
     else
-      __subscript__(key){|autonym|@locks.delete autonym}
+      autonym = _autonym_for_key key
+      @locks.delete autonym
     end
 
     self
