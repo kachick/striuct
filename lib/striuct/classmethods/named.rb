@@ -34,20 +34,18 @@ class Striuct; module ClassMethods
   alias_method :has_key?, :has_member?
   alias_method :key?, :has_key?
 
-  # @param [Symbol, String, #to_sym, #to_str] name
+  # @param [Symbol, String, #to_sym] name - autonym or aliased-name
   # @return [Symbol]
   def autonym_for(name)
     name = keyable_for name
     
-    if @autonyms.include? name
-      name
-    else
-      if @aliases.has_key? name
-        @aliases.fetch name
-      else
-        raise NameError, "not defined member for #{name}"
-      end
+    return name if @autonyms.include? name
+    
+    unless @aliases.has_key? name
+      raise NameError, "not defined member for #{name}"
     end
+    
+    @aliases.fetch name
   end
 
   # @param [Symbol, String] name
