@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class Test_Striuct_Subclass_Class_Cloning < Test::Unit::TestCase
+class Test_Striuct_Subclass_Class_Copy < Test::Unit::TestCase
 
   def test_dup
     org_cls = Striuct.define do

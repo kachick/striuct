@@ -2,12 +2,6 @@ class Striuct; module ClassMethods
 
   # @group Basic Methods for Ruby's Object
 
-  # @return [self]
-  def freeze
-    [@autonyms, @aliases, @attributes].each(&:freeze)
-    super
-  end
-
   # @return [Module]
   def dup
     autonyms = @autonyms.dup

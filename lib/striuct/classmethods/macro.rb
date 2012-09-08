@@ -18,10 +18,6 @@ class Striuct; module ClassMethods
     setter_validation: true
   }.freeze
   
-  def closed?
-    [@autonyms, @attributes].any?(&:frozen?)
-  end
-
   private
 
   # @param [Symbol, String] autonym
@@ -135,16 +131,7 @@ class Striuct; module ClassMethods
   def valid_default_proc?(_proc)
     _proc.respond_to?(:call) && _proc.arity <= 2
   end
-  
-  # @return [self]
-  def close_member
-    [@autonyms, @attributes].each(&:freeze)
-    self
-  end
-  
-  alias_method :fix_structural, :close_member
-  alias_method :close, :close_member
-  
+
   # @endgroup
 
 end; end

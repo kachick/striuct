@@ -22,7 +22,8 @@ lib/striuct/classmethods/README.md
 lib/striuct/classmethods/requirements.rb
 lib/striuct/classmethods/inner.rb
 lib/striuct/classmethods/named.rb
-lib/striuct/classmethods/object.rb
+lib/striuct/classmethods/copy.rb
+lib/striuct/classmethods/fix.rb
 lib/striuct/classmethods/length.rb
 lib/striuct/classmethods/to_struct.rb
 lib/striuct/classmethods/constructor.rb
@@ -40,6 +41,7 @@ lib/striuct/instancemethods/keyvalidatable.rb
 lib/striuct/instancemethods/inner.rb
 lib/striuct/instancemethods/object.rb
 lib/striuct/instancemethods/compare.rb
+lib/striuct/instancemethods/to_s.rb
 lib/striuct/instancemethods/values.rb
 lib/striuct/instancemethods/cast.rb
 lib/striuct/instancemethods/default.rb
@@ -54,7 +56,7 @@ lib/striuct/instancemethods/safety.rb
 test/helper.rb
 test/test_striuct-version.rb
 test/test_striuct-singleton_class-define.rb
-test/test_striuct-subclass-class-cloning.rb
+test/test_striuct-subclass-class-copy.rb
 test/test_striuct-subclass-class-close.rb
 test/test_striuct-subclass-class-freeze.rb
 test/test_striuct-subclass-class-constructor.rb
@@ -69,7 +71,7 @@ test/test_striuct-subclass-instance-accessor.rb
 test/test_striuct-subclass-instance-adjuster.rb
 test/test_striuct-subclass-instance-assign.rb
 test/test_striuct-subclass-instance-basic.rb
-test/test_striuct-subclass-instance-cloning.rb
+test/test_striuct-subclass-instance-copy.rb
 test/test_striuct-subclass-instance-compare.rb
 test/test_striuct-subclass-instance-default_value.rb
 test/test_striuct-subclass-instance-enum.rb
