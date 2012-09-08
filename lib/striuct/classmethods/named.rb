@@ -42,8 +42,8 @@ class Striuct; module ClassMethods
     if @autonyms.include? name
       name
     else
-      if autonym = _autonym_for(name)
-        autonym
+      if @aliases.has_key? name
+        @aliases.fetch name
       else
         raise NameError, "not defined member for #{name}"
       end
@@ -83,7 +83,7 @@ class Striuct; module ClassMethods
     autonym = keyable_for autonym
     raise NameError unless has_aliases? autonym
 
-    _aliases_for autonym
+    @aliases.group_by{|aliased, an|an}.fetch(autonym)
   end
   
   # @return [Hash] alias => autonym
@@ -97,18 +97,6 @@ class Striuct; module ClassMethods
     @autonyms
   end
   
-  def _alias_member(aliased, autonym)
-    @aliases[aliased] = autonym
-  end
-  
-  def _autonym_for(aliased)
-    @aliases[aliased]
-  end
-  
-  def _aliases_for(autonym)
-    @aliases.group_by{|aliased, an|an}.fetch(autonym)
-  end
-
   # @endgroup
 
 end; end
