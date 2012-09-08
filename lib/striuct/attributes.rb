@@ -56,6 +56,7 @@ class Striuct
       @hash.fetch :default_type
     end
 
+    # @param [Symbol] type - :value / :proc
     def set_default(value, type)
       raise TypeError unless type.equal?(:value) or type.equal?(:proc)
       if type.equal?(:proc) and !value.respond_to?(:call)
@@ -73,10 +74,9 @@ class Striuct
     end
 
     def dup
-      #ret = super
+      ret = super
       @hash = @hash.dup
-      #ret
-      super
+      ret
     end
     
     private

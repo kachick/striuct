@@ -8,15 +8,28 @@ class Striuct; module ClassMethods
     super
   end
 
-  # @return [Class]
+  # @return [Module]
   def dup
+    autonyms = @autonyms.dup
+    aliases  = @aliases.dup
+    attributes = @attributes.deep_dup
+
+    super.tap {|ret|
+      ret.instance_eval do
+        @autonyms = autonyms
+        @aliases = aliases
+        @attributes = attributes
+      end
+    }
+  end
+
+  # @return [Module]
+  def clone
     ret = super
-    @autonyms = @autonyms.dup
-    @aliases = @aliases.dup
-    @attributes = @attributes.deep_dup
+    ret.__send__ :close if closed?
     ret
   end
-  
+
   private
   
   def inherited(subclass)
@@ -37,9 +50,9 @@ class Striuct; module ClassMethods
      
   def initialize_copy(original)
     ret = super original
-    @autonyms = @autonyms.clone
-    @aliases = @aliases.clone
-    @attributes = @attributes.deep_clone
+    @autonyms = @autonyms.dup
+    @aliases = @aliases.dup
+    @attributes = @attributes.deep_dup
     ret
   end
 

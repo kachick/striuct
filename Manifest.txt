@@ -9,10 +9,11 @@ striuct.gemspec
 .yardopts
 
 lib/striuct.rb
-lib/striuct/version.rb
-lib/striuct/attributes.rb
-lib/striuct/structs.rb
 lib/striuct/requirements.rb
+lib/striuct/version.rb
+lib/striuct/structs.rb
+lib/striuct/attributes.rb
+lib/striuct/hashdeepdupulicatable.rb
 lib/striuct/singleton_class.rb
 lib/striuct/classmethods.rb
 lib/striuct/instancemethods.rb
