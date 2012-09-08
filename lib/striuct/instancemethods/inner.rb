@@ -4,7 +4,7 @@ class Striuct; module InstanceMethods
 
   private
 
-  def __get__(name)
+  def _get(name)
     autonym = autonym_for name
     value = @db[autonym]
   
@@ -16,7 +16,7 @@ class Striuct; module InstanceMethods
     value
   end
 
-  def __set__(name, value)
+  def _set(name, value)
     raise "can't modify frozen #{self.class}" if frozen?
     autonym = autonym_for name
     raise "can't modify locked member #{name}" if lock? autonym
@@ -35,7 +35,7 @@ class Striuct; module InstanceMethods
     end
 
     if inference? autonym
-      self.class.__send__ :__found_family__!, self, autonym, value
+      self.class.__send__ :_found_family!, self, autonym, value
     end
     
     @db[autonym] = value
@@ -48,13 +48,6 @@ class Striuct; module InstanceMethods
     raise
   end
   
-  # @param [Symbol] autonym
-  def __clear__(autonym)
-    raise "can't modify frozen #{self.class}" if frozen?
-    
-    @db.delete autonym
-  end
-
   # @endgroup
 
 end; end
