@@ -4,21 +4,18 @@ class Striuct; module InstanceMethods
 
   # @param [Symbol, String, Fixnum] key
   def [](key)
-    __subscript__(key){|autonym|_get autonym}
+    _get _autonym_for_key(key)
   end
   
   # @param [Symbol, String, Fixnum] key
   # @param [Object] value
   # @return [value]
   def []=(key, value)
-    true_name = nil
-    __subscript__(key){|autonym|
-      true_name = autonym
-      _set autonym, value
-    }
+    autonym = _autonym_for_key key
+    _set autonym, value
   rescue Validation::InvalidWritingError
     $!.set_backtrace([
-      "#{$!.backtrace[-1].sub(/[^:]+\z/){''}}in `[#{key.inspect}(#{true_name})]=': #{$!.message}",
+      "#{$!.backtrace[-1].sub(/[^:]+\z/){''}}in `[#{key.inspect}(#{autonym})]=': #{$!.message}",
       $!.backtrace[-1]
     ])
 
@@ -28,26 +25,27 @@ class Striuct; module InstanceMethods
   private
 
   # @param [Symbol, String, Fixnum] key
-  # @yield [autonym]
-  # @yieldparam [Symbol] autonym
-  def __subscript__(key)
+  # @return [Symbol] autonym
+  def _autonym_for_key(key)
     case key
     when Symbol, String
       name = keyable_for key
       if member? name
-        yield autonym_for(name)
+        return autonym_for(name)
       else
         raise NameError
       end
     when Fixnum
       if autonym = _autonyms[key]
-        yield autonym
+        return autonym
       else
         raise IndexError
       end
     else
       raise ArgumentError
     end
+
+    raise 'must not happen'
   end
 
   # @endgroup
