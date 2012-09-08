@@ -14,15 +14,15 @@ class Striuct; module InstanceMethods
   end
   
   # @param [Symbol, String, Fixnum] key
-  def clear_at(key)
+  def unassign(key)
     raise "can't modify frozen #{self.class}" if frozen?
     autonym = _autonym_for_key key
 
     @db.delete autonym
   end
   
-  alias_method :unassign, :clear_at
-  alias_method :reset_at, :clear_at
+  alias_method :clear_at, :unassign # obsolute
+  alias_method :reset_at, :unassign
 
   # all members aren't assigned
   def empty?
