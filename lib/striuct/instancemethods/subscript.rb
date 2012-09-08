@@ -4,7 +4,7 @@ class Striuct; module InstanceMethods
 
   # @param [Symbol, String, Fixnum] key
   def [](key)
-    __subscript__(key){|autonym|__get__ autonym}
+    __subscript__(key){|autonym|_get autonym}
   end
   
   # @param [Symbol, String, Fixnum] key
@@ -14,7 +14,7 @@ class Striuct; module InstanceMethods
     true_name = nil
     __subscript__(key){|autonym|
       true_name = autonym
-      __set__ autonym, value
+      _set autonym, value
     }
   rescue Validation::InvalidWritingError
     $!.set_backtrace([

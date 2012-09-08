@@ -15,7 +15,10 @@ class Striuct; module InstanceMethods
   
   # @param [Symbol, String, Fixnum] key
   def clear_at(key)
-    __subscript__(key){|autonym|__clear__ autonym}
+    raise "can't modify frozen #{self.class}" if frozen?
+    __subscript__(key){|autonym|
+      @db.delete autonym
+    }
   end
   
   alias_method :unassign, :clear_at
