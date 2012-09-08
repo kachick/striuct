@@ -2,6 +2,28 @@ require_relative 'instancemethods'
 
 class Striuct
   
+
+
+  module HashDeepDupulicatable
+    def deep_dup
+      dup.tap {|h|
+        each_pair do |key, value|
+          h[key] = value.dup
+        end
+        h.extend HashDeepDupulicatable
+      }
+    end
+
+    def deep_clone
+      clone.tap {|h|
+        each_pair do |key, value|
+          h[key] = value.clone
+        end
+        h.extend HashDeepDupulicatable
+      }
+    end
+  end
+
   class << self
 
     # @group Constructor
@@ -55,7 +77,7 @@ class Striuct
         include InstanceMethods
         
         @autonyms      = []
-        @attributes    = {} # autonym => Attributes
+        @attributes    = {}.extend HashDeepDupulicatable # autonym => Attributes
         @aliases       = {} # aliased => autonym
         @protect_level = :prevent
       end
