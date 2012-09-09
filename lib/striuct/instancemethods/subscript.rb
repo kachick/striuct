@@ -4,14 +4,14 @@ class Striuct; module InstanceMethods
 
   # @param [Symbol, String, Fixnum] key
   def [](key)
-    _get _autonym_for_key(key)
+    _get autonym_for_key(key)
   end
   
   # @param [Symbol, String, Fixnum] key
   # @param [Object] value
   # @return [value]
   def []=(key, value)
-    autonym = _autonym_for_key key
+    autonym = autonym_for_key key
     _set autonym, value
   rescue Validation::InvalidWritingError
     $!.set_backtrace([

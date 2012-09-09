@@ -4,7 +4,7 @@ class Striuct; module ClassMethods
   
   # @param [Symbol, String] name
   def has_adjuster?(name)
-    autonym = autonym_for name
+    autonym = autonym_for_name name
 
     attributes_for(autonym).has_adjuster?
   end
@@ -14,7 +14,7 @@ class Striuct; module ClassMethods
   # @param [Symbol, String] name
   def adjuster_for(name)
     return nil unless has_adjuster? name
-    autonym = autonym_for name
+    autonym = autonym_for_name name
     
     attributes_for(autonym).adjuster
   end

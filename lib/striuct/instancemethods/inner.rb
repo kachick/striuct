@@ -5,7 +5,7 @@ class Striuct; module InstanceMethods
   private
 
   def _get(name)
-    autonym = autonym_for name
+    autonym = autonym_for_name name
     value = @db[autonym]
   
     if safety_getter?(autonym) and !accept?(autonym, value)
@@ -18,7 +18,7 @@ class Striuct; module InstanceMethods
 
   def _set(name, value)
     raise "can't modify frozen #{self.class}" if frozen?
-    autonym = autonym_for name
+    autonym = autonym_for_name name
     raise "can't modify locked member #{name}" if lock? autonym
 
     if has_adjuster? autonym
@@ -50,12 +50,12 @@ class Striuct; module InstanceMethods
 
   # @param [Symbol, String, Fixnum] key
   # @return [Symbol] autonym
-  def _autonym_for_key(key)
+  def autonym_for_key(key)
     case key
     when Symbol, String
       name = nameable_for key
       if member? name
-        return autonym_for(name)
+        return autonym_for_name(name)
       else
         raise NameError
       end

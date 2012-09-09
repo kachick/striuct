@@ -5,14 +5,14 @@ class Striuct; module ClassMethods
   # @param [Symbol, String] name
   # inference checker is waiting yet
   def inference?(name)
-    autonym = autonym_for name
+    autonym = autonym_for_name name
 
     attributes_for(autonym).inference?
   end
 
   # @param [Symbol, String] name
   def has_condition?(name)
-    autonym = autonym_for name
+    autonym = autonym_for_name name
 
     attributes_for(autonym).has_condition?
   end
@@ -23,7 +23,7 @@ class Striuct; module ClassMethods
   # @param [Symbol, String] name
   def condition_for(name)
     return nil unless has_condition? name
-    autonym = autonym_for name
+    autonym = autonym_for_name name
 
     attributes_for(autonym).condition
   end
@@ -32,7 +32,7 @@ class Striuct; module ClassMethods
 
   # @param [Symbol, String] name
   def safety_getter?(name)
-    autonym = autonym_for name
+    autonym = autonym_for_name name
 
     attributes_for(autonym).validate_with_getter?
   end
@@ -41,7 +41,7 @@ class Striuct; module ClassMethods
   
   # @param [Symbol, String] name
   def safety_setter?(name)
-    autonym = autonym_for name
+    autonym = autonym_for_name name
 
     attributes_for(autonym).validate_with_setter?
   end
