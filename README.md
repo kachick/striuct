@@ -1,6 +1,8 @@
 striuct
 =======
 
+[![Build Status](https://secure.travis-ci.org/kachick/striuct.png)](http://travis-ci.org/kachick/striuct)
+
 Description
 -----------
 
@@ -46,8 +48,8 @@ class User < Person                           # Inheritable
   member :id, Integer,                        # Looks typed validation
               default_proc: ->{User.next_id}  # With default value
 
+  @id = 0
   def self.next_id
-    @id ||= 0
     @id += 1
   end
 end
@@ -64,8 +66,10 @@ ken.id                   #=> 2
 ```ruby
 class Foo < Striuct
   member :foo
-  member :bar, Numeric, inference: true
-  member :with_adjuster, Integer, &->v{Integer v}
+  member :bar, Numeric,                       # First validation under Numeric
+               inference: true                # And use inference Validation
+  member :with_adjuster, Integer,
+                         &->v{Integer v}      # Use adjuster before a setter
 end
 
 foo = Foo.new
@@ -89,19 +93,17 @@ foo.with_adjuster = '5'
 foo.with_adjuster        #=> 5                # Casted via adjuster
 ```
 
+### How to build a flexible condition
 
-### More Examples
-
-#### Basics
-
-example/*
+* That from validation library.  
+  See the [validation-API](http://kachick.github.com/docs/validation/api/frames.html)
 
 Requirements
 -------------
 
 * Ruby 1.9.2 or later [MRI/YARV, Rubinius](http://travis-ci.org/#!/kachick/striuct)
-* validation - 0.0.3
-* keyvalidatable - 0.0.3
+* [validation](https://github.com/kachick/validation) - 0.0.3
+* [keyvalidatable](https://github.com/kachick/keyvalidatable) - 0.0.3
 
 Install
 -------
