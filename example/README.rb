@@ -11,8 +11,8 @@ class User < Person                           # Inheritable
   member :id, Integer,                        # Looks typed validation
               default_proc: ->{User.next_id}  # With default value
 
+  @id = 0
   def self.next_id
-    @id ||= 0
     @id += 1
   end
 end
@@ -26,8 +26,10 @@ p ken.id           #=> 2
 
 class Foo < Striuct
   member :foo
-  member :bar, Numeric, inference: true
-  member :with_adjuster, Integer, &->v{Integer v}
+  member :bar, Numeric,
+               inference: true
+  member :with_adjuster, Integer,
+                         &->v{Integer v}
 end
 
 foo = Foo.new
