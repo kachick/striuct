@@ -39,7 +39,7 @@ class Striuct; module ClassMethods
     @aliases.fetch name
   end
 
-  alias_method :autonym_for, :autonym_for_name
+  alias_method :autonym_for, :autonym_for_name # todo modify to autonym_for_key 
 
   # @param [Symbol, String, Fixnum] key - autonym / aliased / index
   # @return [Symbol] autonym
@@ -66,24 +66,26 @@ class Striuct; module ClassMethods
   end
 
   # @param [Symbol, String] name
-  def autonym?(name)
+  def has_autonym?(name)
     name = nameable_for name
     raise NameError unless member? name
 
     @autonyms.include? name
   end
   
-  alias_method :original?, :autonym?
+  alias_method :autonym?, :has_autonym?
+  alias_method :original?, :has_autonym? # obsolute
   
   # @param [Symbol, String] name
-  def alias?(name)
+  def has_alias?(name)
     name = nameable_for name
     raise NameError unless member? name
 
     @aliases.has_key? name
   end
   
-  alias_method :aliased?, :alias?
+  alias_method :alias?, :has_alias?
+  alias_method :aliased?, :has_alias? # obsolute
   
   # @param [Symbol, String] autonym
   def has_aliases?(autonym)
