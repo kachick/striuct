@@ -18,7 +18,7 @@ class Striuct; module ClassMethods
   end
   
   alias_method :restrict?, :has_condition?
-  alias_method :has_validator?, :has_condition?
+  alias_method :has_validator?, :has_condition? # obsolute
 
   # @param [Symbol, String] name
   def condition_for(name)
@@ -28,7 +28,7 @@ class Striuct; module ClassMethods
     attributes_for(autonym).condition
   end
   
-  alias_method :validator_for, :condition_for
+  alias_method :validator_for, :condition_for # obsolute
 
   # @param [Symbol, String] name
   def safety_getter?(name)
