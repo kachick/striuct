@@ -1,6 +1,6 @@
 class Striuct; module InstanceMethods
 
-  # @group Use Only Inner
+  # @group These Accessor API using only inner 
 
   private
 

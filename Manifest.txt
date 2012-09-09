@@ -39,7 +39,7 @@ lib/striuct/instancemethods/README.md
 lib/striuct/instancemethods/requirements.rb
 lib/striuct/instancemethods/delegate_class_methods.rb
 lib/striuct/instancemethods/keyvalidatable.rb
-lib/striuct/instancemethods/inner.rb
+lib/striuct/instancemethods/inner_accessor.rb
 lib/striuct/instancemethods/object.rb
 lib/striuct/instancemethods/compare.rb
 lib/striuct/instancemethods/to_s.rb
