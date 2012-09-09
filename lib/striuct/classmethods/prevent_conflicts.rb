@@ -21,7 +21,7 @@ class Striuct; module ClassMethods
   # @param [Object] name
   # accpeptable the name into own member, under protect level of runtime
   def cname?(name)
-    _check_safety_naming(keyable_for name){|r|r}
+    _check_safety_naming(nameable_for name){|r|r}
   rescue Exception
     false
   end

@@ -5,7 +5,7 @@ class Striuct; module ClassMethods
   private
 
   def add_autonym(autonym)
-    autonym = keyable_for autonym
+    autonym = nameable_for autonym
     raise NameError, 'already defined' if member? autonym
 
     @attributes[autonym] = Attributes.new
