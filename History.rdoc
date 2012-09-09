@@ -1,3 +1,8 @@
+=== 0.3.5 2012-9-n
+
+* fix:
+  * SubClass.dup, SubClass.clone
+
 === 0.3.4 2012-9-8
 
 * fix:
