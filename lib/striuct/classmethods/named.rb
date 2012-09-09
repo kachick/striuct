@@ -28,7 +28,7 @@ class Striuct; module ClassMethods
   # @param [Symbol, String, #to_sym] name - autonym / aliased
   # @return [Symbol]
   def autonym_for_name(name)
-    name = nameable_for name
+    name = _nameable_for name
     
     return name if @autonyms.include? name
     
@@ -46,7 +46,7 @@ class Striuct; module ClassMethods
   def autonym_for_key(key)
     case key
     when Symbol, String
-      name = nameable_for key
+      name = _nameable_for key
       if member? name
         return autonym_for_name(name)
       else
@@ -67,7 +67,7 @@ class Striuct; module ClassMethods
 
   # @param [Symbol, String] name
   def has_autonym?(name)
-    name = nameable_for name
+    name = _nameable_for name
     raise NameError unless member? name
 
     @autonyms.include? name
@@ -78,7 +78,7 @@ class Striuct; module ClassMethods
   
   # @param [Symbol, String] name
   def has_alias?(name)
-    name = nameable_for name
+    name = _nameable_for name
     raise NameError unless member? name
 
     @aliases.has_key? name
@@ -97,7 +97,7 @@ class Striuct; module ClassMethods
   # @param [Symbol, String] autonym
   # @return [Array<Symbol>]
   def aliases_for(autonym)
-    autonym = nameable_for autonym
+    autonym = _nameable_for autonym
     raise NameError unless has_aliases? autonym
 
     @aliases.group_by{|aliased, an|an}.fetch(autonym)
@@ -112,7 +112,7 @@ class Striuct; module ClassMethods
 
   # @param [Symbol, String, #to_sym] name
   # @return [Symbol]
-  def nameable_for(name)
+  def _nameable_for(name)
     name.to_sym
   end
   

@@ -40,22 +40,22 @@ class Striuct; module ClassMethods
       raise ArgumentError, 'It is not able to choose "default" with "default_proc" in options'
     end
     
-    autonym = nameable_for autonym # First difinition for an autonym
+    autonym = _nameable_for autonym # First difinition for an autonym
 
     raise ArgumentError, %Q!already exist name "#{autonym}"! if member? autonym
     _check_safety_naming autonym
-    add_autonym autonym
+    _add_autonym autonym
 
     if options[:setter_validation] or options[:writer_validation]
-      attributes_for(autonym).validate_with_setter = true
+      _attributes_for(autonym).validate_with_setter = true
     end
 
     if options[:getter_validation] or options[:reader_validation]
-      attributes_for(autonym).validate_with_getter = true
+      _attributes_for(autonym).validate_with_getter = true
     end
 
     if options[:inference]
-      attributes_for(autonym).inference = true
+      _attributes_for(autonym).inference = true
     end
 
     _def_getter! autonym
@@ -92,7 +92,7 @@ class Striuct; module ClassMethods
     raise "can't modify frozen Class" if frozen?
     raise "already closed to add members in #{self}" if closed?
     autonym = autonym_for_name autonym
-    aliased  = nameable_for aliased
+    aliased  = _nameable_for aliased
     raise ArgumentError, %Q!already exist name "#{aliased}"! if member? aliased
     _check_safety_naming aliased
 
@@ -115,9 +115,9 @@ class Striuct; module ClassMethods
         raise ArgumentError, 'can not use default-value with default-proc'
       end
 
-      attributes_for(autonym).set_default block, :lazy
+      _attributes_for(autonym).set_default block, :lazy
     else
-      attributes_for(autonym).set_default value, :value
+      _attributes_for(autonym).set_default value, :value
     end
     
     nil

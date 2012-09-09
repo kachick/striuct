@@ -6,7 +6,7 @@ class Striuct; module ClassMethods
   def has_default?(name)
     autonym = autonym_for_name name
 
-    attributes_for(autonym).has_default?
+    _attributes_for(autonym).has_default?
   end
   
   # @param [Symbol, String] name
@@ -14,7 +14,7 @@ class Striuct; module ClassMethods
     autonym = autonym_for_name name
     raise "#{name} has no default value" unless has_default? autonym
  
-    attributes_for(autonym).default_value
+    _attributes_for(autonym).default_value
   end
 
   alias_method :default_for, :default_value_for
@@ -25,7 +25,7 @@ class Striuct; module ClassMethods
     autonym = autonym_for_name name
     raise "#{name} has no default value" unless has_default? autonym
  
-    attributes_for(autonym).default_type
+    _attributes_for(autonym).default_type
   end
   
   # @endgroup
