@@ -112,7 +112,7 @@ class Striuct; module ClassMethods
 
     if block_given?
       unless value.nil?
-        raise ArgumentError, 'can not use value and block arguments'
+        raise ArgumentError, 'can not use default-value with default-proc'
       end
 
       attributes_for(autonym).set_default block, :lazy
