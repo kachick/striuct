@@ -4,15 +4,15 @@ class Striuct; module ClassMethods
 
   private
 
-  def add_autonym(autonym)
-    autonym = nameable_for autonym
+  def _add_autonym(autonym)
+    autonym = _nameable_for autonym
     raise NameError, 'already defined' if member? autonym
 
     @attributes[autonym] = Attributes.new
     @autonyms << autonym
   end
 
-  def attributes_for(autonym)
+  def _attributes_for(autonym)
     @attributes.fetch autonym
   end
 
@@ -26,11 +26,11 @@ class Striuct; module ClassMethods
 
   def _def_setter!(autonym, condition, &adjuster)
     unless Validation::Condition::ANYTHING.equal? condition
-      attributes_for(autonym).condition = condition
+      _attributes_for(autonym).condition = condition
     end
 
     if block_given?
-      attributes_for(autonym).adjuster = adjuster
+      _attributes_for(autonym).adjuster = adjuster
     end
 
     define_method :"#{autonym}=" do |value|
@@ -47,8 +47,8 @@ class Striuct; module ClassMethods
                                     autonym?(autonym) and
                                    _caller.instance_of?(self)
 
-    attributes_for(autonym).condition = family
-    attributes_for(autonym).inference = false
+    _attributes_for(autonym).condition = family
+    _attributes_for(autonym).inference = false
 
     nil
   end

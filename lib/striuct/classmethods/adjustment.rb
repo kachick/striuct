@@ -6,7 +6,7 @@ class Striuct; module ClassMethods
   def has_adjuster?(name)
     autonym = autonym_for_name name
 
-    attributes_for(autonym).has_adjuster?
+    _attributes_for(autonym).has_adjuster?
   end
 
   alias_method :has_flavor?, :has_adjuster? # obsolute
@@ -16,7 +16,7 @@ class Striuct; module ClassMethods
     return nil unless has_adjuster? name
     autonym = autonym_for_name name
     
-    attributes_for(autonym).adjuster
+    _attributes_for(autonym).adjuster
   end
   
   alias_method :flavor_for, :adjuster_for # obsolute
