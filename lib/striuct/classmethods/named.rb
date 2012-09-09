@@ -16,7 +16,7 @@ class Striuct; module ClassMethods
   end
 
   def has_member?(name)
-    autonym_for name
+    autonym_for_name name
   rescue Exception
     false
   else
@@ -27,7 +27,7 @@ class Striuct; module ClassMethods
 
   # @param [Symbol, String, #to_sym] name - autonym or aliased-name
   # @return [Symbol]
-  def autonym_for(name)
+  def autonym_for_name(name)
     name = nameable_for name
     
     return name if @autonyms.include? name

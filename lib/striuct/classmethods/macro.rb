@@ -88,7 +88,7 @@ class Striuct; module ClassMethods
   # @return [nil]
   def alias_member(aliased, autonym)
     raise "already closed to add members in #{self}" if closed?
-    autonym = autonym_for autonym
+    autonym = autonym_for_name autonym
     aliased  = nameable_for aliased
     raise ArgumentError, %Q!already exist name "#{aliased}"! if member? aliased
     _check_safety_naming aliased
@@ -103,7 +103,7 @@ class Striuct; module ClassMethods
   # @return [nil]
   def set_default_value(name, value=nil, &block)
     raise "already closed to modify member attributes in #{self}" if closed?
-    autonym = autonym_for(name)
+    autonym = autonym_for_name(name)
     raise "already settled default value for #{name}" if has_default? autonym
 
     if block_given?

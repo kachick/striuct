@@ -8,7 +8,7 @@ class Striuct; module InstanceMethods
   
   # @param [Symbol, String] name
   def assign?(name)
-    autonym = autonym_for name
+    autonym = autonym_for_name name
     
     @db.has_key? autonym
   end
@@ -16,7 +16,7 @@ class Striuct; module InstanceMethods
   # @param [Symbol, String, Fixnum] key
   def unassign(key)
     raise "can't modify frozen #{self.class}" if frozen?
-    autonym = _autonym_for_key key
+    autonym = autonym_for_key key
 
     @db.delete autonym
   end

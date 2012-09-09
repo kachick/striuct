@@ -81,7 +81,7 @@ class Striuct; module InstanceMethods
   # @param [Symbol, String] name
   # @return [Array] e.g [autonym, value]
   def assoc(name)
-    autonym = autonym_for name
+    autonym = autonym_for_name name
 
     [autonym, self[name]]
   end

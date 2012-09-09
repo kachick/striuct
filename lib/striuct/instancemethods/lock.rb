@@ -17,7 +17,7 @@ class Striuct; module InstanceMethods
         @locks[autonym] = true
       end
     else
-      autonym = _autonym_for_key key
+      autonym = autonym_for_key key
       @locks[autonym] = true
     end
 
@@ -34,7 +34,7 @@ class Striuct; module InstanceMethods
     if key.equal? true
       _autonyms.all?{|autonym|@locks[autonym]}
     else
-      autonym = _autonym_for_key key
+      autonym = autonym_for_key key
       @locks[autonym] || false
     end
   end
@@ -53,7 +53,7 @@ class Striuct; module InstanceMethods
     if key.equal? true
       @locks.clear
     else
-      autonym = _autonym_for_key key
+      autonym = autonym_for_key key
       @locks.delete autonym
     end
 

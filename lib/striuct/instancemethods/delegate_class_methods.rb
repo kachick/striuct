@@ -11,7 +11,7 @@ class Striuct; module InstanceMethods
   
   def_delegators :'self.class',
     :_autonyms,
-    :nameable_for, :autonym_for, :aliases_for,
+    :nameable_for, :autonym_for_name, :aliases_for,
     :validator_for, :condition_for,
     :adjuster_for, :flavor_for,
     :members, :keys, :names, :autonyms, :all_members, :aliases,

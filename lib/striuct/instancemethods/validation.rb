@@ -6,7 +6,7 @@ class Striuct; module InstanceMethods
   # @param [Object] value - no argument and use own
   # passed under any condition
   def sufficient?(name, value=self[name])
-    autonym = autonym_for name
+    autonym = autonym_for_name name
     return true unless restrict? autonym
   
     begin  
