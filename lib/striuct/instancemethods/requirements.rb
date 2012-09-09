@@ -1,6 +1,6 @@
 require_relative 'delegate_class_methods'
 require_relative 'keyvalidatable'
-require_relative 'inner'
+require_relative 'inner_accessor'
 require_relative 'object'
 require_relative 'compare'
 require_relative 'to_s'
