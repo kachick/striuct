@@ -39,7 +39,7 @@ class Striuct; module ClassMethods
       raise ArgumentError, 'It is not able to choose "default" with "default_proc" in options'
     end
     
-    autonym = keyable_for autonym # First difinition for an autonym
+    autonym = nameable_for autonym # First difinition for an autonym
 
     raise ArgumentError, %Q!already exist name "#{autonym}"! if member? autonym
     _check_safety_naming autonym
@@ -89,7 +89,7 @@ class Striuct; module ClassMethods
   def alias_member(aliased, autonym)
     raise "already closed to add members in #{self}" if closed?
     autonym = autonym_for autonym
-    aliased  = keyable_for aliased
+    aliased  = nameable_for aliased
     raise ArgumentError, %Q!already exist name "#{aliased}"! if member? aliased
     _check_safety_naming aliased
 

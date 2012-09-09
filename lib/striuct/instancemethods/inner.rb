@@ -53,7 +53,7 @@ class Striuct; module InstanceMethods
   def _autonym_for_key(key)
     case key
     when Symbol, String
-      name = keyable_for key
+      name = nameable_for key
       if member? name
         return autonym_for(name)
       else
