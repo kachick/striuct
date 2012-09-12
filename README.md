@@ -108,7 +108,7 @@ Requirements
 Install
 -------
 
-```shell
+```bash
 $ gem install striuct
 ```
 
@@ -116,7 +116,7 @@ Link
 ----
 
 * [code](https://github.com/kachick/striuct)
-* [API](http://kachick.github.com/docs/striuct/api/frames.html)
+* [API](http://kachick.github.com/striuct/yard/frames.html)
 * [issues](https://github.com/kachick/striuct/issues)
 * [CI](http://travis-ci.org/#!/kachick/striuct)
 * [gem](https://rubygems.org/gems/striuct)
