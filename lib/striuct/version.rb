@@ -1,5 +1,5 @@
 class Striuct
 
-  VERSION = '0.3.5'.freeze
+  VERSION = '0.3.6.a'.freeze
 
 end
