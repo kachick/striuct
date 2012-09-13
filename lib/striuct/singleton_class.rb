@@ -12,6 +12,7 @@ class Striuct
     private :new_instance
     
     # @param [Symbol, String] autonyms
+    # @yieldreturn [Class]
     # @return [Class]
     def new(*autonyms, &block)
       # warning for Ruby's Struct.new user
