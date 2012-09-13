@@ -35,12 +35,12 @@ class Striuct
     def define(&block)
       raise ArgumentError, 'must with block' unless block_given?
 
-      new(&block).tap do |subclass|
-        subclass.instance_eval do
-          raise 'not yet finished' if autonyms.empty?
+      new(&block).tap {|subclass|
+        subclass.class_eval do
+          raise 'not yet finished' if @autonyms.empty?
           close
         end
-      end
+      }
     end
 
     # @groupend
