@@ -93,7 +93,7 @@ foo.with_adjuster = '5'
 foo.with_adjuster        #=> 5                # Casted via adjuster
 ```
 
-### How to build a flexible condition
+### How to build flexible conditions ?
 
 * That from validation library.  
   See the [validation-API](http://kachick.github.com/validation/yard/frames.html)
@@ -101,7 +101,7 @@ foo.with_adjuster        #=> 5                # Casted via adjuster
 Requirements
 -------------
 
-* [Ruby 1.9.2 or later](http://travis-ci.org/#!/kachick/striuct)
+* Ruby - [1.9.2 or later](http://travis-ci.org/#!/kachick/striuct)
 * [validation](https://github.com/kachick/validation) - 0.0.3
 * [keyvalidatable](https://github.com/kachick/keyvalidatable) - 0.0.3
 
@@ -116,6 +116,7 @@ Link
 ----
 
 * [code](https://github.com/kachick/striuct)
+* [wiki](https://github.com/kachick/striuct/wiki)
 * [API](http://kachick.github.com/striuct/yard/frames.html)
 * [issues](https://github.com/kachick/striuct/issues)
 * [CI](http://travis-ci.org/#!/kachick/striuct)
@@ -125,6 +126,6 @@ License
 --------
 
 The MIT X11 License  
-Copyright (c) 2011 Kenichi Kamiya  
+Copyright (C) 2011 Kenichi Kamiya  
 See the file LICENSE for further details.
 
