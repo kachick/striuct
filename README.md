@@ -96,12 +96,12 @@ foo.with_adjuster        #=> 5                # Casted via adjuster
 ### How to build a flexible condition
 
 * That from validation library.  
-  See the [validation-API](http://kachick.github.com/docs/validation/api/frames.html)
+  See the [validation-API](http://kachick.github.com/validation/yard/frames.html)
 
 Requirements
 -------------
 
-* Ruby 1.9.2 or later [MRI/YARV, Rubinius](http://travis-ci.org/#!/kachick/striuct)
+* [Ruby 1.9.2 or later](http://travis-ci.org/#!/kachick/striuct)
 * [validation](https://github.com/kachick/validation) - 0.0.3
 * [keyvalidatable](https://github.com/kachick/keyvalidatable) - 0.0.3
 
