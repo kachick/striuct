@@ -50,7 +50,7 @@ class Striuct; module ClassMethods
   # @return [Array<Symbol>]
   def aliases_for(autonym)
     autonym = autonym.to_sym
-    raise NameError unless has_aliases? autonym
+    raise NameError unless with_aliases? autonym
 
     @aliases.group_by{|aliased, an|an}.fetch(autonym)
   end
