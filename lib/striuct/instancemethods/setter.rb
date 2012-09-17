@@ -1,25 +1,30 @@
 class Striuct; module InstanceMethods
 
-  # @group These Accessor API using only inner 
+  # @group Setter
+
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
+  # @return value
+  def []=(key, value)
+    autonym = autonym_for_key key
+    _set autonym, value
+  rescue Validation::InvalidWritingError
+    $!.set_backtrace([
+      "#{$!.backtrace[-1].sub(/[^:]+\z/){''}}in `[#{key.inspect}(#{autonym})]=': #{$!.message}",
+      $!.backtrace[-1]
+    ])
+
+    raise
+  end
+
+  alias_method :assign, :[]=
 
   private
 
-  def _get(name)
-    autonym = autonym_for_name name
-    value = @db[autonym]
-  
-    if safety_getter?(autonym) and !accept?(autonym, value)
-      raise ::Validation::InvalidReadingError,
-            "#{value.inspect} is deficient for #{name} in #{self.class}"
-    end
-
-    value
-  end
-
-  def _set(name, value)
+  # @param [Symbol] autonym - MUST already converted to native autonym
+  # @return value
+  def _set(autonym, value)
     raise "can't modify frozen #{self.class}" if frozen?
-    autonym = autonym_for_name name
-    raise "can't modify locked member #{name}" if lock? autonym
+    raise "can't modify locked member #{autonym}" if lock? autonym
 
     if has_adjuster? autonym
       begin
@@ -31,7 +36,7 @@ class Striuct; module InstanceMethods
 
     if safety_setter?(autonym) and !accept?(autonym, value)
       raise ::Validation::InvalidWritingError,
-            "#{value.inspect} is deficient for #{name} in #{self.class}"
+            "#{value.inspect} is deficient for #{autonym} in #{self.class}"
     end
 
     if inference? autonym
@@ -42,12 +47,12 @@ class Striuct; module InstanceMethods
   rescue ::Validation::InvalidError
     unless /in \[\]=/ =~ caller[1].slice(/([^:]+)\z/)
       $!.backtrace.delete_if{|s|/#{Regexp.escape(File.dirname __FILE__)}/ =~ s}
-      $!.backtrace.first.sub!(/([^:]+)\z/){"in `#{name}='"}
+      $!.backtrace.first.sub!(/([^:]+)\z/){"in `#{autonym}='"}
     end
   
     raise
   end
-  
+
   # @endgroup
 
 end; end

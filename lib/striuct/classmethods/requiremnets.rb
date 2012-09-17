@@ -1,5 +1,6 @@
 require_relative 'inner'
-require_relative 'named'
+require_relative 'names'
+require_relative 'predicate'
 require_relative 'copy'
 require_relative 'fix'
 require_relative 'length'

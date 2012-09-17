@@ -1,14 +1,10 @@
-require_relative 'subscript'
-
 class Striuct; module InstanceMethods 
 
   # @group Assign
   
-  alias_method :assign, :[]=
-  
   # @param [Symbol, String] name
   def assign?(name)
-    autonym = autonym_for_name name
+    autonym = autonym_for_member name
     
     @db.has_key? autonym
   end
