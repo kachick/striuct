@@ -7,7 +7,6 @@ class Striuct; module ClassMethods
     @autonyms.dup
   end
 
-  alias_method :names, :autonyms
   alias_method :members, :autonyms
   
   # @return [Array<Symbol>]
@@ -74,7 +73,6 @@ class Striuct; module ClassMethods
   end
   
   alias_method :autonym?, :has_autonym?
-  alias_method :original?, :has_autonym? # obsolute
   
   # @param [Symbol, String] name
   def has_alias?(name)
