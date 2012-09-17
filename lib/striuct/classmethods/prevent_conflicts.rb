@@ -28,10 +28,11 @@ class Striuct; module ClassMethods
 
   private
 
-  # @param [Symbol] level
+  # @param [Symbol, String, #to_sym] level
   # @return [nil]
   # change protect level for risk of naming members
   def protect_level(level)
+    level = level.to_sym
     raise NameError unless PROTECT_LEVELS.has_key? level
     
     @protect_level = level
