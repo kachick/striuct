@@ -46,9 +46,9 @@ class Striuct; module ClassMethods
     key.respond_to?(:to_sym) ? autonym_for_member(key) : autonym_for_index(key)
   end
 
-  # @param [Symbol, String] autonym
+  # @param [Symbol, String, #to_sym] autonym
   # @return [Array<Symbol>]
-  def aliases_for(autonym)
+  def aliases_for_autonym(autonym)
     autonym = autonym.to_sym
     raise NameError unless with_aliases? autonym
 
