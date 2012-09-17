@@ -16,7 +16,7 @@ class Striuct; module ClassMethods
     @attributes.fetch autonym
   end
 
-  def _def_getter!(autonym) 
+  def _def_getter(autonym) 
     define_method autonym do
       _get autonym
     end
@@ -24,8 +24,8 @@ class Striuct; module ClassMethods
     nil
   end
 
-  def _def_setter!(autonym, condition, &adjuster)
-    unless Validation::Condition::ANYTHING.equal? condition
+  def _def_setter(autonym, condition, &adjuster)
+    unless ANYTHING.equal? condition
       _attributes_for(autonym).condition = condition
     end
 
@@ -40,7 +40,7 @@ class Striuct; module ClassMethods
     nil
   end
 
-  def _found_family!(_caller, autonym, our)
+  def _found_family(_caller, autonym, our)
     family = our.class
 
     raise 'must not happen' unless with_inference?(autonym) and
