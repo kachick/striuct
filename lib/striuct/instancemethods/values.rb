@@ -30,7 +30,7 @@ class Striuct; module InstanceMethods
     end
 
     values.each_with_index do |value, index|
-      self[index] = value
+      _set autonym_for_index(index), value
     end
     
     self
