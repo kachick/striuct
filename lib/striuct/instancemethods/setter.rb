@@ -26,7 +26,7 @@ class Striuct; module InstanceMethods
     raise "can't modify frozen #{self.class}" if frozen?
     raise "can't modify locked member #{autonym}" if lock? autonym
 
-    if has_adjuster? autonym
+    if with_adjuster? autonym
       begin
         value = instance_exec value, &adjuster_for(autonym)
       rescue Exception
@@ -34,12 +34,12 @@ class Striuct; module InstanceMethods
       end
     end
 
-    if safety_setter?(autonym) and !accept?(autonym, value)
+    if with_safety_setter?(autonym) and !accept?(autonym, value)
       raise ::Validation::InvalidWritingError,
             "#{value.inspect} is deficient for #{autonym} in #{self.class}"
     end
 
-    if inference? autonym
+    if with_inference? autonym
       self.class.__send__ :_found_family!, self, autonym, value
     end
     

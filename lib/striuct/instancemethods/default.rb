@@ -1,12 +1,12 @@
 class Striuct; module InstanceMethods 
 
   # @group Default Value
-  
-  # @param [Symbol, String] name
-  def default?(name)
-    autonym = autonym_for_member name
+ 
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
+  def default?(key)
+    autonym = autonym_for_key key
 
-    default_for(autonym) == fetch_for_autonym(autonym)
+    default_value_for(autonym) == fetch_for_autonym(autonym)
   end
 
   # @endgroup

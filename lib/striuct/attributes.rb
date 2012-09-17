@@ -3,23 +3,21 @@ class Striuct
   # Attributes for each Member(Autonym)
   class Attributes
 
-    VALUES = [:condition, :adjuster].freeze
-    BOOLEANS = [
-                :inference,
-                :validate_with_setter,
-                :validate_with_getter
-               ].freeze
+    VALUES   = [ :condition,
+                 :adjuster  ].freeze
+
+    BOOLEANS = [ :inference,
+                 :safety_setter,
+                 :safety_getter ].freeze
     
     def initialize
-      @hash = {
-        inference:            false,
-        validate_with_setter: false,
-        validate_with_getter: false
-      }
+      @hash =  { inference:     false,
+                 safety_setter: false,
+                 safety_getter: false }
     end
     
     VALUES.each do |role|
-      define_method "has_#{role}?".to_sym do
+      define_method :"with_#{role}?" do
         @hash.has_key? role
       end
       
@@ -45,7 +43,7 @@ class Striuct
     end
 
     BOOLEANS.each do |role|
-      define_method "#{role}?".to_sym do
+      define_method :"with_#{role}?" do
         @hash.fetch role
       end
       
@@ -56,7 +54,7 @@ class Striuct
       end   
     end
 
-    def has_default?
+    def with_default?
       @hash.has_key? :default_value
     end
 

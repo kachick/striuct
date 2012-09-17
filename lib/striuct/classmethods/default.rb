@@ -1,29 +1,20 @@
 class Striuct; module ClassMethods
 
   # @group With default value
-  
-  # @param [Symbol, String] name
-  def has_default?(name)
-    autonym = autonym_for_member name
-
-    _attributes_for(autonym).has_default?
-  end
-  
-  # @param [Symbol, String] name
-  def default_value_for(name)
-    autonym = autonym_for_member name
-    raise "#{name} has no default value" unless has_default? autonym
+    
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
+  def default_value_for(key)
+    autonym = autonym_for_key key
+    raise KeyError unless with_default? autonym
  
     _attributes_for(autonym).default_value
   end
 
-  alias_method :default_for, :default_value_for
-
-  # @param [Symbol, String] name
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
   # @return [Symbol] :value / :proc
-  def default_type_for(name)
-    autonym = autonym_for_member name
-    raise "#{name} has no default value" unless has_default? autonym
+  def default_type_for(key)
+    autonym = autonym_for_key key
+    raise KeyError unless with_default? autonym
  
     _attributes_for(autonym).default_type
   end

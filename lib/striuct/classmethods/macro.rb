@@ -47,11 +47,11 @@ class Striuct; module ClassMethods
     _add_autonym autonym
 
     if options[:setter_validation] or options[:writer_validation]
-      _attributes_for(autonym).validate_with_setter = true
+      _attributes_for(autonym).safety_setter = true
     end
 
     if options[:getter_validation] or options[:reader_validation]
-      _attributes_for(autonym).validate_with_getter = true
+      _attributes_for(autonym).safety_getter = true
     end
 
     if options[:inference]
@@ -108,7 +108,7 @@ class Striuct; module ClassMethods
     raise "can't modify frozen Class" if frozen?
     raise "already closed to modify member attributes in #{self}" if closed?
     autonym = autonym_for_member(name)
-    raise "already settled default value for #{name}" if has_default? autonym
+    raise "already settled default value for #{name}" if with_default? autonym
 
     if block_given?
       unless value.nil?

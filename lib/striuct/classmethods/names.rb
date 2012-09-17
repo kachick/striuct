@@ -40,8 +40,7 @@ class Striuct; module ClassMethods
     @autonyms.fetch index
   end
 
-  # @param [Symbol, String, #to_sym, Integer, #to_int] key
-  #   autonym / aliased / index
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
   # @return [Symbol] autonym
   def autonym_for_key(key)
     key.respond_to?(:to_sym) ? autonym_for_member(key) : autonym_for_index(key)

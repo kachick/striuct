@@ -34,7 +34,7 @@ class Striuct; module InstanceMethods
   def _get(autonym)
     value = @db[autonym]
   
-    if safety_getter?(autonym) and !accept?(autonym, value)
+    if with_safety_getter?(autonym) and !accept?(autonym, value)
       raise ::Validation::InvalidReadingError,
             "#{value.inspect} is deficient for #{autonym} in #{self.class}"
     end

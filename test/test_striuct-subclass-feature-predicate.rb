@@ -96,17 +96,17 @@ class Test_Striuct_Subclass_Predicate < Test::Unit::TestCase
     assert_same false, INS.has_key?('xyz')
   end
 
-  def test_has_aliases_for?
-    assert_same false, INS.has_aliases_for?(:foo)
-    assert_same true, INS.has_aliases_for?(:bar)
-    assert_same false, INS.has_aliases_for?(:aliased)
-    assert_same false, INS.has_aliases_for?(:xyz)
-    assert_same false, INS.has_aliases_for?(1)
-    assert_same false, INS.has_aliases_for?(BasicObject.new)
-    assert_same false, INS.has_aliases_for?('foo')
-    assert_same true, INS.has_aliases_for?('bar')
-    assert_same false, INS.has_aliases_for?('aliased')
-    assert_same false, INS.has_aliases_for?('xyz')
+  def test_with_aliases?
+    assert_same false, INS.with_aliases?(:foo)
+    assert_same true, INS.with_aliases?(:bar)
+    assert_same false, INS.with_aliases?(:aliased)
+    assert_same false, INS.with_aliases?(:xyz)
+    assert_same false, INS.with_aliases?(1)
+    assert_same false, INS.with_aliases?(BasicObject.new)
+    assert_same false, INS.with_aliases?('foo')
+    assert_same true, INS.with_aliases?('bar')
+    assert_same false, INS.with_aliases?('aliased')
+    assert_same false, INS.with_aliases?('xyz')
   end
 
 end
