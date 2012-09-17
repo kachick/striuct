@@ -2,18 +2,19 @@ class Striuct; module InstanceMethods
 
   # @group Behavior under Values
 
-  # @param [Fixnum, Range] _keys
+  # @param [Integer, #to_int, Range] _keys
   # @return [Array]
   def values_at(*_keys)
     [].tap {|r|
       _keys.each do |key|
         case key
-        when Fixnum
-          r << self[key]
+        when ->v{v.respond_to? :to_int}
+          r << fetch_for_index(key)
         when Range
-          key.each do |n|
-            raise TypeError unless n.instance_of? Fixnum
-            r << self[n]
+          key.each do |idx|
+            raise TypeError unless idx.respond_to? :to_int
+
+            r << fetch_for_index(idx)
           end
         else
           raise TypeError
