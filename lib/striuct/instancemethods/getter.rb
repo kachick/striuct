@@ -28,7 +28,7 @@ class Striuct; module InstanceMethods
   alias_method :[], :fetch_for_key
   alias_method :fetch, :fetch_for_key
   
-  private
+  protected
 
   # @param [Symbol] autonym - MUST already converted to native autonym
   def _get(autonym)

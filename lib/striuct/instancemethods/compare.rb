@@ -4,13 +4,14 @@ class Striuct; module InstanceMethods
   
   # @return [Boolean]
   def ==(other)
-    __compare_all__? other, :==
+    other.instance_of?(self.class) && 
+      each_pair.all?{|autonym, val|other._get(autonym) == val}
   end
 
   alias_method :===, :==
   
   def eql?(other)
-    __compare_all__? other, :eql?
+    other.instance_of?(self.class) && other._db.eql?(@db)
   end
 
   # @return [Integer]
@@ -18,11 +19,10 @@ class Striuct; module InstanceMethods
     @db.hash
   end
 
-  private  
+  protected
 
-  # @param [Symbol] method
-  def __compare_all__?(other, method)
-    other.instance_of?(self.class) && each_pair.all?{|k, v|v.__send__ method, other[k]}
+  def _db
+    @db
   end
 
   # @endgroup
