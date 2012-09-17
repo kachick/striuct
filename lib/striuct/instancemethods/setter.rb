@@ -40,7 +40,7 @@ class Striuct; module InstanceMethods
     end
 
     if with_inference? autonym
-      self.class.__send__ :_found_family, self, autonym, value
+      self.class.__send__ :_found_family, autonym, value
     end
     
     @db[autonym] = value

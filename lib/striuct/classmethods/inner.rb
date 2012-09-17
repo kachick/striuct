@@ -40,12 +40,8 @@ class Striuct; module ClassMethods
     nil
   end
 
-  def _found_family(_caller, autonym, our)
-    family = our.class
-
-    raise 'must not happen' unless with_inference?(autonym) and
-                                    autonym?(autonym) and
-                                   _caller.instance_of?(self)
+  def _found_family(autonym, other)
+    family = other.class
 
     _attributes_for(autonym).condition = family
     _attributes_for(autonym).inference = false
