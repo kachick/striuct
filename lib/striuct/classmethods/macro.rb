@@ -91,7 +91,7 @@ class Striuct; module ClassMethods
   def alias_member(aliased, autonym)
     raise "can't modify frozen Class" if frozen?
     raise "already closed to add members in #{self}" if closed?
-    autonym = autonym_for_name autonym
+    autonym = autonym_for_member autonym
     aliased  = aliased.to_sym
     raise ArgumentError, %Q!already exist name "#{aliased}"! if member? aliased
     _check_safety_naming aliased
@@ -107,7 +107,7 @@ class Striuct; module ClassMethods
   def set_default_value(name, value=nil, &block)
     raise "can't modify frozen Class" if frozen?
     raise "already closed to modify member attributes in #{self}" if closed?
-    autonym = autonym_for_name(name)
+    autonym = autonym_for_member(name)
     raise "already settled default value for #{name}" if has_default? autonym
 
     if block_given?

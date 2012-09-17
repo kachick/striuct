@@ -1,10 +1,6 @@
-require_relative 'subscript'
-
 class Striuct; module InstanceMethods
 
   # @group Like Ruby's Hash
-  
-  alias_method :fetch, :[]
 
   def has_value?(value)
     @db.has_value? value
@@ -81,7 +77,7 @@ class Striuct; module InstanceMethods
   # @param [Symbol, String] name
   # @return [Array] e.g [autonym, value]
   def assoc(name)
-    autonym = autonym_for_name name
+    autonym = autonym_for_member name
 
     [autonym, self[name]]
   end

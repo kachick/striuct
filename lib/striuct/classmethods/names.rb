@@ -32,7 +32,7 @@ class Striuct; module ClassMethods
   alias_method :aliased?, :has_alias? # obsolute
 
   def has_member?(name)
-    autonym_for_name name
+    autonym_for_member name
   rescue Exception
     false
   else
@@ -65,7 +65,7 @@ class Striuct; module ClassMethods
 
   # @param [Symbol, String, #to_sym] name - autonym / aliased
   # @return [Symbol]
-  def autonym_for_name(name)
+  def autonym_for_member(name)
     name = name.to_sym
     
     return name if @autonyms.include? name
@@ -77,8 +77,6 @@ class Striuct; module ClassMethods
     end
   end
 
-  alias_method :autonym_for, :autonym_for_name # todo modify to autonym_for_key 
-
   # @param [Index, #to_int] index
   # @return [Symbol] autonym
   def autonym_for_index(index)
@@ -89,7 +87,7 @@ class Striuct; module ClassMethods
   #   autonym / aliased / index
   # @return [Symbol] autonym
   def autonym_for_key(key)
-    key.respond_to?(:to_sym) ? autonym_for_name(key) : autonym_for_index(key)
+    key.respond_to?(:to_sym) ? autonym_for_member(key) : autonym_for_index(key)
   end
   
   def has_aliases_for?(autonym)

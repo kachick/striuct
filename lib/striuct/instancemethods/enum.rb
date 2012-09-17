@@ -23,7 +23,7 @@ class Striuct; module InstanceMethods
   def each_value
     return to_enum(__callee__) unless block_given?
   
-    each_autonym{|autonym|yield self[autonym]}
+    each_autonym{|autonym|yield _get(autonym)}
   end
   
   alias_method :each, :each_value
@@ -38,7 +38,7 @@ class Striuct; module InstanceMethods
   def each_pair
     return to_enum(__callee__) unless block_given?
 
-    each_autonym{|autonym|yield autonym, self[autonym]}
+    each_autonym{|autonym|yield autonym, _get(autonym)}
   end
 
   # @yield [index] 
@@ -74,7 +74,6 @@ class Striuct; module InstanceMethods
     return to_enum(__callee__) unless block_given?
 
     each_value.with_index{|value, index|yield value, index}
-    self
   end
   
   alias_method :each_with_index, :each_value_with_index
@@ -92,7 +91,6 @@ class Striuct; module InstanceMethods
       yield autonym, value, index
       index += 1
     end
-    self
   end
 
   # @endgroup
