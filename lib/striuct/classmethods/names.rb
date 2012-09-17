@@ -63,7 +63,8 @@ class Striuct; module ClassMethods
   
   private
 
-  # for access from own instance
+  # for direct access inner data from own instance
+  # @return [Hash] alias => autonym
   def _autonyms
     @autonyms
   end
