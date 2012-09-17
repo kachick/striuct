@@ -2,7 +2,7 @@ class Striuct; module InstanceMethods
 
   # @group Validation
   
-  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / inex
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
   # @param value - if no argument and use current assigned value
   # passed under any condition
   def sufficient?(key, value=self[key])
