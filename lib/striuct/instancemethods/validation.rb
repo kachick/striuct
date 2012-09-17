@@ -3,9 +3,9 @@ class Striuct; module InstanceMethods
   # @group Validation
   
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
-  # @param value - if no argument and use current assigned value
-  # passed under any condition
-  def sufficient?(key, value=self[key])
+  # @param value
+  # true if passed under any condition
+  def accept?(key, value)
     autonym = autonym_for_key key
     return true unless restrict? autonym
   
@@ -15,8 +15,14 @@ class Striuct; module InstanceMethods
       false
     end
   end
-  
-  alias_method :accept?, :sufficient?
+
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
+  # @param value - if no argument and use current assigned value
+  # true if passed under any condition
+  def sufficient?(key, value=self[key])
+    accept? key, value
+  end
+
   alias_method :valid?, :sufficient?
 
   # all members passed under any condition
