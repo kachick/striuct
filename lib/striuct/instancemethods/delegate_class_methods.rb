@@ -29,7 +29,7 @@ class Striuct; module InstanceMethods
     :has_default?, :default_value_for, :default_for, :default_type_for,
     :has_adjuster?, :has_flavor?
 
-  private :_autonyms,
+  private :_autonyms
 
   # @endgroup
   
