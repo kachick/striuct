@@ -70,7 +70,7 @@ class Test_Striuct_Subclass_Instance_Enum < Test::Unit::TestCase
       r << [name, index]
     end
     
-    assert_equal [@user.each_key.to_a, @user.each_index.to_a].transpose, r
+    assert_equal [@user.each_member.to_a, @user.each_index.to_a].transpose, r
   end
   
   Sth = Striuct.define do

@@ -1,5 +1,3 @@
-require File.expand_path('../lib/striuct/version', __FILE__)
-
 Gem::Specification.new do |gem|
   gem.authors       = ['Kenichi Kamiya']
   gem.email         = ['kachick1+ruby@gmail.com']
@@ -12,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = 'striuct'
   gem.require_paths = ['lib']
-  gem.version       = Striuct::VERSION.dup # dup for https://github.com/rubygems/rubygems/commit/48f1d869510dcd325d6566df7d0147a086905380#-P0
+  gem.version       = '0.4.0.a'
 
   gem.required_ruby_version = '>= 1.9.2'
 
