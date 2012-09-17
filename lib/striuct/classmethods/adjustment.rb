@@ -8,8 +8,6 @@ class Striuct; module ClassMethods
 
     _attributes_for(autonym).has_adjuster?
   end
-
-  alias_method :has_flavor?, :has_adjuster? # obsolute
   
   # @param [Symbol, String] name
   def adjuster_for(name)
@@ -18,8 +16,6 @@ class Striuct; module ClassMethods
     
     _attributes_for(autonym).adjuster
   end
-  
-  alias_method :flavor_for, :adjuster_for # obsolute
 
   # @endgroup
 
