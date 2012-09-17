@@ -20,7 +20,7 @@ class Striuct; module InstanceMethods
   alias_method :clear_at, :unassign # obsolute
   alias_method :reset_at, :unassign
 
-  # all members aren't assigned
+  # true if all members are not yet assigned
   def empty?
     _autonyms.none?{|autonym|assign? autonym}
   end
