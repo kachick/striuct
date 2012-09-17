@@ -11,7 +11,8 @@ class Striuct; module InstanceMethods
 
   # @return [self]
   def freeze
-    [@db, @locks].each(&:freeze)
+    @db.freeze
+    @locks.freeze
     super
   end
   
