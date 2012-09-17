@@ -6,7 +6,7 @@ class Striuct; module InstanceMethods
   def inspect
     "#<struct' #{self.class} strict?:#{strict?}".tap {|s|
       each_pair do |autonym, value|
-        suffix = (has_default?(autonym) && default?(autonym)) ? '/default' : nil
+        suffix = (with_default?(autonym) && default?(autonym)) ? '/default' : nil
         s << " #{autonym}=#{value.inspect}#{suffix}("
         s << "valid?:#{valid? autonym}, "
         s << "lock?:#{lock? autonym}"

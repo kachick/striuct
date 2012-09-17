@@ -24,13 +24,13 @@ class Test_Striuct_Subclass_Validation_Util < Test::Unit::TestCase
     assert_same false, Foo.new.restrict?(:hoge)
   end
 
-  def test_predicate_has_condition?
-    assert_same true, Foo.has_condition?(:foo)
-    assert_same true, Foo.has_condition?(:bar)
-    assert_same false, Foo.has_condition?(:hoge)
-    assert_same true, Foo.new.has_condition?(:foo)
-    assert_same true, Foo.new.has_condition?(:bar)
-    assert_same false, Foo.new.has_condition?(:hoge)
+  def test_predicate_with_condition?
+    assert_same true, Foo.with_condition?(:foo)
+    assert_same true, Foo.with_condition?(:bar)
+    assert_same false, Foo.with_condition?(:hoge)
+    assert_same true, Foo.new.with_condition?(:foo)
+    assert_same true, Foo.new.with_condition?(:bar)
+    assert_same false, Foo.new.with_condition?(:hoge)
   end
 
   def test_predicate_instance_sufficient?
@@ -49,7 +49,9 @@ class Test_Striuct_Subclass_Validation_Util < Test::Unit::TestCase
     foo = Foo.new
     assert_same nil, foo.condition_for(:foo)
     assert_same ALWAYS_OCCUR_ERROR, foo.condition_for(:bar)
-    assert_same nil, foo.condition_for(:hoge)
+    assert_raises KeyError do
+      foo.condition_for(:hoge)
+    end
     assert_same SOME_STR, foo.condition_for(:some_str)
   end
 

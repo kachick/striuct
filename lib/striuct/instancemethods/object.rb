@@ -26,11 +26,11 @@ class Striuct; module InstanceMethods
 
   # @group Default Value
 
-  # @param [Symbol>] target_autonyms - MUST already converted to native autonym
+  # @param [Symbol] target_autonyms - MUST already converted to native autonym
   # @return [self]
   def set_defaults(*target_autonyms)
     target_autonyms.each do |autonym|
-      if has_default? autonym
+      if with_default? autonym
         default = default_value_for autonym
         _set autonym, (
           if default_type_for(autonym) == :lazy
