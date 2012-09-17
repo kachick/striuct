@@ -6,7 +6,7 @@ class Striuct; module InstanceMethods
   def default?(name)
     autonym = autonym_for_member name
 
-    default_for(autonym) == self[autonym]
+    default_for(autonym) == fetch_for_autonym(autonym)
   end
 
   # @endgroup
