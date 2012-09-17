@@ -2,11 +2,11 @@ class Striuct; module InstanceMethods
 
   # @group Validation
   
-  # @param [Symbol, String] name
-  # @param [Object] value - no argument and use own
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / inex
+  # @param value - if no argument and use current assigned value
   # passed under any condition
-  def sufficient?(name, value=self[name])
-    autonym = autonym_for_member name
+  def sufficient?(key, value=self[key])
+    autonym = autonym_for_key key
     return true unless restrict? autonym
   
     begin  
