@@ -5,8 +5,8 @@ class Striuct; module InstanceMethods
   def initialize(*values)
     @db, @locks = {}, {}
     replace_values(*values)
-    excess = _autonyms.last(size - values.size)
-    set_defaults(*excess)
+    excess_autonyms = _autonyms.last(size - values.size)
+    set_defaults(*excess_autonyms)
   end
 
   # @return [self]
@@ -25,12 +25,13 @@ class Striuct; module InstanceMethods
 
   # @group Default Value
 
+  # @param [Symbol>] target_autonyms - MUST already converted to native autonym
   # @return [self]
   def set_defaults(*target_autonyms)
     target_autonyms.each do |autonym|
       if has_default? autonym
         default = default_value_for autonym
-        self[autonym] = (
+        _set autonym, (
           if default_type_for(autonym) == :lazy
             args = [self, autonym][0, default.arity]
             default.call(*args)
