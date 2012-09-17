@@ -4,7 +4,7 @@ class Striuct; module ClassMethods
 
   # @yield [autonym] 
   # @yieldparam [Symbol] autonym - sequential under defined
-  # @yieldreturn [self]
+  # @yieldreturn [Class] self
   # @return [Enumerator]
   def each_autonym
     return to_enum(__callee__) unless block_given?
@@ -17,7 +17,7 @@ class Striuct; module ClassMethods
   
   # @yield [index] 
   # @yieldparam [Integer] Index
-  # @yieldreturn [self]
+  # @yieldreturn [Class] self
   # @return [Enumerator]
   def each_index
     return to_enum(__callee__) unless block_given?
@@ -29,7 +29,7 @@ class Striuct; module ClassMethods
   # @yield [autonym, index]
   # @yieldparam [Symbol] autonym
   # @yieldparam [Integer] index
-  # @yieldreturn [self]
+  # @yieldreturn [Class] self
   # @return [Enumerator]
   def each_autonym_with_index
     return to_enum(__callee__) unless block_given?
