@@ -1,4 +1,3 @@
-require_relative 'version'
 require_relative 'structs'
 require_relative 'attributes'
 require_relative 'hashdeepdupulicatable'

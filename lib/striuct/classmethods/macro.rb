@@ -40,7 +40,7 @@ class Striuct; module ClassMethods
       raise ArgumentError, 'It is not able to choose "default" with "default_proc" in options'
     end
     
-    autonym = _nameable_for autonym # First difinition for an autonym
+    autonym = autonym.to_sym # First difinition for an autonym
 
     raise ArgumentError, %Q!already exist name "#{autonym}"! if member? autonym
     _check_safety_naming autonym
@@ -92,7 +92,7 @@ class Striuct; module ClassMethods
     raise "can't modify frozen Class" if frozen?
     raise "already closed to add members in #{self}" if closed?
     autonym = autonym_for_name autonym
-    aliased  = _nameable_for aliased
+    aliased  = aliased.to_sym
     raise ArgumentError, %Q!already exist name "#{aliased}"! if member? aliased
     _check_safety_naming aliased
 

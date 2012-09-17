@@ -13,9 +13,7 @@ class Striuct; module InstanceMethods
     self
   end
 
-  alias_method :each_name, :each_autonym
   alias_method :each_member, :each_autonym
-  alias_method :each_key, :each_autonym
 
   # @yield [value]
   # @yieldparam [Object] value - sequential under defined
@@ -66,9 +64,7 @@ class Striuct; module InstanceMethods
     self
   end
 
-  alias_method :each_name_with_index, :each_autonym_with_index
   alias_method :each_member_with_index, :each_autonym_with_index
-  alias_method :each_key_with_index, :each_autonym_with_index
 
   # @yield [value, index]
   # @yieldparam [Integer] index
