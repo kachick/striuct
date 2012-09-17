@@ -15,7 +15,7 @@ class Striuct; module InstanceMethods
     :aliases_for,
     :validator_for, :condition_for,
     :adjuster_for, :flavor_for,
-    :members, :keys, :names, :autonyms, :all_members, :aliases,
+    :members, :keys, :autonyms, :all_members, :aliases,
     :has_member?, :member?, :has_key?, :key?,
     :has_autonym?, :autonym?,
     :has_alias?, :alias?, :aliased?,
