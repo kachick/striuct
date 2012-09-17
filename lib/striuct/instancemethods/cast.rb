@@ -12,15 +12,12 @@ class Striuct; module InstanceMethods
     self.class.to_struct_class.new(*values)
   end
   
+  # @param [Boolean] include_no_assign
   # @return [Hash]
-  def to_h(reject_no_assign=false)
-    return @db.dup if reject_no_assign
+  def to_h(include_no_assign=true)
+    return @db.dup unless include_no_assign
 
-    {}.tap {|h|
-      each_pair do |autonym, val|
-        h[autonym] = val
-      end
-    }
+    Hash[each_pair.to_a]
   end
   
   # @return [Array]

@@ -13,7 +13,7 @@ class Striuct; module InstanceMethods
     raise "can't modify frozen #{self.class}" if frozen?
     
     if key.equal? true
-      _autonyms.each do |autonym|
+      each_autonym do |autonym|
         @locks[autonym] = true
       end
     else
