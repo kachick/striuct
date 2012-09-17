@@ -22,7 +22,7 @@ class Striuct; module ClassMethods
   
   private
 
-  # @param [Symbol, String] autonym
+  # @param [Symbol, String, #to_sym] autonym
   # @param [#===, Proc, Method, ANYTHING] condition
   # @param [Hash] options
   # @option options [BasicObject] :default
@@ -78,8 +78,8 @@ class Striuct; module ClassMethods
 
   alias_method :member, :add_member
 
-  # @param [Symbol, String] autonym
-  # @param [Symbol, String] autonyms
+  # @param [Symbol, String, #to_sym] autonym
+  # @param [Symbol, String, #to_sym] autonyms
   # @return [nil]
   def add_members(autonym, *autonyms)
     raise "can't modify frozen Class" if frozen?
@@ -89,8 +89,8 @@ class Striuct; module ClassMethods
     nil
   end
 
-  # @param [Symbol, String] aliased
-  # @param [Symbol, String] autonym
+  # @param [Symbol, String, #to_sym] aliased
+  # @param [Symbol, String, #to_sym] autonym
   # @return [nil]
   def alias_member(aliased, autonym)
     raise "can't modify frozen Class" if frozen?
@@ -106,12 +106,12 @@ class Striuct; module ClassMethods
     nil
   end
   
-  # @param [Symbol, String] name
+  # @param [Symbol, String, #to_sym] name
   # @return [nil]
   def set_default_value(name, value=nil, &block)
     raise "can't modify frozen Class" if frozen?
     raise "already closed to modify member attributes in #{self}" if closed?
-    autonym = autonym_for_member(name)
+    autonym = autonym_for_member name
     raise "already settled default value for #{name}" if with_default? autonym
 
     if block_given?
