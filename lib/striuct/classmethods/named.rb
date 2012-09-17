@@ -57,6 +57,12 @@ class Striuct; module ClassMethods
 
   alias_method :key?, :has_key?
 
+  # @param [Symbol, String, #to_sym] als
+  # @return [Symbol]
+  def autonym_for_alias(als) 
+    @aliases.fetch als.to_sym
+  end
+
   # @param [Symbol, String, #to_sym] name - autonym / aliased
   # @return [Symbol]
   def autonym_for_name(name)
@@ -64,37 +70,26 @@ class Striuct; module ClassMethods
     
     return name if @autonyms.include? name
     
-    unless @aliases.has_key? name
+    if @aliases.has_key? name
+       autonym_for_alias name
+    else
       raise NameError, "not defined member for #{name}"
     end
-    
-    @aliases.fetch name
   end
 
   alias_method :autonym_for, :autonym_for_name # todo modify to autonym_for_key 
 
-  # @param [Symbol, String, Fixnum] key - autonym / aliased / index
+  # @param [Index, #to_int] index
+  # @return [Symbol] autonym
+  def autonym_for_index(index)
+    @autonyms.fetch index
+  end
+
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key
+  #   autonym / aliased / index
   # @return [Symbol] autonym
   def autonym_for_key(key)
-    case key
-    when Symbol, String
-      name = key.to_sym
-      if member? name
-        return autonym_for_name(name)
-      else
-        raise NameError
-      end
-    when Fixnum
-      if autonym = _autonyms[key]
-        return autonym
-      else
-        raise IndexError
-      end
-    else
-      raise ArgumentError
-    end
-
-    raise 'must not happen'
+    key.respond_to?(:to_sym) ? autonym_for_name(key) : autonym_for_index(key)
   end
   
   def has_aliases_for?(autonym)
