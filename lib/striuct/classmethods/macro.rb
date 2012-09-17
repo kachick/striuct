@@ -17,6 +17,8 @@ class Striuct; module ClassMethods
   DEFAULT_MEMBER_OPTIONS = {
     setter_validation: true
   }.freeze
+
+  ANYTHING = ::Validation::Condition::ANYTHING
   
   private
 
@@ -31,13 +33,15 @@ class Striuct; module ClassMethods
   # @option options [Boolean] :writer_validation
   # @option options [Boolean] :setter_validation
   # @return [nil]
-  def add_member(autonym, condition=Validation::Condition::ANYTHING, options=DEFAULT_MEMBER_OPTIONS, &adjuster)
+  def add_member(autonym, condition=ANYTHING,
+                 options=DEFAULT_MEMBER_OPTIONS, &adjuster)
     raise "can't modify frozen Class" if frozen?
     raise "already closed to add member in #{self}" if closed?
     options = DEFAULT_MEMBER_OPTIONS.merge(options).extend(KeyValidatable)
     options.validate_keys let: VALID_MEMBER_OPTIONS
     if options.has_key?(:default) and options.has_key?(:default_proc)
-      raise ArgumentError, 'It is not able to choose "default" with "default_proc" in options'
+      raise ArgumentError,
+        'It is not able to choose "default" with "default_proc" in same options'
     end
     
     autonym = autonym.to_sym # First difinition for an autonym
