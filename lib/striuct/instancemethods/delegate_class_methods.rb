@@ -22,7 +22,7 @@ class Striuct; module InstanceMethods
     :has_index?, :index?,
     :has_key?, :key?,
     :with_aliases?,
-    :aliases_for,
+    :aliases_for_autonym,
     :length, :size,
     :with_condition?, :restrict?,
     :condition_for,
