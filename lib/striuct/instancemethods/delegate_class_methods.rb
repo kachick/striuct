@@ -16,8 +16,8 @@ class Striuct; module InstanceMethods
     :autonym_for_index,
     :autonym_for_key,
     :aliases_for,
-    :validator_for, :condition_for,
-    :adjuster_for, :flavor_for,
+    :condition_for,
+    :adjuster_for,
     :members, :autonyms, :all_members, :aliases,
     :has_autonym?, :autonym?,
     :has_alias?, :alias?, :aliased?,
@@ -30,7 +30,7 @@ class Striuct; module InstanceMethods
     :safety_getter?, :safety_reader?, :safety_setter?, :safty_writer?,
     :inference?,
     :has_default?, :default_value_for, :default_for, :default_type_for,
-    :has_adjuster?, :has_flavor?
+    :has_adjuster?
 
   private :_autonyms
 
