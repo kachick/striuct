@@ -4,7 +4,7 @@ class Striuct; module InstanceMethods
   
   # freezed, fixed familar members, all members passed any condition
   def secure?
-    (frozen? || lock?) && self.class.closed? && strict?
+    (frozen? || all_locked?) && self.class.closed? && strict?
   end
 
   # @endgroup

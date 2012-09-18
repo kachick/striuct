@@ -18,7 +18,7 @@ class Test_Striuct_Subclass_Instance_to_s_Family < Test::Unit::TestCase
 
   def test_inspect
     user = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
-    assert_equal %q!#<struct' Test_Striuct_Subclass_Instance_to_s_Family::User strict?:true id=9999(valid?:true, lock?:false), last_name="taro"(valid?:true, lock?:false), family_name="yamada"(valid?:true, lock?:false), address="Tokyo Japan"(valid?:true, lock?:false), age=30(valid?:true, lock?:false)>!,
+    assert_equal %q!#<struct' Test_Striuct_Subclass_Instance_to_s_Family::User strict?:true id=9999(valid?:true, locked?:false), last_name="taro"(valid?:true, locked?:false), family_name="yamada"(valid?:true, locked?:false), address="Tokyo Japan"(valid?:true, locked?:false), age=30(valid?:true, locked?:false)>!,
                  user.inspect
   end
 
