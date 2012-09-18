@@ -30,7 +30,7 @@ class Striuct; module ClassMethods
     autonyms = @autonyms.dup
     aliases  = @aliases.dup
     attributes = @attributes.deep_dup
-    protect_level = @protect_level
+    conflict_management = @conflict_management_level
     
     subclass.class_eval do
       original_inherited subclass
@@ -38,7 +38,7 @@ class Striuct; module ClassMethods
       @autonyms = autonyms
       @aliases = aliases
       @attributes = attributes
-      @protect_level = protect_level
+      @conflict_management_level = conflict_management
     end
   end
      

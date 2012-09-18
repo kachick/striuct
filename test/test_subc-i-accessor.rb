@@ -92,8 +92,9 @@ class Test_Striuct_Subclass_Instance_Accsessor < Test::Unit::TestCase
   class Sth < Striuct.new
     member :bool, OR(true, false)
     member :sth
-    protect_level :struct
-    member :lambda, OR(->v{v % 3 == 2}, ->v{v.kind_of? Float})
+    conflict_management :struct do
+      member :lambda, OR(->v{v % 3 == 2}, ->v{v.kind_of? Float})
+    end
   end
   
   def setup
