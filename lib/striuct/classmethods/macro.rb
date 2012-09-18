@@ -15,6 +15,7 @@ class Striuct; module ClassMethods
   ].freeze
   
   DEFAULT_MEMBER_OPTIONS = {
+    inference:         false,
     setter_validation: true
   }.freeze
 
@@ -33,11 +34,29 @@ class Striuct; module ClassMethods
   # @option options [Boolean] :writer_validation
   # @option options [Boolean] :setter_validation
   # @return [nil]
-  def add_member(autonym, condition=ANYTHING,
-                 options=DEFAULT_MEMBER_OPTIONS, &adjuster)
+  def add_member(autonym, condition=ANYTHING, options={}, &adjuster)
     raise "can't modify frozen Class" if frozen?
     raise "already closed to add member in #{self}" if closed?
-    options = DEFAULT_MEMBER_OPTIONS.merge(options).extend(KeyValidatable)
+    
+    opts_base = DEFAULT_MEMBER_OPTIONS.dup
+  
+    if options.has_key?(:setter_validation) and options.has_key?(:writer_validation)
+      raise ArgumentError, 'conflict option parameters'
+    end
+    
+    if options.has_key?(:getter_validation) and options.has_key?(:reader_validation)
+      raise ArgumentError, 'conflict option parameters'
+    end
+    
+    if options.has_key?(:writer_validation)
+      opts_base.delete :setter_validation
+    end
+    
+    if options.has_key?(:reader_validation)
+      opts_base.delete :getter_validation
+    end
+    
+    options = opts_base.merge(options).extend(KeyValidatable)
     options.validate_keys let: VALID_MEMBER_OPTIONS
     if options.has_key?(:default) and options.has_key?(:default_proc)
       raise ArgumentError,
