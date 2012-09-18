@@ -36,7 +36,7 @@ class Striuct
 
     def adjuster=(adjuster)
       unless ::Validation.adjustable? adjuster
-        raise ArgumentError, "wrong number of block argument #{arity} for 1"
+        raise ArgumentError, 'wrong object for adjuster'
       end
 
       @hash[:adjuster] = adjuster
