@@ -27,7 +27,7 @@ class Striuct; module InstanceMethods
     :with_condition?, :restrict?,
     :condition_for,
     :with_safety_getter?, :with_safety_reader?,
-    :with_safety_setter?, :with_safty_writer?,
+    :with_safety_setter?, :with_safety_writer?,
     :with_inference?,
     :with_default?,
     :default_value_for, :default_type_for,
