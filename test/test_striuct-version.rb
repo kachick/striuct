@@ -2,10 +2,13 @@ require_relative 'helper'
 
 class Test_Striuct_Version < Test::Unit::TestCase
 
-  def test_const_version
-    assert_kind_of String, Striuct::VERSION
-    assert(/\A\d+\.\d+\.\d+(\.\w+)?\z/ =~ Striuct::VERSION)
-    assert_equal true, Striuct::VERSION.frozen?
+  def test_const_version_of_own
+    assert_same false, Striuct.const_defined?(:VERSION, false)
   end
+
+  # I want to be this behavior
+  #def test_const_version_of_dependencies
+  #  assert_same false, Striuct.const_defined?(:VERSION, true)
+  #end
 
 end
