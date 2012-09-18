@@ -55,7 +55,7 @@ class Striuct; module ClassMethods
         raise Validation::InvalidWritingError, "invalids members are, yet '#{invalids.inspect} in #{self}'"
       end
 
-      instance.lock if lock
+      instance.lock_all if lock
     }
   end
 

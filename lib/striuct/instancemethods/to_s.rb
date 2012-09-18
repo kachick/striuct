@@ -9,7 +9,7 @@ class Striuct; module InstanceMethods
         suffix = (with_default?(autonym) && default?(autonym)) ? '/default' : nil
         s << " #{autonym}=#{value.inspect}#{suffix}("
         s << "valid?:#{valid? autonym}, "
-        s << "lock?:#{lock? autonym}"
+        s << "locked?:#{locked? autonym}"
         s << '),'
       end
       

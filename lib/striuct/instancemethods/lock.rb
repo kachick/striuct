@@ -1,62 +1,51 @@
 class Striuct; module InstanceMethods
 
-  # @group Lock
+  # @group Lock / Unlock
   
-  # @overload lock(key)
-  #   lock a setter for key 
-  #   @param [Symbol, String, Fixnum] key
-  # @overload lock(true)
-  #   lock setters for all members
-  #   @param [true] true
   # @return [self]
-  def lock(key=true)
+  def lock(key)
     raise "can't modify frozen #{self.class}" if frozen?
-    
-    if key.equal? true
-      each_autonym do |autonym|
-        @locks[autonym] = true
-      end
-    else
-      autonym = autonym_for_key key
-      @locks[autonym] = true
-    end
+    autonym = autonym_for_key key
 
+    @locks[autonym] = true
     self
   end
-
-  # @overload lock?(key)
-  #   predicate locking a setter for key 
-  #   @param [Symbol, String, Fixnum] key
-  # @overload lock?(true)
-  #   predicate locking for all members
-  #   @param [true] true
-  def lock?(key=true)
-    if key.equal? true
-      _autonyms.all?{|autonym|@locks[autonym]}
-    else
-      autonym = autonym_for_key key
-      @locks[autonym] || false
+  
+  # @return [self]
+  def lock_all
+    raise "can't modify frozen #{self.class}" if frozen?
+    
+    each_autonym do |autonym|
+      @locks[autonym] = true
     end
+  end
+
+  def locked?(key)
+    autonym = autonym_for_key key
+    
+    @locks.has_key? autonym
+  end
+  
+  def all_locked?
+    _autonyms.all?{|autonym|@locks.has_key? autonym}
   end
   
   private
-  
-  # @overload unlock(key)
-  #   unlock a setter for key 
-  #   @param [Symbol, String, Fixnum] key
-  # @overload unlock(true)
-  #   unlock setters for all members
-  #   @param [true] true
-  def unlock(key=true)
-    raise "can't modify frozen #{self.class}" if frozen?
-    
-    if key.equal? true
-      @locks.clear
-    else
-      autonym = autonym_for_key key
-      @locks.delete autonym
-    end
 
+  # @return [self]
+  def unlock(key)
+    raise "can't modify frozen #{self.class}" if frozen?
+    autonym = autonym_for_key key
+    
+    @locks.delete autonym
+    self
+  end
+  
+  # @return [self]
+  def unlock_all
+    raise "can't modify frozen #{self.class}" if frozen?
+
+    @locks.clear
     self
   end
 

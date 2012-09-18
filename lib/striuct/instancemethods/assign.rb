@@ -15,7 +15,7 @@ class Striuct; module InstanceMethods
     raise "can't modify frozen #{self.class}" if frozen?
     
     autonym = autonym_for_key key
-    raise "can't modify locked member #{autonym}" if lock? autonym
+    raise "can't modify locked member #{autonym}" if locked? autonym
 
     @db.delete autonym
   end

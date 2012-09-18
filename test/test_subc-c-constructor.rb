@@ -41,7 +41,7 @@ class Test_Striuct_Subclass_Class_Constructor < Test::Unit::TestCase
     
     user = User2.define{|r|r.age = 1; r.name = 'a'}
     assert_same 1, user.age
-    assert_same true, user.lock?
+    assert_same true, user.all_locked?
     assert_same false, user.frozen?
     
     assert_raises RuntimeError do
@@ -50,9 +50,9 @@ class Test_Striuct_Subclass_Class_Constructor < Test::Unit::TestCase
     
     user = User2.define(lock: true){|r|r.age = 1; r.name = 'a'}
     assert_same 1, user.age
-    assert_same true, user.lock?
+    assert_same true, user.all_locked?
     user = User2.define(lock: false){|r|r.age = 1; r.name = 'a'}
-    assert_same false, user.lock?
+    assert_same false, user.all_locked?
     assert_equal true, user.strict?
     
     assert_raises Validation::InvalidWritingError do

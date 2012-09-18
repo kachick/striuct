@@ -24,7 +24,7 @@ class Striuct; module InstanceMethods
   # @return value
   def _set(autonym, value)
     raise "can't modify frozen #{self.class}" if frozen?
-    raise "can't modify locked member #{autonym}" if lock? autonym
+    raise "can't modify locked member #{autonym}" if locked? autonym
 
     if with_adjuster? autonym
       begin
