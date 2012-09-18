@@ -146,7 +146,11 @@ class Test_Striuct_Subclass_Predicate_Default < Test::Unit::TestCase
   class Subclass < Striuct
     member :foo    
     member :val, ANYTHING?, default: 'DEFAULT'
-    member :lazy, ANYTHING?, default_proc: ->{} 
+    
+    conflict_management :struct do
+      member :lazy, ANYTHING?, default_proc: ->{}
+    end
+    
     alias_member :als_foo, :foo
     alias_member :als_val, :val
     alias_member :als_lazy, :lazy
