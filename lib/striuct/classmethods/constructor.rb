@@ -9,10 +9,9 @@ class Striuct; module ClassMethods
     new_instance(*values)
   end
 
-  alias_method :load_values, :for_values
   alias_method :new, :for_values
 
-  # @param [Hash, Struct] pairs
+  # @param [Hash, Struct, Striuct, #each_pair] pairs
   # @return [Striuct]
   def for_pairs(pairs)
     raise TypeError, 'no pairs object' unless pairs.respond_to?(:each_pair)
@@ -26,7 +25,6 @@ class Striuct; module ClassMethods
     }
   end
 
-  alias_method :load_pairs, :for_pairs
   alias_method :[], :for_pairs
 
   # for build the fixed object
