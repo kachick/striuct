@@ -194,3 +194,58 @@ class Test_Striuct_Subclass_Predicate_Default < Test::Unit::TestCase
   end
 
 end
+
+class Test_Striuct_Subclass_Predicate_Adjuster < Test::Unit::TestCase
+
+  class Subclass < Striuct
+    member :no_with
+    alias_member :als_no_with, :no_with
+    member :with do |_|; end
+    alias_member :als_with, :with
+    member :cond_with, BasicObject do |_|; end
+    alias_member :als_cond_with, :cond_with
+
+    close_member
+  end.freeze
+
+  INSTANCE = Subclass.new.freeze
+  
+  TYPE_PAIRS = {
+    class: Subclass,
+    instance: INSTANCE
+  }.freeze
+
+  [:with_adjuster?].each do |predicate|
+    TYPE_PAIRS.each_pair do |type, reciever|
+      define_method :"test_#{type}_#{predicate}" do
+        assert_same false, reciever.public_send(predicate, :no_with)
+        assert_same false, reciever.public_send(predicate, :als_no_with)
+        assert_same false, reciever.public_send(predicate, 'no_with')
+        assert_same false, reciever.public_send(predicate, 'als_no_with')
+        assert_same false, reciever.public_send(predicate, 0)
+        assert_same false, reciever.public_send(predicate, 0.9)
+        
+        assert_same true, reciever.public_send(predicate, :with)
+        assert_same true, reciever.public_send(predicate, :als_with)
+        assert_same true, reciever.public_send(predicate, 'with')
+        assert_same true, reciever.public_send(predicate, 'als_with')
+        assert_same true, reciever.public_send(predicate, 1)
+        assert_same true, reciever.public_send(predicate, 1.9)
+        
+        assert_same true, reciever.public_send(predicate, :cond_with)
+        assert_same true, reciever.public_send(predicate, :als_cond_with)
+        assert_same true, reciever.public_send(predicate, 'cond_with')
+        assert_same true, reciever.public_send(predicate, 'als_cond_with')
+        assert_same true, reciever.public_send(predicate, 2)
+        assert_same true, reciever.public_send(predicate, 2.9)
+        
+        assert_same false, reciever.public_send(predicate, :none)
+        assert_same false, reciever.public_send(predicate, 'none')
+        assert_same false, reciever.public_send(predicate, 3)
+        assert_same false, reciever.public_send(predicate, 3.9)
+        assert_same false, reciever.public_send(predicate, BasicObject.new)
+      end
+    end
+  end
+
+end
