@@ -19,6 +19,6 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'yard', '~> 0.8'
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'bundler', '~> 1.2'
+  gem.add_development_dependency 'bundler'
 end
 
