@@ -1,8 +1,6 @@
 striuct
 =======
 
-[![Build Status](https://secure.travis-ci.org/kachick/striuct.png)](http://travis-ci.org/kachick/striuct)
-
 Description
 -----------
 
@@ -112,6 +110,11 @@ Install
 $ gem install striuct
 ```
 
+Build Status
+-------------
+
+[![Build Status](https://secure.travis-ci.org/kachick/striuct.png)](http://travis-ci.org/kachick/striuct)
+
 Link
 ----
 
@@ -126,6 +129,6 @@ License
 --------
 
 The MIT X11 License  
-Copyright (C) 2011 Kenichi Kamiya  
+Copyright (c) 2011 Kenichi Kamiya  
 See the file LICENSE for further details.
 
