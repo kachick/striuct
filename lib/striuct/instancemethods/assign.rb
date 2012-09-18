@@ -10,7 +10,7 @@ class Striuct; module InstanceMethods
   end
   
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
-  # @return value - assigned under the key
+  # @return value / nil - value assigned under the key
   def unassign(key)
     raise "can't modify frozen #{self.class}" if frozen?
     
@@ -20,8 +20,7 @@ class Striuct; module InstanceMethods
     @db.delete autonym
   end
   
-  alias_method :clear_at, :unassign # obsolute
-  alias_method :reset_at, :unassign
+  alias_method :delete_at, :unassign
 
   # true if all members are not yet assigned
   def empty?
