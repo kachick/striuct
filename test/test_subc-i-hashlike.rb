@@ -3,15 +3,6 @@ require_relative 'helper'
 class Test_Striuct_Subclass_Instance_HashLike < Test::Unit::TestCase
 
   Sth = Striuct.new :foo, :bar, :hoge
-
-  def test_empty?
-    sth = Sth[hoge: 7, foo: 8]
-    assert_equal false, sth.empty?
-    sth.each_member{|name|sth[name] = nil}
-    assert_equal false, sth.empty?
-    sth.each_member{|name|sth.unassign name}
-    assert_equal true, sth.empty?
-  end
   
   def test_has_value?
     sth = Sth[hoge: 7, foo: 8]

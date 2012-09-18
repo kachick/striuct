@@ -28,5 +28,22 @@ class Test_Striuct_Subclass_Instance_Assign < Test::Unit::TestCase
       end
     end
   end
+  
+  def test_empty?
+    cls = Striuct.new :foo, :bar
+    sth = cls.new
+    
+    assert_same true, sth.empty?
+    
+    sth.foo = nil
+    assert_same false, sth.empty?
+    sth.bar = true
+    assert_same false, sth.empty?
+    sth.unassign :foo
+    assert_same false, sth.empty?
+    sth.unassign :bar
+
+    assert_same true, sth.empty?
+  end
 
 end
