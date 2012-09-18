@@ -60,7 +60,8 @@ class Striuct
         @autonyms      = []
         @attributes    = {}.extend HashDeepDupulicatable # autonym => Attributes
         @aliases       = {} # aliased => autonym
-        @protect_level = :prevent
+        @conflict_management_level = 
+          ClassMethods::DEFAULT_CONFLICT_MANAGEMENT_LEVEL
       end
     end
 

@@ -4,21 +4,21 @@ class Test_Striuct_Subclass_Class_SafetyNaming < Test::Unit::TestCase
 
   def test_cname?
     klass = Striuct.new
-    assert_same false, klass.cname?(Object)
+    assert_same false, klass.cname?(BasicObject)
     assert_same false, klass.cname?('m?')
     assert_same false, klass.cname?('__foo__')
     assert_same false, klass.cname?('a b')
     assert_same false, klass.cname?('object_id')
     assert_same false, klass.cname?('to_ary')
     assert_same true, klass.cname?('foo')
-    klass.__send__ :protect_level, :warning
+    klass.__send__ :set_conflict_management_level, :warning
     assert_same false, klass.cname?('m?')
     assert_same false, klass.cname?('__foo__')
     assert_same false, klass.cname?('a b')
     assert_same false, klass.cname?('object_id')
     assert_same false, klass.cname?('to_ary')
     assert_same true, klass.cname?('foo')
-    klass.__send__ :protect_level, :struct
+    klass.__send__ :set_conflict_management_level, :struct
     assert_same true, klass.cname?('m?')
     assert_same true, klass.cname?('__foo__')
     assert_same true, klass.cname?('a b')
@@ -62,8 +62,9 @@ class Test_Striuct_Subclass_Class_SafetyNaming < Test::Unit::TestCase
     assert_same false, klass.member?('m?')
     
     klass.class_eval do
-      protect_level :struct
-      member :'m?'
+      conflict_management :struct do
+        member :'m?'
+      end
     end
     
     assert_same true, klass.member?('m?')

@@ -2,6 +2,7 @@ class Striuct; module ClassMethods
   
   # @group Prevent Naming Conflicts
 
+  # @return [Hash] Symbol => Fixnum
   NAMING_RISKS = {
     conflict:      10,
     no_identifier:  9,
@@ -10,13 +11,17 @@ class Striuct; module ClassMethods
     strict:         0 
   }.freeze
 
-  PROTECT_LEVELS = {
+  # @return [Hash] Symbol => Hash
+  CONFLICT_MANAGEMENT_LEVELS = {
     struct:      {error: 99, warn: 99},
     warning:     {error: 99, warn:  5},
     error:       {error:  9, warn:  5},
     prevent:     {error:  5, warn:  1},
     nervous:     {error:  1, warn:  1}
   }.each(&:freeze).freeze
+  
+  # @return [Symbol]
+  DEFAULT_CONFLICT_MANAGEMENT_LEVEL = :prevent
 
   # @param [Object] name
   # accpeptable the name into own member, under protect level of runtime
@@ -25,18 +30,35 @@ class Striuct; module ClassMethods
   rescue Exception
     false
   end
+  
+  attr_reader :conflict_management_level
 
   private
+  
+  # @param [Symbol, String, #to_sym] level
+  # @return [Symbol] level
+  # change level of management conflict member names
+  def set_conflict_management_level(level)
+    level = level.to_sym
+    raise NameError unless CONFLICT_MANAGEMENT_LEVELS.has_key? level
+
+    @conflict_management_level = level
+  end
 
   # @param [Symbol, String, #to_sym] level
-  # @return [nil]
-  # change protect level for risk of naming members
-  def protect_level(level)
-    level = level.to_sym
-    raise NameError unless PROTECT_LEVELS.has_key? level
+  # @see [#set_conflict_management_level]
+  # @yieldreturn [self]
+  # @return [void]
+  # @raise [ArgumentError] if no block given
+  # temp scope of a conflict_management_level
+  def conflict_management(level=DEFAULT_CONFLICT_MANAGEMENT_LEVEL)
+    before = @conflict_management_level
+    set_conflict_management_level level
     
-    @protect_level = level
-    nil
+    yield
+  ensure
+    @conflict_management_level = before
+    self
   end
   
   # @param [Symbol] name
@@ -44,16 +66,16 @@ class Striuct; module ClassMethods
   # @yieldreturn [Boolean]
   def _check_safety_naming(name)
     estimation = _estimate_naming name
-    risk    = NAMING_RISKS[estimation]
-    plevels = PROTECT_LEVELS[@protect_level]
+    risk    = NAMING_RISKS.fetch estimation
+    plevels = CONFLICT_MANAGEMENT_LEVELS.fetch @conflict_management_level
     caution = "undesirable naming '#{name}', because #{estimation}"
 
     r = (
       case
-      when risk >= plevels[:error]
+      when risk >= plevels.fetch(:error)
         raise NameError, caution unless block_given?
         false
-      when risk >= plevels[:warn]
+      when risk >= plevels.fetch(:warn)
         warn caution unless block_given?
         false
       else
