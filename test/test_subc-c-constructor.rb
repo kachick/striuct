@@ -2,64 +2,70 @@ require_relative 'helper'
 
 class Test_Striuct_Subclass_Class_Constructor < Test::Unit::TestCase
 
-  class User < Striuct.new
-    member :id, Integer
-    member :last_name, /\A\w+\z/
-    member :family_name, /\A\w+\z/
-    member :address, /\A((\w+) ?)+\z/
-    member :age, ->age{(20..140).include? age}
-  end
-  
-  User2 = Striuct.define do
+  User = Striuct.define do
     member :name, AND(String, NOT(''))
     member :age, Fixnum
+  end.freeze
+  
+  [:for_values, :new].each do |callee|
+    define_method :"test_subclass_#{callee}" do
+      user = User.public_send callee
+      assert_instance_of User, user
+      assert_not_kind_of Class, user
+      assert_equal [:name, :age], user.members
+      assert_equal [nil, nil], user.values
+      
+      assert_raises Validation::InvalidWritingError do
+        User.public_send callee, :SYMBOL
+      end
+      
+      assert_raises Validation::InvalidWritingError do
+        User.public_send callee, ''
+      end
+      
+      user = User.public_send callee, '.'
+      assert_instance_of User, user
+      assert_not_kind_of Class, user
+      assert_equal ['.', nil], user.values
+      
+      assert_raises Validation::InvalidWritingError do
+        User.public_send callee, '.', 1.0
+      end
+      
+      user = User.public_send callee, '.', 1
+      assert_equal ['.', 1], user.values
+    end
   end
   
-  def test_new
-    klass = Striuct.new
-    assert_kind_of Striuct, klass.new
-    
-    klass = Striuct.new :name, :age
-    
-    assert_equal klass.members, [:name, :age]
-    
-    klass = Striuct.new :foo do
-      member :var
-    end
-    
-    assert_equal klass.members, [:foo, :var]
-    assert_equal User.members, [:id, :last_name, :family_name, :address, :age]
-  end
-
   def test_define
-    user = User2.define{|r|r.age = 1; r.name = 'a'}
+    user = User.define{|r|r.age = 1; r.name = 'a'}
     assert_same 1, user.age
     
     assert_raises RuntimeError do
       user.age = 1
     end
     
-    user = User2.define{|r|r.age = 1; r.name = 'a'}
+    user = User.define{|r|r.age = 1; r.name = 'a'}
     assert_same 1, user.age
     assert_same true, user.all_locked?
     assert_same false, user.frozen?
     
     assert_raises RuntimeError do
-      User2.define{|r|r.age = 1}
+      User.define{|r|r.age = 1}
     end
     
-    user = User2.define(lock: true){|r|r.age = 1; r.name = 'a'}
+    user = User.define(lock: true){|r|r.age = 1; r.name = 'a'}
     assert_same 1, user.age
     assert_same true, user.all_locked?
-    user = User2.define(lock: false){|r|r.age = 1; r.name = 'a'}
+    user = User.define(lock: false){|r|r.age = 1; r.name = 'a'}
     assert_same false, user.all_locked?
     assert_equal true, user.strict?
     
     assert_raises Validation::InvalidWritingError do
-      User2.define{|r|r.age = 1; r.name = 'a'; r.name.clear}
+      User.define{|r|r.age = 1; r.name = 'a'; r.name.clear}
     end
     
-    user = User2.define(strict: false){|r|r.age = 1; r.name = 'a'; r.name.clear}
+    user = User.define(strict: false){|r|r.age = 1; r.name = 'a'; r.name.clear}
     assert_equal '', user.name
     assert_equal false, user.strict?
   end
@@ -79,4 +85,4 @@ class Test_Striuct_Subclass_Class_Constructor < Test::Unit::TestCase
     assert_equal [8, nil, 7], sth.values
   end
 
-end  
+end
