@@ -50,13 +50,11 @@ class Striuct; module ClassMethods
     _check_safety_naming autonym
     _add_autonym autonym
 
-    if options[:setter_validation] or options[:writer_validation]
-      _attributes_for(autonym).safety_setter = true
-    end
-
-    if options[:getter_validation] or options[:reader_validation]
-      _attributes_for(autonym).safety_getter = true
-    end
+    _attributes_for(autonym).safety_setter = 
+      !!(options[:setter_validation] || options[:writer_validation])
+    
+    _attributes_for(autonym).safety_getter = 
+      !!(options[:getter_validation] || options[:reader_validation])
 
     if options[:inference]
       _attributes_for(autonym).inference = true
