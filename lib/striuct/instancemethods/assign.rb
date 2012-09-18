@@ -1,18 +1,21 @@
 class Striuct; module InstanceMethods 
 
-  # @group Assign
+  # @group Assign / Unassign
   
-  # @param [Symbol, String] name
-  def assign?(name)
-    autonym = autonym_for_member name
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
+  def assign?(key)
+    autonym = autonym_for_key key
     
     @db.has_key? autonym
   end
   
-  # @param [Symbol, String, Fixnum] key
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
+  # @return value - assigned under the key
   def unassign(key)
     raise "can't modify frozen #{self.class}" if frozen?
+    
     autonym = autonym_for_key key
+    raise "can't modify locked member #{autonym}" if lock? autonym
 
     @db.delete autonym
   end
@@ -22,7 +25,7 @@ class Striuct; module InstanceMethods
 
   # true if all members are not yet assigned
   def empty?
-    _autonyms.none?{|autonym|assign? autonym}
+    _autonyms.none?{|autonym|@db.has_key? autonym}
   end
 
   # @endgroup
