@@ -1,11 +1,4 @@
-require 'forwardable'
-
 class Striuct; module InstanceMethods
-  
-  extend Forwardable
-  
-  # Forwardable has public/protected class_macro
-  private_class_method(*Forwardable.instance_methods)
 
   # @group Delegate Class Methods
   

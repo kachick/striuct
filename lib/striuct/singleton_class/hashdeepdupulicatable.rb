@@ -1,4 +1,4 @@
-class Striuct
+class Striuct; class << self
 
   module HashDeepDupulicatable
 
@@ -18,4 +18,4 @@ class Striuct
     private_constant :HashDeepDupulicatable
   end
 
-end
+end; end
