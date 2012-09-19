@@ -6,25 +6,25 @@ class Test_Striuct_Subclass_Instance_Assign < Test::Unit::TestCase
     member :foo
   end  
 
-  [:unassign, :delete_at].each do |method|
-    define_method :"test_#{method}" do
+  [:unassign, :delete_at].each do |callee|
+    define_method :"test_#{callee}" do
       sth = Sth.new
       assert_equal false, sth.assign?(:foo)
       sth.foo = nil
       assert_equal true, sth.assign?(:foo)
-      sth.public_send method, :foo
+      sth.public_send callee, :foo
       assert_equal false, sth.assign?(:foo)
       sth.foo = nil
       assert_equal true, sth.assign?(:foo)
-      sth.public_send method, 0
+      sth.public_send callee, 0
       assert_equal false, sth.assign?(:foo)
       
-      assert_raises NameError do
-        sth.public_send method,  :var
+      assert_raises KeyError do
+        sth.public_send callee, :var
       end
       
-      assert_raises IndexError do
-        sth.public_send method,  1
+      assert_raises KeyError do
+        sth.public_send callee, 1
       end
     end
   end
