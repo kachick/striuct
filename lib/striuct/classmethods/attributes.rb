@@ -1,4 +1,4 @@
-class Striuct
+class Striuct; module ClassMethods
 
   # Attributes for each Member(Autonym)
   class Attributes
@@ -109,4 +109,4 @@ class Striuct
     private_constant :Attributes
   end
 
-end
+end; end

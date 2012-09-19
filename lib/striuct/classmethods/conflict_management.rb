@@ -1,6 +1,6 @@
 class Striuct; module ClassMethods
   
-  # @group Prevent Naming Conflicts
+  # @group Member Conflict Management
 
   # @return [Hash] Symbol => Fixnum
   NAMING_RISKS = {

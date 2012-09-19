@@ -1,6 +1,4 @@
-require_relative 'hashdeepdupulicatable'
-require_relative 'classmethods'
-require_relative 'instancemethods'
+require_relative 'singleton_class/hashdeepdupulicatable'
 
 class Striuct
 
