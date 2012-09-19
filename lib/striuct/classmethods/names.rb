@@ -18,20 +18,19 @@ class Striuct; module ClassMethods
   # @return [Symbol]
   def autonym_for_alias(als) 
     @aliases.fetch als.to_sym
+  rescue NoMethodError
+    raise TypeError
+  rescue KeyError
+    raise NameError
   end
 
   # @param [Symbol, String, #to_sym] name - autonym / aliased
   # @return [Symbol]
   def autonym_for_member(name)
+    raise TypeError unless name.respond_to? :to_sym
     name = name.to_sym
     
-    return name if @autonyms.include? name
-    
-    if @aliases.has_key? name
-       autonym_for_alias name
-    else
-      raise NameError, "not defined member for #{name}"
-    end
+    @autonyms.include?(name) ? name : autonym_for_alias(name)
   end
 
   # @param [Index, #to_int] index
@@ -44,15 +43,18 @@ class Striuct; module ClassMethods
   # @return [Symbol] autonym
   def autonym_for_key(key)
     key.respond_to?(:to_sym) ? autonym_for_member(key) : autonym_for_index(key)
+  rescue NameError, IndexError, TypeError
+    raise KeyError
   end
 
   # @param [Symbol, String, #to_sym] autonym
   # @return [Array<Symbol>]
   def aliases_for_autonym(autonym)
+    raise TypeError unless autonym.respond_to?(:to_sym)
     autonym = autonym.to_sym
     raise NameError unless with_aliases? autonym
 
-    @aliases.group_by{|aliased, an|an}.fetch(autonym)
+    @aliases.select{|als, aut|autonym == aut}.keys
   end
   
   # @return [Hash] alias => autonym
