@@ -135,10 +135,11 @@ class SafetyNaming < Striuct.new
     debug $!
   end
   
-  # set lower
-  protect_level :struct
+  # tempolary set lower
+  conflict_management :struct do
+    member :__send__, :'?  !'
+  end
   
-  member :__send__, :'?  !'
 end
 
 # 2. Struct+ "Handy"
