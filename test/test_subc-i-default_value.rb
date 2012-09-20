@@ -107,7 +107,7 @@ class Test_Striuct_Subclass_Instance_DefaultValue_Under_MemberMacro < Test::Unit
     seef = nil
     klass = Striuct.define do
       
-      scope.assert_raises ArgumentError do
+      scope.assert_raises OptionalArgument::KeyConflictError do
         member :lank, Integer, default: '10', default_proc: ->own,name{rand}
       end
       

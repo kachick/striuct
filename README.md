@@ -101,6 +101,7 @@ Requirements
 
 * Ruby - [1.9.2 or later](http://travis-ci.org/#!/kachick/striuct)
 * [validation](https://github.com/kachick/validation) - 0.0.3
+* [optionalargument](https://github.com/kachick/optionalargument) - 0.0.1
 * [keyvalidatable](https://github.com/kachick/keyvalidatable) - 0.0.3
 
 Install
