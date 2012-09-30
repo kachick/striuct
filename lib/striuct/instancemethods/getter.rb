@@ -3,7 +3,7 @@ class Striuct; module InstanceMethods
   # @group Getter
 
   # @param [Symbol, String, #to_sym] autonym
-  def fetch_for_autonym(autonym)
+  def fetch_by_autonym(autonym)
     autonym = autonym.to_sym
     raise NameError unless autonym? autonym
 
@@ -11,22 +11,22 @@ class Striuct; module InstanceMethods
   end
 
   # @param [Symbol, String, #to_sym] member
-  def fetch_for_member(member)
+  def fetch_by_member(member)
     _get autonym_for_member(member)
   end
 
   # @param [Integer, #to_int] index
-  def fetch_for_index(index)
+  def fetch_by_index(index)
     _get autonym_for_index(index)
   end
 
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
-  def fetch_for_key(key)
+  def fetch_by_key(key)
     _get autonym_for_key(key)
   end
 
-  alias_method :[], :fetch_for_key
-  alias_method :fetch, :fetch_for_key
+  alias_method :[], :fetch_by_key
+  alias_method :fetch, :fetch_by_key
   
   protected
 
