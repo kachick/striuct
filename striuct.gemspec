@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = 'striuct'
   gem.require_paths = ['lib']
-  gem.version       = '0.4.0.a'
+  gem.version       = '0.4.0'
 
   gem.required_ruby_version = '>= 1.9.2'
 
