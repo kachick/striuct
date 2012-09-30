@@ -4,7 +4,7 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{Struct++}
   gem.description   = %q{Validatable, Inheritable, Member Aliasing,
   Conflict Management, Default Value, Divide nil with unassign,
-  Hash flendly API, ... And more Struct++ features :)}
+  Lock setter of each member, Hash flendly API, ... And more Struct++ features :)}
   gem.homepage      = 'https://github.com/kachick/striuct'
 
   gem.files         = `git ls-files`.split($\)
