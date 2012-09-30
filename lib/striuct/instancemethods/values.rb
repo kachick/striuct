@@ -9,12 +9,12 @@ class Striuct; module InstanceMethods
       _keys.each do |key|
         case key
         when ->v{v.respond_to? :to_int}
-          r << fetch_for_index(key)
+          r << fetch_by_index(key)
         when Range
           key.each do |idx|
             raise TypeError unless idx.respond_to? :to_int
 
-            r << fetch_for_index(idx)
+            r << fetch_by_index(idx)
           end
         else
           raise TypeError

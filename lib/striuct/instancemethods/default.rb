@@ -6,7 +6,7 @@ class Striuct; module InstanceMethods
   def default?(key)
     autonym = autonym_for_key key
 
-    default_value_for(autonym) == fetch_for_autonym(autonym)
+    default_value_for(autonym) == fetch_by_autonym(autonym)
   end
 
   private
