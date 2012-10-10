@@ -31,7 +31,7 @@ class Striuct
     # @yieldreturn [Class] (see Striuct.new) - reject floating class
     # @return [void]
     def define(&block)
-      raise ArgumentError, 'must with block' unless block_given?
+      raise ArgumentError, 'block not supplied' unless block_given?
 
       new(&block).tap {|subclass|
         subclass.class_eval {
