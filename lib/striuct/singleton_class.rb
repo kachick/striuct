@@ -1,3 +1,4 @@
+require 'validation'
 require_relative 'singleton_class/hashdeepdupulicatable'
 
 class Striuct
@@ -53,6 +54,7 @@ class Striuct
 
         extend ClassMethods
         include Enumerable
+        include Validation
         include InstanceMethods
         
         @autonyms      = []
