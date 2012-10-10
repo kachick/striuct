@@ -3,12 +3,12 @@ require 'validation'
 class Striuct
 
   class << self
-
-    # @group Constructor
     
     alias_method :new_instance, :new
     private :new_instance
     
+    # @group Constructors for Subclassies 
+
     # @param [Symbol, String] autonyms
     # @yieldreturn [Class]
     # @return [Class]
@@ -45,12 +45,10 @@ class Striuct
 
     private
     
-    alias_method :original_inherited, :inherited
-
     def inherited(subclass)
-      subclass.class_eval {
-        original_inherited subclass
+      ret = super subclass
 
+      subclass.class_eval {
         extend ClassMethods
         include Enumerable
         include Validation
@@ -58,6 +56,8 @@ class Striuct
         
         _init
       }
+
+      ret
     end
 
   end
