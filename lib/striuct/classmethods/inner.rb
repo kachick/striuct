@@ -4,6 +4,13 @@ class Striuct; module ClassMethods
 
   private
 
+  def _init
+    @autonyms      = []
+    @attributes    = {}.extend HashDeepDupulicatable # autonym => Attributes
+    @aliases       = {} # aliased => autonym
+    @conflict_management_level = DEFAULT_CONFLICT_MANAGEMENT_LEVEL
+  end
+
   def _add_autonym(autonym)
     autonym = autonym.to_sym
     raise NameError, 'already defined' if member? autonym
