@@ -1,4 +1,4 @@
-class Striuct; class << self
+class Striuct; module ClassMethods
 
   module HashDeepDupulicatable
 
