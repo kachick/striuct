@@ -19,13 +19,13 @@ class Striuct
         warn "no define constant first-arg(#{first}), the Struct behavior is not supported in Striuct"
       end
 
-      Class.new self do
+      Class.new(self) {
         autonyms.each do |autonym|
           add_member autonym
         end
 
         class_eval(&block) if block_given?
-      end
+      }
     end
 
     # @yieldreturn [Class] (see Striuct.new) - reject floating class
@@ -34,10 +34,10 @@ class Striuct
       raise ArgumentError, 'must with block' unless block_given?
 
       new(&block).tap {|subclass|
-        subclass.class_eval do
+        subclass.class_eval {
           raise 'not yet finished' if @autonyms.empty?
           close
-        end
+        }
       }
     end
 
@@ -48,7 +48,7 @@ class Striuct
     alias_method :original_inherited, :inherited
 
     def inherited(subclass)
-      subclass.class_eval do
+      subclass.class_eval {
         original_inherited subclass
 
         extend ClassMethods
@@ -57,7 +57,7 @@ class Striuct
         include InstanceMethods
         
         _init
-      end
+      }
     end
 
   end
