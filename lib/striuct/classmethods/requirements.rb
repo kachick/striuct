@@ -1,5 +1,6 @@
 require 'optionalargument'
 
+require_relative 'hashdeepdupulicatable'
 require_relative 'attributes'
 require_relative 'inner'
 require_relative 'names'

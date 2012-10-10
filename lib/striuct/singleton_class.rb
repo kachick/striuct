@@ -1,5 +1,4 @@
 require 'validation'
-require_relative 'singleton_class/hashdeepdupulicatable'
 
 class Striuct
 
@@ -57,11 +56,7 @@ class Striuct
         include Validation
         include InstanceMethods
         
-        @autonyms      = []
-        @attributes    = {}.extend HashDeepDupulicatable # autonym => Attributes
-        @aliases       = {} # aliased => autonym
-        @conflict_management_level = 
-          ClassMethods::DEFAULT_CONFLICT_MANAGEMENT_LEVEL
+        _init
       end
     end
 
