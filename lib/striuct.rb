@@ -1,13 +1,8 @@
-# striuct - Provides a Struct++ class.
-# Copyright (c) 2011 Kenichi Kamiya
-
-require 'validation'
+# striuct - Struct++
+# Copyright (c) 2011-2012 Kenichi Kamiya
 
 # @abstract
 class Striuct
-
-  include Validation
-
 end
 
 require_relative 'striuct/requirements'
