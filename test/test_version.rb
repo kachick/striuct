@@ -6,9 +6,8 @@ class Test_Striuct_Version < Test::Unit::TestCase
     assert_same false, Striuct.const_defined?(:VERSION, false)
   end
 
-  # I want to be this behavior
-  #def test_const_version_of_dependencies
-  #  assert_same false, Striuct.const_defined?(:VERSION, true)
-  #end
+  def test_const_version_of_dependencies
+    assert_same false, Striuct.const_defined?(:VERSION, true)
+  end
 
 end
