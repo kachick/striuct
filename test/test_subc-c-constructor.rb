@@ -77,6 +77,10 @@ class Test_Striuct_Subclass_Class_Constructor < Test::Unit::TestCase
     sth = Sth[hoge: 7, foo: 8]
    
     assert_equal [8, nil, 7], sth.values
+
+    sth = Sth['hoge' => 7, 'foo' => 8]
+   
+    assert_equal [8, nil, 7], sth.values
   end
 
   def test_for_pairs_from_struct

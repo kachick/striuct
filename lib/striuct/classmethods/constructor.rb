@@ -16,7 +16,8 @@ class Striuct; module ClassMethods
   def for_pairs(pairs)
     raise TypeError, 'no pairs object' unless pairs.respond_to?(:each_pair)
 
-    pairs.dup.extend(KeyValidatable).validate_keys let: all_members
+    keys = KeyValidatable.__send__ :keys_for, pairs
+    KeyValidatable.validate_array keys.map(&:to_sym), let: all_members
 
     new.tap {|instance|
       pairs.each_pair do |name, value|
@@ -36,7 +37,7 @@ class Striuct; module ClassMethods
   # @return [void]
   def define(options={lock: true, strict: true})
     raise ArgumentError, 'must with block' unless block_given?
-    options.dup.extend(KeyValidatable).validate_keys let: [:lock, :strict]
+    KeyValidatable.validate_keys options, let: [:lock, :strict]
     
     lock, strict = options[:lock], options[:strict]
     
