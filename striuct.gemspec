@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'validation', '~> 0.0.3'
   gem.add_runtime_dependency 'optionalargument', '~> 0.0.3'
-  gem.add_runtime_dependency 'keyvalidatable', '~> 0.0.4'
+  gem.add_runtime_dependency 'keyvalidatable', '~> 0.0.5'
 
   gem.add_development_dependency 'yard', '~> 0.8'
   gem.add_development_dependency 'rake'
