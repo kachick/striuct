@@ -1,4 +1,5 @@
 require 'keyvalidatable'
+require 'optionalargument'
 
 class Striuct; module ClassMethods
 
@@ -15,9 +16,8 @@ class Striuct; module ClassMethods
   # @return [Striuct]
   def for_pairs(pairs)
     raise TypeError, 'no pairs object' unless pairs.respond_to?(:each_pair)
-
-    keys = KeyValidatable.__send__ :keys_for, pairs
-    KeyValidatable.validate_array keys.map(&:to_sym), let: all_members
+    KeyValidatable.validate_array KeyValidatable.keys_for(pairs).map(&:to_sym),
+                                       let: all_members
 
     new.tap {|instance|
       pairs.each_pair do |name, value|
@@ -28,6 +28,12 @@ class Striuct; module ClassMethods
 
   alias_method :[], :for_pairs
 
+  # @return [Class]
+  DEFINE_OptArg = OptionalArgument.define {
+    opt :lock, default: true, condition: BOOLEAN?
+    opt :strict, default: true, condition: BOOLEAN?
+  }
+
   # for build the fixed object
   # @param [Hash] options
   # @option options [Boolean] :lock
@@ -35,26 +41,25 @@ class Striuct; module ClassMethods
   # @yieldparam [Striuct] instance
   # @yieldreturn [Striuct] instance
   # @return [void]
-  def define(options={lock: true, strict: true})
+  def define(options={})
     raise ArgumentError, 'must with block' unless block_given?
-    KeyValidatable.validate_keys options, let: [:lock, :strict]
-    
-    lock, strict = options[:lock], options[:strict]
+    opts = DEFINE_OptArg.parse options
     
     new.tap {|instance|
       yield instance
   
-      unless (yets = autonyms.select{|autonym|! instance.assign?(autonym)}).empty?
+      yets = autonyms.select{|autonym|! instance.assign?(autonym)}
+      unless yets.empty?
         raise "not assigned members are, yet '#{yets.inspect} in #{self}'"
       end
       
-      if strict &&
-        ! (invalids = autonyms.select{|autonym|! instance.valid?(autonym)}).empty?
-
-        raise Validation::InvalidWritingError, "invalids members are, yet '#{invalids.inspect} in #{self}'"
+      invalids = autonyms.select{|autonym|! instance.valid?(autonym)}
+      if opts.strict && !invalids.empty?
+        raise Validation::InvalidWritingError,
+               "invalids members are, yet '#{invalids.inspect} in #{self}'"
       end
 
-      instance.lock_all if lock
+      instance.lock_all if opts.lock
     }
   end
 

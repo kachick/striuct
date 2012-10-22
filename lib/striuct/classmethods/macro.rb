@@ -4,7 +4,8 @@ class Striuct; module ClassMethods
 
   ANYTHING = ::Validation::Condition::ANYTHING
   
-  ADD_MEMBER_OPTIONS = OptionalArgument.define {
+  # @return [Class]
+  ADD_MEMBER_OptArg = OptionalArgument.define {
     opt :default_value, aliases: [:default]
     opt :default_proc, aliases: [:lazy_default]
     conflict :default_value, :default_proc
@@ -30,7 +31,7 @@ class Striuct; module ClassMethods
     raise "can't modify frozen Class" if frozen?
     raise "already closed to add member in #{self}" if closed?
     
-    options = ADD_MEMBER_OPTIONS.parse options
+    options = ADD_MEMBER_OptArg.parse options
     autonym = autonym.to_sym # First difinition for an autonym
 
     raise ArgumentError, %Q!already exist name "#{autonym}"! if member? autonym
