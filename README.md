@@ -132,4 +132,3 @@ License
 The MIT X11 License  
 Copyright (c) 2011 Kenichi Kamiya  
 See MIT-LICENSE for further details.
-

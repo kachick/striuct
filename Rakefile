@@ -8,4 +8,3 @@ task default: [:test]
 Rake::TestTask.new do |tt|
   tt.verbose = true
 end
-
