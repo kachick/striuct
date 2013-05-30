@@ -13,11 +13,9 @@ class Striuct; module InstanceMethods
   # @return value / nil - value assigned under the key
   def unassign(key)
     _check_frozen
+    _check_locked key
     
-    autonym = autonym_for_key key
-    raise "can't modify locked member #{autonym}" if locked? autonym
-
-    @db.delete autonym
+    @db.delete autonym_for_key(key)
   end
   
   alias_method :delete_at, :unassign
