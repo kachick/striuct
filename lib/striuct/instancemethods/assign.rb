@@ -12,7 +12,7 @@ class Striuct; module InstanceMethods
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
   # @return value / nil - value assigned under the key
   def unassign(key)
-    raise "can't modify frozen #{self.class}" if frozen?
+    _check_frozen
     
     autonym = autonym_for_key key
     raise "can't modify locked member #{autonym}" if locked? autonym

@@ -5,7 +5,7 @@ class Striuct; module InstanceMethods
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
   # @return [self]
   def lock(key)
-    raise "can't modify frozen #{self.class}" if frozen?
+    _check_frozen
     autonym = autonym_for_key key
 
     @locks[autonym] = true
@@ -14,7 +14,7 @@ class Striuct; module InstanceMethods
   
   # @return [self]
   def lock_all
-    raise "can't modify frozen #{self.class}" if frozen?
+    _check_frozen
     
     each_autonym do |autonym|
       @locks[autonym] = true
@@ -37,7 +37,7 @@ class Striuct; module InstanceMethods
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
   # @return [self]
   def unlock(key)
-    raise "can't modify frozen #{self.class}" if frozen?
+    _check_frozen
     autonym = autonym_for_key key
     
     @locks.delete autonym
@@ -46,7 +46,7 @@ class Striuct; module InstanceMethods
   
   # @return [self]
   def unlock_all
-    raise "can't modify frozen #{self.class}" if frozen?
+    _check_frozen
 
     @locks.clear
     self

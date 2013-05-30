@@ -23,7 +23,7 @@ class Striuct; module InstanceMethods
   # @param [Symbol] autonym - MUST already converted to native autonym
   # @return value
   def _set(autonym, value)
-    raise "can't modify frozen #{self.class}" if frozen?
+    _check_frozen
     raise "can't modify locked member #{autonym}" if locked? autonym
 
     if with_adjuster? autonym

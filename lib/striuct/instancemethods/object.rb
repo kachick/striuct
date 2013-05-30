@@ -21,6 +21,10 @@ class Striuct; module InstanceMethods
     @db, @locks = @db.dup, {}
   end
 
+  def _check_frozen
+    raise "can't modify frozen #{self.class}" if frozen?
+  end
+
   # @endgroup
 
 end; end

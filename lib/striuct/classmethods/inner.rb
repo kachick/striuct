@@ -23,6 +23,10 @@ class Striuct; module ClassMethods
     @attributes.fetch autonym
   end
 
+  def _check_frozen
+    raise "can't modify frozen Class" if frozen?
+  end
+
   def _def_getter(autonym) 
     define_method autonym do
       _get autonym

@@ -28,7 +28,7 @@ class Striuct; module ClassMethods
   # @option options [Boolean] :setter_validation
   # @return [nil]
   def add_member(autonym, condition=ANYTHING, options={}, &adjuster)
-    raise "can't modify frozen Class" if frozen?
+    _check_frozen
     raise "already closed to add member in #{self}" if closed?
     
     options = ADD_MEMBER_OptArg.parse options
@@ -64,7 +64,7 @@ class Striuct; module ClassMethods
   # @param [Symbol, String, #to_sym] autonyms
   # @return [nil]
   def add_members(autonym, *autonyms)
-    raise "can't modify frozen Class" if frozen?
+    _check_frozen
     raise "already closed to add members in #{self}" if closed?
     
     [autonym, *autonyms].each {|_autonym|add_member _autonym}
@@ -75,7 +75,7 @@ class Striuct; module ClassMethods
   # @param [Symbol, String, #to_sym] autonym
   # @return [nil]
   def alias_member(aliased, autonym)
-    raise "can't modify frozen Class" if frozen?
+    _check_frozen
     raise "already closed to add members in #{self}" if closed?
     autonym = autonym_for_member autonym
     aliased  = aliased.to_sym
@@ -91,7 +91,7 @@ class Striuct; module ClassMethods
   # @param [Symbol, String, #to_sym] name
   # @return [nil]
   def set_default_value(name, value=nil, &block)
-    raise "can't modify frozen Class" if frozen?
+    _check_frozen
     raise "already closed to modify member attributes in #{self}" if closed?
     autonym = autonym_for_member name
     raise "already settled default value for #{name}" if with_default? autonym

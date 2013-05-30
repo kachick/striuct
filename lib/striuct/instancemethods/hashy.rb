@@ -16,7 +16,7 @@ class Striuct; module InstanceMethods
   # @yieldreturn [self]
   # @yieldreturn [nil]
   def select!
-    raise "can't modify frozen #{self.class}" if frozen?
+    _check_frozen
     return to_enum(__callee__) unless block_given?
 
     modified = false
@@ -35,7 +35,7 @@ class Striuct; module InstanceMethods
   # @yieldparam [Symbol] autonym
   # @return [Enumerator]
   def keep_if(&block)
-    raise "can't modify frozen #{self.class}" if frozen?
+    _check_frozen
     return to_enum(__callee__) unless block_given?
 
     select!(&block)
@@ -48,7 +48,7 @@ class Striuct; module InstanceMethods
   # @yieldparam [Symbol] autonym
   # @return [Enumerator]
   def reject!
-    raise "can't modify frozen #{self.class}" if frozen?
+    _check_frozen
     return to_enum(__callee__) unless block_given?
 
     modified = false
@@ -67,7 +67,7 @@ class Striuct; module InstanceMethods
   # @yieldparam [Symbol] autonym
   # @return [Enumerator]
   def delete_if(&block)
-    raise "can't modify frozen #{self.class}" if frozen?
+    _check_frozen
     return to_enum(__callee__) unless block_given?
 
     reject!(&block)
