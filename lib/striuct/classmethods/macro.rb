@@ -29,7 +29,7 @@ class Striuct; module ClassMethods
   # @return [nil]
   def add_member(autonym, condition=ANYTHING, options={}, &adjuster)
     _check_frozen
-    raise "already closed to add member in #{self}" if closed?
+    _check_closed
     
     options = ADD_MEMBER_OptArg.parse options
     autonym = autonym.to_sym # First difinition for an autonym
@@ -65,7 +65,7 @@ class Striuct; module ClassMethods
   # @return [nil]
   def add_members(autonym, *autonyms)
     _check_frozen
-    raise "already closed to add members in #{self}" if closed?
+    _check_closed
     
     [autonym, *autonyms].each {|_autonym|add_member _autonym}
     nil
@@ -76,7 +76,7 @@ class Striuct; module ClassMethods
   # @return [nil]
   def alias_member(aliased, autonym)
     _check_frozen
-    raise "already closed to add members in #{self}" if closed?
+    _check_closed
     autonym = autonym_for_member autonym
     aliased  = aliased.to_sym
     raise ArgumentError, %Q!already exist name "#{aliased}"! if member? aliased
@@ -92,7 +92,7 @@ class Striuct; module ClassMethods
   # @return [nil]
   def set_default_value(name, value=nil, &block)
     _check_frozen
-    raise "already closed to modify member attributes in #{self}" if closed?
+    _check_closed
     autonym = autonym_for_member name
     raise "already settled default value for #{name}" if with_default? autonym
 

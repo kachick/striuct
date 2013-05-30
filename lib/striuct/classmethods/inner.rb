@@ -27,6 +27,10 @@ class Striuct; module ClassMethods
     raise "can't modify frozen Class" if frozen?
   end
 
+  def _check_closed
+    raise "can't modify closed member attributes in #{self}" if closed?
+  end
+
   def _def_getter(autonym) 
     define_method autonym do
       _get autonym
