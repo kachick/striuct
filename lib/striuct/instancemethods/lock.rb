@@ -6,9 +6,8 @@ class Striuct; module InstanceMethods
   # @return [self]
   def lock(key)
     _check_frozen
-    autonym = autonym_for_key key
 
-    @locks[autonym] = true
+    @locks[autonym_for_key(key)] = true
     self
   end
   
@@ -23,9 +22,7 @@ class Striuct; module InstanceMethods
 
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
   def locked?(key)
-    autonym = autonym_for_key key
-    
-    @locks.has_key? autonym
+    @locks.has_key? autonym_for_key(key)
   end
   
   def all_locked?
@@ -38,9 +35,8 @@ class Striuct; module InstanceMethods
   # @return [self]
   def unlock(key)
     _check_frozen
-    autonym = autonym_for_key key
-    
-    @locks.delete autonym
+
+    @locks.delete autonym_for_key(key)
     self
   end
   

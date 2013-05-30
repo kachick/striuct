@@ -4,9 +4,7 @@ class Striuct; module InstanceMethods
   
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
   def assign?(key)
-    autonym = autonym_for_key key
-    
-    @db.has_key? autonym
+    @db.has_key? autonym_for_key(key)
   end
   
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
