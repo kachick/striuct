@@ -74,9 +74,9 @@ foo = Foo.new
 
 # nil <-> unaasigned
 foo.foo                  #=> nil
-foo.assign?(:foo)        #=> false
+foo.assigned?(:foo)      #=> false
 foo.foo = nil
-foo.assign?(:foo)        #=> true
+foo.assigned?(:foo)      #=> true
 
 # Lock to a member
 foo.lock(:foo)

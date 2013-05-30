@@ -10,12 +10,16 @@ class Test_Striuct_Subclass_Instance_Assign < Test::Unit::TestCase
     define_method :"test_#{callee}" do
       sth = Sth.new
       assert_equal false, sth.assign?(:foo)
+      assert_equal false, sth.assigned?(:foo)
       sth.foo = nil
       assert_equal true, sth.assign?(:foo)
+      assert_equal true, sth.assigned?(:foo)
       sth.public_send callee, :foo
       assert_equal false, sth.assign?(:foo)
+      assert_equal false, sth.assigned?(:foo)
       sth.foo = nil
       assert_equal true, sth.assign?(:foo)
+      assert_equal true, sth.assigned?(:foo)
       sth.public_send callee, 0
       assert_equal false, sth.assign?(:foo)
       

@@ -3,9 +3,11 @@ class Striuct; module InstanceMethods
   # @group Assign / Unassign
   
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
-  def assign?(key)
+  def assigned?(key)
     @db.has_key? autonym_for_key(key)
   end
+
+  alias_method :assign?, :assigned?
   
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
   # @return value / nil - value assigned under the key

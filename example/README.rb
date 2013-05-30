@@ -34,9 +34,9 @@ end
 
 foo = Foo.new
 p foo.foo           #=> nil
-p foo.assign?(:foo) #=> false
+p foo.assigned?(:foo) #=> false
 foo.foo = nil
-p foo.assign?(:foo) #=> true
+p foo.assigned?(:foo) #=> true
 foo.lock(:foo)
 #~ foo.foo = nil       #=> error
 foo.bar = 1.2

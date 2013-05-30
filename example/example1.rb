@@ -184,9 +184,9 @@ user3
 debug user3
 
 # Standard Struct always define "nil is default". ...realy?
-debug user3.assign?(:name)
+debug user3.assigned?(:name)
 user3.name = nil
-debug user3.assign?(:name)
+debug user3.assigned?(:name)
 
 # Alias
 

@@ -48,7 +48,7 @@ class Striuct; module ClassMethods
     new.tap {|instance|
       yield instance
   
-      yets = autonyms.select{|autonym|! instance.assign?(autonym)}
+      yets = autonyms.select{|autonym|! instance.assigned?(autonym)}
       unless yets.empty?
         raise "not assigned members are, yet '#{yets.inspect} in #{self}'"
       end
