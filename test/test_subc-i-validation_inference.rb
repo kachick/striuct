@@ -5,7 +5,7 @@ class Test_Striuct_Subclass_Instance_Inference < Test::Unit::TestCase
   def test_inference
     klass = Striuct.define do
       member :n, Numeric, inference: true
-      member :m, ANYTHING?, inference: true
+      member :m, BasicObject, inference: true
     end
     
     sth, sth2 = klass.new, klass.new

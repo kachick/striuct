@@ -145,10 +145,10 @@ class Test_Striuct_Subclass_Predicate_Default < Test::Unit::TestCase
 
   class Subclass < Striuct
     member :foo    
-    member :val, ANYTHING?, default: 'DEFAULT'
+    member :val, BasicObject, default: 'DEFAULT'
     
     conflict_management :struct do
-      member :lazy, ANYTHING?, default_proc: ->{}
+      member :lazy, BasicObject, default_proc: ->{}
     end
     
     alias_member :als_foo, :foo
@@ -261,7 +261,7 @@ class Test_Striuct_Subclass_Predicate_Condition < Test::Unit::TestCase
     alias_member :als_no_with, :no_with
     member :with, nil
     alias_member :als_with, :with
-    member :with_any, ANYTHING?
+    member :with_any, BasicObject
     alias_member :als_with_any, :with_any
     member :adj_with, nil do |_|; end
     alias_member :als_adj_with, :adj_with
@@ -325,7 +325,7 @@ class Test_Striuct_Subclass_Predicate_InferenceValidation < Test::Unit::TestCase
     alias_member :als_no_with, :no_with
     member :with, nil, inference: true
     alias_member :als_with, :with
-    member :with_any, ANYTHING?, inference: true
+    member :with_any, BasicObject, inference: true
     alias_member :als_with_any, :with_any
     member :adj_with, nil, inference: true do |_|; end
     alias_member :als_adj_with, :adj_with
@@ -390,7 +390,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Enable < Test::Unit::Tes
     alias_member :als_no_with, :no_with
     member :with, nil, setter_validation: true
     alias_member :als_with, :with
-    member :with_any, ANYTHING?, writer_validation: true
+    member :with_any, BasicObject, writer_validation: true
     alias_member :als_with_any, :with_any
     member :adj_with, nil, writer_validation: true do |_|; end
     alias_member :als_adj_with, :adj_with
@@ -456,7 +456,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Disable < Test::Unit::Te
     member :with, nil, setter_validation: false
     alias_member :als_with, :with
     
-    member :with_any, ANYTHING?, writer_validation: false
+    member :with_any, BasicObject, writer_validation: false
     alias_member :als_with_any, :with_any
     
     member :adj_with, nil, writer_validation: false do |_|; end
@@ -522,7 +522,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Getter_Enable < Test::Unit::Tes
     alias_member :als_no_with, :no_with
     member :with, nil, getter_validation: true
     alias_member :als_with, :with
-    member :with_any, ANYTHING?, reader_validation: true
+    member :with_any, BasicObject, reader_validation: true
     alias_member :als_with_any, :with_any
     member :adj_with, nil, reader_validation: true do |_|; end
     alias_member :als_adj_with, :adj_with
@@ -588,7 +588,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Getter_Disable < Test::Unit::Te
     member :with, nil, getter_validation: false
     alias_member :als_with, :with
     
-    member :with_any, ANYTHING?, reader_validation: false
+    member :with_any, BasicObject, reader_validation: false
     alias_member :als_with_any, :with_any
     
     member :adj_with, nil, reader_validation: false do |_|; end
