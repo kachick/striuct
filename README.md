@@ -1,6 +1,9 @@
 striuct
 =======
 
+[![Build Status](https://secure.travis-ci.org/kachick/striuct.png)](http://travis-ci.org/kachick/striuct)
+[![Gem Version](https://badge.fury.io/rb/striuct.png)](http://badge.fury.io/rb/striuct)
+
 Description
 -----------
 
@@ -105,13 +108,8 @@ Install
 -------
 
 ```bash
-$ gem install striuct
+gem install striuct
 ```
-
-Build Status
--------------
-
-[![Build Status](https://secure.travis-ci.org/kachick/striuct.png)](http://travis-ci.org/kachick/striuct)
 
 Link
 ----
