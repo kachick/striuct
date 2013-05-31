@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = 'http://kachick.github.com/striuct/'
   gem.license       = 'MIT'
   gem.name          = 'striuct'
-  gem.version       = '0.4.3.a'
+  gem.version       = '0.4.3'
 
   gem.required_ruby_version = '>= 1.9.2'
 
