@@ -1,7 +1,9 @@
 Gem::Specification.new do |gem|
   # specific
 
-  gem.description   = %q{Struct++ library
+  gem.description   = %q{Struct++ library.
+
+---
 
   Validatable, Inheritable, Member Aliasing,
   Conflict Management, Default Value, Divide nil with unassign,
@@ -11,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = 'http://kachick.github.com/striuct/'
   gem.license       = 'MIT'
   gem.name          = 'striuct'
-  gem.version       = '0.4.3'
+  gem.version       = '0.4.4'
 
   gem.required_ruby_version = '>= 1.9.2'
 
