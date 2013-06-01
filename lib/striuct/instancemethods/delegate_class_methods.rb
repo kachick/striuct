@@ -8,7 +8,7 @@ class Striuct; module InstanceMethods
     :autonym_for_member,
     :autonym_for_index,
     :autonym_for_key,
-    :autonyms, :members, :all_members, :aliases,
+    :autonyms, :members, :all_members, :aliases, :attributes,
     :has_autonym?, :autonym?,
     :has_alias?, :alias?, :aliased?,
     :has_member?, :member?,

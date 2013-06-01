@@ -2,6 +2,17 @@ class Striuct; module ClassMethods
 
   # @group Inner Methods
 
+  # for debug
+  # @return [Hash]
+  def attributes
+    {
+      autonyms: @autonyms.dup,
+      aliases: @aliases.dup,
+      conflict_management_level: @conflict_management_level,
+      attributes_each_autonym: @attributes.dup
+    }
+  end
+
   private
 
   def _init
