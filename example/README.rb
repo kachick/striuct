@@ -44,3 +44,10 @@ foo.bar = 1.2
 
 foo.with_adjuster = '5'
 p foo.with_adjuster
+
+class UseMustOption < Striuct
+  member :foo, Integer, must: true
+end
+
+#~ p UseMustOption.new #=> InvalidOperationError
+p UseMustOption.new(1)

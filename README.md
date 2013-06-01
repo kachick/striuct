@@ -94,6 +94,17 @@ foo.with_adjuster = '5'
 foo.with_adjuster        #=> 5                # Casted via adjuster
 ```
 
+### Overview - Case 3
+
+```ruby
+class UseMustOption < Striuct
+  member :foo, Integer, must: true
+end
+
+UseMustOption.new #=> InvalidOperationError "`foo` require a value under `must` option "
+```
+
+
 ### How to build flexible conditions ?
 
 * That from validation library.  

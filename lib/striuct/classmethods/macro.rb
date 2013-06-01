@@ -10,6 +10,7 @@ class Striuct; module ClassMethods
     opt :default_proc, aliases: [:lazy_default]
     conflict :default_value, :default_proc
     opt :inference, default: false
+    opt :must, default: false
     opt :setter_validation, aliases: [:writer_validation], default: true
     opt :getter_validation, aliases: [:reader_validation], default: false
   }
@@ -22,6 +23,7 @@ class Striuct; module ClassMethods
   # @option options [BasicObject] :default
   # @option options [Proc] :default_proc
   # @option options [Boolean] :inference
+  # @option options [Boolean] :must
   # @option options [Boolean] :reader_validation
   # @option options [Boolean] :getter_validation
   # @option options [Boolean] :writer_validation
@@ -43,6 +45,10 @@ class Striuct; module ClassMethods
 
     if options.inference
       _attributes_for(autonym).inference = true
+    end
+
+    if options.must
+      _attributes_for(autonym).must = true
     end
 
     _def_getter autonym

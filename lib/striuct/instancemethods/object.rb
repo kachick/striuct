@@ -7,6 +7,10 @@ class Striuct; module InstanceMethods
     replace_values(*values)
     excess_autonyms = _autonyms.last(size - values.size)
     _set_defaults(*excess_autonyms)
+
+    each_autonym do |autonym|
+      _check_must autonym
+    end
   end
 
   # @return [self]
@@ -27,6 +31,12 @@ class Striuct; module InstanceMethods
 
   def _check_locked(key)
     raise "can't modify locked member `#{key}`" if locked? key
+  end
+
+  def _check_must(key)
+    if must?(key) && !assigned?(key)
+      raise InvalidOperationError, "`#{key}` require a value under `must` option"
+    end
   end
 
   # @endgroup

@@ -93,6 +93,17 @@ class Striuct; module ClassMethods
   end
 
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
+  def with_must?(key)
+    autonym = autonym_for_key key
+  rescue Exception
+    false
+  else
+    _attributes_for(autonym).with_must?
+  end
+
+  alias_method :must?, :with_must?
+
+  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
   def with_safety_getter?(key)
     autonym = autonym_for_key key
   rescue Exception

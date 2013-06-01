@@ -7,11 +7,13 @@ class Striuct; module ClassMethods
                  :adjuster  ].freeze
 
     BOOLEANS = [ :inference,
+                 :must,
                  :safety_setter,
                  :safety_getter ].freeze
     
     def initialize
       @hash =  { inference:     false,
+                 must:          false,
                  safety_setter: false,
                  safety_getter: false }
     end

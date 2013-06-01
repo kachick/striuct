@@ -14,6 +14,9 @@ class Striuct; module InstanceMethods
   def unassign(key)
     _check_frozen
     _check_locked key
+    if must? key
+      raise InvalidOperationError, "`#{key}` require a value under `must` option"
+    end
     
     @db.delete autonym_for_key(key)
   end

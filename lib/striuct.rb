@@ -3,6 +3,10 @@
 
 # @abstract
 class Striuct
+
+  class Error < StandardError; end
+  class InvalidOperationError < Error; end
+
 end
 
 require_relative 'striuct/requirements'
