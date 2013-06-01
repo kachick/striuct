@@ -1,6 +1,6 @@
 class Striuct; module ClassMethods
 
-  # Attributes for each Member(Autonym)
+  # Attributes for autonym of each member
   class Attributes
 
     VALUES   = [ :condition,
@@ -47,7 +47,7 @@ class Striuct; module ClassMethods
         @hash.fetch role
       end
       
-      define_method "#{role}=".to_sym do |arg|
+      define_method :"#{role}=" do |arg|
         raise TypeError unless arg.equal?(true) or arg.equal?(false)
 
         @hash[role] = arg
