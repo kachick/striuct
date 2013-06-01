@@ -4,14 +4,21 @@ class Striuct; module InstanceMethods
   
   # @return [String]
   def inspect
-    "#<struct' #{self.class} strict?:#{strict?}".tap {|s|
+    "#<struct' #{self.class}".tap {|s|
       each_pair do |autonym, value|
         suffix = (with_default?(autonym) && default?(autonym)) ? '/default' : nil
-        s << " #{autonym}=#{value.inspect}#{suffix}("
-        s << "valid?:#{valid? autonym}, "
-        s << "locked?:#{locked? autonym}, "
-        s << "must?:#{must? autonym}"
-        s << '),'
+        label_valid = valid?(autonym) ? nil : :invalid
+        label_lock = locked?(autonym) ? :locked : nil
+        label_must = must?(autonym) ? :must : nil
+        labels = [label_valid, label_lock, label_must].select{|_|_}
+
+        s << " #{autonym}=#{value.inspect}#{suffix}"
+        unless labels.empty?
+          s << '('
+          s << labels.join(', ')
+          s << ')'
+        end
+        s << ','
       end
       
       s.chop!
