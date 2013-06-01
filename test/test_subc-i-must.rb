@@ -1,6 +1,6 @@
 require_relative 'helper'
 
-class Test_Striuct_Subclass_Instance_DefaultValue < Test::Unit::TestCase
+class Test_Striuct_Subclass_Must < Test::Unit::TestCase
 
   Sth = Striuct.define do
     member :foo, ANYTHING?, must: false
