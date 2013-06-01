@@ -382,6 +382,70 @@ class Test_Striuct_Subclass_Predicate_InferenceValidation < Test::Unit::TestCase
 
 end
 
+class Test_Striuct_Subclass_Predicate_Must < Test::Unit::TestCase
+
+  class Subclass < Striuct
+    member :no_with
+    alias_member :als_no_with, :no_with
+    member :with, BasicObject, must: true
+    alias_member :als_with, :with
+    member :with_any, BasicObject, must: true
+    alias_member :als_with_any, :with_any
+    member(:adj_with, BasicObject, must: true) do |_|; end
+    alias_member :als_adj_with, :adj_with
+
+    close_member
+  end.freeze
+
+  INSTANCE = Subclass[als_with: 1, als_with_any: 1, adj_with: 1].freeze
+  
+  TYPE_PAIRS = {
+    class: Subclass,
+    instance: INSTANCE
+  }.freeze
+
+  [:with_must?, :must?].each do |predicate|
+    TYPE_PAIRS.each_pair do |type, reciever|
+      define_method :"test_#{type}_#{predicate}" do
+        assert_same false, reciever.public_send(predicate, :no_with)
+        assert_same false, reciever.public_send(predicate, :als_no_with)
+        assert_same false, reciever.public_send(predicate, 'no_with')
+        assert_same false, reciever.public_send(predicate, 'als_no_with')
+        assert_same false, reciever.public_send(predicate, 0)
+        assert_same false, reciever.public_send(predicate, 0.9)
+        
+        assert_same true, reciever.public_send(predicate, :with)
+        assert_same true, reciever.public_send(predicate, :als_with)
+        assert_same true, reciever.public_send(predicate, 'with')
+        assert_same true, reciever.public_send(predicate, 'als_with')
+        assert_same true, reciever.public_send(predicate, 1)
+        assert_same true, reciever.public_send(predicate, 1.9)
+
+        assert_same true, reciever.public_send(predicate, :with_any)
+        assert_same true, reciever.public_send(predicate, :als_with_any)
+        assert_same true, reciever.public_send(predicate, 'with_any')
+        assert_same true, reciever.public_send(predicate, 'als_with_any')
+        assert_same true, reciever.public_send(predicate, 2)
+        assert_same true, reciever.public_send(predicate, 2.9)
+
+        assert_same true, reciever.public_send(predicate, :adj_with)
+        assert_same true, reciever.public_send(predicate, :als_adj_with)
+        assert_same true, reciever.public_send(predicate, 'adj_with')
+        assert_same true, reciever.public_send(predicate, 'als_adj_with')
+        assert_same true, reciever.public_send(predicate, 3)
+        assert_same true, reciever.public_send(predicate, 3.9)
+        
+        assert_same false, reciever.public_send(predicate, :none)
+        assert_same false, reciever.public_send(predicate, 'none')
+        assert_same false, reciever.public_send(predicate, 4)
+        assert_same false, reciever.public_send(predicate, 4.9)
+        assert_same false, reciever.public_send(predicate, BasicObject.new)
+      end
+    end
+  end
+
+end
+
 
 class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Enable < Test::Unit::TestCase
 
