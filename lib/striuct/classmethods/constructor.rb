@@ -17,13 +17,11 @@ class Striuct; module ClassMethods
   def for_pairs(pairs)
     raise TypeError, 'no pairs object' unless pairs.respond_to?(:each_pair)
     KeyValidatable.validate_array KeyValidatable.keys_for(pairs).map(&:to_sym),
-                                       let: all_members
+                                  let: all_members
 
-    new.tap {|instance|
-      pairs.each_pair do |name, value|
-        instance[name] = value
-      end
-    }
+    instance = allocate
+    instance.__send__ :initialize_for_pairs, pairs
+    instance
   end
 
   alias_method :[], :for_pairs

@@ -1,9 +1,18 @@
 class Striuct; module InstanceMethods
 
   # @group Basic Methods for Ruby's Object
-  
+
+  # @return [self]
+  def freeze
+    @db.freeze; @locks.freeze
+    super
+  end
+
+  private
+
   def initialize(*values)
-    @db, @locks = {}, {}
+    _initialize_database
+
     replace_values(*values)
     excess_autonyms = _autonyms.last(size - values.size)
     _set_defaults(*excess_autonyms)
@@ -13,16 +22,29 @@ class Striuct; module InstanceMethods
     end
   end
 
-  # @return [self]
-  def freeze
-    @db.freeze; @locks.freeze
-    super
+  def initialize_for_pairs(pairs)
+    _initialize_database
+    
+    excess_autonyms = _autonyms.dup
+    pairs.each_pair do |key, value|
+      autonym = autonym_for_key key
+      self[autonym] = value
+      excess_autonyms.delete autonym
+    end
+
+    _set_defaults(*excess_autonyms)
+
+    excess_autonyms.each do |autonym|
+      _check_must autonym
+    end
   end
-  
-  private
   
   def initialize_copy(original)
     @db, @locks = @db.dup, {}
+  end
+
+  def _initialize_database
+    @db, @locks = {}, {}
   end
 
   def _check_frozen
