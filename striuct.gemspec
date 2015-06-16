@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = "https://github.com/kachick/#{lib_name}"
   gem.license       = 'MIT'
   gem.name          = lib_name.dup
-  gem.version       = '0.4.4'
+  gem.version       = '0.4.4.1'
 
   gem.required_ruby_version = '>= 1.9.3'
 
