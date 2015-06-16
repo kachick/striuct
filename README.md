@@ -3,6 +3,7 @@ striuct
 
 [![Build Status](https://secure.travis-ci.org/kachick/striuct.png)](http://travis-ci.org/kachick/striuct)
 [![Gem Version](https://badge.fury.io/rb/striuct.png)](http://badge.fury.io/rb/striuct)
+[![Dependency Status](https://gemnasium.com/kachick/striuct.svg)](https://gemnasium.com/kachick/striuct)
 
 Description
 -----------
@@ -113,7 +114,7 @@ UseMustOption.new #=> InvalidOperationError "`foo` require a value under `must` 
 Requirements
 -------------
 
-* Ruby - [1.9.2 or later](http://travis-ci.org/#!/kachick/striuct)
+* Ruby - [1.9.3 or later](http://travis-ci.org/#!/kachick/striuct)
 
 Install
 -------
@@ -125,10 +126,10 @@ gem install striuct
 Link
 ----
 
-* [code](https://github.com/kachick/striuct)
-* [wiki](https://github.com/kachick/striuct/wiki)
-* [API](http://kachick.github.com/striuct/yard/frames.html)
-* [issues](https://github.com/kachick/striuct/issues)
+* [Code](https://github.com/kachick/striuct)
+* [Wiki](https://github.com/kachick/striuct/wiki)
+* [API](http://www.rubydoc.info/github/kachick/striuct)
+* [Issues](https://github.com/kachick/striuct/issues)
 * [CI](http://travis-ci.org/#!/kachick/striuct)
 * [gem](https://rubygems.org/gems/striuct)
 
