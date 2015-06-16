@@ -7,7 +7,7 @@ class Striuct; module InstanceMethods
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_autonym(&block)
-    return to_enum(__callee__) unless block_given?
+    return to_enum(__callee__) { self.class.size } unless block_given?
 
     self.class.each_autonym(&block)
     self
@@ -21,7 +21,7 @@ class Striuct; module InstanceMethods
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_value
-    return to_enum(__callee__) unless block_given?
+    return to_enum(__callee__) { self.class.size } unless block_given?
   
     each_autonym{|autonym|yield _get(autonym)}
   end
@@ -36,7 +36,7 @@ class Striuct; module InstanceMethods
   # @see #each_autonym
   # @see #each_value 
   def each_pair
-    return to_enum(__callee__) unless block_given?
+    return to_enum(__callee__) { self.class.size } unless block_given?
 
     each_autonym{|autonym|yield autonym, _get(autonym)}
   end
@@ -46,7 +46,7 @@ class Striuct; module InstanceMethods
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_index
-    return to_enum(__callee__) unless block_given?
+    return to_enum(__callee__) { self.class.size } unless block_given?
 
     self.class.each_index{|index|yield index}
     self
@@ -58,7 +58,7 @@ class Striuct; module InstanceMethods
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_autonym_with_index
-    return to_enum(__callee__) unless block_given?
+    return to_enum(__callee__) { self.class.size } unless block_given?
 
     self.class.each_autonym_with_index{|autonym, index|yield autonym, index}
     self
@@ -71,7 +71,7 @@ class Striuct; module InstanceMethods
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_value_with_index
-    return to_enum(__callee__) unless block_given?
+    return to_enum(__callee__) { self.class.size } unless block_given?
 
     each_value.with_index{|value, index|yield value, index}
   end
@@ -84,7 +84,7 @@ class Striuct; module InstanceMethods
   # @yieldreturn [self]
   # @return [Enumerator]
   def each_pair_with_index
-    return to_enum(__callee__) unless block_given?
+    return to_enum(__callee__) { self.class.size } unless block_given?
 
     index = 0
     each_pair do |autonym, value|

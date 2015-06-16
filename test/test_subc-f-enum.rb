@@ -25,6 +25,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
         
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
+        assert_equal 2, enum.size
         assert_same :foo, enum.next
         assert_same :bar, enum.next
         assert_raises StopIteration do
@@ -41,6 +42,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
         
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
+        assert_equal 2, enum.size
         assert_same 0, enum.next
         assert_same 1, enum.next
         assert_raises StopIteration do
@@ -57,6 +59,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
         
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
+        assert_equal 2, enum.size
         assert_equal [:foo, 0], enum.next
         assert_equal [:bar, 1], enum.next
         assert_raises StopIteration do
@@ -73,6 +76,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
         
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
+        assert_equal 2, enum.size
         assert_same FOO, enum.next
         assert_same BAR, enum.next
         assert_raises StopIteration do
@@ -89,6 +93,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
         
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
+        assert_equal 2, enum.size
         assert_equal [FOO, 0], ret = enum.next
         assert_same FOO, ret.first
         assert_equal [BAR, 1], ret = enum.next
@@ -107,6 +112,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
         
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
+        assert_equal 2, enum.size
         assert_equal [:foo, FOO], ret = enum.next
         assert_same FOO, ret.last
         assert_equal [:bar, BAR], ret = enum.next
@@ -125,6 +131,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
         
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
+        assert_equal 2, enum.size
         assert_equal [:foo, FOO, 0], ret = enum.next
         assert_same FOO, ret[1]
         assert_equal [:bar, BAR, 1], ret = enum.next
@@ -133,6 +140,19 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
           enum.next
         end
       end
+    end
+    
+    def test_modified_members_enum_size
+      klass = Striuct.new do
+        member :foo
+      end
+      cenum = klass.each_autonym
+      ienum = klass.new.each_autonym
+      assert_equal 1, cenum.size
+      assert_equal 1, ienum.size
+      klass.send :member, :bar
+      assert_equal 2, cenum.size
+      assert_equal 2, ienum.size
     end
   end
 

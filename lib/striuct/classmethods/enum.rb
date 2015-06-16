@@ -7,7 +7,7 @@ class Striuct; module ClassMethods
   # @yieldreturn [Class] self
   # @return [Enumerator]
   def each_autonym
-    return to_enum(__callee__) unless block_given?
+    return to_enum(__callee__) { size } unless block_given?
 
     @autonyms.each{|autonym|yield autonym}
     self
@@ -20,7 +20,7 @@ class Striuct; module ClassMethods
   # @yieldreturn [Class] self
   # @return [Enumerator]
   def each_index
-    return to_enum(__callee__) unless block_given?
+    return to_enum(__callee__) { size }  unless block_given?
 
     @autonyms.each_index{|index|yield index}
     self
@@ -32,7 +32,7 @@ class Striuct; module ClassMethods
   # @yieldreturn [Class] self
   # @return [Enumerator]
   def each_autonym_with_index
-    return to_enum(__callee__) unless block_given?
+    return to_enum(__callee__) { size }  unless block_given?
 
     @autonyms.each_with_index{|autonym, index|yield autonym, index}
     self
