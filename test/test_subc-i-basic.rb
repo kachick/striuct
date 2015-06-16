@@ -29,4 +29,15 @@ class Test_Striuct_Subclass_Instance_Basic < Test::Unit::TestCase
     assert_equal(@user.values_at(4, 0, (2..4)), [30, 9999, 'yamada', 'Tokyo Japan', 30])
   end
 
+  def test_fetch_values
+    assert_equal(@user.fetch_values(:id, 4, :id), [9999, 30, 9999])
+    assert_equal(@user.fetch_values, [])
+
+    assert_raise ArgumentError do
+      @user.fetch_values :id, 5, :id
+    end
+    
+    assert_equal(@user.fetch_values(:id, 5, :id) { :substitute }, [9999, :substitute, 9999])
+  end
+
 end

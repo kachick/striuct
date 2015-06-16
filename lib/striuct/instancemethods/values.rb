@@ -23,6 +23,23 @@ class Striuct; module InstanceMethods
     }
   end
 
+  # @return [Array]
+  # @raise [ArgumentError] if the keys contains an unmacthed
+  #     key and no block is given
+  def fetch_values(*_keys, &block)
+    _keys.map {|key|
+      if has_key? key
+        fetch_by_key(key)
+      else
+        if block_given?
+          block.call
+        else
+          raise ArgumentError, "`#{key}' is not matched"
+        end
+      end
+    }
+  end
+
   # @return [self]
   def replace_values(*values)
     unless values.size <= size
