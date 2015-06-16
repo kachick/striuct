@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
   gem.name          = lib_name.dup
   gem.version       = '0.4.4.1'
 
-  gem.required_ruby_version = '>= 1.9.3'
+  gem.required_ruby_version = '>= 2.0'
 
   gem.add_runtime_dependency 'validation', '~> 0.0.7'
   gem.add_runtime_dependency 'optionalargument', '~> 0.1'
