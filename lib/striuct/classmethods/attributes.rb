@@ -107,8 +107,6 @@ class Striuct; module ClassMethods
 
   end
 
-  if respond_to? :private_constant
-    private_constant :Attributes
-  end
+  private_constant :Attributes
 
 end; end

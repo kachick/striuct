@@ -1,3 +1,7 @@
+# coding: us-ascii
+
+lib_name = 'striuct'.freeze
+
 Gem::Specification.new do |gem|
   # specific
 
@@ -10,21 +14,25 @@ Gem::Specification.new do |gem|
   Lock setter of each member, Hash flendly API, ... And more Struct++ features :)}
 
   gem.summary       = gem.description.dup
-  gem.homepage      = 'http://kachick.github.com/striuct/'
+  gem.homepage      = "https://github.com/kachick/#{lib_name}"
   gem.license       = 'MIT'
-  gem.name          = 'striuct'
+  gem.name          = lib_name.dup
   gem.version       = '0.4.4'
 
-  gem.required_ruby_version = '>= 1.9.2'
+  gem.required_ruby_version = '>= 1.9.3'
 
-  gem.add_runtime_dependency 'validation', '~> 0.0.5'
-  gem.add_runtime_dependency 'optionalargument', '~> 0.0.3'
+  gem.add_runtime_dependency 'validation', '~> 0.0.7'
+  gem.add_runtime_dependency 'optionalargument', '~> 0.1'
   gem.add_runtime_dependency 'keyvalidatable', '~> 0.0.5'
 
-  gem.add_development_dependency 'yard', '>= 0.8.6.1', '< 2'
-  gem.add_development_dependency 'test-unit'
+  gem.add_development_dependency 'test-unit', '>= 3.1.1', '< 4'
+  gem.add_development_dependency 'yard', '>= 0.8.7.6', '< 0.9'
   gem.add_development_dependency 'rake', '>= 10', '< 20'
-  gem.add_development_dependency 'bundler', '>= 1.3.5', '< 2'
+  gem.add_development_dependency 'bundler', '>= 1.10', '< 2'
+
+  if RUBY_ENGINE == 'rbx'
+    gem.add_dependency 'rubysl', '~> 2.1'
+  end
 
   # common
 
