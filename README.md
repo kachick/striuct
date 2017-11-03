@@ -114,7 +114,7 @@ UseMustOption.new #=> InvalidOperationError "`foo` require a value under `must` 
 Requirements
 -------------
 
-* Ruby - [2.0 or later](http://travis-ci.org/#!/kachick/striuct)
+* Ruby - [2.2 or later](http://travis-ci.org/#!/kachick/striuct)
 
 Install
 -------
