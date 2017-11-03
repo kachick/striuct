@@ -1,7 +1,5 @@
 #!/usr/local/bin/ruby -w
 
-$VERBOSE = true
-
 require_relative '../lib/striuct'
 
 User = Striuct.define do  # other way "class User < Striuct.new"
