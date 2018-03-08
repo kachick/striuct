@@ -21,8 +21,8 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '>= 2.2'
 
-  gem.add_runtime_dependency 'validation', '~> 0.1.0'
-  gem.add_runtime_dependency 'optionalargument'
+  gem.add_runtime_dependency 'validation', '~> 0.1'
+  gem.add_runtime_dependency 'optionalargument', '~> 0.3'
   gem.add_runtime_dependency 'keyvalidatable'
 
   gem.add_development_dependency 'test-unit', '>= 3.2.6', '< 4'
