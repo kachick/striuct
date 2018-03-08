@@ -39,10 +39,6 @@ class Striuct; module InstanceMethods
             "#{value.inspect} is deficient for #{autonym} in #{self.class}"
     end
 
-    if with_inference? autonym
-      self.class.__send__ :_found_family, autonym, value
-    end
-    
     @db[autonym] = value
   rescue ::Validation::InvalidError
     unless /in \[\]=/ =~ caller[1].slice(/([^:]+)\z/)

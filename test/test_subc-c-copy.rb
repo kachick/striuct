@@ -34,7 +34,7 @@ class Test_Striuct_Subclass_Class_Copy < Test::Unit::TestCase
 
   def test_dup_deep
     org_cls =  Striuct.define do
-      member :foo, Numeric, inference: true
+      member :foo, Numeric
     end
 
     foo = org_cls.new
@@ -42,7 +42,7 @@ class Test_Striuct_Subclass_Class_Copy < Test::Unit::TestCase
     foo2 = cls2.new
     foo2.foo = 0.1
     assert_raises Validation::InvalidWritingError do
-      foo2.foo = 1
+      foo2.foo = '1'
     end
 
     foo.foo = 1
@@ -52,7 +52,7 @@ class Test_Striuct_Subclass_Class_Copy < Test::Unit::TestCase
 
   def test_clone_deep
     org_cls =  Striuct.define do
-      member :foo, Numeric, inference: true
+      member :foo, Numeric
     end
 
     foo = org_cls.new
@@ -60,7 +60,7 @@ class Test_Striuct_Subclass_Class_Copy < Test::Unit::TestCase
     foo2 = cls2.new
     foo2.foo = 0.1
     assert_raises Validation::InvalidWritingError do
-      foo2.foo = 1
+      foo2.foo = '1'
     end
 
     foo.foo = 1
