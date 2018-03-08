@@ -1,5 +1,3 @@
-$VERBOSE = true
-
 require_relative '../lib/striuct'
 
 class Person < Striuct
