@@ -6,16 +6,18 @@ class Striuct; module ClassMethods
     VALUES   = [ :condition,
                  :adjuster  ].freeze
 
-    BOOLEANS = [ :inference,
-                 :must,
-                 :safety_setter,
-                 :safety_getter ].freeze
-    
+    BOOLEANS = [
+                :must,
+                :safety_setter,
+                :safety_getter
+               ].freeze
+
     def initialize
-      @hash =  { inference:     false,
-                 must:          false,
-                 safety_setter: false,
-                 safety_getter: false }
+      @hash = {
+                must:          false,
+                safety_setter: false,
+                safety_getter: false
+              }
     end
     
     VALUES.each do |role|

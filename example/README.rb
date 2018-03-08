@@ -24,8 +24,7 @@ p ken.id           #=> 2
 
 class Foo < Striuct
   member :foo
-  member :bar, Numeric,
-               inference: true
+  member :bar, Numeric
   member :with_adjuster, Integer,
                          &->v{Integer v}
 end

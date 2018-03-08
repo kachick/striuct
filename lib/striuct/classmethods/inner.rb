@@ -66,15 +66,6 @@ class Striuct; module ClassMethods
     nil
   end
 
-  def _found_family(autonym, other)
-    family = other.class
-
-    _attributes_for(autonym).condition = family
-    _attributes_for(autonym).inference = false
-
-    nil
-  end
-  
   # @endgroup
 
 end; end

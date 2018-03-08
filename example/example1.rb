@@ -75,46 +75,6 @@ module Game
   debug db
 end
 
-# through "inference", and check under first passed object class
-class FlexibleContainer < Striuct.new
-  member :anything, BasicObject, inference: true
-  member :number,   Numeric, inference: true
-end
-
-fc1, fc2 = FlexibleContainer.new, FlexibleContainer.new
-fc1.anything = 'str'
-debug fc1
-begin
-  fc1.anything = :sym
-rescue
-  debug $!
-end
-
-begin
-  fc2.anything = :sym
-rescue
-  debug $!
-end
-
-fc2.anything = 'string too'
-
-debug fc2
-
-begin
-  fc1.number = 'str'
-rescue
-  debug $!
-end
-
-fc1.number = 1.0
-debug fc1
-
-begin
-  fc2.number = 1
-rescue
-  debug $!
-end
-
 # Standard Struct not check member name. 
 NoGuard = Struct.new :__send__, :'?  !'
 noguard = NoGuard.new false

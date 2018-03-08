@@ -68,8 +68,7 @@ ken.id                   #=> 2
 ```ruby
 class Foo < Striuct
   member :foo
-  member :bar, Numeric,                       # First validation under Numeric
-               inference: true                # And use inference Validation
+  member :bar, Numeric
   member :with_adjuster, Integer,
                          &->v{Integer v}      # Use adjuster before a setter
 end
@@ -86,7 +85,6 @@ foo.assigned?(:foo)      #=> true
 foo.lock(:foo)
 foo.foo = nil            #=> error
 
-# Inference Validation
 foo.bar = 1.2            #=> pass             # memorize 1.2's class is Float
 foo.bar = 1              #=> error            # 1 is not Float
 

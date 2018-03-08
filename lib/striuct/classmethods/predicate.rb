@@ -84,15 +84,6 @@ class Striuct; module ClassMethods
   alias_method :restrict?, :with_condition?  
 
   # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
-  def with_inference?(key)
-    autonym = autonym_for_key key
-  rescue Exception
-    false
-  else
-    _attributes_for(autonym).with_inference?
-  end
-
-  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
   def with_must?(key)
     autonym = autonym_for_key key
   rescue Exception
