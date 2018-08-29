@@ -3,7 +3,6 @@ class Striuct; module InstanceMethods
   # @group Delegate Class Methods
   
   def_delegators :'self.class',
-    :_autonyms,
     :autonym_for_alias,
     :autonym_for_member,
     :autonym_for_index,
@@ -27,7 +26,11 @@ class Striuct; module InstanceMethods
     :with_adjuster?,
     :adjuster_for
 
-  private :_autonyms
+  private
+
+  def _autonyms
+    self.class.__send__ :_autonyms
+  end
 
   # @endgroup
   

@@ -27,7 +27,7 @@ class Test_Striuct_Subclass_Name < Test::Unit::TestCase
   [:_autonyms].each do |callee|
     TYPE_PAIRS.each_pair do |type, reciever|
       define_method :"test_#{type}_#{callee}" do
-        assert_same true, reciever.private_methods.include?(callee)
+        assert_equal true, reciever.private_methods.include?(callee)
         
         assert_raises NoMethodError do
           reciever.public_send(callee)
