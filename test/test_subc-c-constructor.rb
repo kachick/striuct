@@ -4,7 +4,7 @@ class Test_Striuct_Subclass_Class_Constructor < Test::Unit::TestCase
 
   User = Striuct.define do
     member :name, AND(String, NOT(''))
-    member :age, Fixnum
+    member :age, Integer
   end.freeze
   
   [:for_values, :new].each do |callee|

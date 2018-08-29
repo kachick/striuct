@@ -3,7 +3,7 @@ require_relative 'helper'
 class Test_Striuct_Subclass_Instance_Default_Value < Test::Unit::TestCase
 
   Sth = Striuct.new do
-    member :lank, OR(Bignum, Fixnum)
+    member :lank, OR(Integer, Rational)
     default :lank, 1
   end
   
@@ -75,7 +75,7 @@ end
 class Test_Striuct_Subclass_Instance_DefaultValue_Under_MemberMacro < Test::Unit::TestCase
 
   Sth = Striuct.new do
-    member :lank, OR(Bignum, Fixnum), default: 1
+    member :lank, OR(Integer, Rational), default: 1
   end
   
   def test_default

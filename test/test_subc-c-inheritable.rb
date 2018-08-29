@@ -4,7 +4,7 @@ class Test_Striuct_Subclass_Class_Inheritable < Test::Unit::TestCase
 
   Sth = Striuct.define do
     member :foo, String
-    member :bar, OR(nil, Fixnum)
+    member :bar, OR(nil, Integer)
   end
   
   class SubSth < Sth
