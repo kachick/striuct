@@ -30,7 +30,7 @@ class Striuct; module InstanceMethods
       begin
         value = instance_exec value, &adjuster_for(autonym)
       rescue Exception
-        raise ::Validation::UnmanagebleError
+        raise ::Validation::InvalidAdjustingError
       end
     end
 

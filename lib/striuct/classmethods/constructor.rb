@@ -28,8 +28,8 @@ class Striuct; module ClassMethods
 
   # @return [Class]
   DEFINE_OptArg = OptionalArgument.define {
-    opt :lock, default: true, condition: BOOLEAN?
-    opt :strict, default: true, condition: BOOLEAN?
+    opt :lock, default: true, condition: BOOLEAN()
+    opt :strict, default: true, condition: BOOLEAN()
   }
 
   # for build the fixed object

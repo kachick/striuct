@@ -36,7 +36,7 @@ class Test_Striuct_Subclass_Instance_Adjuster < Test::Unit::TestCase
   def test_INJECT
     sth = Sth.new
     
-    assert_raises Validation::UnmanagebleError do
+    assert_raises Validation::InvalidAdjustingError do
       sth.no_reduced = 1
     end
     
@@ -48,7 +48,7 @@ class Test_Striuct_Subclass_Instance_Adjuster < Test::Unit::TestCase
   def test_PARSE
     sth = Sth.new
     
-    assert_raises Validation::UnmanagebleError do
+    assert_raises Validation::InvalidAdjustingError do
       sth.integer = '1.0'
     end
     
@@ -56,7 +56,7 @@ class Test_Striuct_Subclass_Instance_Adjuster < Test::Unit::TestCase
     
     assert_equal 1, sth.integer
     
-    assert_raises Validation::UnmanagebleError do
+    assert_raises Validation::InvalidAdjustingError do
       sth.myobj = '1'
     end
     
@@ -84,7 +84,7 @@ class Test_Striuct_Subclass_Instance_AdjusterOld < Test::Unit::TestCase
     @sth.age = 10.0
     assert_same 10, @sth.age
 
-    assert_raises Validation::UnmanagebleError do
+    assert_raises Validation::InvalidAdjustingError do
       @sth.age = '10.0'
     end
     

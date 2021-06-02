@@ -3,9 +3,9 @@ require_relative 'helper'
 class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
 
   Sth = Striuct.define do
-    member :list_only_int, GENERICS(Integer)
-    member :true_or_false, BOOL?
-    member :like_str, STRINGABLE?
+    member :list_only_int, ALL(Integer)
+    member :true_or_false, boolean
+    member :like_str, stringable
     member :has_foo, CAN(:foo)
     member :has_foo_and_bar, CAN(:foo, :bar)
     member :one_of_member, MEMBER_OF([1, 3])
@@ -132,7 +132,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     assert_equal true, sth.valid?(:one_of_member)
   end
   
-  def test_generics
+  def test_all
     sth = Sth.new
     
     assert_raises Validation::InvalidWritingError do
@@ -175,8 +175,6 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     end
   
     sth.like_str = 'str'
-    assert_equal true, sth.valid?(:like_str)
-    sth.like_str = :sym
     assert_equal true, sth.valid?(:like_str)
     
     obj.singleton_class.class_eval do

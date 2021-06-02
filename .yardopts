@@ -1,1 +1,3 @@
---readme README.md --private lib/**/*.rb --exclude attributes|hashdeepdupulicatable - MIT-LICENSE
+--fail-on-warning
+-
+MIT-LICENSE.txt

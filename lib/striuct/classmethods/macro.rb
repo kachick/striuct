@@ -2,7 +2,7 @@ class Striuct; module ClassMethods
 
   # @group Macro for Member Definition
 
-  ANYTHING = ::Validation::Condition::ANYTHING
+  ANYTHING = ::Validation::Condition.anything
   
   # @return [Class]
   ADD_MEMBER_OptArg = OptionalArgument.define {
@@ -17,7 +17,7 @@ class Striuct; module ClassMethods
   private
 
   # @param [Symbol, String, #to_sym] autonym
-  # @param [#===, Proc, Method, ANYTHING] condition
+  # @param [#===, Proc, Method] condition
   # @param [Hash] options
   # @option options [BasicObject] :default
   # @option options [Proc] :default_proc
@@ -27,7 +27,7 @@ class Striuct; module ClassMethods
   # @option options [Boolean] :writer_validation
   # @option options [Boolean] :setter_validation
   # @return [nil]
-  def add_member(autonym, condition=ANYTHING, options={}, &adjuster)
+  def add_member(autonym, condition=anything, options={}, &adjuster)
     _check_frozen
     _check_closed
     
