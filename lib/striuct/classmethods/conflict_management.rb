@@ -26,7 +26,7 @@ class Striuct
     DEFAULT_CONFLICT_MANAGEMENT_LEVEL = :prevent
 
     # @param [Object] name
-    # accpeptable the name into own member, under protect level of runtime
+    # acceptable the name into own member, under protect level of runtime
     def cname?(name)
       _check_safety_naming(name.to_sym) { |r| r }
     rescue Exception

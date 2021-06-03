@@ -25,7 +25,7 @@ class Striuct
     end
 
     alias_method :alias?, :has_alias?
-    alias_method :aliased?, :has_alias? # obsolute
+    alias_method :aliased?, :has_alias? # obsolete
 
     # @param [Symbol, String, #to_sym] name
     def has_member?(name)

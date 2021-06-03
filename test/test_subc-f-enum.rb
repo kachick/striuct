@@ -20,11 +20,11 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
   }.freeze
 
   [:each_autonym, :each_member].each do |callee|
-    TYPE_PAIRS.each_pair do |type, reciever|
+    TYPE_PAIRS.each_pair do |type, receiver|
       define_method :"test_#{type}_#{callee}" do
-        assert_same(reciever, reciever.public_send(callee) {})
+        assert_same(receiver, receiver.public_send(callee) {})
 
-        enum = reciever.public_send(callee)
+        enum = receiver.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
         assert_same :foo, enum.next
@@ -37,11 +37,11 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
   end
 
   [:each_index].each do |callee|
-    TYPE_PAIRS.each_pair do |type, reciever|
+    TYPE_PAIRS.each_pair do |type, receiver|
       define_method :"test_#{type}_#{callee}" do
-        assert_same(reciever, reciever.public_send(callee) {})
+        assert_same(receiver, receiver.public_send(callee) {})
 
-        enum = reciever.public_send(callee)
+        enum = receiver.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
         assert_same 0, enum.next
@@ -54,11 +54,11 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
   end
 
   [:each_autonym_with_index, :each_member_with_index].each do |callee|
-    TYPE_PAIRS.each_pair do |type, reciever|
+    TYPE_PAIRS.each_pair do |type, receiver|
       define_method :"test_#{type}_#{callee}" do
-        assert_same(reciever, reciever.public_send(callee) {})
+        assert_same(receiver, receiver.public_send(callee) {})
 
-        enum = reciever.public_send(callee)
+        enum = receiver.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
         assert_equal [:foo, 0], enum.next
@@ -71,11 +71,11 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
   end
 
   [:each_value, :each].each do |callee|
-    {instance: INSTANCE}.each_pair do |type, reciever|
+    {instance: INSTANCE}.each_pair do |type, receiver|
       define_method :"test_#{type}_#{callee}" do
-        assert_same(reciever, reciever.public_send(callee) {})
+        assert_same(receiver, receiver.public_send(callee) {})
 
-        enum = reciever.public_send(callee)
+        enum = receiver.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
         assert_same FOO, enum.next
@@ -88,11 +88,11 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
   end
 
   [:each_value_with_index, :each_with_index].each do |callee|
-    {instance: INSTANCE}.each_pair do |type, reciever|
+    {instance: INSTANCE}.each_pair do |type, receiver|
       define_method :"test_#{type}_#{callee}" do
-        assert_same(reciever, reciever.public_send(callee) {})
+        assert_same(receiver, receiver.public_send(callee) {})
 
-        enum = reciever.public_send(callee)
+        enum = receiver.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
         assert_equal [FOO, 0], ret = enum.next
@@ -107,11 +107,11 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
   end
 
   [:each_pair].each do |callee|
-    {instance: INSTANCE}.each_pair do |type, reciever|
+    {instance: INSTANCE}.each_pair do |type, receiver|
       define_method :"test_#{type}_#{callee}" do
-        assert_same(reciever, reciever.public_send(callee) {})
+        assert_same(receiver, receiver.public_send(callee) {})
 
-        enum = reciever.public_send(callee)
+        enum = receiver.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
         assert_equal [:foo, FOO], ret = enum.next
@@ -126,11 +126,11 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
   end
 
   [:each_pair_with_index].each do |callee|
-    {instance: INSTANCE}.each_pair do |type, reciever|
+    {instance: INSTANCE}.each_pair do |type, receiver|
       define_method :"test_#{type}_#{callee}" do
-        assert_same(reciever, reciever.public_send(callee) {})
+        assert_same(receiver, receiver.public_send(callee) {})
 
-        enum = reciever.public_send(callee)
+        enum = receiver.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
         assert_equal [:foo, FOO, 0], ret = enum.next

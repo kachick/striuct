@@ -88,7 +88,7 @@ class Test_Striuct_Subclass_Instance_Accessor_With_Validation < Test::Unit::Test
 end
 
 
-class Test_Striuct_Subclass_Instance_Accsessor < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_Accessor < Test::Unit::TestCase
 
   class Sth < Striuct.new
     member :bool, OR(true, false)

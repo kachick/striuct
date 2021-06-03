@@ -35,7 +35,7 @@ class Test_Striuct_Subclass_Instance_Default_Value < Test::Unit::TestCase
     end
 
     scope = self
-    seef = nil
+    thief = nil
     klass = Striuct.define do
       member :lank, Integer
 
@@ -55,7 +55,7 @@ class Test_Striuct_Subclass_Instance_Default_Value < Test::Unit::TestCase
         default :lank, '10', &->{rand}
       end
 
-      default :lank, &->own, _name{(seef = own); rand}
+      default :lank, &->own, _name{(thief = own); rand}
     end
 
     assert_raises Validation::InvalidWritingError do
@@ -64,11 +64,11 @@ class Test_Striuct_Subclass_Instance_Default_Value < Test::Unit::TestCase
 
     klass = Striuct.define do
       member :lank, Integer
-      default :lank, &->own, name{(seef = own); 10 - name.length}
+      default :lank, &->own, name{(thief = own); 10 - name.length}
     end
 
     assert_equal 6, klass.new.lank
-    assert_equal seef, klass.new
+    assert_equal thief, klass.new
   end
 
 end
@@ -105,14 +105,14 @@ class Test_Striuct_Subclass_Instance_DefaultValue_Under_MemberMacro < Test::Unit
     end
 
     scope = self
-    seef = nil
+    thief = nil
     klass = Striuct.define do
 
       scope.assert_raises OptionalArgument::KeyConflictError do
         member :lank, Integer, default: '10', default_proc: ->_own,_name{rand}
       end
 
-      member :lank, Integer, default_proc: ->own,_name{(seef = own); rand}
+      member :lank, Integer, default_proc: ->own,_name{(thief = own); rand}
     end
 
     assert_raises Validation::InvalidWritingError do
@@ -120,11 +120,11 @@ class Test_Striuct_Subclass_Instance_DefaultValue_Under_MemberMacro < Test::Unit
     end
 
     klass = Striuct.define do
-      member :lank, Integer, default_proc: ->own,name{(seef = own); 10 - name.length}
+      member :lank, Integer, default_proc: ->own,name{(thief = own); 10 - name.length}
     end
 
     assert_equal 6, klass.new.lank
-    assert_equal seef, klass.new
+    assert_equal thief, klass.new
   end
 
 end

@@ -2,8 +2,8 @@
 require_relative '../lib/striuct'
 
 class Person < Striuct
-  member :fullname, AND(String, /\A.+\z/)     # Flexible Validation
-  alias_member :name, :fullname               # Use other name
+  member :full_name, AND(String, /\A.+\z/)     # Flexible Validation
+  alias_member :name, :full_name               # Use other name
 end
 
 # Inheritable
@@ -18,7 +18,7 @@ class User < Person
 end
 
 john = User.new 'john'
-p john[:name]      #=> 'john' 
+p john[:name]      #=> 'john'
 #~ p john.name = ''  #=> error
 p john.id          #=> 1
 ken = User[name: 'ken']                       # Construct from hash

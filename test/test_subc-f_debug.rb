@@ -17,10 +17,10 @@ class Test_Striuct_Subclass_Debug < Test::Unit::TestCase
   }.freeze
 
   [:attributes].each do |callee|
-    TYPE_PAIRS.each_pair do |type, reciever|
+    TYPE_PAIRS.each_pair do |type, receiver|
       define_method :"test_#{type}_#{callee}" do
-        assert_same true, reciever.public_methods.include?(callee)
-        ret = reciever.public_send(callee)
+        assert_same true, receiver.public_methods.include?(callee)
+        ret = receiver.public_send(callee)
         assert_instance_of Hash, ret
         assert_equal [:autonyms, :aliases, :conflict_management_level, :attributes_each_autonym], ret.keys
         assert_equal Subclass.autonyms, ret.fetch(:autonyms)
@@ -29,7 +29,7 @@ class Test_Striuct_Subclass_Debug < Test::Unit::TestCase
         assert_equal Subclass.instance_variable_get(:@attributes), ret.fetch(:attributes_each_autonym)
 
         10.times do
-          ret2 = reciever.public_send(callee)
+          ret2 = receiver.public_send(callee)
           assert_not_same ret, ret2
           assert_equal ret, ret2
         end

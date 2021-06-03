@@ -7,8 +7,6 @@ class Striuct
     alias_method :new_instance, :new
     private :new_instance
 
-    # @group Constructors for Subclassies
-
     # @param [Symbol, String] autonyms
     # @yieldreturn [Class]
     # @return [Class]
@@ -41,8 +39,6 @@ class Striuct
         }
       }
     end
-
-    # @groupend
 
     private
 

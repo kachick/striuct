@@ -34,7 +34,7 @@ class Striuct
       _check_closed
 
       options = ADD_MEMBER_OptArg.parse(options)
-      autonym = autonym.to_sym # First difinition for an autonym
+      autonym = autonym.to_sym # First definition for an autonym
 
       raise ArgumentError, %Q!already exist name "#{autonym}"! if member?(autonym
                                                                          )

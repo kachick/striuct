@@ -32,21 +32,21 @@ class Striuct
       ret
     end
 
-    # @return [familar_class]
-    def copy_variables!(familar_class)
+    # @return [familiar_class]
+    def copy_variables!(familiar_class)
       autonyms = @autonyms.dup
       aliases  = @aliases.dup
       attributes = @attributes.deep_dup
       conflict_management = @conflict_management_level
 
-      familar_class.class_eval do
+      familiar_class.class_eval do
         @autonyms = autonyms
         @aliases = aliases
         @attributes = attributes
         @conflict_management_level = conflict_management
       end
 
-      familar_class
+      familiar_class
     end
 
     # @endgroup

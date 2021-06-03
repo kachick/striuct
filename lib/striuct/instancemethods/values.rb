@@ -26,7 +26,7 @@ class Striuct
     end
 
     # @return [Array]
-    # @raise [ArgumentError] if the keys contains an unmacthed
+    # @raise [ArgumentError] if the keys contains an unmatched
     #     key and no block is given
     def fetch_values(*_keys, &block)
       _keys.map { |key|
