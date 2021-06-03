@@ -113,4 +113,5 @@ class Striuct
     end
 
     private_constant :Attributes
-  end; end
+  end
+end

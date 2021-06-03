@@ -52,4 +52,5 @@ class Striuct
     end
 
     # @endgroup
-  end; end
+  end
+end

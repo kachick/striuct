@@ -151,7 +151,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
       ienum = klass.new.each_autonym
       assert_equal 1, cenum.size
       assert_equal 1, ienum.size
-      klass.send :member, :bar
+      klass.__send__(:member, :bar)
       assert_equal 2, cenum.size
       assert_equal 2, ienum.size
     end

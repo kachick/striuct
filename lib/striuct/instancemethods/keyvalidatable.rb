@@ -7,4 +7,5 @@ class Striuct
         def_delegator :self, feature, specific_feature.to_sym
       end
     end
-  end; end
+  end
+end

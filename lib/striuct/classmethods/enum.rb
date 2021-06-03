@@ -43,4 +43,5 @@ class Striuct
     alias_method :each_member_with_index, :each_autonym_with_index
 
     # @endgroup
-  end; end
+  end
+end

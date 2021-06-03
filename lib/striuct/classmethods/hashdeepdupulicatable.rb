@@ -15,4 +15,5 @@ class Striuct
     end
 
     private_constant :HashDeepDupulicatable
-  end; end
+  end
+end

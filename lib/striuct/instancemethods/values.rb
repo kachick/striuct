@@ -4,11 +4,11 @@ class Striuct
   module InstanceMethods
     # @group Behavior under Values
 
-    # @param [Integer, #to_int, Range] _keys
+    # @param [Integer, #to_int, Range] keys
     # @return [Array]
-    def values_at(*_keys)
+    def values_at(*keys)
       [].tap { |r|
-        _keys.each do |key|
+        keys.each do |key|
           case key
           when ->v { v.respond_to?(:to_int) }
             r << fetch_by_index(key)
@@ -28,8 +28,8 @@ class Striuct
     # @return [Array]
     # @raise [ArgumentError] if the keys contains an unmatched
     #     key and no block is given
-    def fetch_values(*_keys, &block)
-      _keys.map { |key|
+    def fetch_values(*keys, &block)
+      keys.map { |key|
         if key?(key)
           fetch_by_key(key)
         else
@@ -56,4 +56,5 @@ class Striuct
     end
 
     # @endgroup
-  end; end
+  end
+end

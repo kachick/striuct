@@ -12,4 +12,5 @@ class Striuct
     alias_method :size, :length
 
     # @endgroup
-  end; end
+  end
+end

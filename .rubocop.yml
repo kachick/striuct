@@ -812,6 +812,8 @@ Layout/CaseIndentation:
 Naming/MethodName:
   Enabled: true
   EnforcedStyle: 'snake_case'
+  Exclude:
+    - 'test/**/*'
 
 Naming/FileName:
   Enabled: true
@@ -865,6 +867,8 @@ Lint/AmbiguousAssignment:
 
 Lint/AmbiguousBlockAssociation:
   Enabled: true
+  Exclude:
+    - 'test/**/*'
 
 Lint/AmbiguousOperator:
   Enabled: true
@@ -915,6 +919,11 @@ Lint/ConstantResolution:
 
 Lint/EmptyInPattern:
   Enabled: true
+
+Lint/EmptyBlock:
+  Enabled: true
+  Exclude:
+    - 'test/**/*'
 
 Rubycw/Rubycw:
   Enabled: true

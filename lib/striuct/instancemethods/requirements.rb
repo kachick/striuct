@@ -11,7 +11,8 @@ class Striuct
     private_class_method(*Forwardable.instance_methods)
 
     include KeyValidatable
-  end; end
+  end
+end
 
 require_relative 'delegate_class_methods'
 require_relative 'keyvalidatable'

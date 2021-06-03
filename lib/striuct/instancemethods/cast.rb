@@ -30,4 +30,5 @@ class Striuct
     alias_method :to_a, :values
 
     # @endgroup
-  end; end
+  end
+end

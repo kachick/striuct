@@ -118,4 +118,5 @@ class Striuct
     alias_method :default, :set_default_value
 
     # @endgroup
-  end; end
+  end
+end

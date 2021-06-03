@@ -26,4 +26,5 @@ class Striuct
     alias_method :close, :close_member
 
     # @endgroup
-  end; end
+  end
+end
