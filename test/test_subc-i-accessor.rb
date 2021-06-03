@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_Instance_Setter < Test::Unit::TestCase
@@ -16,15 +17,15 @@ class Test_Striuct_Subclass_Instance_Setter < Test::Unit::TestCase
     assert_equal user.last_name, 'foo'
     user.last_name = 'bar'
     assert_equal user[:last_name], 'bar'
-    
+
     assert_raises Validation::InvalidWritingError do
       user[:last_name] = 'foo s'
     end
-  
+
     assert_raises Validation::InvalidWritingError do
       User.new 'asda'
     end
-    
+
     assert_raises Validation::InvalidWritingError do
       user.age = 19
     end
@@ -41,7 +42,7 @@ class Test_Striuct_Subclass_Instance_Accessor_With_Validation < Test::Unit::Test
     member :address, /\A((\w+) ?)+\z/
     member :age, ->age{(20..140).include? age}
   end
-  
+
   def setup
     @user = User.new 9999, 'taro', 'yamada', 'Tokyo Japan', 30
   end
@@ -60,7 +61,7 @@ class Test_Striuct_Subclass_Instance_Accessor_With_Validation < Test::Unit::Test
     assert_equal((@user.age = 40), 40)
     assert_equal @user.age, 40
   end
-  
+
   def test_setter_fail
     assert_raises Validation::InvalidWritingError do
       @user.id = 2139203509295.0
@@ -69,12 +70,12 @@ class Test_Striuct_Subclass_Instance_Accessor_With_Validation < Test::Unit::Test
     assert_raises Validation::InvalidWritingError do
       @user.last_name = 'ignore name'
     end
-    
+
     assert_raises Validation::InvalidWritingError do
       @user.age = 19
     end
   end
-  
+
   def test_strict?
     assert_same @user.sufficient?(:last_name), true
     assert_same @user.strict?, true
@@ -87,7 +88,7 @@ class Test_Striuct_Subclass_Instance_Accessor_With_Validation < Test::Unit::Test
 end
 
 
-class Test_Striuct_Subclass_Instance_Accsessor < Test::Unit::TestCase
+class Test_Striuct_Subclass_Instance_Accessor < Test::Unit::TestCase
 
   class Sth < Striuct.new
     member :bool, OR(true, false)
@@ -96,7 +97,7 @@ class Test_Striuct_Subclass_Instance_Accsessor < Test::Unit::TestCase
       member :lambda, OR(->v{v % 3 == 2}, ->v{v.kind_of? Float})
     end
   end
-  
+
   def setup
     @sth = Sth.new
   end
@@ -106,28 +107,28 @@ class Test_Striuct_Subclass_Instance_Accsessor < Test::Unit::TestCase
     assert_same true, @sth.bool
     @sth.bool = false
     assert_same false, @sth.bool
-    
+
     assert_raises Validation::InvalidWritingError do
       @sth.bool = nil
     end
-    
+
     @sth.sth = 1
     assert_same 1, @sth.sth
 
     @sth.sth = 'String'
     assert_equal 'String', @sth.sth
-    
+
     @sth.sth = Class.class
     assert_same Class.class, @sth.sth
-    
+
     assert_raises Validation::InvalidWritingError do
       @sth.lambda = 9
     end
-    
+
     assert_raises Validation::InvalidWritingError do
       @sth.lambda = 7
     end
-    
+
     @sth.lambda = 8
     assert_same 8, @sth.lambda
 

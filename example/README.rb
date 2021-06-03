@@ -1,11 +1,13 @@
+# frozen_string_literal: true
 require_relative '../lib/striuct'
 
 class Person < Striuct
-  member :fullname, AND(String, /\A.+\z/)     # Flexible Validation
-  alias_member :name, :fullname               # Use other name
+  member :full_name, AND(String, /\A.+\z/)     # Flexible Validation
+  alias_member :name, :full_name               # Use other name
 end
 
-class User < Person                           # Inheritable
+# Inheritable
+class User < Person
   member :id, Integer,                        # Looks typed validation
               default_proc: ->{User.next_id}  # With default value
 
@@ -16,7 +18,7 @@ class User < Person                           # Inheritable
 end
 
 john = User.new 'john'
-p john[:name]      #=> 'john' 
+p john[:name]      #=> 'john'
 #~ p john.name = ''  #=> error
 p john.id          #=> 1
 ken = User[name: 'ken']                       # Construct from hash
@@ -25,8 +27,7 @@ p ken.id           #=> 2
 class Foo < Striuct
   member :foo
   member :bar, Numeric
-  member :with_adjuster, Integer,
-                         &->v{Integer v}
+  member :with_adjuster, Integer, &->v{Integer v}
 end
 
 foo = Foo.new

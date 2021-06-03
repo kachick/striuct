@@ -1,14 +1,16 @@
-class Striuct; module ClassMethods
+# frozen_string_literal: true
 
-  # @group Length/Size
+class Striuct
+  module ClassMethods
+    # @group Length/Size
 
-  # @return [Integer]
-  def length
-    @autonyms.length
+    # @return [Integer]
+    def length
+      @autonyms.length
+    end
+
+    alias_method :size, :length
+
+    # @endgroup
   end
-  
-  alias_method :size, :length
-
-  # @endgroup
-
-end; end
+end

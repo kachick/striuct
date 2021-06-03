@@ -1,4 +1,4 @@
-#/usr/bin/ruby -w
+# frozen_string_literal: true
 
 require_relative '../lib/striuct'
 
@@ -10,7 +10,7 @@ end
 
 # 1. Struct+ "Secure"
 
-# macro "member" provides to use condtions
+# macro "member" provides to use conditions
 class User < Striuct.new
   member :id,   Integer
   member :age,  (20..140)
@@ -50,32 +50,32 @@ module Game
 
   class DB < Striuct.new
     member :monsters,   ->list{(list - characters).empty?}
-    member :characters, GENERICS(Character)
+    member :characters, ALL(Character)
   end
-  
+
   monster = Character.new
   db = DB.new
-  
+
   begin
     db.characters = [1, 2]
   rescue
     debug $!
   end
-  
+
   db.characters = [monster, Character.new]
   debug db
-  
+
   begin
     db.monsters = [Character.new]
   rescue
     debug $!
   end
-  
+
   db.monsters = [monster]
   debug db
 end
 
-# Standard Struct not check member name. 
+# Standard Struct not check member name.
 NoGuard = Struct.new :__send__, :'?  !'
 noguard = NoGuard.new false
 debug noguard.__send__
@@ -88,18 +88,18 @@ class SafetyNaming < Striuct.new
   rescue
     debug $!
   end
-  
+
   begin
     member :'?  !'
   rescue
     debug $!
   end
-  
-  # tempolary set lower
+
+  # temporary set lower
   conflict_management :struct do
     member :__send__, :'?  !'
   end
-  
+
 end
 
 # 2. Struct+ "Handy"
@@ -110,7 +110,7 @@ class User2 < Striuct.new
   member :age, OR(/\A\d+\z/, Numeric) do |arg|
     Integer arg
   end
-  
+
   member :name, ->v{v.respond_to? :to_s} do |v|
     v.to_s.to_sym
   end
@@ -134,16 +134,16 @@ debug user2
 # Default value
 
 class User3 < Striuct.new
-  member  :lank, Fixnum
+  member  :lank, Integer
   default :lank, 3
   member  :name
 end
 
 user3 = User3.new
-user3
+p user3
 debug user3
 
-# Standard Struct always define "nil is default". ...realy?
+# Standard Struct always define "nil is default". ...really?
 debug user3.assigned?(:name)
 user3.name = nil
 debug user3.assigned?(:name)
@@ -179,8 +179,7 @@ debug user3
 # 3. Keeping Struct's good interface
 
 Sth1 = Striuct.new do
-  def my_special_method
-  end
+  def my_special_method; end
 end
 
 debug Sth1.new.respond_to?(:my_special_method)

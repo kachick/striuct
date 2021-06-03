@@ -1,10 +1,11 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_Validation_Util < Test::Unit::TestCase
 
-  ALWAYS_OCCUR_ERROR = ->_{raise Exception}
+  ALWAYS_OCCUR_ERROR = ->_{raise StandardError}
   peep = nil
-  
+
   Foo = Striuct.define do
     member :foo, nil
     member :bar, ALWAYS_OCCUR_ERROR
