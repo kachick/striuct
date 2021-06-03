@@ -8,13 +8,13 @@ class Test_Striuct_Subclass_Instance_Cast < Test::Unit::TestCase
   def test_to_h
     sth = Sth.new
     assert_equal({foo: nil, bar: nil, hoge: nil}, sth.to_h)
-    assert_equal({foo: nil, bar: nil, hoge: nil}, sth.to_h(true))
-    assert_equal({}, sth.to_h(false))
+    assert_equal({foo: nil, bar: nil, hoge: nil}, sth.to_h(include_no_assign: true))
+    assert_equal({}, sth.to_h(include_no_assign: false))
 
     sth.bar = :BAR
     assert_equal({foo: nil, bar: :BAR, hoge: nil}, sth.to_h)
-    assert_equal({foo: nil, bar: :BAR, hoge: nil}, sth.to_h(true))
-    assert_equal({bar: :BAR}, sth.to_h(false))
+    assert_equal({foo: nil, bar: :BAR, hoge: nil}, sth.to_h(include_no_assign: true))
+    assert_equal({bar: :BAR}, sth.to_h(include_no_assign: false))
   end
 
   def test_to_a

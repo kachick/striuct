@@ -16,7 +16,7 @@ class Striuct
 
     # @param [Boolean] include_no_assign
     # @return [Hash]
-    def to_h(include_no_assign=true)
+    def to_h(include_no_assign: true)
       return @db.dup unless include_no_assign
 
       each_pair.to_a.to_h
