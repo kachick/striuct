@@ -14,6 +14,7 @@ At first, you should install development dependencies
 $ git clone git@github.com:kachick/striuct.git
 $ cd ./striuct
 $ ./bin/setup
+Should be installed!
 ```
 
 ## Feel the latest version with REPL
