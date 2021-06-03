@@ -29,12 +29,6 @@ class Striuct
 
     alias_method :[], :for_pairs
 
-    # @return [Class]
-    DEFINE_OptArg = OptionalArgument.define {
-      opt(:lock, default: true, condition: BOOLEAN())
-      opt(:strict, default: true, condition: BOOLEAN())
-    }
-
     # for build the fixed object
     # @param [Hash] options
     # @option options [Boolean] :lock
@@ -42,10 +36,8 @@ class Striuct
     # @yieldparam [Striuct] instance
     # @yieldreturn [Striuct] instance
     # @return [void]
-    def define(options={})
+    def define(lock: true, strict: true)
       raise ArgumentError, 'must with block' unless block_given?
-
-      opts = DEFINE_OptArg.parse(options)
 
       new.tap { |instance|
         yield instance
@@ -56,12 +48,12 @@ class Striuct
         end
 
         invalids = autonyms.select { |autonym| !instance.valid?(autonym) }
-        if opts.strict && !invalids.empty?
+        if strict && !invalids.empty?
           raise Validation::InvalidWritingError,
                 "invalids members are, yet '#{invalids.inspect} in #{self}'"
         end
 
-        instance.lock_all if opts.lock
+        instance.lock_all if lock
       }
     end
 
