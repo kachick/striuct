@@ -1,9 +1,8 @@
 striuct
 =======
 
-[![Build Status](https://secure.travis-ci.org/kachick/striuct.png)](http://travis-ci.org/kachick/striuct)
+![Build Status](https://github.com/kachick/striuct/actions/workflows/test_behaviors.yml/badge.svg?branch=main)
 [![Gem Version](https://badge.fury.io/rb/striuct.png)](http://badge.fury.io/rb/striuct)
-[![Dependency Status](https://gemnasium.com/kachick/striuct.svg)](https://gemnasium.com/kachick/striuct)
 
 Description
 -----------
@@ -26,7 +25,7 @@ Features
 * Member aliasing
 * Inheritable
 * Handling between nil <-> unassigned
-* More flendly API for Hash
+* Similar API for Hash
 
 ### Onepoint
 
@@ -36,14 +35,22 @@ Features
 Usage
 -----
 
+Require Ruby 2.6 or later
+
+Add this line to your `Gemfile`
+
+```ruby
+gem 'striuct', '>= 0.7.0', '< 0.8.0'
+```
+
 ### Overview - Case 1
 
 ```ruby
 require 'striuct'
 
 class Person < Striuct
-  member :fullname, AND(String, /\A.+\z/)     # Flexible Validation
-  alias_member :name, :fullname               # Use other name
+  member :full_name, AND(String, /\A.+\z/)     # Flexible Validation
+  alias_member :name, :full_name               # Use other name
 end
 
 # Inheritable
@@ -58,12 +65,13 @@ class User < Person
 end
 
 john = User.new 'john'
-john[:name]              #=> 'john' 
+john[:name]              #=> 'john'
 john.name = ''           #=> Exception        # Validate with setter
 john.id                  #=> 1
 ken = User[name: 'ken']                       # Construct from hash
 ken.id                   #=> 2
 ```
+
 ### Overview - Case 2
 
 ```ruby
@@ -76,7 +84,7 @@ end
 
 foo = Foo.new
 
-# nil <-> unaasigned
+# nil <-> unassigned
 foo.foo                  #=> nil
 foo.assigned?(:foo)      #=> false
 foo.foo = nil
@@ -104,37 +112,8 @@ end
 UseMustOption.new #=> InvalidOperationError "`foo` require a value under `must` option "
 ```
 
-
-### How to build flexible conditions ?
-
-* That from validation library.  
-  See the [validation-API](http://kachick.github.com/validation/yard/frames.html)
-
-Requirements
--------------
-
-* Ruby - [2.2 or later](http://travis-ci.org/#!/kachick/striuct)
-
-Install
--------
-
-```bash
-gem install striuct
-```
-
 Link
 ----
 
-* [Code](https://github.com/kachick/striuct)
-* [Wiki](https://github.com/kachick/striuct/wiki)
-* [API](http://www.rubydoc.info/github/kachick/striuct)
-* [Issues](https://github.com/kachick/striuct/issues)
-* [CI](http://travis-ci.org/#!/kachick/striuct)
-* [gem](https://rubygems.org/gems/striuct)
-
-License
---------
-
-The MIT X11 License  
-Copyright (c) 2011 Kenichi Kamiya  
-See MIT-LICENSE for further details.
+* [Repository](https://github.com/kachick/striuct)
+* [API documents](https://kachick.github.io/striuct/)
