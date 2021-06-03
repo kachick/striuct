@@ -25,7 +25,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
 
   gem.add_runtime_dependency 'validation', '>= 0.2.2', '< 0.3.0'
-  gem.add_runtime_dependency 'optionalargument', '>= 0.5.0', '< 0.6.0'
+  gem.add_runtime_dependency 'optionalargument', '>= 0.5.1', '< 0.6.0'
   gem.add_runtime_dependency 'keyvalidatable', '>= 0.2.0', '< 0.3.0'
 
   # common

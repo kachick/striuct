@@ -15,7 +15,7 @@ end
 task default: [:test_behaviors]
 task test_behaviors: [:test]
 
-multitask simulate_ci: [:test_behaviors, :validate_signatures, :rubocop]
+multitask simulate_ci: [:test_behaviors, :rubocop]
 
 Rake::TestTask.new(:test) do |tt|
   tt.pattern = 'test/**/test_*.rb'
@@ -23,12 +23,11 @@ Rake::TestTask.new(:test) do |tt|
   tt.warning = true
 end
 
-task validate_signatures: [:test_yard]
-
+# Can not be included in CI, because `private_class_method(*Forwardable.instance_methods)` raises warn from YARD...
 task :test_yard do
   sh "bundle exec yard --fail-on-warning #{'--no-progress' if ENV['CI']}"
 end
 
 task :yard do
-  sh 'bundle exec yard --fail-on-warning'
+  sh 'bundle exec yard'
 end
