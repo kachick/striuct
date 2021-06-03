@@ -141,7 +141,7 @@ class User3 < Striuct.new
 end
 
 user3 = User3.new
-user3
+p user3
 debug user3
 
 # Standard Struct always define "nil is default". ...really?

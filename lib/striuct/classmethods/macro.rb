@@ -71,7 +71,7 @@ class Striuct
       _check_frozen
       _check_closed
 
-      [autonym, *autonyms].each { |_autonym| add_member(_autonym) }
+      [autonym, *autonyms].each { |name| add_member(name) }
       nil
     end
 
@@ -83,8 +83,7 @@ class Striuct
       _check_closed
       autonym = autonym_for_member(autonym)
       aliased = aliased.to_sym
-      raise ArgumentError, %Q!already exist name "#{aliased}"! if member?(aliased
-                                                                         )
+      raise ArgumentError, %Q!already exist name "#{aliased}"! if member?(aliased)
 
       _check_safety_naming(aliased)
 

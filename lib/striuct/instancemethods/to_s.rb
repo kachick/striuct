@@ -12,7 +12,7 @@ class Striuct
           label_valid = valid?(autonym) ? nil : :invalid
           label_lock = locked?(autonym) ? :locked : nil
           label_must = must?(autonym) ? :must : nil
-          labels = [label_valid, label_lock, label_must].select { |_| _ }
+          labels = [label_valid, label_lock, label_must].select { |elm| elm }
 
           s << " #{autonym}=#{value.inspect}#{suffix}"
           unless labels.empty?

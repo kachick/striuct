@@ -19,3 +19,4 @@ class MyUser < User
 end
 
 user = MyUser.new
+p user

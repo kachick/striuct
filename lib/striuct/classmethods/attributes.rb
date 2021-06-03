@@ -81,11 +81,10 @@ class Striuct
         @hash[:default_value] = value
       end
 
-      def check_default_lazy_proc(_proc)
-        raise TypeError unless _proc.respond_to?(:call
-                                                )
+      def check_default_lazy_proc(proc)
+        raise TypeError unless proc.respond_to?(:call)
 
-        arity = _proc.arity
+        arity = proc.arity
         unless arity <= 2
           raise ArgumentError, "wrong number of block parameter #{arity} for 0..2"
         end

@@ -79,6 +79,8 @@ Style/StringLiteralsInInterpolation:
 
 Style/TopLevelMethodDefinition:
   Enabled: true
+  Exclude:
+    - 'example/**/*'
 
 Style/AndOr:
   Enabled: true
@@ -819,6 +821,8 @@ Naming/FileName:
   Enabled: true
   Exclude:
     - 'test/**/*'
+    - 'example/**/*'
+    - '**/**/**.md'
 
 Naming/ConstantName:
   Enabled: true
@@ -844,7 +848,7 @@ Naming/MethodParameterName:
   Enabled: false
 
 Naming/PredicateName:
-  Enabled: true
+  Enabled: false
 
 Naming/RescuedExceptionsVariableName:
   Enabled: false
@@ -884,11 +888,7 @@ Lint/RedundantStringCoercion:
 
 Lint/StructNewOverride:
   Exclude:
-    - 'test/many_data/fixtures/example.rb'
-
-Lint/BinaryOperatorWithIdenticalOperands:
-  Exclude:
-    - 'test/**/*'
+    - 'example/**/*'
 
 Lint/UnusedMethodArgument:
   Enabled: false
@@ -924,6 +924,10 @@ Lint/EmptyBlock:
   Enabled: true
   Exclude:
     - 'test/**/*'
+
+Lint/EmptyClass:
+  Exclude:
+    - 'example/**/*'
 
 Rubycw/Rubycw:
   Enabled: true
