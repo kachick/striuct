@@ -1,118 +1,119 @@
-class Striuct; module InstanceMethods
+# frozen_string_literal: true
 
-  # @group Like Ruby's Hash
+class Striuct
+  module InstanceMethods
+    # @group Like Ruby's Hash
 
-  def has_value?(value)
-    @db.has_value? value
-  end
-
-  alias_method :value?, :has_value?
-
-  # keep truthy only (unassign falsy member)
-  # @yield [autonym, value]
-  # @yieldparam [Symbol] autonym
-  # @see #each_pair
-  # @return [Enumerator]
-  # @yieldreturn [self]
-  # @yieldreturn [nil]
-  def select!
-    _check_frozen
-    return to_enum(__callee__) unless block_given?
-
-    modified = false
-    each_pair do |autonym, value|
-      unless yield autonym, value
-        unassign autonym
-        modified = true
-      end
+    def has_value?(value)
+      @db.value?(value)
     end
-    
-    modified ? self : nil
-  end
 
-  # @see #select!
-  # @yield [autonym, value]
-  # @yieldparam [Symbol] autonym
-  # @return [Enumerator]
-  def keep_if(&block)
-    _check_frozen
-    return to_enum(__callee__) unless block_given?
+    alias_method :value?, :has_value?
 
-    select!(&block)
-    self
-  end
+    # keep truthy only (unassign falsy member)
+    # @yield [autonym, value]
+    # @yieldparam [Symbol] autonym
+    # @see #each_pair
+    # @return [Enumerator]
+    # @yieldreturn [self]
+    # @yieldreturn [nil]
+    def select!
+      _check_frozen
+      return to_enum(__callee__) unless block_given?
 
-  # @see #select!
-  # keep falsy only (unassign truthy member)
-  # @yield [autonym, value]
-  # @yieldparam [Symbol] autonym
-  # @return [Enumerator]
-  def reject!
-    _check_frozen
-    return to_enum(__callee__) unless block_given?
-
-    modified = false
-    each_pair do |autonym, value|
-      if yield autonym, value
-        unassign autonym
-        modified = true
+      modified = false
+      each_pair do |autonym, value|
+        unless yield autonym, value
+          unassign(autonym)
+          modified = true
+        end
       end
+
+      modified ? self : nil
     end
-    
-    modified ? self : nil
-  end
 
-  # @see #reject!
-  # @yield [autonym, value]
-  # @yieldparam [Symbol] autonym
-  # @return [Enumerator]
-  def delete_if(&block)
-    _check_frozen
-    return to_enum(__callee__) unless block_given?
+    # @see #select!
+    # @yield [autonym, value]
+    # @yieldparam [Symbol] autonym
+    # @return [Enumerator]
+    def keep_if(&block)
+      _check_frozen
+      return to_enum(__callee__) unless block
 
-    reject!(&block)
-    self
-  end
+      select!(&block)
+      self
+    end
 
-  # @param [Symbol, String] name
-  # @return [Array] e.g [autonym, value]
-  def assoc(name)
-    autonym = autonym_for_member name
+    # @see #select!
+    # keep falsy only (unassign truthy member)
+    # @yield [autonym, value]
+    # @yieldparam [Symbol] autonym
+    # @return [Enumerator]
+    def reject!
+      _check_frozen
+      return to_enum(__callee__) unless block_given?
 
-    [autonym, self[name]]
-  end
+      modified = false
+      each_pair do |autonym, value|
+        if yield autonym, value
+          unassign(autonym)
+          modified = true
+        end
+      end
 
-  # @return [Array] [autonym, value]
-  def rassoc(value)
-    each_pair.find{|_, val|val == value}
-  end
+      modified ? self : nil
+    end
 
-  # @see Hash#flatten
-  # @return [Array]
-  def flatten(level=1)
-    each_pair.to_a.flatten level
-  end
+    # @see #reject!
+    # @yield [autonym, value]
+    # @yieldparam [Symbol] autonym
+    # @return [Enumerator]
+    def delete_if(&block)
+      _check_frozen
+      return to_enum(__callee__) unless block
 
-  # @see #select!
-  # @yield [autonym, value]
-  # @yieldparam [Symbol] autonym
-  # @return [Striuct]
-  def select(&block)
-    return to_enum(__callee__) unless block_given?
+      reject!(&block)
+      self
+    end
 
-    dup.tap {|r|r.select!(&block)}
-  end
+    # @param [Symbol, String] name
+    # @return [Array] e.g [autonym, value]
+    def assoc(name)
+      autonym = autonym_for_member(name)
 
-  # @see #reject!
-  # @yield [autonym, value]
-  # @yieldparam [Symbol] autonym
-  # @return [Striuct]
-  def reject(&block)
-    return to_enum(__callee__) unless block_given?
+      [autonym, self[name]]
+    end
 
-    dup.tap {|r|r.reject!(&block)}
-  end
+    # @return [Array] [autonym, value]
+    def rassoc(value)
+      each_pair.find { |_, val| val == value }
+    end
 
-  # @endgroup
+    # @see Hash#flatten
+    # @return [Array]
+    def flatten(level=1)
+      each_pair.to_a.flatten(level)
+    end
 
-end; end
+    # @see #select!
+    # @yield [autonym, value]
+    # @yieldparam [Symbol] autonym
+    # @return [Striuct]
+    def select(&block)
+      return to_enum(__callee__) unless block
+
+      dup.tap { |r| r.select!(&block) }
+    end
+
+    # @see #reject!
+    # @yield [autonym, value]
+    # @yieldparam [Symbol] autonym
+    # @return [Striuct]
+    def reject(&block)
+      return to_enum(__callee__) unless block
+
+      dup.tap { |r| r.reject!(&block) }
+    end
+
+    # @endgroup
+  end; end

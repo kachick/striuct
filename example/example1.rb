@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #/usr/bin/ruby -w
 
 require_relative '../lib/striuct'
@@ -134,7 +135,7 @@ debug user2
 # Default value
 
 class User3 < Striuct.new
-  member  :lank, Fixnum
+  member  :lank, Integer
   default :lank, 3
   member  :name
 end
@@ -179,8 +180,7 @@ debug user3
 # 3. Keeping Struct's good interface
 
 Sth1 = Striuct.new do
-  def my_special_method
-  end
+  def my_special_method; end
 end
 
 debug Sth1.new.respond_to?(:my_special_method)

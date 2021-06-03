@@ -1,16 +1,17 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_BasicPredicate < Test::Unit::TestCase
 
   class Subclass < Striuct
-    member :foo    
+    member :foo
     member :bar
     alias_member :aliased, :bar
     close_member
   end.freeze
 
   INSTANCE = Subclass.new.freeze
-  
+
   TYPE_PAIRS = {
     class: Subclass,
     instance: INSTANCE
@@ -144,13 +145,13 @@ end
 class Test_Striuct_Subclass_Predicate_Default < Test::Unit::TestCase
 
   class Subclass < Striuct
-    member :foo    
+    member :foo
     member :val, BasicObject, default: 'DEFAULT'
-    
+
     conflict_management :struct do
       member :lazy, BasicObject, default_proc: ->{}
     end
-    
+
     alias_member :als_foo, :foo
     alias_member :als_val, :val
     alias_member :als_lazy, :lazy
@@ -158,7 +159,7 @@ class Test_Striuct_Subclass_Predicate_Default < Test::Unit::TestCase
   end.freeze
 
   INSTANCE = Subclass.new.freeze
-  
+
   TYPE_PAIRS = {
     class: Subclass,
     instance: INSTANCE
@@ -173,21 +174,21 @@ class Test_Striuct_Subclass_Predicate_Default < Test::Unit::TestCase
         assert_same false, reciever.public_send(predicate, 'als_foo')
         assert_same false, reciever.public_send(predicate, 0)
         assert_same false, reciever.public_send(predicate, 0.9)
-        
+
         assert_same true, reciever.public_send(predicate, :val)
         assert_same true, reciever.public_send(predicate, :als_val)
         assert_same true, reciever.public_send(predicate, 'val')
         assert_same true, reciever.public_send(predicate, 'als_val')
         assert_same true, reciever.public_send(predicate, 1)
         assert_same true, reciever.public_send(predicate, 1.9)
-        
+
         assert_same true, reciever.public_send(predicate, :lazy)
         assert_same true, reciever.public_send(predicate, :als_lazy)
         assert_same true, reciever.public_send(predicate, 'lazy')
         assert_same true, reciever.public_send(predicate, 'als_lazy')
         assert_same true, reciever.public_send(predicate, 2)
         assert_same true, reciever.public_send(predicate, 2.9)
-        
+
         assert_same false, reciever.public_send(predicate, :none)
         assert_same false, reciever.public_send(predicate, 'none')
         assert_same false, reciever.public_send(predicate, 3)
@@ -213,7 +214,7 @@ class Test_Striuct_Subclass_Predicate_Adjuster < Test::Unit::TestCase
   end.freeze
 
   INSTANCE = Subclass.new.freeze
-  
+
   TYPE_PAIRS = {
     class: Subclass,
     instance: INSTANCE
@@ -228,21 +229,21 @@ class Test_Striuct_Subclass_Predicate_Adjuster < Test::Unit::TestCase
         assert_same false, reciever.public_send(predicate, 'als_no_with')
         assert_same false, reciever.public_send(predicate, 0)
         assert_same false, reciever.public_send(predicate, 0.9)
-        
+
         assert_same true, reciever.public_send(predicate, :with)
         assert_same true, reciever.public_send(predicate, :als_with)
         assert_same true, reciever.public_send(predicate, 'with')
         assert_same true, reciever.public_send(predicate, 'als_with')
         assert_same true, reciever.public_send(predicate, 1)
         assert_same true, reciever.public_send(predicate, 1.9)
-        
+
         assert_same true, reciever.public_send(predicate, :cond_with)
         assert_same true, reciever.public_send(predicate, :als_cond_with)
         assert_same true, reciever.public_send(predicate, 'cond_with')
         assert_same true, reciever.public_send(predicate, 'als_cond_with')
         assert_same true, reciever.public_send(predicate, 2)
         assert_same true, reciever.public_send(predicate, 2.9)
-        
+
         assert_same false, reciever.public_send(predicate, :none)
         assert_same false, reciever.public_send(predicate, 'none')
         assert_same false, reciever.public_send(predicate, 3)
@@ -270,7 +271,7 @@ class Test_Striuct_Subclass_Predicate_Condition < Test::Unit::TestCase
   end.freeze
 
   INSTANCE = Subclass.new.freeze
-  
+
   TYPE_PAIRS = {
     class: Subclass,
     instance: INSTANCE
@@ -285,7 +286,7 @@ class Test_Striuct_Subclass_Predicate_Condition < Test::Unit::TestCase
         assert_same false, reciever.public_send(predicate, 'als_no_with')
         assert_same false, reciever.public_send(predicate, 0)
         assert_same false, reciever.public_send(predicate, 0.9)
-        
+
         assert_same true, reciever.public_send(predicate, :with)
         assert_same true, reciever.public_send(predicate, :als_with)
         assert_same true, reciever.public_send(predicate, 'with')
@@ -299,14 +300,14 @@ class Test_Striuct_Subclass_Predicate_Condition < Test::Unit::TestCase
         assert_same false, reciever.public_send(predicate, 'als_with_any')
         assert_same false, reciever.public_send(predicate, 2)
         assert_same false, reciever.public_send(predicate, 2.9)
-  
+
         assert_same true, reciever.public_send(predicate, :adj_with)
         assert_same true, reciever.public_send(predicate, :als_adj_with)
         assert_same true, reciever.public_send(predicate, 'adj_with')
         assert_same true, reciever.public_send(predicate, 'als_adj_with')
         assert_same true, reciever.public_send(predicate, 3)
         assert_same true, reciever.public_send(predicate, 3.9)
-        
+
         assert_same false, reciever.public_send(predicate, :none)
         assert_same false, reciever.public_send(predicate, 'none')
         assert_same false, reciever.public_send(predicate, 4)
@@ -334,7 +335,7 @@ class Test_Striuct_Subclass_Predicate_Must < Test::Unit::TestCase
   end.freeze
 
   INSTANCE = Subclass[als_with: 1, als_with_any: 1, adj_with: 1].freeze
-  
+
   TYPE_PAIRS = {
     class: Subclass,
     instance: INSTANCE
@@ -349,7 +350,7 @@ class Test_Striuct_Subclass_Predicate_Must < Test::Unit::TestCase
         assert_same false, reciever.public_send(predicate, 'als_no_with')
         assert_same false, reciever.public_send(predicate, 0)
         assert_same false, reciever.public_send(predicate, 0.9)
-        
+
         assert_same true, reciever.public_send(predicate, :with)
         assert_same true, reciever.public_send(predicate, :als_with)
         assert_same true, reciever.public_send(predicate, 'with')
@@ -370,7 +371,7 @@ class Test_Striuct_Subclass_Predicate_Must < Test::Unit::TestCase
         assert_same true, reciever.public_send(predicate, 'als_adj_with')
         assert_same true, reciever.public_send(predicate, 3)
         assert_same true, reciever.public_send(predicate, 3.9)
-        
+
         assert_same false, reciever.public_send(predicate, :none)
         assert_same false, reciever.public_send(predicate, 'none')
         assert_same false, reciever.public_send(predicate, 4)
@@ -399,7 +400,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Enable < Test::Unit::Tes
   end.freeze
 
   INSTANCE = Subclass.new.freeze
-  
+
   TYPE_PAIRS = {
     class: Subclass,
     instance: INSTANCE
@@ -414,7 +415,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Enable < Test::Unit::Tes
         assert_same true, reciever.public_send(predicate, 'als_no_with')
         assert_same true, reciever.public_send(predicate, 0)
         assert_same true, reciever.public_send(predicate, 0.9)
-        
+
         assert_same true, reciever.public_send(predicate, :with)
         assert_same true, reciever.public_send(predicate, :als_with)
         assert_same true, reciever.public_send(predicate, 'with')
@@ -435,7 +436,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Enable < Test::Unit::Tes
         assert_same true, reciever.public_send(predicate, 'als_adj_with')
         assert_same true, reciever.public_send(predicate, 3)
         assert_same true, reciever.public_send(predicate, 3.9)
-        
+
         assert_same false, reciever.public_send(predicate, :none)
         assert_same false, reciever.public_send(predicate, 'none')
         assert_same false, reciever.public_send(predicate, 4)
@@ -452,13 +453,13 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Disable < Test::Unit::Te
   class Subclass < Striuct
     member :no_with
     alias_member :als_no_with, :no_with
-    
+
     member :with, nil, setter_validation: false
     alias_member :als_with, :with
-    
+
     member :with_any, BasicObject, writer_validation: false
     alias_member :als_with_any, :with_any
-    
+
     member :adj_with, nil, writer_validation: false do |_|; end
     alias_member :als_adj_with, :adj_with
 
@@ -466,7 +467,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Disable < Test::Unit::Te
   end.freeze
 
   INSTANCE = Subclass.new.freeze
-  
+
   TYPE_PAIRS = {
     class: Subclass,
     instance: INSTANCE
@@ -481,7 +482,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Disable < Test::Unit::Te
         assert_same true, reciever.public_send(predicate, 'als_no_with')
         assert_same true, reciever.public_send(predicate, 0)
         assert_same true, reciever.public_send(predicate, 0.9)
-        
+
         assert_same false, reciever.public_send(predicate, :with)
         assert_same false, reciever.public_send(predicate, :als_with)
         assert_same false, reciever.public_send(predicate, 'with')
@@ -502,7 +503,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Disable < Test::Unit::Te
         assert_same false, reciever.public_send(predicate, 'als_adj_with')
         assert_same false, reciever.public_send(predicate, 3)
         assert_same false, reciever.public_send(predicate, 3.9)
-        
+
         assert_same false, reciever.public_send(predicate, :none)
         assert_same false, reciever.public_send(predicate, 'none')
         assert_same false, reciever.public_send(predicate, 4)
@@ -531,7 +532,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Getter_Enable < Test::Unit::Tes
   end.freeze
 
   INSTANCE = Subclass.new.freeze
-  
+
   TYPE_PAIRS = {
     class: Subclass,
     instance: INSTANCE
@@ -546,7 +547,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Getter_Enable < Test::Unit::Tes
         assert_same false, reciever.public_send(predicate, 'als_no_with')
         assert_same false, reciever.public_send(predicate, 0)
         assert_same false, reciever.public_send(predicate, 0.9)
-        
+
         assert_same true, reciever.public_send(predicate, :with)
         assert_same true, reciever.public_send(predicate, :als_with)
         assert_same true, reciever.public_send(predicate, 'with')
@@ -567,7 +568,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Getter_Enable < Test::Unit::Tes
         assert_same true, reciever.public_send(predicate, 'als_adj_with')
         assert_same true, reciever.public_send(predicate, 3)
         assert_same true, reciever.public_send(predicate, 3.9)
-        
+
         assert_same false, reciever.public_send(predicate, :none)
         assert_same false, reciever.public_send(predicate, 'none')
         assert_same false, reciever.public_send(predicate, 4)
@@ -584,13 +585,13 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Getter_Disable < Test::Unit::Te
   class Subclass < Striuct
     member :no_with
     alias_member :als_no_with, :no_with
-    
+
     member :with, nil, getter_validation: false
     alias_member :als_with, :with
-    
+
     member :with_any, BasicObject, reader_validation: false
     alias_member :als_with_any, :with_any
-    
+
     member :adj_with, nil, reader_validation: false do |_|; end
     alias_member :als_adj_with, :adj_with
 
@@ -598,7 +599,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Getter_Disable < Test::Unit::Te
   end.freeze
 
   INSTANCE = Subclass.new.freeze
-  
+
   TYPE_PAIRS = {
     class: Subclass,
     instance: INSTANCE
@@ -613,7 +614,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Getter_Disable < Test::Unit::Te
         assert_same false, reciever.public_send(predicate, 'als_no_with')
         assert_same false, reciever.public_send(predicate, 0)
         assert_same false, reciever.public_send(predicate, 0.9)
-        
+
         assert_same false, reciever.public_send(predicate, :with)
         assert_same false, reciever.public_send(predicate, :als_with)
         assert_same false, reciever.public_send(predicate, 'with')
@@ -634,7 +635,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Getter_Disable < Test::Unit::Te
         assert_same false, reciever.public_send(predicate, 'als_adj_with')
         assert_same false, reciever.public_send(predicate, 3)
         assert_same false, reciever.public_send(predicate, 3.9)
-        
+
         assert_same false, reciever.public_send(predicate, :none)
         assert_same false, reciever.public_send(predicate, 'none')
         assert_same false, reciever.public_send(predicate, 4)

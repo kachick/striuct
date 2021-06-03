@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
@@ -19,9 +20,9 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
 
   def test_not
     sth = Sth.new
-    
+
     obj = Object.new
-    
+
     sth.not_integer = obj
     assert_same obj, sth.not_integer
 
@@ -33,9 +34,9 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
 
   def test_still
     sth = Sth.new
-    
+
     obj = Object.new
-    
+
     sth.no_exception = obj
     assert_same obj, sth.no_exception
     sth.no_exception = false
@@ -51,16 +52,15 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
 
   def test_catch
     sth = Sth.new
-    
+
     obj = Object.new
-    
+
     sth.catch_error = obj
     assert_same obj, sth.catch_error
     sth.catch_error = false
 
     obj.singleton_class.class_eval do
-      def no_name!
-      end
+      def no_name!; end
     end
 
     assert_raises Validation::InvalidWritingError do
@@ -74,7 +74,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     assert_raises Validation::InvalidWritingError do
       sth.all_pass = 11
     end
-    
+
     sth.all_pass = 1
     assert_equal 1, sth.all_pass
     sth.all_pass = 4
@@ -92,11 +92,11 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     assert_raises Validation::InvalidWritingError do
       sth.has_ignore= 2
     end
-  
+
     sth.has_ignore = 3
     assert_equal 3, sth.has_ignore
     assert_equal true, sth.valid?(:has_ignore)
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.has_ignore = []
     end
@@ -112,7 +112,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     assert_raises Validation::InvalidWritingError do
       sth.nand = 4.5
     end
-  
+
     sth.nand = 2
     assert_equal 2, sth.nand
     assert_equal true, sth.valid?(:nand)
@@ -122,23 +122,23 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
 
   def test_member_of
     sth = Sth.new
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.one_of_member = 4
     end
-  
+
     sth.one_of_member = 3
     assert_equal 3, sth.one_of_member
     assert_equal true, sth.valid?(:one_of_member)
   end
-  
+
   def test_all
     sth = Sth.new
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.list_only_int = [1, '2']
     end
-  
+
     sth.list_only_int = [1, 2]
     assert_equal [1, 2], sth.list_only_int
     assert_equal true, sth.valid?(:list_only_int)
@@ -148,16 +148,16 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     sth.list_only_int << '2'
     assert_equal false, sth.valid?(:list_only_int)
   end
-  
+
   def test_boolean
     sth = Sth.new
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.true_or_false = nil
     end
-    
+
     assert_equal false, sth.valid?(:true_or_false)
-  
+
     sth.true_or_false = true
     assert_equal true, sth.true_or_false
     assert_equal true, sth.valid?(:true_or_false)
@@ -165,23 +165,22 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     assert_equal false, sth.true_or_false
     assert_equal true, sth.valid?(:true_or_false)
   end
-  
+
   def test_stringable
     sth = Sth.new
     obj = Object.new
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.like_str = obj
     end
-  
+
     sth.like_str = 'str'
     assert_equal true, sth.valid?(:like_str)
-    
+
     obj.singleton_class.class_eval do
-      def to_str
-      end
+      def to_str; end
     end
-    
+
     sth.like_str = obj
     assert_equal true, sth.valid?(:like_str)
   end
@@ -189,20 +188,19 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
   def test_responsible_arg1
     sth = Sth.new
     obj = Object.new
-    
+
     raise if obj.respond_to? :foo
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.has_foo = obj
     end
-    
+
     obj.singleton_class.class_eval do
-      def foo
-      end
+      def foo; end
     end
-    
+
     raise unless obj.respond_to? :foo
-    
+
     sth.has_foo = obj
     assert_equal obj, sth.has_foo
     assert_equal true, sth.valid?(:has_foo)
@@ -211,32 +209,30 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
   def test_responsible_arg2
     sth = Sth.new
     obj = Object.new
-    
+
     raise if obj.respond_to? :foo
     raise if obj.respond_to? :bar
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.has_foo_and_bar = obj
     end
-    
+
     obj.singleton_class.class_eval do
-      def foo
-      end
+      def foo; end
     end
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.has_foo_and_bar = obj
     end
-    
+
     raise unless obj.respond_to? :foo
-    
+
     obj.singleton_class.class_eval do
-      def bar
-      end
+      def bar; end
     end
-    
+
     raise unless obj.respond_to? :bar
-    
+
     sth.has_foo_and_bar = obj
     assert_equal obj, sth.has_foo_and_bar
     assert_equal true, sth.valid?(:has_foo_and_bar)
@@ -251,17 +247,17 @@ class Test_Striuct_Subclass_Instance_SpecificConditions_FunctionalCondition < Te
     member :lanks
     default :lanks, 1..30
   end
-  
+
   def test_lambda
     sth = Sthlambda.new
     sth.lank = 2
     assert_equal 2, sth.lank
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.lank = 31
     end
   end
-  
+
   max = 9
 
   SthProc = Striuct.new do
@@ -272,21 +268,21 @@ class Test_Striuct_Subclass_Instance_SpecificConditions_FunctionalCondition < Te
     sth = SthProc.new
     sth.lank = 8
     assert_equal 8, sth.lank
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.lank = 2
     end
   end
-  
+
   SthMethod = Striuct.new do
     member :lank, 7.method(:<)
   end
-  
+
   def test_Method
     sth = SthMethod.new
     sth.lank = 8
     assert_equal 8, sth.lank
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.lank = 6
     end

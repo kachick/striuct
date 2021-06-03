@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_Class_Freeze < Test::Unit::TestCase
@@ -17,19 +18,19 @@ class Test_Striuct_Subclass_Class_Freeze < Test::Unit::TestCase
 
     assert_same true, sth.member?(:bar)
     assert_equal [:foo, :bar], sth.members
-    
+
     assert_same false, Sth.frozen?
-    
+
     Sth.freeze
-    
+
     assert_same true, Sth.frozen?
-   
+
     assert_raises RuntimeError do
       Sth.class_eval do
         member :var2
       end
     end
-   
+
     assert_same false, sth.member?(:var2)
   end
 

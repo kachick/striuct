@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_Class_Copy < Test::Unit::TestCase
@@ -17,13 +18,13 @@ class Test_Striuct_Subclass_Class_Copy < Test::Unit::TestCase
     cls2.__send__ :member, :dummy1
     assert_same false, org_cls.member?(:dummy1)
   end
-  
+
   def test_clone
     org_cls = Striuct.define do
       member :sth
     end.freeze
 
-    assert_same true, org_cls.frozen?    
+    assert_same true, org_cls.frozen?
     assert_same true, org_cls.closed?
     cls2 = org_cls.clone
     assert_same true, org_cls.frozen?

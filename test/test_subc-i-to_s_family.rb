@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_Instance_to_s_Family < Test::Unit::TestCase

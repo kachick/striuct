@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'validation'
 require_relative 'structs'
 require_relative 'classmethods/requirements'

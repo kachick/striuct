@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_Must < Test::Unit::TestCase
@@ -7,7 +8,7 @@ class Test_Striuct_Subclass_Must < Test::Unit::TestCase
     member :bar, anything, must: true
     member :baz
   end
-  
+
   def test_must
     assert_raises(Striuct::InvalidOperationError) do
       Sth.new :foo

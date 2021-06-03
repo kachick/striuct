@@ -1,9 +1,10 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_Instance_Cast < Test::Unit::TestCase
 
   Sth = Striuct.new :foo, :bar, :hoge
-  
+
   def test_to_h
     sth = Sth.new
     assert_equal({foo: nil, bar: nil, hoge: nil}, sth.to_h)

@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_Class_SafetyNaming < Test::Unit::TestCase
@@ -26,7 +27,7 @@ class Test_Striuct_Subclass_Class_SafetyNaming < Test::Unit::TestCase
     assert_same true, klass.cname?('to_ary')
     assert_same true, klass.cname?('foo')
   end
-  
+
   def test_protect
     klass = Striuct.new
     assert_raises NameError do
@@ -34,7 +35,7 @@ class Test_Striuct_Subclass_Class_SafetyNaming < Test::Unit::TestCase
         member ''
       end
     end
-    
+
     assert_raises NameError do
       klass.class_eval do
         member :'a b'
@@ -43,30 +44,30 @@ class Test_Striuct_Subclass_Class_SafetyNaming < Test::Unit::TestCase
 
     assert_raises NameError do
       klass.class_eval do
-        member :'__send__'
+        member :__send__
       end
     end
 
     assert_raises NameError do
       klass.class_eval do
-        member :'__foo__'
+        member :__foo__
       end
     end
-    
+
     assert_raises NameError do
       klass.class_eval do
-        member :'m?'
+        member :m?
       end
     end
-  
+
     assert_same false, klass.member?('m?')
-    
+
     klass.class_eval do
       conflict_management :struct do
-        member :'m?'
+        member :m?
       end
     end
-    
+
     assert_same true, klass.member?('m?')
   end
 

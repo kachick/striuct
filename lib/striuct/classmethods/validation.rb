@@ -1,15 +1,16 @@
-class Striuct; module ClassMethods
+# frozen_string_literal: true
 
-  # @group Validation
-  
-  # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
-  def condition_for(key)
-    autonym = autonym_for_key key
-    raise KeyError unless with_condition? autonym
-    
-    _attributes_for(autonym).condition
-  end
+class Striuct
+  module ClassMethods
+    # @group Validation
 
-  # @endgroup
+    # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
+    def condition_for(key)
+      autonym = autonym_for_key(key)
+      raise KeyError unless with_condition?(autonym)
 
-end; end
+      _attributes_for(autonym).condition
+    end
+
+    # @endgroup
+  end; end

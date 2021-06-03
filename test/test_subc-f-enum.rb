@@ -1,7 +1,8 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
-  
+
   class Subclass < Striuct
     member :foo
     member :bar
@@ -12,7 +13,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
   FOO = 'Fooo! :)'.freeze
   BAR = 'bar :('.freeze
   INSTANCE = Subclass.new(FOO, BAR).freeze
-  
+
   TYPE_PAIRS = {
     class: Subclass,
     instance: INSTANCE
@@ -22,7 +23,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
     TYPE_PAIRS.each_pair do |type, reciever|
       define_method :"test_#{type}_#{callee}" do
         assert_same(reciever, reciever.public_send(callee) {})
-        
+
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
@@ -34,12 +35,12 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
       end
     end
   end
-  
+
   [:each_index].each do |callee|
     TYPE_PAIRS.each_pair do |type, reciever|
       define_method :"test_#{type}_#{callee}" do
         assert_same(reciever, reciever.public_send(callee) {})
-        
+
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
@@ -56,7 +57,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
     TYPE_PAIRS.each_pair do |type, reciever|
       define_method :"test_#{type}_#{callee}" do
         assert_same(reciever, reciever.public_send(callee) {})
-        
+
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
@@ -68,12 +69,12 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
       end
     end
   end
-  
+
   [:each_value, :each].each do |callee|
     {instance: INSTANCE}.each_pair do |type, reciever|
       define_method :"test_#{type}_#{callee}" do
         assert_same(reciever, reciever.public_send(callee) {})
-        
+
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
@@ -90,7 +91,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
     {instance: INSTANCE}.each_pair do |type, reciever|
       define_method :"test_#{type}_#{callee}" do
         assert_same(reciever, reciever.public_send(callee) {})
-        
+
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
@@ -109,7 +110,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
     {instance: INSTANCE}.each_pair do |type, reciever|
       define_method :"test_#{type}_#{callee}" do
         assert_same(reciever, reciever.public_send(callee) {})
-        
+
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
@@ -128,7 +129,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
     {instance: INSTANCE}.each_pair do |type, reciever|
       define_method :"test_#{type}_#{callee}" do
         assert_same(reciever, reciever.public_send(callee) {})
-        
+
         enum = reciever.public_send(callee)
         assert_instance_of Enumerator, enum
         assert_equal 2, enum.size
@@ -141,7 +142,7 @@ class Test_Striuct_Subclass_Enum < Test::Unit::TestCase
         end
       end
     end
-    
+
     def test_modified_members_enum_size
       klass = Striuct.new do
         member :foo

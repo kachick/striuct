@@ -1,16 +1,17 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Subclass_AliasMember < Test::Unit::TestCase
 
   class Sth < Striuct.new
     member :foo, String
-    
+
     member :bar, Integer do |v|
       v
     end
-    
+
     member :hoge, Symbol
-    default :hoge, :'Z'
+    default :hoge, :Z
     alias_member :abc, :bar
     default :abc, 8
   end
@@ -31,19 +32,19 @@ class Test_Striuct_Subclass_AliasMember < Test::Unit::TestCase
     assert_equal 5, sth.bar
     sth[:abc] = 6
     assert_equal 6, sth.bar
-    
+
     assert_raises Validation::InvalidWritingError do
       sth[:abc] = 'a'
     end
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.abc = 'a'
     end
-    
+
     assert_raises Validation::InvalidWritingError do
       sth.bar = 'a'
     end
-    
+
     assert_raises ArgumentError do
       Sth.class_eval do
         member :abc

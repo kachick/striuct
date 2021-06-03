@@ -1,45 +1,46 @@
-class Striuct; module ClassMethods
+# frozen_string_literal: true
 
-  # @group Enumerative
+class Striuct
+  module ClassMethods
+    # @group Enumerative
 
-  # @yield [autonym] 
-  # @yieldparam [Symbol] autonym - sequential under defined
-  # @yieldreturn [Class] self
-  # @return [Enumerator]
-  def each_autonym
-    return to_enum(__callee__) { size } unless block_given?
+    # @yield [autonym]
+    # @yieldparam [Symbol] autonym - sequential under defined
+    # @yieldreturn [Class] self
+    # @return [Enumerator]
+    def each_autonym
+      return to_enum(__callee__) { size } unless block_given?
 
-    @autonyms.each{|autonym|yield autonym}
-    self
-  end
+      @autonyms.each { |autonym| yield autonym }
+      self
+    end
 
-  alias_method :each_member, :each_autonym
-  
-  # @yield [index] 
-  # @yieldparam [Integer] Index
-  # @yieldreturn [Class] self
-  # @return [Enumerator]
-  def each_index
-    return to_enum(__callee__) { size }  unless block_given?
+    alias_method :each_member, :each_autonym
 
-    @autonyms.each_index{|index|yield index}
-    self
-  end
+    # @yield [index]
+    # @yieldparam [Integer] Index
+    # @yieldreturn [Class] self
+    # @return [Enumerator]
+    def each_index
+      return to_enum(__callee__) { size } unless block_given?
 
-  # @yield [autonym, index]
-  # @yieldparam [Symbol] autonym
-  # @yieldparam [Integer] index
-  # @yieldreturn [Class] self
-  # @return [Enumerator]
-  def each_autonym_with_index
-    return to_enum(__callee__) { size }  unless block_given?
+      @autonyms.each_index { |index| yield index }
+      self
+    end
 
-    @autonyms.each_with_index{|autonym, index|yield autonym, index}
-    self
-  end
+    # @yield [autonym, index]
+    # @yieldparam [Symbol] autonym
+    # @yieldparam [Integer] index
+    # @yieldreturn [Class] self
+    # @return [Enumerator]
+    def each_autonym_with_index
+      return to_enum(__callee__) { size } unless block_given?
 
-  alias_method :each_member_with_index, :each_autonym_with_index
+      @autonyms.each_with_index { |autonym, index| yield autonym, index }
+      self
+    end
 
-  # @endgroup
+    alias_method :each_member_with_index, :each_autonym_with_index
 
-end; end
+    # @endgroup
+  end; end

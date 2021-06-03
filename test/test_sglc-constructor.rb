@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 require_relative 'helper'
 
 class Test_Striuct_Constructor < Test::Unit::TestCase
@@ -7,15 +8,15 @@ class Test_Striuct_Constructor < Test::Unit::TestCase
     assert_not_instance_of Striuct, cls
     assert_instance_of Class, cls
     assert_kind_of Striuct, cls.new
-    
+
     cls2 = Striuct.new :name, :age
-    
+
     assert_equal cls2.members, [:name, :age]
-    
+
     cls3 = Striuct.new :foo do
       member :var
     end
-    
+
     assert_equal cls3.members, [:foo, :var]
   end
 
@@ -24,7 +25,7 @@ class Test_Striuct_Constructor < Test::Unit::TestCase
       Striuct.define do
       end
     end
-    
+
     klass = Striuct.define do
       member :foo
     end

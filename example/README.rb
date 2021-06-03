@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../lib/striuct'
 
 class Person < Striuct
@@ -5,7 +6,8 @@ class Person < Striuct
   alias_member :name, :fullname               # Use other name
 end
 
-class User < Person                           # Inheritable
+# Inheritable
+class User < Person
   member :id, Integer,                        # Looks typed validation
               default_proc: ->{User.next_id}  # With default value
 
