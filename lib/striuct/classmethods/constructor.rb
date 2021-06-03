@@ -18,8 +18,7 @@ class Striuct
     def for_pairs(pairs)
       raise TypeError, 'no pairs object' unless pairs.respond_to?(:each_pair)
 
-      KeyValidatable.validate_array(KeyValidatable.keys_for(pairs).map(&:to_sym),
-                                    let: all_members)
+      KeyValidatable.validate_array(KeyValidatable.keys_for(pairs).map(&:to_sym), let: all_members)
 
       instance = allocate
       instance.__send__(:initialize_for_pairs, pairs)

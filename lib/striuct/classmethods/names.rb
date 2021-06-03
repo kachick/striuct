@@ -29,8 +29,7 @@ class Striuct
     # @param [Symbol, String, #to_sym] name - autonym / aliased
     # @return [Symbol]
     def autonym_for_member(name)
-      raise TypeError unless name.respond_to?(:to_sym
-                                             )
+      raise TypeError unless name.respond_to?(:to_sym)
 
       name = name.to_sym
 

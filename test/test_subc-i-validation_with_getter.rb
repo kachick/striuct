@@ -5,8 +5,7 @@ class Test_Striuct_Subclass_Instance_GetterValidation < Test::Unit::TestCase
 
   Sth = Striuct.define do
     member :plus_getter, /./, getter_validation: true
-    member :only_getter, /./, getter_validation: true,
-                              setter_validation: false
+    member :only_getter, /./, getter_validation: true, setter_validation: false
   end
 
   def test_getter_validation

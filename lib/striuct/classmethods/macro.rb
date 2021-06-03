@@ -36,8 +36,7 @@ class Striuct
       options = ADD_MEMBER_OptArg.parse(options)
       autonym = autonym.to_sym # First definition for an autonym
 
-      raise ArgumentError, %Q!already exist name "#{autonym}"! if member?(autonym
-                                                                         )
+      raise ArgumentError, %Q!already exist name "#{autonym}"! if member?(autonym)
 
       _check_safety_naming(autonym)
       _add_autonym(autonym)
