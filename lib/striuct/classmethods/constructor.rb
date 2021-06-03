@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'keyvalidatable'
-require 'optionalargument'
 
 class Striuct
   module ClassMethods
@@ -30,9 +29,8 @@ class Striuct
     alias_method :[], :for_pairs
 
     # for build the fixed object
-    # @param [Hash] options
-    # @option options [Boolean] :lock
-    # @option options [Boolean] :strict
+    # @param [Boolean] lock
+    # @param [Boolean] strict
     # @yieldparam [Striuct] instance
     # @yieldreturn [Striuct] instance
     # @return [void]
