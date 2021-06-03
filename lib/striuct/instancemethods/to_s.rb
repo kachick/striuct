@@ -6,7 +6,7 @@ class Striuct
 
     # @return [String]
     def inspect
-      "#<struct' #{self.class}".tap { |s|
+      (+"#<struct' #{self.class}").tap { |s|
         each_pair do |autonym, value|
           suffix = (with_default?(autonym) && default?(autonym)) ? '/default' : nil
           label_valid = valid?(autonym) ? nil : :invalid
@@ -30,7 +30,7 @@ class Striuct
 
     # @return [String]
     def to_s
-      "#<struct' #{self.class}".tap { |s|
+      (+"#<struct' #{self.class}").tap { |s|
         each_pair do |autonym, value|
           s << " #{autonym}=#{value.inspect},"
         end
