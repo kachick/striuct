@@ -11,7 +11,7 @@ class Striuct
       _set(autonym, value)
     rescue Validation::InvalidWritingError
       $!.set_backtrace(
-        ["#{$!.backtrace[-1].sub(/[^:]+\z/) { '' }}in `[#{key.inspect}(#{autonym})]=': #{$!.message}",  $!.backtrace[-1]]
+        ["#{$!.backtrace[-1].sub(/[^:]+\z/) { '' }}in `[#{key.inspect}(#{autonym})]=': #{$!.message}", $!.backtrace[-1]]
       )
 
       raise

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-#/usr/bin/ruby -w
 
 require_relative '../lib/striuct'
 
