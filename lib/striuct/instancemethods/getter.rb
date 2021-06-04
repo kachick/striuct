@@ -37,7 +37,7 @@ class Striuct
       value = @db[autonym]
 
       if with_safety_getter?(autonym) && !accept?(autonym, value)
-        raise ::Validation::InvalidReadingError,
+        raise InvalidReadingError,
               "#{value.inspect} is deficient for #{autonym} in #{self.class}"
       end
 

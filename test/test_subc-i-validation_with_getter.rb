@@ -11,7 +11,7 @@ class Test_Striuct_Subclass_Instance_GetterValidation < Test::Unit::TestCase
   def test_reader_validation
     sth = Sth.new
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.plus_getter = ''
     end
 
@@ -19,13 +19,13 @@ class Test_Striuct_Subclass_Instance_GetterValidation < Test::Unit::TestCase
     assert_equal 'abc', sth.plus_getter
     sth.plus_getter.clear
 
-    assert_raises Validation::InvalidReadingError do
+    assert_raises Striuct::InvalidReadingError do
       sth.plus_getter
     end
 
     sth.only_getter = ''
 
-    assert_raises Validation::InvalidReadingError do
+    assert_raises Striuct::InvalidReadingError do
       sth.only_getter
     end
   end

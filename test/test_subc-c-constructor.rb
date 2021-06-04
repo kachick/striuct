@@ -16,11 +16,11 @@ class Test_Striuct_Subclass_Class_Constructor < Test::Unit::TestCase
       assert_equal [:name, :age], user.members
       assert_equal [nil, nil], user.values
 
-      assert_raises Validation::InvalidWritingError do
+      assert_raises Striuct::InvalidWritingError do
         User.public_send callee, :SYMBOL
       end
 
-      assert_raises Validation::InvalidWritingError do
+      assert_raises Striuct::InvalidWritingError do
         User.public_send callee, ''
       end
 
@@ -29,7 +29,7 @@ class Test_Striuct_Subclass_Class_Constructor < Test::Unit::TestCase
       assert_not_kind_of Class, user
       assert_equal ['.', nil], user.values
 
-      assert_raises Validation::InvalidWritingError do
+      assert_raises Striuct::InvalidWritingError do
         User.public_send callee, '.', 1.0
       end
 
@@ -62,7 +62,7 @@ class Test_Striuct_Subclass_Class_Constructor < Test::Unit::TestCase
     assert_same false, user.all_locked?
     assert_equal true, user.strict?
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       User.define{|r|r.age = 1; r.name = 'a'; r.name.clear}
     end
 

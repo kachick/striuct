@@ -9,7 +9,7 @@ class Striuct
     def []=(key, value)
       autonym = autonym_for_key(key)
       _set(autonym, value)
-    rescue Validation::InvalidWritingError
+    rescue InvalidWritingError
       $!.set_backtrace(
         ["#{$!.backtrace[-1].sub(/[^:]+\z/) { '' }}in `[#{key.inspect}(#{autonym})]=': #{$!.message}", $!.backtrace[-1]]
       )
@@ -31,17 +31,17 @@ class Striuct
         begin
           value = instance_exec(value, &adjuster_for(autonym))
         rescue Exception
-          raise ::Validation::InvalidAdjustingError
+          raise InvalidAdjustingError
         end
       end
 
       if with_safety_setter?(autonym) && !accept?(autonym, value)
-        raise ::Validation::InvalidWritingError,
+        raise InvalidWritingError,
               "#{value.inspect} is deficient for #{autonym} in #{self.class}"
       end
 
       @db[autonym] = value
-    rescue ::Validation::InvalidError
+    rescue InvalidValueError
       unless /in \[\]=/.match?(caller(2..2).first.slice(/([^:]+)\z/))
         $!.backtrace.delete_if { |s| /#{Regexp.escape(File.dirname(__FILE__))}/ =~ s }
         $!.backtrace.first.sub!(/([^:]+)\z/) { "in `#{autonym}='" }

@@ -21,11 +21,11 @@ class Test_Striuct_Subclass_Class_Inheritable < Test::Unit::TestCase
     sth = Sth.new
     substh = SubSth.new
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       substh.bar = 'str'
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       substh.hoge = 4
     end
 
@@ -39,7 +39,7 @@ class Test_Striuct_Subclass_Class_Inheritable < Test::Unit::TestCase
 
     subsubsth = SubSubSth.new
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       subsubsth.rest = 4
     end
 

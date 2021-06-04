@@ -18,15 +18,15 @@ class Test_Striuct_Subclass_Instance_Setter < Test::Unit::TestCase
     user.last_name = 'bar'
     assert_equal user[:last_name], 'bar'
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       user[:last_name] = 'foo s'
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       User.new 'asda'
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       user.age = 19
     end
   end
@@ -63,15 +63,15 @@ class Test_Striuct_Subclass_Instance_Accessor_With_Validation < Test::Unit::Test
   end
 
   def test_setter_fail
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       @user.id = 2139203509295.0
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       @user.last_name = 'ignore name'
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       @user.age = 19
     end
   end
@@ -108,7 +108,7 @@ class Test_Striuct_Subclass_Instance_Accessor < Test::Unit::TestCase
     @sth.bool = false
     assert_same false, @sth.bool
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       @sth.bool = nil
     end
 
@@ -121,11 +121,11 @@ class Test_Striuct_Subclass_Instance_Accessor < Test::Unit::TestCase
     @sth.sth = Class.class
     assert_same Class.class, @sth.sth
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       @sth.lambda = 9
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       @sth.lambda = 7
     end
 

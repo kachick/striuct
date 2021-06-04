@@ -33,15 +33,15 @@ class Test_Striuct_Subclass_AliasMember < Test::Unit::TestCase
     sth[:abc] = 6
     assert_equal 6, sth.bar
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth[:abc] = 'a'
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.abc = 'a'
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.bar = 'a'
     end
 

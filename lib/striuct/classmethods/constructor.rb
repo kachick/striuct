@@ -43,7 +43,7 @@ class Striuct
 
         invalids = autonyms.select { |autonym| !instance.valid?(autonym) }
         if strict && !invalids.empty?
-          raise Validation::InvalidWritingError,
+          raise InvalidWritingError,
                 "invalids members are, yet '#{invalids.inspect} in #{self}'"
         end
 

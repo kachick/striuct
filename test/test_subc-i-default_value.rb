@@ -30,7 +30,7 @@ class Test_Striuct_Subclass_Instance_Default_Value < Test::Unit::TestCase
       default :lank2, '10'
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       klass.new
     end
 
@@ -58,7 +58,7 @@ class Test_Striuct_Subclass_Instance_Default_Value < Test::Unit::TestCase
       default :lank, &->own, _name{(thief = own); rand}
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       klass.new
     end
 
@@ -100,7 +100,7 @@ class Test_Striuct_Subclass_Instance_DefaultValue_Under_MemberMacro < Test::Unit
       member :lank2, Integer, default_value: '10'
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       klass.new
     end
 
@@ -115,7 +115,7 @@ class Test_Striuct_Subclass_Instance_DefaultValue_Under_MemberMacro < Test::Unit
       member :lank, Integer, default_proc: ->own,_name{(thief = own); rand}
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       klass.new
     end
 

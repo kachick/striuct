@@ -42,7 +42,7 @@ class Test_Striuct_Subclass_Class_Copy < Test::Unit::TestCase
     cls2 = org_cls.dup
     foo2 = cls2.new
     foo2.foo = 0.1
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       foo2.foo = '1'
     end
 
@@ -60,7 +60,7 @@ class Test_Striuct_Subclass_Class_Copy < Test::Unit::TestCase
     cls2 = org_cls.clone
     foo2 = cls2.new
     foo2.foo = 0.1
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       foo2.foo = '1'
     end
 
