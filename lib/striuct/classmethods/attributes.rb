@@ -32,7 +32,7 @@ class Striuct
       end
 
       def condition=(condition)
-        unless ::Eqq.valid?(condition)
+        unless Eqq.valid?(condition)
           raise TypeError, 'wrong object for condition'
         end
 
@@ -40,7 +40,7 @@ class Striuct
       end
 
       def adjuster=(adjuster)
-        unless ::Validation.adjustable?(adjuster)
+        unless Striuct.adjustable?(adjuster)
           raise ArgumentError, 'wrong object for adjuster'
         end
 

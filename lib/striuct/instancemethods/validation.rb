@@ -4,6 +4,21 @@ class Striuct
   module InstanceMethods
     # @group Validation
 
+    # @param [Proc, Method, #===] pattern
+    # @param [Object] value
+    def _valid?(pattern, value)
+      !!(
+        case pattern
+        when Proc
+          instance_exec(value, &pattern)
+        when Method
+          pattern.call(value)
+        else
+          pattern === value
+        end
+      )
+    end
+
     # @param [Symbol, String, #to_sym, Integer, #to_int] key - name / index
     # @param value
     # true if passed under any condition

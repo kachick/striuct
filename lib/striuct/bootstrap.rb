@@ -2,7 +2,6 @@
 
 require 'forwardable'
 require 'eqq'
-require 'validation'
 
 require_relative 'structs'
 require_relative 'classmethods/requirements'

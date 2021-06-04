@@ -816,6 +816,7 @@ Naming/MethodName:
   EnforcedStyle: 'snake_case'
   Exclude:
     - 'test/**/*'
+    - 'lib/striuct/classmethods/adjustment.rb'
 
 Naming/FileName:
   Enabled: true

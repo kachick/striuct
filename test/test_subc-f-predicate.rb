@@ -146,10 +146,10 @@ class Test_Striuct_Subclass_Predicate_Default < Test::Unit::TestCase
 
   class Subclass < Striuct
     member :foo
-    member :val, BasicObject, default_value: 'DEFAULT'
+    member :val, default_value: 'DEFAULT'
 
     conflict_management :struct do
-      member :lazy, BasicObject, default_proc: ->{}
+      member :lazy, default_proc: ->{}
     end
 
     alias_member :als_foo, :foo
@@ -324,11 +324,11 @@ class Test_Striuct_Subclass_Predicate_Must < Test::Unit::TestCase
   class Subclass < Striuct
     member :no_with
     alias_member :als_no_with, :no_with
-    member :with, BasicObject, must: true
+    member :with, must: true
     alias_member :als_with, :with
-    member :with_any, BasicObject, must: true
+    member :with_any, must: true
     alias_member :als_with_any, :with_any
-    member(:adj_with, BasicObject, must: true) do |_|; end
+    member(:adj_with, must: true) do |_|; end
     alias_member :als_adj_with, :adj_with
 
     close_member

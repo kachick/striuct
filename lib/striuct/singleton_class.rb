@@ -38,6 +38,20 @@ class Striuct
       }
     end
 
+    # Return `true` if given object is sufficient as an adjuster role
+    def adjustable?(object)
+      case object
+      when Proc
+        object.arity == 1
+      else
+        if object.respond_to?(:to_proc)
+          object.to_proc.arity == 1
+        else
+          false
+        end
+      end
+    end
+
     private
 
     def inherited(subclass)
@@ -46,7 +60,7 @@ class Striuct
       subclass.class_eval {
         extend ClassMethods
         include Enumerable
-        include Validation
+        extend Eqq::Buildable
         include InstanceMethods
 
         _init

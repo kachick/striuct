@@ -10,7 +10,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     member :has_foo_and_bar, CAN(:foo, :bar)
     member :has_ignore, AND(1..5, 3..10)
     member :nand, NAND(1..5, 3..10)
-    member :all_pass, OR(1..5, 3..10)
+    member :some_range, OR(1..5, 3..10)
     member :rescue_error, RESCUE(NoMethodError, -> v {v.no_name!})
     member :no_exception, QUIET(->v{v.class})
     member :not_integer, NOT(Integer)
@@ -24,7 +24,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     sth.not_integer = obj
     assert_same obj, sth.not_integer
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.not_integer = 1
     end
   end
@@ -43,7 +43,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
       undef_method :class
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.no_exception = obj
     end
   end
@@ -61,33 +61,33 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
       def no_name!; end
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.rescue_error = obj
     end
   end
 
-  def test_or
+  def test_or_with_some_range
     sth = Sth.new
 
-    assert_raises Validation::InvalidWritingError do
-      sth.all_pass = 11
+    assert_raises Striuct::InvalidWritingError do
+      sth.some_range = 11
     end
 
-    sth.all_pass = 1
-    assert_equal 1, sth.all_pass
-    sth.all_pass = 4
-    assert_equal 4, sth.all_pass
-    assert_equal true, sth.valid?(:all_pass)
+    sth.some_range = 1
+    assert_equal 1, sth.some_range
+    sth.some_range = 4
+    assert_equal 4, sth.some_range
+    assert_equal true, sth.valid?(:some_range)
   end
 
   def test_and
     sth = Sth.new
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.has_ignore = 1
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.has_ignore= 2
     end
 
@@ -95,7 +95,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     assert_equal 3, sth.has_ignore
     assert_equal true, sth.valid?(:has_ignore)
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.has_ignore = []
     end
   end
@@ -103,11 +103,11 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
   def test_nand
     sth = Sth.new
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.nand = 4
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.nand = 4.5
     end
 
@@ -121,7 +121,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
   def test_all
     sth = Sth.new
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.list_only_int = [1, '2']
     end
 
@@ -138,7 +138,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
   def test_boolean
     sth = Sth.new
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.true_or_false = nil
     end
 
@@ -158,7 +158,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
 
     raise if obj.respond_to? :foo
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.has_foo = obj
     end
 
@@ -180,7 +180,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     raise if obj.respond_to? :foo
     raise if obj.respond_to? :bar
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.has_foo_and_bar = obj
     end
 
@@ -188,7 +188,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
       def foo; end
     end
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.has_foo_and_bar = obj
     end
 
@@ -220,7 +220,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions_FunctionalCondition < Te
     sth.lank = 2
     assert_equal 2, sth.lank
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.lank = 31
     end
   end
@@ -236,7 +236,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions_FunctionalCondition < Te
     sth.lank = 8
     assert_equal 8, sth.lank
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.lank = 2
     end
   end
@@ -250,7 +250,7 @@ class Test_Striuct_Subclass_Instance_SpecificConditions_FunctionalCondition < Te
     sth.lank = 8
     assert_equal 8, sth.lank
 
-    assert_raises Validation::InvalidWritingError do
+    assert_raises Striuct::InvalidWritingError do
       sth.lank = 6
     end
   end
