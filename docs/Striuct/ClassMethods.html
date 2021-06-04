@@ -1,0 +1,4725 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Striuct::ClassMethods
+  
+    &mdash; Documentation by YARD 0.9.26
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Striuct::ClassMethods";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></span>
+     &raquo; 
+    <span class="title">ClassMethods</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Striuct::ClassMethods
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/striuct/classmethods/fix.rb<span class="defines">,<br />
+  lib/striuct/classmethods/copy.rb,<br /> lib/striuct/classmethods/enum.rb,<br /> lib/striuct/classmethods/inner.rb,<br /> lib/striuct/classmethods/macro.rb,<br /> lib/striuct/classmethods/names.rb,<br /> lib/striuct/classmethods/length.rb,<br /> lib/striuct/classmethods/default.rb,<br /> lib/striuct/classmethods/predicate.rb,<br /> lib/striuct/classmethods/to_struct.rb,<br /> lib/striuct/classmethods/adjustment.rb,<br /> lib/striuct/classmethods/attributes.rb,<br /> lib/striuct/classmethods/validation.rb,<br /> lib/striuct/classmethods/constructor.rb,<br /> lib/striuct/classmethods/conflict_management.rb,<br /> lib/striuct/classmethods/hashdeepdupulicatable.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+
+  
+    <h2>
+      Macro for Member Definition
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="ANYTHING-constant" class="">ANYTHING =
+          
+        </dt>
+        <dd><pre class="code"><span class='const'>Eqq</span><span class='period'>.</span><span class='const'>ANYTHING</span><span class='lparen'>(</span><span class='rparen'>)</span></pre></dd>
+      
+    </dl>
+  
+    <h2>
+      Member Conflict Management
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="NAMING_RISKS-constant" class="">NAMING_RISKS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Symbol =&gt; Fixnum.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Symbol =&gt; Fixnum</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>conflict:</span> <span class='int'>10</span><span class='comma'>,</span>
+  <span class='label'>no_identifier:</span> <span class='int'>9</span><span class='comma'>,</span>
+  <span class='label'>bad_manners:</span> <span class='int'>5</span><span class='comma'>,</span>
+  <span class='label'>no_ascii:</span> <span class='int'>3</span><span class='comma'>,</span>
+  <span class='label'>strict:</span> <span class='int'>0</span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="CONFLICT_MANAGEMENT_LEVELS-constant" class="">CONFLICT_MANAGEMENT_LEVELS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Symbol =&gt; Hash.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Symbol =&gt; Hash</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>struct:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='int'>99</span><span class='comma'>,</span> <span class='label'>warn:</span> <span class='int'>99</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>warning:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='int'>99</span><span class='comma'>,</span> <span class='label'>warn:</span> <span class='int'>5</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>error:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='int'>9</span><span class='comma'>,</span> <span class='label'>warn:</span> <span class='int'>5</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>prevent:</span> <span class='lbrace'>{</span> <span class='label'>error:</span>  <span class='int'>5</span><span class='comma'>,</span> <span class='label'>warn:</span>  <span class='int'>1</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>nervous:</span> <span class='lbrace'>{</span> <span class='label'>error:</span>  <span class='int'>1</span><span class='comma'>,</span> <span class='label'>warn:</span>  <span class='int'>1</span> <span class='rbrace'>}</span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:freeze</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEFAULT_CONFLICT_MANAGEMENT_LEVEL-constant" class="">DEFAULT_CONFLICT_MANAGEMENT_LEVEL =
+          <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:prevent</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Member Conflict Management <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#conflict_management_level-instance_method" title="#conflict_management_level (instance method)">#<strong>conflict_management_level</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute conflict_management_level.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Fix inner data structures
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#closed%3F-instance_method" title="#closed? (instance method)">#<strong>closed?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#freeze-instance_method" title="#freeze (instance method)">#<strong>freeze</strong>  &#x21d2; self </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Basic Methods for Ruby's Object
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clone-instance_method" title="#clone (instance method)">#<strong>clone</strong>  &#x21d2; Class </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dup-instance_method" title="#dup (instance method)">#<strong>dup</strong>  &#x21d2; Class </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Enumerative
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_autonym-instance_method" title="#each_autonym (instance method)">#<strong>each_autonym</strong> {|autonym| ... } &#x21d2; Enumerator </a>
+    
+
+    
+      (also: #each_member)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_autonym_with_index-instance_method" title="#each_autonym_with_index (instance method)">#<strong>each_autonym_with_index</strong> {|autonym, index| ... } &#x21d2; Enumerator </a>
+    
+
+    
+      (also: #each_member_with_index)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_index-instance_method" title="#each_index (instance method)">#<strong>each_index</strong> {|index| ... } &#x21d2; Enumerator </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Inner Methods
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#attributes-instance_method" title="#attributes (instance method)">#<strong>attributes</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>for debug.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Named
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#aliases-instance_method" title="#aliases (instance method)">#<strong>aliases</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Alias =&gt; autonym.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#aliases_for_autonym-instance_method" title="#aliases_for_autonym (instance method)">#<strong>aliases_for_autonym</strong>(autonym)  &#x21d2; Array&lt;Symbol&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_members-instance_method" title="#all_members (instance method)">#<strong>all_members</strong>  &#x21d2; Array&lt;Symbol&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#autonym_for_alias-instance_method" title="#autonym_for_alias (instance method)">#<strong>autonym_for_alias</strong>(als)  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#autonym_for_index-instance_method" title="#autonym_for_index (instance method)">#<strong>autonym_for_index</strong>(index)  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Autonym.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#autonym_for_key-instance_method" title="#autonym_for_key (instance method)">#<strong>autonym_for_key</strong>(key)  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Autonym.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#autonym_for_member-instance_method" title="#autonym_for_member (instance method)">#<strong>autonym_for_member</strong>(name)  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#autonyms-instance_method" title="#autonyms (instance method)">#<strong>autonyms</strong>  &#x21d2; Array&lt;Symbol&gt; </a>
+    
+
+    
+      (also: #members)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Length/Size
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#length-instance_method" title="#length (instance method)">#<strong>length</strong>  &#x21d2; Integer </a>
+    
+
+    
+      (also: #size)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      With default value
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_type_for-instance_method" title="#default_type_for (instance method)">#<strong>default_type_for</strong>(key)  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>:value / :proc.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_value_for-instance_method" title="#default_value_for (instance method)">#<strong>default_value_for</strong>(key)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Basic Predicate
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_alias%3F-instance_method" title="#has_alias? (instance method)">#<strong>has_alias?</strong>(als)  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #alias?, #aliased?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_autonym%3F-instance_method" title="#has_autonym? (instance method)">#<strong>has_autonym?</strong>(name)  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #autonym?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_index%3F-instance_method" title="#has_index? (instance method)">#<strong>has_index?</strong>(index)  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #index?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_key%3F-instance_method" title="#has_key? (instance method)">#<strong>has_key?</strong>(key)  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #key?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_member%3F-instance_method" title="#has_member? (instance method)">#<strong>has_member?</strong>(name)  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #member?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_adjuster%3F-instance_method" title="#with_adjuster? (instance method)">#<strong>with_adjuster?</strong>(key)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_aliases%3F-instance_method" title="#with_aliases? (instance method)">#<strong>with_aliases?</strong>(autonym)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_condition%3F-instance_method" title="#with_condition? (instance method)">#<strong>with_condition?</strong>(key)  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #restrict?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_default%3F-instance_method" title="#with_default? (instance method)">#<strong>with_default?</strong>(key)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_must%3F-instance_method" title="#with_must? (instance method)">#<strong>with_must?</strong>(key)  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #must?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_safety_getter%3F-instance_method" title="#with_safety_getter? (instance method)">#<strong>with_safety_getter?</strong>(key)  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #with_safety_reader?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_safety_setter%3F-instance_method" title="#with_safety_setter? (instance method)">#<strong>with_safety_setter?</strong>(key)  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #with_safety_writer?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      To Ruby's Struct Class
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_struct_class-instance_method" title="#to_struct_class (instance method)">#<strong>to_struct_class</strong>  &#x21d2; Class </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Adjuster
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#adjuster_for-instance_method" title="#adjuster_for (instance method)">#<strong>adjuster_for</strong>(key)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#INJECT-instance_method" title="#INJECT (instance method)">#<strong>INJECT</strong>(adjuster1, adjuster2, *adjusters)  &#x21d2; Proc </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sequential apply all adjusters.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#PARSE-instance_method" title="#PARSE (instance method)">#<strong>PARSE</strong>(parser)  &#x21d2; Proc </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accept any parser when that respond to parse method.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#WHEN-instance_method" title="#WHEN (instance method)">#<strong>WHEN</strong>(pattern, adjuster)  &#x21d2; Proc </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Adjuster Builders Apply adjuster when passed pattern.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Validation
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#condition_for-instance_method" title="#condition_for (instance method)">#<strong>condition_for</strong>(key)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Constructor
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#define-instance_method" title="#define (instance method)">#<strong>define</strong>(lock: true, strict: true) {|instance| ... } &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>for build the fixed object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#for_pairs-instance_method" title="#for_pairs (instance method)">#<strong>for_pairs</strong>(pairs)  &#x21d2; Striuct </a>
+    
+
+    
+      (also: #[])
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#for_values-instance_method" title="#for_values (instance method)">#<strong>for_values</strong>(*values)  &#x21d2; Striuct </a>
+    
+
+    
+      (also: #new)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Member Conflict Management
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cname%3F-instance_method" title="#cname? (instance method)">#<strong>cname?</strong>(name)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>acceptable the name into own member, under protect level of runtime.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="conflict_management_level-instance_method">
+  
+    #<strong>conflict_management_level</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute conflict_management_level.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/conflict_management.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_conflict_management_level'>conflict_management_level</span>
+  <span class='ivar'>@conflict_management_level</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="adjuster_for-instance_method">
+  
+    #<strong>adjuster_for</strong>(key)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>KeyError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/adjustment.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_adjuster_for'>adjuster_for</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym_for_key'>autonym_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>KeyError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_with_adjuster?'>with_adjuster?</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid__attributes_for'>_attributes_for</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_adjuster'>adjuster</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="aliases-instance_method">
+  
+    #<strong>aliases</strong>  &#x21d2; <tt>Hash</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns alias =&gt; autonym.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>alias =&gt; autonym</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/names.rb', line 65</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_aliases'>aliases</span>
+  <span class='ivar'>@aliases</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="aliases_for_autonym-instance_method">
+  
+    #<strong>aliases_for_autonym</strong>(autonym)  &#x21d2; <tt>Array&lt;Symbol&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>autonym</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Symbol&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>TypeError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+55
+56
+57
+58
+59
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/names.rb', line 55</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_aliases_for_autonym'>aliases_for_autonym</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_autonym'>autonym</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym'>autonym</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NameError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_with_aliases?'>with_aliases?</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span>
+
+  <span class='ivar'>@aliases</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__als'>_als</span><span class='comma'>,</span> <span class='id identifier rubyid_aut'>aut</span><span class='op'>|</span> <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>==</span> <span class='id identifier rubyid_aut'>aut</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_members-instance_method">
+  
+    #<strong>all_members</strong>  &#x21d2; <tt>Array&lt;Symbol&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Symbol&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+15
+16
+17</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/names.rb', line 15</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_all_members'>all_members</span>
+  <span class='ivar'>@autonyms</span> <span class='op'>+</span> <span class='ivar'>@aliases</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="attributes-instance_method">
+  
+    #<strong>attributes</strong>  &#x21d2; <tt>Hash</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>for debug</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11
+12
+13
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/inner.rb', line 9</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_attributes'>attributes</span>
+  <span class='lbrace'>{</span>
+    <span class='label'>autonyms:</span> <span class='ivar'>@autonyms</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='comma'>,</span>
+    <span class='label'>aliases:</span> <span class='ivar'>@aliases</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span><span class='comma'>,</span>
+    <span class='label'>conflict_management_level:</span> <span class='ivar'>@conflict_management_level</span><span class='comma'>,</span>
+    <span class='label'>attributes_each_autonym:</span> <span class='ivar'>@attributes</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="autonym_for_alias-instance_method">
+  
+    #<strong>autonym_for_alias</strong>(als)  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>als</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23
+24
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/names.rb', line 21</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_autonym_for_alias'>autonym_for_alias</span><span class='lparen'>(</span><span class='id identifier rubyid_als'>als</span><span class='rparen'>)</span>
+  <span class='ivar'>@aliases</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_als'>als</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>NoMethodError</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span>
+<span class='kw'>rescue</span> <span class='const'>KeyError</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NameError</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="autonym_for_index-instance_method">
+  
+    #<strong>autonym_for_index</strong>(index)  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns autonym.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Index</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>autonym</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/names.rb', line 41</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_autonym_for_index'>autonym_for_index</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+  <span class='ivar'>@autonyms</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="autonym_for_key-instance_method">
+  
+    #<strong>autonym_for_key</strong>(key)  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns autonym.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>autonym</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/names.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_autonym_for_key'>autonym_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_autonym_for_member'>autonym_for_member</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_autonym_for_index'>autonym_for_index</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>NameError</span><span class='comma'>,</span> <span class='const'>IndexError</span><span class='comma'>,</span> <span class='const'>TypeError</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>KeyError</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="autonym_for_member-instance_method">
+  
+    #<strong>autonym_for_member</strong>(name)  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>autonym / aliased</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>TypeError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33
+34
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/names.rb', line 31</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_autonym_for_member'>autonym_for_member</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+
+  <span class='ivar'>@autonyms</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>:</span> <span class='id identifier rubyid_autonym_for_alias'>autonym_for_alias</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="autonyms-instance_method">
+  
+    #<strong>autonyms</strong>  &#x21d2; <tt>Array&lt;Symbol&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='members-instance_method'>members</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Symbol&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/names.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_autonyms'>autonyms</span>
+  <span class='ivar'>@autonyms</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clone-instance_method">
+  
+    #<strong>clone</strong>  &#x21d2; <tt>Class</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11
+12</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/copy.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_clone'>clone</span>
+  <span class='id identifier rubyid_ret'>ret</span> <span class='op'>=</span> <span class='kw'>super</span>
+  <span class='id identifier rubyid_ret'>ret</span><span class='period'>.</span><span class='id identifier rubyid___send__'>__send__</span><span class='lparen'>(</span><span class='symbol'>:close_member</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_closed?'>closed?</span>
+  <span class='id identifier rubyid_ret'>ret</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="closed?-instance_method">
+  
+    #<strong>closed?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/fix.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_closed?'>closed?</span>
+  <span class='lbracket'>[</span><span class='ivar'>@autonyms</span><span class='comma'>,</span> <span class='ivar'>@attributes</span><span class='comma'>,</span> <span class='ivar'>@aliases</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:frozen?</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cname?-instance_method">
+  
+    #<strong>cname?</strong>(name)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>acceptable the name into own member, under protect level of runtime</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+30
+31
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/conflict_management.rb', line 30</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cname?'>cname?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid__check_safety_naming'>_check_safety_naming</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_r'>r</span><span class='op'>|</span> <span class='id identifier rubyid_r'>r</span> <span class='rbrace'>}</span>
+<span class='kw'>rescue</span> <span class='const'>Exception</span>
+  <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="condition_for-instance_method">
+  
+    #<strong>condition_for</strong>(key)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>KeyError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/validation.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_condition_for'>condition_for</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym_for_key'>autonym_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>KeyError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_with_condition?'>with_condition?</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid__attributes_for'>_attributes_for</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_condition'>condition</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="default_type_for-instance_method">
+  
+    #<strong>default_type_for</strong>(key)  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns :value / :proc.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>:value / :proc</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>KeyError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/default.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_default_type_for'>default_type_for</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym_for_key'>autonym_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>KeyError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_with_default?'>with_default?</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid__attributes_for'>_attributes_for</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_default_type'>default_type</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="default_value_for-instance_method">
+  
+    #<strong>default_value_for</strong>(key)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>KeyError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/default.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_default_value_for'>default_value_for</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym_for_key'>autonym_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>KeyError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_with_default?'>with_default?</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid__attributes_for'>_attributes_for</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_default_value'>default_value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="define-instance_method">
+  
+    #<strong>define</strong>(lock: true, strict: true) {|instance| ... } &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>for build the fixed object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>lock</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>strict</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>instance</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>instance</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/constructor.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_define'>define</span><span class='lparen'>(</span><span class='label'>lock:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>strict:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>must with block</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+
+  <span class='id identifier rubyid_new'>new</span><span class='period'>.</span><span class='id identifier rubyid_tap'>tap</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_instance'>instance</span><span class='op'>|</span>
+    <span class='kw'>yield</span> <span class='id identifier rubyid_instance'>instance</span>
+
+    <span class='id identifier rubyid_yets'>yets</span> <span class='op'>=</span> <span class='id identifier rubyid_autonyms'>autonyms</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_autonym'>autonym</span><span class='op'>|</span> <span class='op'>!</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_assigned?'>assigned?</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_yets'>yets</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not assigned members are, yet &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_yets'>yets</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> in </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_invalids'>invalids</span> <span class='op'>=</span> <span class='id identifier rubyid_autonyms'>autonyms</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_autonym'>autonym</span><span class='op'>|</span> <span class='op'>!</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_strict'>strict</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_invalids'>invalids</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="InvalidWritingError.html" title="Striuct::InvalidWritingError (class)">InvalidWritingError</a></span></span><span class='comma'>,</span>
+            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>invalids members are, yet &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_invalids'>invalids</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> in </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_lock_all'>lock_all</span> <span class='kw'>if</span> <span class='id identifier rubyid_lock'>lock</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="dup-instance_method">
+  
+    #<strong>dup</strong>  &#x21d2; <tt>Class</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+15
+16
+17</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/copy.rb', line 15</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_dup'>dup</span>
+  <span class='id identifier rubyid_copy_variables!'>copy_variables!</span><span class='lparen'>(</span><span class='kw'>super</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="each_autonym-instance_method">
+  
+    #<strong>each_autonym</strong> {|autonym| ... } &#x21d2; <tt>Enumerator</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='each_member-instance_method'>each_member</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>autonym</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>autonym</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>sequential under defined</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>self</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Enumerator</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/enum.rb', line 11</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_each_autonym'>each_autonym</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_to_enum'>to_enum</span><span class='lparen'>(</span><span class='id identifier rubyid___callee__'>__callee__</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_size'>size</span> <span class='rbrace'>}</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+
+  <span class='ivar'>@autonyms</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_autonym'>autonym</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id identifier rubyid_autonym'>autonym</span> <span class='rbrace'>}</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="each_autonym_with_index-instance_method">
+  
+    #<strong>each_autonym_with_index</strong> {|autonym, index| ... } &#x21d2; <tt>Enumerator</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='each_member_with_index-instance_method'>each_member_with_index</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>autonym</tt>, <tt>index</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>autonym</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>self</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Enumerator</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/enum.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_each_autonym_with_index'>each_autonym_with_index</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_to_enum'>to_enum</span><span class='lparen'>(</span><span class='id identifier rubyid___callee__'>__callee__</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_size'>size</span> <span class='rbrace'>}</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+
+  <span class='ivar'>@autonyms</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_autonym'>autonym</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id identifier rubyid_autonym'>autonym</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span> <span class='rbrace'>}</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="each_index-instance_method">
+  
+    #<strong>each_index</strong> {|index| ... } &#x21d2; <tt>Enumerator</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>index</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>Index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>self</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Enumerator</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/enum.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_each_index'>each_index</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_to_enum'>to_enum</span><span class='lparen'>(</span><span class='id identifier rubyid___callee__'>__callee__</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_size'>size</span> <span class='rbrace'>}</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+
+  <span class='ivar'>@autonyms</span><span class='period'>.</span><span class='id identifier rubyid_each_index'>each_index</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_index'>index</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id identifier rubyid_index'>index</span> <span class='rbrace'>}</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="for_pairs-instance_method">
+  
+    #<strong>for_pairs</strong>(pairs)  &#x21d2; <tt><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='[]-instance_method'>[]</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>pairs</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>Struct</tt>, <tt><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></tt>, <tt>#each_pair</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19
+20
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/constructor.rb', line 16</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_for_pairs'>for_pairs</span><span class='lparen'>(</span><span class='id identifier rubyid_pairs'>pairs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>no pairs object</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_pairs'>pairs</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:each_pair</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_pairs'>pairs</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid__value'>_value</span><span class='op'>|</span> <span class='id identifier rubyid_all_members'>all_members</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_instance'>instance</span> <span class='op'>=</span> <span class='id identifier rubyid_allocate'>allocate</span>
+  <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid___send__'>__send__</span><span class='lparen'>(</span><span class='symbol'>:initialize_for_pairs</span><span class='comma'>,</span> <span class='id identifier rubyid_pairs'>pairs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_instance'>instance</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="for_values-instance_method">
+  
+    #<strong>for_values</strong>(*values)  &#x21d2; <tt><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='new-instance_method'>new</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/constructor.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_for_values'>for_values</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_new_instance'>new_instance</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="freeze-instance_method">
+  
+    #<strong>freeze</strong>  &#x21d2; <tt>self</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/fix.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_freeze'>freeze</span>
+  <span class='lbracket'>[</span><span class='ivar'>@autonyms</span><span class='comma'>,</span> <span class='ivar'>@attributes</span><span class='comma'>,</span> <span class='ivar'>@aliases</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:freeze</span><span class='rparen'>)</span>
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_alias?-instance_method">
+  
+    #<strong>has_alias?</strong>(als)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='alias?-instance_method'>alias?</span>, <span id='aliased?-instance_method'>aliased?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>als</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21
+22
+23
+24
+25</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 19</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_alias?'>has_alias?</span><span class='lparen'>(</span><span class='id identifier rubyid_als'>als</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_als'>als</span> <span class='op'>=</span> <span class='id identifier rubyid_als'>als</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+<span class='kw'>rescue</span> <span class='const'>NoMethodError</span>
+  <span class='kw'>false</span>
+<span class='kw'>else</span>
+  <span class='ivar'>@aliases</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_als'>als</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_autonym?-instance_method">
+  
+    #<strong>has_autonym?</strong>(name)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='autonym?-instance_method'>autonym?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_autonym?'>has_autonym?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+<span class='kw'>rescue</span> <span class='const'>NoMethodError</span>
+  <span class='kw'>false</span>
+<span class='kw'>else</span>
+  <span class='ivar'>@autonyms</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_index?-instance_method">
+  
+    #<strong>has_index?</strong>(index)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='index?-instance_method'>index?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44
+45
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_index?'>has_index?</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+  <span class='ivar'>@autonyms</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>Exception</span>
+  <span class='kw'>false</span>
+<span class='kw'>else</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_key?-instance_method">
+  
+    #<strong>has_key?</strong>(key)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='key?-instance_method'>key?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_has_member?'>has_member?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_has_index?'>has_index?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_member?-instance_method">
+  
+    #<strong>has_member?</strong>(name)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='member?-instance_method'>member?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33
+34
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 31</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_member?'>has_member?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym_for_member'>autonym_for_member</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>Exception</span>
+  <span class='kw'>false</span>
+<span class='kw'>else</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="INJECT-instance_method">
+  
+    #<strong>INJECT</strong>(adjuster1, adjuster2, *adjusters)  &#x21d2; <tt>Proc</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sequential apply all adjusters.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>adjuster1</span>
+      
+      
+        <span class='type'>(<tt>Proc</tt>, <tt>#to_proc</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>adjuster2</span>
+      
+      
+        <span class='type'>(<tt>Proc</tt>, <tt>#to_proc</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>adjusters</span>
+      
+      
+        <span class='type'>(<tt>Proc</tt>, <tt>#to_proc</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Proc</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/adjustment.rb', line 29</span>
+
+<span class='kw'>def</span> <span class='const'>INJECT</span><span class='lparen'>(</span><span class='id identifier rubyid_adjuster1'>adjuster1</span><span class='comma'>,</span> <span class='id identifier rubyid_adjuster2'>adjuster2</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_adjusters'>adjusters</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_adjusters'>adjusters</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_adjuster1'>adjuster1</span><span class='comma'>,</span> <span class='id identifier rubyid_adjuster2'>adjuster2</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_adjusters'>adjusters</span><span class='rbracket'>]</span>
+
+  <span class='kw'>unless</span> <span class='id identifier rubyid_adjusters'>adjusters</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_adjustable?'>adjustable?</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>wrong object for adjuster</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='tlambda'>-&gt;</span><span class='id identifier rubyid_v'>v</span> <span class='tlambeg'>{</span>
+    <span class='id identifier rubyid_adjusters'>adjusters</span><span class='period'>.</span><span class='id identifier rubyid_reduce'>reduce</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_ret'>ret</span><span class='comma'>,</span> <span class='id identifier rubyid_adjuster'>adjuster</span><span class='op'>|</span> <span class='id identifier rubyid_adjuster'>adjuster</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_ret'>ret</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="length-instance_method">
+  
+    #<strong>length</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='size-instance_method'>size</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/length.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_length'>length</span>
+  <span class='ivar'>@autonyms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="PARSE-instance_method">
+  
+    #<strong>PARSE</strong>(parser)  &#x21d2; <tt>Proc</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accept any parser when that respond to parse method.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>parser</span>
+      
+      
+        <span class='type'>(<tt>#parse</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Proc</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/adjustment.rb', line 44</span>
+
+<span class='kw'>def</span> <span class='const'>PARSE</span><span class='lparen'>(</span><span class='id identifier rubyid_parser'>parser</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='op'>::</span><span class='const'>Integer</span><span class='period'>.</span><span class='id identifier rubyid_equal?'>equal?</span><span class='lparen'>(</span><span class='id identifier rubyid_parser'>parser</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_parser'>parser</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:parse</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>wrong object for parser</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='tlambda'>-&gt;</span><span class='id identifier rubyid_v'>v</span> <span class='tlambeg'>{</span>
+    <span class='kw'>if</span> <span class='op'>::</span><span class='const'>Integer</span><span class='period'>.</span><span class='id identifier rubyid_equal?'>equal?</span><span class='lparen'>(</span><span class='id identifier rubyid_parser'>parser</span><span class='rparen'>)</span>
+      <span class='op'>::</span><span class='const'>Kernel</span><span class='period'>.</span><span class='const'>Integer</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_parser'>parser</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span>
+        <span class='kw'>case</span> <span class='id identifier rubyid_v'>v</span>
+        <span class='kw'>when</span> <span class='const'>String</span>
+          <span class='id identifier rubyid_v'>v</span>
+        <span class='kw'>when</span> <span class='tlambda'>-&gt;</span><span class='id identifier rubyid__'>_</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_str</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+          <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_str'>to_str</span>
+        <span class='kw'>when</span> <span class='tlambda'>-&gt;</span><span class='id identifier rubyid__'>_</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:read</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+          <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>wrong object for parsing source</span><span class='tstring_end'>&#39;</span></span>
+        <span class='kw'>end</span>
+      <span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_struct_class-instance_method">
+  
+    #<strong>to_struct_class</strong>  &#x21d2; <tt>Class</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/to_struct.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_struct_class'>to_struct_class</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No defined members</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_autonyms'>autonyms</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='id identifier rubyid_struct_cls'>struct_cls</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Struct</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_autonyms'>autonyms</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_struct_cls'>struct_cls</span> <span class='kw'>unless</span> <span class='id identifier rubyid_name'>name</span>
+
+  <span class='id identifier rubyid_const_suffix'>const_suffix</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_slice'>slice</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[^:]+\z</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Structs.html" title="Striuct::Structs (module)">Structs</a></span></span><span class='period'>.</span><span class='id identifier rubyid_const_defined?'>const_defined?</span><span class='lparen'>(</span><span class='id identifier rubyid_const_suffix'>const_suffix</span><span class='comma'>,</span> <span class='kw'>false</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span>
+     <span class='lparen'>(</span><span class='id identifier rubyid_already_cls'>already_cls</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Structs.html" title="Striuct::Structs (module)">Structs</a></span></span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_const_suffix'>const_suffix</span><span class='comma'>,</span> <span class='kw'>false</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_members'>members</span> <span class='op'>==</span> <span class='id identifier rubyid_autonyms'>autonyms</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='kw'>unless</span> <span class='id identifier rubyid_already_cls'>already_cls</span><span class='period'>.</span><span class='id identifier rubyid_superclass'>superclass</span><span class='period'>.</span><span class='id identifier rubyid_equal?'>equal?</span><span class='lparen'>(</span><span class='const'>Struct</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_already_cls'>already_cls</span>
+  <span class='kw'>else</span>
+    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Structs.html" title="Striuct::Structs (module)">Structs</a></span></span><span class='period'>.</span><span class='id identifier rubyid_const_set'>const_set</span><span class='lparen'>(</span><span class='id identifier rubyid_const_suffix'>const_suffix</span><span class='comma'>,</span> <span class='id identifier rubyid_struct_cls'>struct_cls</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="WHEN-instance_method">
+  
+    #<strong>WHEN</strong>(pattern, adjuster)  &#x21d2; <tt>Proc</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Adjuster Builders Apply adjuster when passed pattern.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>pattern</span>
+      
+      
+        <span class='type'>(<tt>Proc</tt>, <tt>Method</tt>, <tt>#===</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>adjuster</span>
+      
+      
+        <span class='type'>(<tt>Proc</tt>, <tt>#to_proc</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Proc</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/adjustment.rb', line 12</span>
+
+<span class='kw'>def</span> <span class='const'>WHEN</span><span class='lparen'>(</span><span class='id identifier rubyid_pattern'>pattern</span><span class='comma'>,</span> <span class='id identifier rubyid_adjuster'>adjuster</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='const'>Eqq</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_pattern'>pattern</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>wrong object for pattern</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../Striuct.html" title="Striuct (class)">Striuct</a></span></span><span class='period'>.</span><span class='id identifier rubyid_adjustable?'><span class='object_link'><a href="../Striuct.html#adjustable%3F-class_method" title="Striuct.adjustable? (method)">adjustable?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_adjuster'>adjuster</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>wrong object for adjuster</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='tlambda'>-&gt;</span><span class='id identifier rubyid_v'>v</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid__valid?'>_valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_pattern'>pattern</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_adjuster'>adjuster</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_v'>v</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="with_adjuster?-instance_method">
+  
+    #<strong>with_adjuster?</strong>(key)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+122
+123
+124
+125
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 122</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_with_adjuster?'>with_adjuster?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym_for_key'>autonym_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>Exception</span>
+  <span class='kw'>false</span>
+<span class='kw'>else</span>
+  <span class='id identifier rubyid__attributes_for'>_attributes_for</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_adjuster?'>with_adjuster?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="with_aliases?-instance_method">
+  
+    #<strong>with_aliases?</strong>(autonym)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>autonym</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 60</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_with_aliases?'>with_aliases?</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym'>autonym</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+<span class='kw'>rescue</span> <span class='const'>NoMethodError</span>
+  <span class='kw'>false</span>
+<span class='kw'>else</span>
+  <span class='ivar'>@aliases</span><span class='period'>.</span><span class='id identifier rubyid_value?'>value?</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="with_condition?-instance_method">
+  
+    #<strong>with_condition?</strong>(key)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='restrict?-instance_method'>restrict?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 78</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_with_condition?'>with_condition?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym_for_key'>autonym_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>Exception</span>
+  <span class='kw'>false</span>
+<span class='kw'>else</span>
+  <span class='id identifier rubyid__attributes_for'>_attributes_for</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_condition?'>with_condition?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="with_default?-instance_method">
+  
+    #<strong>with_default?</strong>(key)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_with_default?'>with_default?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym_for_key'>autonym_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>Exception</span>
+  <span class='kw'>false</span>
+<span class='kw'>else</span>
+  <span class='id identifier rubyid__attributes_for'>_attributes_for</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_default?'>with_default?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="with_must?-instance_method">
+  
+    #<strong>with_must?</strong>(key)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='must?-instance_method'>must?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91
+92
+93
+94
+95</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_with_must?'>with_must?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym_for_key'>autonym_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>Exception</span>
+  <span class='kw'>false</span>
+<span class='kw'>else</span>
+  <span class='id identifier rubyid__attributes_for'>_attributes_for</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_must?'>with_must?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="with_safety_getter?-instance_method">
+  
+    #<strong>with_safety_getter?</strong>(key)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='with_safety_reader?-instance_method'>with_safety_reader?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+100
+101
+102
+103
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 100</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_with_safety_getter?'>with_safety_getter?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym_for_key'>autonym_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>Exception</span>
+  <span class='kw'>false</span>
+<span class='kw'>else</span>
+  <span class='id identifier rubyid__attributes_for'>_attributes_for</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_safety_getter?'>with_safety_getter?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="with_safety_setter?-instance_method">
+  
+    #<strong>with_safety_setter?</strong>(key)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='with_safety_writer?-instance_method'>with_safety_writer?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>, <tt>#to_sym</tt>, <tt>Integer</tt>, <tt>#to_int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>name / index</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114
+115
+116
+117</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/striuct/classmethods/predicate.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_with_safety_setter?'>with_safety_setter?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autonym'>autonym</span> <span class='op'>=</span> <span class='id identifier rubyid_autonym_for_key'>autonym_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>Exception</span>
+  <span class='kw'>false</span>
+<span class='kw'>else</span>
+  <span class='id identifier rubyid__attributes_for'>_attributes_for</span><span class='lparen'>(</span><span class='id identifier rubyid_autonym'>autonym</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_safety_setter?'>with_safety_setter?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Fri Jun  4 02:07:44 2021 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.26 (ruby-3.0.1).
+</div>
+
+    </div>
+  </body>
+</html>
