@@ -14,9 +14,8 @@ class Striuct
     # @param [Hash, Struct, Striuct, #each_pair] pairs
     # @return [Striuct]
     def for_pairs(pairs)
-      raise TypeError, 'no pairs object' unless pairs.respond_to?(:each_pair)
-
-      KeyValidatable.validate_array(KeyValidatable.keys_for(pairs).map(&:to_sym), let: all_members)
+      raise ArgumentError, 'no pairs object' unless pairs.respond_to?(:each_pair)
+      raise ArgumentError unless pairs.each_pair { |key, _value| all_members.include?(key.to_sym) }
 
       instance = allocate
       instance.__send__(:initialize_for_pairs, pairs)
