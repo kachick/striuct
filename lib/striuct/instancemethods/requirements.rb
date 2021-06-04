@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'forwardable'
-require 'keyvalidatable'
-
 class Striuct
   module InstanceMethods
     extend Forwardable

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'keyvalidatable'
-
 class Striuct
   module ClassMethods
     # @group Constructor

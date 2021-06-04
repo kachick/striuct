@@ -32,7 +32,7 @@ class Striuct
       end
 
       def condition=(condition)
-        unless ::Validation.conditionable?(condition)
+        unless ::Eqq.valid?(condition)
           raise TypeError, 'wrong object for condition'
         end
 

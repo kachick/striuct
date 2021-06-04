@@ -1,49 +1,29 @@
-striuct
-=======
+# striuct
 
 ![Build Status](https://github.com/kachick/striuct/actions/workflows/test_behaviors.yml/badge.svg?branch=main)
 [![Gem Version](https://badge.fury.io/rb/striuct.png)](http://badge.fury.io/rb/striuct)
 
-Description
------------
-
 Struct++
 
-Features
---------
-
-### Strict
-
-* Easy and Flexible Validations
-* Prevent to conflict member names
-* Lock setters for each member
-
-### Useful
-
-* Hook just before setters
-* Default value
-* Member aliasing
-* Inheritable
-* Handling between nil <-> unassigned
-* Similar API for Hash
-
-### Onepoint
-
-* Base API looks like Struct
-* Pure Ruby :)
-
-Usage
------
+## Usage
 
 Require Ruby 2.6 or later
 
 Add this line to your `Gemfile`
 
 ```ruby
-gem 'striuct', '>= 0.7.0', '< 0.8.0'
+gem 'striuct', '>= 0.8.0', '< 0.9.0'
 ```
 
-### Overview - Case 1
+Then add below code into your Ruby code
+
+```ruby
+require 'striuct'
+```
+
+### Overview
+
+#### Case 1
 
 ```ruby
 require 'striuct'
@@ -72,7 +52,7 @@ ken = User[name: 'ken']                       # Construct from hash
 ken.id                   #=> 2
 ```
 
-### Overview - Case 2
+#### Case 2
 
 ```ruby
 class Foo < Striuct
@@ -102,7 +82,7 @@ foo.with_adjuster = '5'
 foo.with_adjuster        #=> 5                # Casted via adjuster
 ```
 
-### Overview - Case 3
+#### Case 3
 
 ```ruby
 class UseMustOption < Striuct
@@ -112,8 +92,32 @@ end
 UseMustOption.new #=> InvalidOperationError "`foo` require a value under `must` option "
 ```
 
-Link
-----
+## Features
+
+### Strict
+
+* Easy and Flexible Validations
+  * Basically use `#===` for the validation
+  * The pattern builder DSL is just using [eqq](https://github.com/kachick/eqq)
+  * When passed the Proc, it will be evaluated in the instance context
+* Prevent to conflict member names
+* Lock setters for each member
+
+### Useful
+
+* Hook just before setters
+* Default value
+* Member aliasing
+* Inheritable
+* Handling between nil <-> unassigned
+* Similar API for Hash
+
+### Finally
+
+* Base API looks like Struct
+* Pure Ruby :)
+
+## Link
 
 * [Repository](https://github.com/kachick/striuct)
 * [API documents](https://kachick.github.io/striuct/)
