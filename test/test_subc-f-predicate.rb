@@ -146,7 +146,7 @@ class Test_Striuct_Subclass_Predicate_Default < Test::Unit::TestCase
 
   class Subclass < Striuct
     member :foo
-    member :val, BasicObject, default: 'DEFAULT'
+    member :val, BasicObject, default_value: 'DEFAULT'
 
     conflict_management :struct do
       member :lazy, BasicObject, default_proc: ->{}
@@ -389,7 +389,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Enable < Test::Unit::Tes
   class Subclass < Striuct
     member :no_with
     alias_member :als_no_with, :no_with
-    member :with, nil, setter_validation: true
+    member :with, nil, writer_validation: true
     alias_member :als_with, :with
     member :with_any, BasicObject, writer_validation: true
     alias_member :als_with_any, :with_any
@@ -454,7 +454,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Setter_Disable < Test::Unit::Te
     member :no_with
     alias_member :als_no_with, :no_with
 
-    member :with, nil, setter_validation: false
+    member :with, nil, writer_validation: false
     alias_member :als_with, :with
 
     member :with_any, BasicObject, writer_validation: false
@@ -521,7 +521,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Getter_Enable < Test::Unit::Tes
   class Subclass < Striuct
     member :no_with
     alias_member :als_no_with, :no_with
-    member :with, nil, getter_validation: true
+    member :with, nil, reader_validation: true
     alias_member :als_with, :with
     member :with_any, BasicObject, reader_validation: true
     alias_member :als_with_any, :with_any
@@ -586,7 +586,7 @@ class Test_Striuct_Subclass_Predicate_HookTiming_Getter_Disable < Test::Unit::Te
     member :no_with
     alias_member :als_no_with, :no_with
 
-    member :with, nil, getter_validation: false
+    member :with, nil, reader_validation: false
     alias_member :als_with, :with
 
     member :with_any, BasicObject, reader_validation: false

@@ -7,33 +7,22 @@ class Striuct
     ANYTHING = Eqq.ANYTHING()
 
     # @return [Class]
-    ADD_MEMBER_OptArg = OptionalArgument.define {
-      opt(:default_value, aliases: [:default])
-      opt(:default_proc, aliases: [:lazy_default])
-      conflict(:default_value, :default_proc)
-      opt(:must, default: false)
-      opt(:setter_validation, aliases: [:writer_validation], default: true)
-      opt(:getter_validation, aliases: [:reader_validation], default: false)
-    }
 
     private
 
     # @param [Symbol, String, #to_sym] autonym
-    # @param [#===, Proc, Method] condition
-    # @param [Hash] options
-    # @option options [BasicObject] :default
-    # @option options [Proc] :default_proc
-    # @option options [Boolean] :must
-    # @option options [Boolean] :reader_validation
-    # @option options [Boolean] :getter_validation
-    # @option options [Boolean] :writer_validation
-    # @option options [Boolean] :setter_validation
-    # @return [nil]
-    def add_member(autonym, condition=ANYTHING, options={}, &adjuster)
+    # @param [#===, Proc, Method] pattern
+    # @param [Proc] default_proc
+    # @param [Boolean] must
+    # @param [Boolean] writer_validation
+    # @param [Boolean] reader_validation
+    # @return [void]
+    def add_member(autonym, pattern=ANYTHING, default_value: nil, default_proc: nil, must: false, writer_validation: true, reader_validation: false, &adjuster)
       _check_frozen
       _check_closed
 
-      options = ADD_MEMBER_OptArg.parse(options)
+      raise ArgumentError if !default_value.nil? && default_proc
+
       autonym = autonym.to_sym # First definition for an autonym
 
       raise ArgumentError, %Q!already exist name "#{autonym}"! if member?(autonym)
@@ -41,21 +30,21 @@ class Striuct
       _check_safety_naming(autonym)
       _add_autonym(autonym)
 
-      _attributes_for(autonym).safety_setter = !!options.setter_validation
-      _attributes_for(autonym).safety_getter = !!options.getter_validation
+      _attributes_for(autonym).safety_setter = writer_validation
+      _attributes_for(autonym).safety_getter = reader_validation
 
-      if options.must
+      if must
         _attributes_for(autonym).must = true
       end
 
       _def_getter(autonym)
-      _def_setter(autonym, condition, &adjuster)
+      _def_setter(autonym, pattern, &adjuster)
 
       case
-      when options.default_value?
-        set_default_value(autonym, options.default_value)
-      when options.default_proc?
-        set_default_value(autonym, &options.default_proc)
+      when !default_value.nil?
+        set_default_value(autonym, default_value)
+      when default_proc
+        set_default_value(autonym, &default_proc)
       end
 
       nil
