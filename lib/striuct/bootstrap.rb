@@ -3,7 +3,6 @@
 require 'forwardable'
 require 'eqq'
 require 'keyvalidatable'
-require 'optionalargument'
 require 'validation'
 
 require_relative 'structs'

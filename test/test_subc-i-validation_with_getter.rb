@@ -4,11 +4,11 @@ require_relative 'helper'
 class Test_Striuct_Subclass_Instance_GetterValidation < Test::Unit::TestCase
 
   Sth = Striuct.define do
-    member :plus_getter, /./, getter_validation: true
-    member :only_getter, /./, getter_validation: true, setter_validation: false
+    member :plus_getter, /./, reader_validation: true
+    member :only_getter, /./, reader_validation: true, writer_validation: false
   end
 
-  def test_getter_validation
+  def test_reader_validation
     sth = Sth.new
 
     assert_raises Validation::InvalidWritingError do

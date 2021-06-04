@@ -76,7 +76,7 @@ end
 class Test_Striuct_Subclass_Instance_DefaultValue_Under_MemberMacro < Test::Unit::TestCase
 
   Sth = Striuct.new do
-    member :lank, OR(Integer, Rational), default: 1
+    member :lank, OR(Integer, Rational), default_value: 1
   end
 
   def test_default
@@ -97,7 +97,7 @@ class Test_Striuct_Subclass_Instance_DefaultValue_Under_MemberMacro < Test::Unit
     end
 
     klass = Striuct.define do
-      member :lank2, Integer, default: '10'
+      member :lank2, Integer, default_value: '10'
     end
 
     assert_raises Validation::InvalidWritingError do
@@ -108,8 +108,8 @@ class Test_Striuct_Subclass_Instance_DefaultValue_Under_MemberMacro < Test::Unit
     thief = nil
     klass = Striuct.define do
 
-      scope.assert_raises OptionalArgument::KeyConflictError do
-        member :lank, Integer, default: '10', default_proc: ->_own,_name{rand}
+      scope.assert_raises ArgumentError do
+        member :lank, Integer, default_value: '10', default_proc: ->_own,_name{rand}
       end
 
       member :lank, Integer, default_proc: ->own,_name{(thief = own); rand}
