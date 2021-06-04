@@ -4,8 +4,8 @@ require_relative 'helper'
 class Test_Striuct_Subclass_Must < Test::Unit::TestCase
 
   Sth = Striuct.define do
-    member :foo, anything, must: false
-    member :bar, anything, must: true
+    member :foo, ANYTHING(), must: false
+    member :bar, ANYTHING(), must: true
     member :baz
   end
 

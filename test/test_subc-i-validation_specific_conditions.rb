@@ -4,16 +4,14 @@ require_relative 'helper'
 class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
 
   Sth = Striuct.define do
-    member :list_only_int, ALL(Integer)
-    member :true_or_false, boolean
-    member :like_str, stringable
+    member :list_only_int, SEND(:all?, Integer)
+    member :true_or_false, BOOLEAN()
     member :has_foo, CAN(:foo)
     member :has_foo_and_bar, CAN(:foo, :bar)
-    member :one_of_member, MEMBER_OF([1, 3])
     member :has_ignore, AND(1..5, 3..10)
     member :nand, NAND(1..5, 3..10)
     member :all_pass, OR(1..5, 3..10)
-    member :catch_error, CATCH(NoMethodError){|v|v.no_name!}
+    member :rescue_error, RESCUE(NoMethodError, -> v {v.no_name!})
     member :no_exception, QUIET(->v{v.class})
     member :not_integer, NOT(Integer)
   end
@@ -55,16 +53,16 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
 
     obj = Object.new
 
-    sth.catch_error = obj
-    assert_same obj, sth.catch_error
-    sth.catch_error = false
+    sth.rescue_error = obj
+    assert_same obj, sth.rescue_error
+    sth.rescue_error = false
 
     obj.singleton_class.class_eval do
       def no_name!; end
     end
 
     assert_raises Validation::InvalidWritingError do
-      sth.catch_error = obj
+      sth.rescue_error = obj
     end
   end
 
@@ -120,18 +118,6 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     assert_equal [], sth.nand
   end
 
-  def test_member_of
-    sth = Sth.new
-
-    assert_raises Validation::InvalidWritingError do
-      sth.one_of_member = 4
-    end
-
-    sth.one_of_member = 3
-    assert_equal 3, sth.one_of_member
-    assert_equal true, sth.valid?(:one_of_member)
-  end
-
   def test_all
     sth = Sth.new
 
@@ -164,25 +150,6 @@ class Test_Striuct_Subclass_Instance_SpecificConditions < Test::Unit::TestCase
     sth.true_or_false = false
     assert_equal false, sth.true_or_false
     assert_equal true, sth.valid?(:true_or_false)
-  end
-
-  def test_stringable
-    sth = Sth.new
-    obj = Object.new
-
-    assert_raises Validation::InvalidWritingError do
-      sth.like_str = obj
-    end
-
-    sth.like_str = 'str'
-    assert_equal true, sth.valid?(:like_str)
-
-    obj.singleton_class.class_eval do
-      def to_str; end
-    end
-
-    sth.like_str = obj
-    assert_equal true, sth.valid?(:like_str)
   end
 
   def test_responsible_arg1

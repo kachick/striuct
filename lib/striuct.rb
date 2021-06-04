@@ -9,4 +9,4 @@ class Striuct
   class InvalidOperationError < Error; end
 end
 
-require_relative 'striuct/requirements'
+require_relative 'striuct/bootstrap'

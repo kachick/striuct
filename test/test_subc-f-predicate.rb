@@ -262,7 +262,7 @@ class Test_Striuct_Subclass_Predicate_Condition < Test::Unit::TestCase
     alias_member :als_no_with, :no_with
     member :with, nil
     alias_member :als_with, :with
-    member :with_any, BasicObject
+    member :with_any, ANYTHING()
     alias_member :als_with_any, :with_any
     member :adj_with, nil do |_|; end
     alias_member :als_adj_with, :adj_with

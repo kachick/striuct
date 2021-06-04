@@ -50,7 +50,7 @@ module Game
 
   class DB < Striuct.new
     member :monsters,   ->list{(list - characters).empty?}
-    member :characters, ALL(Character)
+    member :characters, SEND(:all?, Character)
   end
 
   monster = Character.new

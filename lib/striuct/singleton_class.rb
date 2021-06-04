@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'validation'
-
 class Striuct
   class << self
     alias_method :new_instance, :new
