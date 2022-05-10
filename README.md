@@ -12,7 +12,7 @@ Require Ruby 2.6 or later
 Add this line to your `Gemfile`
 
 ```ruby
-gem 'striuct', '>= 0.8.0', '< 0.9.0'
+gem 'striuct', '~> 0.9.0'
 ```
 
 Then add below code into your Ruby code

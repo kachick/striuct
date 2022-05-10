@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = repository_url
   gem.license       = 'MIT'
   gem.name          = lib_name
-  gem.version       = '0.8.0'
+  gem.version       = '0.9.0'
 
   gem.metadata = {
     'documentation_uri'     => 'https://kachick.github.io/striuct/',
