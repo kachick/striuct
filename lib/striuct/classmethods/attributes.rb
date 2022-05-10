@@ -32,7 +32,7 @@ class Striuct
       end
 
       def condition=(condition)
-        unless Eqq.valid?(condition)
+        unless Eqq.pattern?(condition)
           raise TypeError, 'wrong object for condition'
         end
 

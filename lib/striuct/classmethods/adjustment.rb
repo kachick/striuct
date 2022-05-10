@@ -10,7 +10,7 @@ class Striuct
     # @param adjuster [Proc, #to_proc]
     # @return [Proc]
     def WHEN(pattern, adjuster)
-      unless Eqq.valid?(pattern)
+      unless Eqq.pattern?(pattern)
         raise ArgumentError, 'wrong object for pattern'
       end
 
