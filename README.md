@@ -1,7 +1,7 @@
 # striuct
 
 ![Build Status](https://github.com/kachick/striuct/actions/workflows/test_behaviors.yml/badge.svg?branch=main)
-[![Gem Version](https://badge.fury.io/rb/striuct.png)](http://badge.fury.io/rb/striuct)
+[![Gem Version](https://badge.fury.io/rb/striuct.svg)](http://badge.fury.io/rb/striuct)
 
 Struct++
 
