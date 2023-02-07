@@ -42,7 +42,8 @@ class Striuct
 
       @db[autonym] = value
     rescue InvalidValueError
-      unless /in \[\]=/.match?(caller(2..2).first.slice(/([^:]+)\z/))
+      # @note Why caller with range instead of the index? See https://github.com/rubocop/rubocop/pull/4078
+      unless caller(2..2).first.slice(/([^:]+)\z/).include?('in []=')
         $!.backtrace.delete_if { |s| /#{Regexp.escape(File.dirname(__FILE__))}/ =~ s }
         $!.backtrace.first.sub!(/([^:]+)\z/) { "in `#{autonym}='" }
       end
