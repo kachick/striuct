@@ -3,6 +3,8 @@
 ![Build Status](https://github.com/kachick/striuct/actions/workflows/test_behaviors.yml/badge.svg?branch=main)
 [![Gem Version](https://badge.fury.io/rb/striuct.svg)](http://badge.fury.io/rb/striuct)
 
+_**This project is in maintenance mode. No plans to add new features.**_
+
 Struct++
 
 ## Usage
