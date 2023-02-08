@@ -3,11 +3,13 @@
 ![Build Status](https://github.com/kachick/striuct/actions/workflows/test_behaviors.yml/badge.svg?branch=main)
 [![Gem Version](https://badge.fury.io/rb/striuct.svg)](http://badge.fury.io/rb/striuct)
 
+_**This project is in maintenance mode. No plans to add new features.**_
+
 Struct++
 
 ## Usage
 
-Require Ruby 2.7 or later
+Require Ruby 3.1 or later
 
 Add this line to your `Gemfile`
 

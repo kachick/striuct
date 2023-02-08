@@ -1,16 +1,11 @@
-require:
-  - rubocop-rake
-  - rubocop-performance
-  - rubocop-rubycw
-  - rubocop-md
-
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.1
   DisplayCopNames: true
   Exclude:
     - '**/vendor/**/*'
     - 'pkg/**/*'
   NewCops: enable
+  SuggestExtensions: false
 
 Metrics:
   Enabled: false
@@ -38,19 +33,8 @@ Style:
 Bundler:
   Enabled: true
 
-Rake:
-  Enabled: true
-
-Rake/Desc:
-  Enabled: false
-
 Gemspec:
   Enabled: true
-
-Performance:
-  Enabled: true
-  Include:
-    - 'lib/**/*'
 
 Style/Alias:
   Enabled: false
@@ -195,6 +179,8 @@ Style/Dir:
 
 Style/DisableCopsWithinSourceCodeDirective:
   Enabled: true
+  Exclude:
+    - 'test/**'
 
 Style/DocumentDynamicEvalDefinition:
   Enabled: false
@@ -929,16 +915,3 @@ Lint/EmptyBlock:
 Lint/EmptyClass:
   Exclude:
     - 'example/**/*'
-
-Rubycw/Rubycw:
-  Enabled: true
-  Include:
-    - '**/*.rb'
-    - 'Rakefile'
-    - 'Steepfile'
-    - 'bin/**/*'
-    - 'exe/**/*'
-
-Markdown:
-  WarnInvalid: true
-  Autodetect: true
