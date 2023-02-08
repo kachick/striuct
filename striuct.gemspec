@@ -23,7 +23,7 @@ Gem::Specification.new do |gem|
     'rubygems_mfa_required' => 'true'
   }
 
-  gem.required_ruby_version = Gem::Requirement.new('>= 2.7')
+  gem.required_ruby_version = Gem::Requirement.new('>= 3.1')
 
   gem.add_runtime_dependency 'eqq', '~> 0.1.1'
 

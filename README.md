@@ -7,7 +7,7 @@ Struct++
 
 ## Usage
 
-Require Ruby 2.7 or later
+Require Ruby 3.1 or later
 
 Add this line to your `Gemfile`
 

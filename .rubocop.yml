@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.1
   DisplayCopNames: true
   Exclude:
     - '**/vendor/**/*'
@@ -179,6 +179,8 @@ Style/Dir:
 
 Style/DisableCopsWithinSourceCodeDirective:
   Enabled: true
+  Exclude:
+    - 'test/**'
 
 Style/DocumentDynamicEvalDefinition:
   Enabled: false

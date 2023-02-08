@@ -135,11 +135,13 @@ class Test_Striuct_Subclass_Instance_HashLike < Test::Unit::TestCase
   end
 
   def test_reject
+    # rubocop:disable Style/HashExcept
     sth = Sth[hoge: 7, foo: 8]
 
     assert_kind_of Enumerator, sth.reject
 
     assert_equal Sth[foo: 8], sth.reject{|k, _v|k == :hoge}
+    # rubocop:enable Style/HashExcept
   end
 
 end
