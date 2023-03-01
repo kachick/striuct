@@ -564,6 +564,11 @@ Style/RedundantSort:
 Style/RedundantSortBy:
   Enabled: true
 
+# https://github.com/rubocop/rubocop/pull/11528
+# I disagree that this is called "redundant". Similar to always using single quotes
+Style/RedundantHeredocDelimiterQuotes:
+  Enabled: false
+
 Style/RegexpLiteral:
   Enabled: false
 
@@ -915,3 +920,9 @@ Lint/EmptyBlock:
 Lint/EmptyClass:
   Exclude:
     - 'example/**/*'
+
+Lint/Debugger:
+  Exclude:
+    - 'benchmark/**/*.rb'
+    - 'examples/**/*.rb'
+    - 'scripts/**/*.rb'
