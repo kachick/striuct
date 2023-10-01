@@ -15,11 +15,5 @@
         "command": ["nixpkgs-fmt"]
       }
     }
-  },
-  "cSpell.words": [
-    "Dupulicatable",
-    "Structs",
-    "cname",
-    "plevels"
-  ]
+  }
 }
