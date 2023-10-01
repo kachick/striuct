@@ -20,9 +20,12 @@
 /rdoc/
 
 ## Environment normalization:
-/.bundle/
+/.bundle/*
+!.bundle/config
 /vendor/
 
 *.lock
+!flake.lock
+.direnv/
 
 .DS_Store

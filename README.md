@@ -98,28 +98,28 @@ UseMustOption.new #=> InvalidOperationError "`foo` require a value under `must` 
 
 ### Strict
 
-* Easy and Flexible Validations
-  * Basically use `#===` for the validation
-  * The pattern builder DSL is just using [eqq](https://github.com/kachick/eqq)
-  * When passed the Proc, it will be evaluated in the instance context
-* Prevent to conflict member names
-* Lock setters for each member
+- Easy and Flexible Validations
+  - Basically use `#===` for the validation
+  - The pattern builder DSL is just using [eqq](https://github.com/kachick/eqq)
+  - When passed the Proc, it will be evaluated in the instance context
+- Prevent to conflict member names
+- Lock setters for each member
 
 ### Useful
 
-* Hook just before setters
-* Default value
-* Member aliasing
-* Inheritable
-* Handling between nil <-> unassigned
-* Similar API for Hash
+- Hook just before setters
+- Default value
+- Member aliasing
+- Inheritable
+- Handling between nil <-> unassigned
+- Similar API for Hash
 
 ### Finally
 
-* Base API looks like Struct
-* Pure Ruby :)
+- Base API looks like Struct
+- Pure Ruby :)
 
 ## Link
 
-* [Repository](https://github.com/kachick/striuct)
-* [API documents](https://kachick.github.io/striuct/)
+- [Repository](https://github.com/kachick/striuct)
+- [API documents](https://kachick.github.io/striuct/)

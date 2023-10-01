@@ -1,8 +1,8 @@
 # How to contribute
 
-* Reporting bugs
-* Suggesting features
-* Creating PRs
+- Reporting bugs
+- Suggesting features
+- Creating PRs
 
 Welcome all of the contributions!
 

@@ -497,7 +497,7 @@ class Test_Striuct_Subclass_Name < Test::Unit::TestCase
     end
   end
 
-  aliase_for_autonym_ext_pairs = {}.tap {|h|
+  alias_for_autonym_ext_pairs = {}.tap {|h|
     h[:Class] = Striuct.define do
       member :foo
       alias_member :als1_foo, :foo
@@ -512,7 +512,7 @@ class Test_Striuct_Subclass_Name < Test::Unit::TestCase
   }.freeze
 
   [:aliases_for_autonym].each do |callee|
-    aliase_for_autonym_ext_pairs.each_pair do |type, receiver|
+    alias_for_autonym_ext_pairs.each_pair do |type, receiver|
       define_method :"test_#{type}_#{callee}_2" do
         assert_equal [:als1_foo, :als2_foo, :als3_foo], receiver.public_send(callee, 'foo')
         assert_equal [:als1_bar], receiver.public_send(callee, 'bar')

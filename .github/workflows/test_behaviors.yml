@@ -33,13 +33,13 @@ jobs:
         ruby: [head, '3.2', '3.1']
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      env:
-        BUNDLE_WITHOUT: development
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - run: bundle exec rake test_behaviors
-      env:
-        BUNDLE_WITHOUT: development
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        env:
+          BUNDLE_WITHOUT: development
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - run: bundle exec rake test_behaviors
+        env:
+          BUNDLE_WITHOUT: development
