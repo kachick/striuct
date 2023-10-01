@@ -29,7 +29,6 @@
               libyaml
 
               dprint
-              tree
               nil
               nixpkgs-fmt
               typos

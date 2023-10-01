@@ -27,3 +27,16 @@ end
 task :test_yard do
   sh "bundle exec yard --fail-on-warning #{'--no-progress' if ENV['CI']}"
 end
+
+desc 'Print dependencies'
+task :deps do
+  sh('ruby --version')
+  sh('dprint --version')
+  sh('typos --version')
+end
+
+task :check_non_ruby do
+  sh('dprint check')
+  sh('typos . .github .vscode')
+  sh('nixpkgs-fmt --check ./*.nix')
+end
