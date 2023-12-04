@@ -53,6 +53,11 @@ Style/MethodDefParentheses:
 Style/TrailingCommaInBlockArgs:
   Enabled: true
 
+Style/SingleLineDoEndBlock:
+  Enabled: true
+  Exclude:
+    - 'test/**/*'
+
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: 'single_quotes'
