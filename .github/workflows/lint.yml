@@ -33,6 +33,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2.2' # selfup { "regex": "\\d[^']+", "script": "ruby -e 'puts RUBY_VERSION'" }
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - run: bundle exec rake rubocop
